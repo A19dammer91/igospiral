@@ -36,11 +36,15 @@
     button.primary { background: var(--gold); color: var(--bg); border-color: var(--gold); font-weight: 600; }
     button.danger { border-color: var(--pink); color: var(--pink); }
     .row { display: flex; gap: 8px; flex-wrap: wrap; }
+    
+    /* SPIRAAL */
     #spiral-canvas { width: 100%; height: 400px; display: block; background: rgba(10, 14, 39, 0.3); border-radius: 10px; touch-action: none; }
     .pearl-info { text-align: center; margin-top: 12px; font-size: 12px; color: var(--muted); }
     .pearl-info b { color: var(--gold); font-size: 16px; }
     .progress-track { height: 6px; background: var(--panel-2); border-radius: 3px; overflow: hidden; margin-top: 10px; }
     .progress-fill { height: 100%; background: linear-gradient(90deg, var(--cyan), var(--gold)); transition: width 0.3s; }
+    
+    /* LIVE KLOK */
     .formulas { background: var(--panel-2); border-radius: 12px; padding: 16px; margin-bottom: 16px; border-left: 4px solid var(--cyan); }
     .formulas h3 { font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: var(--cyan); margin-bottom: 10px; font-weight: 600; }
     .formula-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 1px solid var(--border); font-family: 'Courier New', monospace; font-size: 12px; }
@@ -67,6 +71,8 @@
     .sync-bar { height: 6px; background: var(--bg); border-radius: 3px; overflow: hidden; margin-bottom: 6px; }
     .sync-fill { height: 100%; background: linear-gradient(90deg, var(--cyan), var(--pink)); transition: width 0.3s; }
     .sync-text { font-size: 11px; color: var(--muted); display: flex; justify-content: space-between; }
+    
+    /* BIJECTIE */
     .bij-container { background: var(--panel-2); border-radius: 12px; padding: 16px; margin-bottom: 16px; border-left: 4px solid var(--cyan); }
     .bij-label { font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: var(--cyan); margin-bottom: 6px; font-weight: 600; }
     .bij-input { font-family: monospace; font-size: 16px; color: var(--gold); background: var(--bg); border: 1px solid var(--border); }
@@ -75,24 +81,38 @@
     .bij-val { color: var(--gold); font-weight: bold; }
     .bij-row { cursor: pointer; padding: 4px 0; border-bottom: 1px dashed rgba(255,255,255,0.1); }
     .bij-row:hover { background: rgba(255,255,255,0.05); }
-    .bij-pin { float: right; color: var(--pink); }
+    
+    /* LISTS & TIMELINE */
     .list-item { background: var(--panel-2); border-radius: 10px; padding: 12px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
     .list-item .info { flex: 1; min-width: 0; cursor: pointer; }
     .list-item .title { font-weight: 500; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .list-item .meta { font-size: 11px; color: var(--muted); margin-top: 4px; }
     .list-item .del { color: var(--pink); cursor: pointer; padding: 8px; font-size: 16px; }
+    
+    .timeline { position: relative; padding-left: 20px; margin-top: 10px; }
+    .timeline::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: var(--border); }
+    .timeline-item { position: relative; margin-bottom: 20px; }
+    .timeline-item::before { content: ''; position: absolute; left: -25px; top: 5px; width: 10px; height: 10px; border-radius: 50%; background: var(--gold); box-shadow: 0 0 10px var(--gold); }
+    .timeline-date { font-size: 11px; color: var(--gold); font-family: monospace; margin-bottom: 4px; }
+    .timeline-content { background: var(--panel-2); border-radius: 8px; padding: 12px; border: 1px solid var(--border); }
+    .timeline-content small { color: var(--muted); font-size: 10px; display: block; margin-top: 4px; }
+    
     .photo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 8px; }
     .photo-grid img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 8px; background: #0a0e27; }
+    
+    /* STOPWATCH */
     .sw-time { font-size: 56px; font-weight: 200; text-align: center; color: var(--cyan); font-variant-numeric: tabular-nums; margin: 20px 0; }
     .sw-laps { max-height: 200px; overflow-y: auto; font-size: 13px; font-variant-numeric: tabular-nums; }
     .sw-lap { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--border); }
+    
+    /* FOOTER */
     footer { text-align: center; font-size: 10px; color: var(--muted); padding: 20px 0; margin-top: 20px; border-top: 1px solid var(--border); }
     footer b { color: var(--text); }
-    footer .formula { font-family: monospace; color: var(--gold); margin-top: 4px; opacity: 0.7; }
+    footer .formula { font-family: monospace; color: var(--gold); margin-top: 4px; opacity: 0.7; display: block; }
     .status { font-size: 12px; text-align: center; margin-top: 10px; color: var(--green); min-height: 18px; }
     .status.err { color: var(--pink); }
     
-    /* STAMP SHEET MODAL */
+    /* STAMP MODAL */
     #stamp-sheet { position: fixed; inset: 0; background: rgba(5,8,24,.8); display: none; align-items: flex-end; justify-content: center; z-index: 50; backdrop-filter: blur(4px); }
     #stamp-sheet.open { display: flex; }
     #stamp-box { background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius) var(--radius) 0 0; width: 100%; max-width: 800px; max-height: 88vh; overflow-y: auto; padding: 20px 20px calc(24px + env(safe-area-inset-bottom)); animation: slideUp 0.2s ease-out; }
@@ -122,6 +142,7 @@
     <button data-tab="spiral" class="active" id="tab-btn-spiral">Spiraal</button>
     <button data-tab="live" id="tab-btn-live">Live Klok</button>
     <button data-tab="bijection" id="tab-btn-bijection">Bijectie</button>
+    <button data-tab="timeline" id="tab-btn-timeline">Tijdlijn</button>
     <button data-tab="notes" id="tab-btn-notes">Notities</button>
     <button data-tab="photos" id="tab-btn-photos">Foto's</button>
     <button data-tab="vault" id="tab-btn-vault">Kluis</button>
@@ -197,6 +218,7 @@
   <section class="tab-content" id="tab-bijection">
     <div class="panel">
       <h2 id="txt-bij-title">Bijectie · De Vertaler</h2>
+      
       <div class="bij-container">
         <div class="bij-label" id="txt-bij-n-to-t">Milliseconden (N) → Klok Tuple</div>
         <input type="text" id="bij-n-input" class="bij-input" value="100000000" style="margin-bottom:8px">
@@ -221,6 +243,14 @@
         <button class="btn primary" id="bij-btn-t-to-n" style="width:100%; border-color:var(--pink); color:var(--pink)" id="txt-bij-calc-n">Bereken N</button>
         <div id="bij-out-2" class="bij-output" style="margin-top:12px; display:none;"></div>
       </div>
+    </div>
+  </section>
+
+  <!-- TIJDLIJN TAB -->
+  <section class="tab-content" id="tab-timeline">
+    <div class="panel">
+      <h2 id="txt-timeline-title">Tijdlijn</h2>
+      <div id="timeline-list" class="timeline"></div>
     </div>
   </section>
 
@@ -304,7 +334,7 @@
 </div>
 
 <footer>
-  <span id="txt-footer">Gemaakt door</span> <b>Bilal el Issaoui</b><br>
+  <span id="txt-footer">Made by</span> <b>Bilal el Issaoui</b><br>
   <span class="formula">p ≡ 1 (mod q) met m = 2</span>
 </footer>
 
@@ -313,24 +343,24 @@
   <div id="stamp-box"></div>
 </div>
 <input type="file" id="stamp-photo-input" accept="image/*" style="display:none">
-
 <script>
 // --- VERTALINGEN ---
 const translations = {
     nl: {
         subtitle: "Jouw leven in een spiraal",
-        tab_spiral: "Spiraal", tab_live: "Live Klok", tab_bijection: "Bijectie", tab_notes: "Notities", tab_photos: "Foto's", tab_vault: "Kluis", tab_stopwatch: "Stopwatch", tab_backup: "Back-up",
+        tab_spiral: "Spiraal", tab_live: "Live Klok", tab_bijection: "Bijectie", tab_timeline: "Tijdlijn", tab_notes: "Notities", tab_photos: "Foto's", tab_vault: "Kluis", tab_stopwatch: "Stopwatch", tab_backup: "Back-up",
         spiral_title: "De 100-jarige cyclus", spiral_dob: "Geboortedatum (JJJJ-MM-DD)", spiral_calc: "Bereken", spiral_enter: "Voer je geboortedatum in om je parel op de spiraal te zien.",
         spiral_age: "Je bent <b>{y}</b> jaar en <b>{m}</b> maanden.<br>Dat is <b>{p}%</b> van een 100-jarig leven.",
         live_title: "Live Framework Klok", live_greg: "Gregoriaans (Echt)", live_model: "Model (360 dagen)", live_n: "Totale Tijd Sinds 1970 (N ms)",
         live_sync: "2520-Dagen Cyclus (7 Model Jaren)", live_day: "Dag", live_of: "van 2520", live_formulas: "De Live Formules (1-gebaseerd)",
         live_pos: "Positie", live_carry: "Overloop", live_anchor: "IJkpunt (N=0)",
         bij_title: "Bijectie · De Vertaler", bij_n_to_t: "Milliseconden (N) → Klok Tuple", bij_t_to_n: "Klok Tuple → Milliseconden (N)", bij_calc: "Bereken", bij_calc_n: "Bereken N",
+        timeline_title: "Tijdlijn",
         note_new: "Nieuwe notitie", note_saved: "Opgeslagen notities", note_save: "Opslaan",
         photo_new: "Nieuwe foto", photo_gallery: "Foto galerij", photo_choose: "📷 Kies een foto", photo_saved: "Foto opgeslagen!",
         vault_new: "Geheime sleutel / Wachtwoord", vault_saved: "Opgeslagen items", vault_save: "Veilig opslaan",
         sw_title: "Stopwatch", sw_start: "Start", sw_stop: "Stop", sw_lap: "Ronde", sw_reset: "Reset",
-        footer: "Gemaakt door", confirm_del: "Weet je zeker dat je dit wilt verwijderen?",
+        footer: "Made by", confirm_del: "Weet je zeker dat je dit wilt verwijderen?",
         backup_title: "Back-up & Herstel", backup_desc: "Maak een back-up van al je gegevens (notities, foto's, kluis, tijdstempels) en sla deze veilig op. Of herstel een eerdere back-up.",
         backup_export: "⬇ Download Back-up (.json)", backup_import: "⬆ Herstel Back-up",
         stamp_title: "Tijdstempel", stamp_note_ph: "Schrijf je notitie bij dit moment...", stamp_add: "Notitie opslaan",
@@ -340,13 +370,14 @@ const translations = {
     },
     en: {
         subtitle: "Your life in a spiral",
-        tab_spiral: "Spiral", tab_live: "Live Clock", tab_bijection: "Bijection", tab_notes: "Notes", tab_photos: "Photos", tab_vault: "Vault", tab_stopwatch: "Stopwatch", tab_backup: "Backup",
+        tab_spiral: "Spiral", tab_live: "Live Clock", tab_bijection: "Bijection", tab_timeline: "Timeline", tab_notes: "Notes", tab_photos: "Photos", tab_vault: "Vault", tab_stopwatch: "Stopwatch", tab_backup: "Backup",
         spiral_title: "The 100-year cycle", spiral_dob: "Birthdate (YYYY-MM-DD)", spiral_calc: "Calculate", spiral_enter: "Enter your birthdate to see your pearl on the spiral.",
         spiral_age: "You are <b>{y}</b> years and <b>{m}</b> months.<br>That is <b>{p}%</b> of a 100-year life.",
         live_title: "Live Framework Clock", live_greg: "Gregorian (Real)", live_model: "Model (360 days)", live_n: "Total Time Since 1970 (N ms)",
         live_sync: "2520-Day Cycle (7 Model Years)", live_day: "Day", live_of: "of 2520", live_formulas: "The Live Formulas (1-based)",
         live_pos: "Position", live_carry: "Carry", live_anchor: "Anchor (N=0)",
         bij_title: "Bijection · The Translator", bij_n_to_t: "Milliseconds (N) → Clock Tuple", bij_t_to_n: "Clock Tuple → Milliseconds (N)", bij_calc: "Calculate", bij_calc_n: "Calculate N",
+        timeline_title: "Timeline",
         note_new: "New Note", note_saved: "Saved Notes", note_save: "Save",
         photo_new: "New Photo", photo_gallery: "Photo Gallery", photo_choose: "📷 Choose a photo", photo_saved: "Photo saved!",
         vault_new: "Secret Key / Password", vault_saved: "Saved items", vault_save: "Save securely",
@@ -372,6 +403,7 @@ function setLanguage(lang) {
     document.getElementById("tab-btn-spiral").textContent = t.tab_spiral;
     document.getElementById("tab-btn-live").textContent = t.tab_live;
     document.getElementById("tab-btn-bijection").textContent = t.tab_bijection;
+    document.getElementById("tab-btn-timeline").textContent = t.tab_timeline;
     document.getElementById("tab-btn-notes").textContent = t.tab_notes;
     document.getElementById("tab-btn-photos").textContent = t.tab_photos;
     document.getElementById("tab-btn-vault").textContent = t.tab_vault;
@@ -403,6 +435,8 @@ function setLanguage(lang) {
     document.getElementById("txt-bij-calc").textContent = t.bij_calc;
     document.getElementById("txt-bij-calc-n").textContent = t.bij_calc_n;
 
+    document.getElementById("txt-timeline-title").textContent = t.timeline_title;
+
     document.getElementById("txt-note-new").textContent = t.note_new;
     document.getElementById("txt-note-saved").textContent = t.note_saved;
     document.getElementById("txt-note-save").textContent = t.note_save;
@@ -430,7 +464,6 @@ function setLanguage(lang) {
     
     document.getElementById("txt-stamps-title").textContent = t.stamp_list;
 
-    // Refresh the spiral info if it exists
     if (spiral && spiral.birth) {
         spiral.updateInfo();
     }
@@ -669,7 +702,6 @@ if (savedBirth) {
     document.getElementById("birthdate").value = savedBirth;
     applyBirth(savedBirth);
 }
-
 // --- KERN & LIVE KLOK ---
 const UNITS = ["millennium", "eeuw", "decennium", "jaar", "maand", "dag", "uur", "minuut", "seconde", "ms"];
 const BASES = { ms: 1000, seconde: 60, minuut: 60, uur: 24, dag: 30, maand: 12, jaar: 10, decennium: 10, eeuw: 10, millennium: Infinity };
@@ -744,7 +776,6 @@ document.getElementById("bij-btn-n-to-t").onclick = () => {
         document.getElementById("bij-out-1").innerHTML = t.map((v, i) => `<div class="bij-row" data-unit="${UNITS[i]}"><span class="bij-key">${UNITS[i]}:</span> <span class="bij-val">${v}</span></div>`).join("");
         t.forEach((v, i) => document.getElementById(`bij-in-${UNITS[i]}`).value = v);
         
-        // Rebind clicks voor stamps
         document.querySelectorAll("#bij-out-1 .bij-row").forEach(r => {
             r.onclick = () => openStamp(r.dataset.unit, BigInt(document.getElementById("bij-n-input").value.trim()));
         });
@@ -785,7 +816,7 @@ req.onupgradeneeded = e => {
 };
 req.onsuccess = e => {
     db = e.target.result;
-    loadNotes(); loadPhotos(); loadVault(); loadStamps();
+    loadNotes(); loadPhotos(); loadVault(); loadStamps(); loadTimeline();
 };
 
 const dbAdd = (s, i) => new Promise(r => { const tx = db.transaction(s, "readwrite"); tx.objectStore(s).put(i); tx.oncomplete = r; });
@@ -807,6 +838,7 @@ async function persistStamp(rec) {
     if (!rec.notes.length && !rec.photos.length) { await dbDel("stamps", rec.id); stampIds.delete(rec.id); }
     else { await dbAdd("stamps", rec); stampIds.add(rec.id); }
     loadStamps();
+    loadTimeline();
 }
 
 async function openStamp(unit, N) {
@@ -888,6 +920,29 @@ async function loadStamps() {
     });
 }
 
+// --- TIJDLIJN ---
+async function loadTimeline() {
+    const all = await dbAll("stamps");
+    const el = document.getElementById("timeline-list");
+    if (!el) return;
+    
+    all.sort((a, b) => BigInt(b.n) - BigInt(a.n));
+    
+    el.innerHTML = all.length ? all.map(r => {
+        const date = new Date(Number(r.n)).toLocaleString(currentLang === 'nl' ? 'nl-NL' : 'en-US');
+        const notesHtml = r.notes.map(n => `<div class="timeline-content" style="margin-bottom:4px">${n.text}</div>`).join("");
+        const photosHtml = r.photos.map(p => `<img src="${p.dataUrl}" style="width:100%;border-radius:8px;margin-top:8px;">`).join("");
+        
+        return `
+            <div class="timeline-item">
+                <div class="timeline-date">${date} · ${r.unit}</div>
+                ${notesHtml}
+                ${photosHtml}
+            </div>
+        `;
+    }).join("") : `<div style="color:var(--muted);font-size:12px;padding:20px;text-align:center;">${translations[currentLang].stamp_empty}</div>`;
+}
+
 // --- NOTITIES & FOTOS & KLUIS ---
 document.getElementById("save-note").onclick = async () => {
     const t = document.getElementById("note-title").value.trim(), c = document.getElementById("note-content").value.trim();
@@ -935,6 +990,7 @@ window.delItem = async (s, id) => {
     if (s === "notes") loadNotes(); 
     if (s === "photos") loadPhotos(); 
     if (s === "vault") loadVault(); 
+    if (s === "stamps") { loadStamps(); loadTimeline(); }
 };
 
 // --- BACKUP & EXPORT ---
@@ -979,7 +1035,7 @@ document.getElementById("import-file").onchange = (e) => {
             });
             
             document.getElementById("backup-status").textContent = currentLang === 'nl' ? "Back-up succesvol hersteld!" : "Backup restored successfully!";
-            loadNotes(); loadPhotos(); loadVault(); loadStamps();
+            loadNotes(); loadPhotos(); loadVault(); loadStamps(); loadTimeline();
         } catch (err) {
             document.getElementById("backup-status").textContent = currentLang === 'nl' ? "Fout bij inladen (ongeldig bestand)" : "Error loading (invalid file)";
         }
