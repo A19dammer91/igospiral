@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Definitieve Applicatie - 6 Tabbladen</title>
+<title>Definitieve Applicatie - Met Perfecte Cyclus</title>
 <style>
     :root {
         --bg-color: #0a0e27;
@@ -109,7 +109,7 @@
         text-transform: uppercase;
     }
 
-    /* ================= KLOK (alleen wijzerplaat) ================= */
+    /* ================= KLOK ================= */
     .clock-wrapper {
         display: flex;
         justify-content: center;
@@ -134,343 +134,92 @@
         align-items: flex-start;
     }
 
-    .bijection-left {
-        flex: 1;
-        min-width: 280px;
-    }
+    .bijection-left { flex: 1; min-width: 280px; }
+    .bijection-right { flex: 1; min-width: 280px; }
 
-    .bijection-right {
-        flex: 1;
-        min-width: 280px;
-    }
+    .metric { text-align: center; margin-bottom: 18px; }
+    .metric-label { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 2px; }
+    .metric-value { font-size: 28px; font-weight: 200; line-height: 1; color: var(--cyan); font-variant-numeric: tabular-nums; }
+    .metric-value.gold { color: var(--accent-color); }
 
-    .metric {
-        text-align: center;
-        margin-bottom: 18px;
-    }
-    .metric-label {
-        font-size: 9px;
-        letter-spacing: 2px;
-        text-transform: uppercase;
-        color: var(--muted);
-        margin-bottom: 2px;
-    }
-    .metric-value {
-        font-size: 28px;
-        font-weight: 200;
-        line-height: 1;
-        color: var(--cyan);
-        font-variant-numeric: tabular-nums;
-    }
-    .metric-value.gold {
-        color: var(--accent-color);
-    }
+    .tuple { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin-top: 15px; }
+    .tuple > div { background: rgba(255,255,255,0.05); border-radius: 6px; padding: 8px 2px; text-align: center; }
+    .tuple .val { font-size: 14px; font-weight: 600; color: var(--accent-color); font-variant-numeric: tabular-nums; }
+    .tuple .lbl { font-size: 7px; letter-spacing: 1px; color: var(--muted); text-transform: uppercase; margin-top: 2px; }
 
-    .tuple {
-        display: grid;
-        grid-template-columns: repeat(5, 1fr);
-        gap: 6px;
-        margin-top: 15px;
-    }
-    .tuple > div {
-        background: rgba(255,255,255,0.05);
-        border-radius: 6px;
-        padding: 8px 2px;
-        text-align: center;
-    }
-    .tuple .val {
-        font-size: 14px;
-        font-weight: 600;
-        color: var(--accent-color);
-        font-variant-numeric: tabular-nums;
-    }
-    .tuple .lbl {
-        font-size: 7px;
-        letter-spacing: 1px;
-        color: var(--muted);
-        text-transform: uppercase;
-        margin-top: 2px;
-    }
+    .spiral-controls { display: flex; gap: 8px; align-items: center; margin-bottom: 10px; flex-wrap: wrap; }
+    .spiral-controls select { background: var(--panel-bg); border: 1px solid var(--border-color); color: var(--text-color); padding: 8px 12px; border-radius: 6px; font-family: inherit; font-size: 12px; }
+    #spiral-canvas { width: 100%; height: 250px; display: block; cursor: grab; background: rgba(10,14,39,0.5); border-radius: 10px; touch-action: none; }
+    #spiral-canvas:active { cursor: grabbing; }
+    .spiral-info { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; font-size: 11px; color: var(--muted); margin-top: 8px; }
+    .spiral-info b { color: var(--accent-color); font-variant-numeric: tabular-nums; }
 
-    .spiral-controls {
-        display: flex;
-        gap: 8px;
-        align-items: center;
-        margin-bottom: 10px;
-        flex-wrap: wrap;
-    }
-    .spiral-controls select {
-        background: var(--panel-bg);
-        border: 1px solid var(--border-color);
-        color: var(--text-color);
-        padding: 8px 12px;
-        border-radius: 6px;
-        font-family: inherit;
-        font-size: 12px;
-    }
-    #spiral-canvas {
-        width: 100%;
-        height: 250px;
-        display: block;
-        cursor: grab;
-        background: rgba(10,14,39,0.5);
-        border-radius: 10px;
-        touch-action: none;
-    }
-    #spiral-canvas:active {
-        cursor: grabbing;
-    }
-    .spiral-info {
-        display: flex;
-        gap: 14px;
-        justify-content: center;
-        flex-wrap: wrap;
-        font-size: 11px;
-        color: var(--muted);
-        margin-top: 8px;
-    }
-    .spiral-info b {
-        color: var(--accent-color);
-        font-variant-numeric: tabular-nums;
-    }
+    .slider-container { margin-top: 20px; }
+    .slider-container input[type=range] { width: 100%; accent-color: var(--accent-color); margin: 8px 0; }
+    .slider-labels { display: flex; justify-content: space-between; font-size: 10px; color: var(--muted); }
 
-    .slider-container {
-        margin-top: 20px;
-    }
-    .slider-container input[type=range] {
-        width: 100%;
-        accent-color: var(--accent-color);
-        margin: 8px 0;
-    }
-    .slider-labels {
-        display: flex;
-        justify-content: space-between;
-        font-size: 10px;
-        color: var(--muted);
-    }
-
-    /* ================= 100-JARIGE CYCLUS ================= */
-    .cycle-grid {
-        display: grid;
-        grid-template-columns: repeat(10, 1fr);
-        gap: 8px;
-        width: 100%;
-    }
-    .year-box {
-        background: rgba(255, 255, 255, 0.05);
-        padding: 12px 5px;
-        border-radius: 6px;
-        font-size: 0.95rem;
-        border: 1px solid transparent;
-        text-align: center;
-        font-weight: 500;
-        transition: all 0.2s;
-        color: var(--text-color);
-    }
-    .year-box:hover {
-        background: rgba(244, 197, 66, 0.15);
-        border-color: var(--accent-color);
-        color: var(--accent-color);
-    }
+    /* ================= 100-JARIGE CYCLUS (Perfecte Kalender) ================= */
+    .calendar-dates { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 12px; }
+    .cal-label { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 2px; }
+    .cal-value { font-size: 12px; font-weight: 500; color: var(--text-color); }
+    
+    .cal-year { display: grid; grid-template-columns: repeat(30, 1fr); gap: 1px; background: var(--panel-2); padding: 6px; border-radius: 8px; margin-bottom: 12px; overflow-x: auto; }
+    .cal-cell { aspect-ratio: 1; border-radius: 2px; background: #1a2040; transition: transform 0.15s; min-width: 6px; }
+    .cal-cell.current { outline: 2px solid var(--accent-color); outline-offset: -1px; z-index: 1; transform: scale(1.3); position: relative; }
+    .cal-cell.w1 { background: rgba(244,197,66,0.35); }
+    .cal-cell.w2 { background: rgba(77,208,225,0.35); }
+    .cal-cell.w3 { background: rgba(255,111,145,0.35); }
+    .cal-cell.w4 { background: rgba(179,136,255,0.35); }
+    .cal-cell.w5 { background: rgba(76,175,80,0.35); }
+    .cal-cell.w6 { background: rgba(255,183,77,0.35); }
+    .cal-cell.w7 { background: rgba(96,125,139,0.35); }
+    
+    .drift-label { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+    .drift-track { height: 6px; background: var(--panel-2); border-radius: 3px; overflow: hidden; margin-bottom: 4px; }
+    .drift-fill { height: 100%; background: linear-gradient(90deg, var(--accent-color), var(--highlight)); transition: width 0.2s; }
+    .drift-text { font-size: 11px; color: var(--muted); }
+    .cal-slider-wrap { margin-top: 12px; }
+    .cal-slider-wrap input[type=range] { width: 100%; accent-color: var(--accent-color); margin: 4px 0; }
+    .sync-countdown { background: rgba(77,208,225,0.08); border-left: 3px solid var(--cyan); border-radius: 6px; padding: 8px 12px; margin-top: 10px; font-size: 11px; color: var(--text-color); line-height: 1.5; }
+    .sync-countdown b { color: var(--cyan); }
 
     /* ================= STOPWATCH ================= */
-    .stopwatch-display {
-        font-size: 4rem;
-        font-weight: 200;
-        color: var(--cyan);
-        font-variant-numeric: tabular-nums;
-        margin-bottom: 20px;
-        font-family: monospace;
-        text-align: center;
-    }
-    .btn-group {
-        display: flex;
-        justify-content: center;
-        gap: 12px;
-        flex-wrap: wrap;
-    }
-    button {
-        background: rgba(255,255,255,0.05);
-        border: 1px solid var(--border-color);
-        color: var(--text-color);
-        padding: 10px 22px;
-        border-radius: 8px;
-        cursor: pointer;
-        font-size: 1rem;
-        font-family: inherit;
-        transition: all 0.2s;
-    }
-    button:hover {
-        border-color: var(--accent-color);
-        color: var(--accent-color);
-    }
-    button.primary {
-        background: var(--accent-color);
-        color: var(--bg-color);
-        border-color: var(--accent-color);
-    }
-    button.danger {
-        border-color: var(--highlight);
-        color: var(--highlight);
-    }
-    button:disabled {
-        opacity: 0.3;
-        cursor: not-allowed;
-    }
+    .stopwatch-display { font-size: 4rem; font-weight: 200; color: var(--cyan); font-variant-numeric: tabular-nums; margin-bottom: 20px; font-family: monospace; text-align: center; }
+    .btn-group { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
+    button { background: rgba(255,255,255,0.05); border: 1px solid var(--border-color); color: var(--text-color); padding: 10px 22px; border-radius: 8px; cursor: pointer; font-size: 1rem; font-family: inherit; transition: all 0.2s; }
+    button:hover { border-color: var(--accent-color); color: var(--accent-color); }
+    button.primary { background: var(--accent-color); color: var(--bg-color); border-color: var(--accent-color); }
+    button.danger { border-color: var(--highlight); color: var(--highlight); }
+    button:disabled { opacity: 0.3; cursor: not-allowed; }
 
     /* ================= AGENDA ================= */
-    .calendar-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 20px;
-    }
-    .calendar-header h3 {
-        color: var(--accent-color);
-        font-size: 1.3rem;
-    }
-    .calendar-grid {
-        display: grid;
-        grid-template-columns: repeat(7, 1fr);
-        gap: 6px;
-        text-align: center;
-    }
-    .day-name {
-        font-weight: bold;
-        color: var(--border-color);
-        padding: 8px 0;
-        font-size: 0.9rem;
-    }
-    .calendar-day {
-        padding: 12px 5px;
-        background: rgba(255, 255, 255, 0.03);
-        border-radius: 6px;
-        cursor: pointer;
-        transition: all 0.2s;
-        border: 1px solid transparent;
-        font-size: 0.9rem;
-    }
-    .calendar-day:hover {
-        background: rgba(244, 197, 66, 0.1);
-    }
-    .calendar-day.selected {
-        background: var(--accent-color);
-        color: var(--bg-color);
-        font-weight: bold;
-        border-color: var(--accent-color);
-    }
-    .calendar-day.today {
-        border-color: var(--highlight);
-    }
-    .events-section {
-        margin-top: 25px;
-        border-top: 1px solid var(--border-color);
-        padding-top: 20px;
-    }
-    .events-section h3 {
-        margin-bottom: 15px;
-        color: var(--text-color);
-        font-size: 1.1rem;
-    }
-    .event-list {
-        list-style: none;
-        margin-bottom: 20px;
-        max-height: 200px;
-        overflow-y: auto;
-    }
-    .event-list li {
-        background: rgba(255, 255, 255, 0.05);
-        padding: 10px;
-        border-radius: 6px;
-        margin-bottom: 8px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-    .event-list li button {
-        background: var(--highlight);
-        border: none;
-        color: white;
-        border-radius: 4px;
-        padding: 4px 8px;
-        cursor: pointer;
-    }
-    .event-input-group {
-        display: flex;
-        gap: 10px;
-    }
-    .event-input-group input {
-        flex: 1;
-        padding: 10px;
-        border-radius: 6px;
-        border: 1px solid var(--border-color);
-        background: var(--bg-color);
-        color: var(--text-color);
-    }
+    .calendar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+    .calendar-header h3 { color: var(--accent-color); font-size: 1.3rem; }
+    .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; text-align: center; }
+    .day-name { font-weight: bold; color: var(--border-color); padding: 8px 0; font-size: 0.9rem; }
+    .calendar-day { padding: 12px 5px; background: rgba(255, 255, 255, 0.03); border-radius: 6px; cursor: pointer; transition: all 0.2s; border: 1px solid transparent; font-size: 0.9rem; }
+    .calendar-day:hover { background: rgba(244, 197, 66, 0.1); }
+    .calendar-day.selected { background: var(--accent-color); color: var(--bg-color); font-weight: bold; border-color: var(--accent-color); }
+    .calendar-day.today { border-color: var(--highlight); }
+    .events-section { margin-top: 25px; border-top: 1px solid var(--border-color); padding-top: 20px; }
+    .events-section h3 { margin-bottom: 15px; color: var(--text-color); font-size: 1.1rem; }
+    .event-list { list-style: none; margin-bottom: 20px; max-height: 200px; overflow-y: auto; }
+    .event-list li { background: rgba(255, 255, 255, 0.05); padding: 10px; border-radius: 6px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
+    .event-list li button { background: var(--highlight); border: none; color: white; border-radius: 4px; padding: 4px 8px; cursor: pointer; }
+    .event-input-group { display: flex; gap: 10px; }
+    .event-input-group input { flex: 1; padding: 10px; border-radius: 6px; border: 1px solid var(--border-color); background: var(--bg-color); color: var(--text-color); }
 
     /* ================= KLUIS ================= */
-    .vault-form {
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
-        margin-bottom: 25px;
-        background: rgba(0,0,0,0.2);
-        padding: 20px;
-        border-radius: 8px;
-        border: 1px solid rgba(59, 75, 110, 0.5);
-    }
-    .vault-form input {
-        padding: 12px;
-        border-radius: 6px;
-        border: 1px solid var(--border-color);
-        background: var(--bg-color);
-        color: var(--text-color);
-        width: 100%;
-    }
-    .vault-list {
-        list-style: none;
-    }
-    .vault-item {
-        background: rgba(255, 255, 255, 0.05);
-        padding: 15px;
-        border-radius: 8px;
-        margin-bottom: 10px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        border-left: 4px solid var(--accent-color);
-    }
-    .vault-info {
-        display: flex;
-        flex-direction: column;
-        gap: 5px;
-    }
-    .vault-title {
-        font-weight: bold;
-        color: var(--accent-color);
-    }
-    .vault-secret {
-        font-family: monospace;
-        letter-spacing: 2px;
-        color: var(--text-color);
-    }
-    .vault-actions {
-        display: flex;
-        gap: 8px;
-    }
-    .vault-actions button {
-        background: transparent;
-        border: 1px solid var(--border-color);
-        color: var(--text-color);
-        padding: 6px 10px;
-        border-radius: 6px;
-        cursor: pointer;
-        transition: all 0.2s;
-        font-size: 0.85rem;
-    }
-    .vault-actions button:hover {
-        background: var(--border-color);
-    }
+    .vault-form { display: flex; flex-direction: column; gap: 12px; margin-bottom: 25px; background: rgba(0,0,0,0.2); padding: 20px; border-radius: 8px; border: 1px solid rgba(59, 75, 110, 0.5); }
+    .vault-form input { padding: 12px; border-radius: 6px; border: 1px solid var(--border-color); background: var(--bg-color); color: var(--text-color); width: 100%; }
+    .vault-list { list-style: none; }
+    .vault-item { background: rgba(255, 255, 255, 0.05); padding: 15px; border-radius: 8px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; border-left: 4px solid var(--accent-color); }
+    .vault-info { display: flex; flex-direction: column; gap: 5px; }
+    .vault-title { font-weight: bold; color: var(--accent-color); }
+    .vault-secret { font-family: monospace; letter-spacing: 2px; color: var(--text-color); }
+    .vault-actions { display: flex; gap: 8px; }
+    .vault-actions button { background: transparent; border: 1px solid var(--border-color); color: var(--text-color); padding: 6px 10px; border-radius: 6px; cursor: pointer; transition: all 0.2s; font-size: 0.85rem; }
+    .vault-actions button:hover { background: var(--border-color); }
 </style>
 </head>
 <body>
@@ -484,7 +233,7 @@
         <button class="tab-btn" onclick="openTab(event, 'vault-tab')">Kluis</button>
     </nav>
 
-    <!-- TAB 1: KLOK (alleen wijzerplaat) -->
+    <!-- TAB 1: KLOK -->
     <section id="clock-tab" class="tab-content active">
         <div class="panel">
             <div class="clock-wrapper">
@@ -543,11 +292,32 @@
         </div>
     </section>
 
-    <!-- TAB 3: 100-JARIGE CYCLUS -->
+    <!-- TAB 3: 100-JARIGE CYCLUS (Perfecte Kalender Hersteld!) -->
     <section id="cycle-tab" class="tab-content">
         <div class="panel">
-            <h2>100-Jarige Cyclus (2000 - 2099)</h2>
-            <div class="cycle-grid" id="cycleGrid"></div>
+            <div class="calendar-dates">
+                <div>
+                    <div class="cal-label">Model</div>
+                    <div class="cal-value" id="cal-model">—</div>
+                </div>
+                <div>
+                    <div class="cal-label">Gregoriaans</div>
+                    <div class="cal-value" id="cal-greg">—</div>
+                </div>
+                <div>
+                    <div class="cal-label">Weekdag</div>
+                    <div class="cal-value" id="cal-week">—</div>
+                </div>
+            </div>
+            <div class="cal-year" id="cal-year"></div>
+            <div class="drift-label">Drift binnen maand</div>
+            <div class="drift-track"><div class="drift-fill" id="drift-fill"></div></div>
+            <div class="drift-text" id="drift-text">—</div>
+            <div class="cal-slider-wrap">
+                <input type="range" id="cal-slider" min="0" max="2520" value="0" step="1">
+                <div class="slider-labels"><span>dag 0</span><span>2.520</span></div>
+            </div>
+            <div class="sync-countdown" id="sync-countdown">—</div>
         </div>
     </section>
 
@@ -611,13 +381,13 @@
         document.getElementById(tabName).style.display = "flex";
         document.getElementById(tabName).classList.add("active");
         evt.currentTarget.classList.add("active");
-        // Zorg dat de spiraalcanvas goed formaat heeft als het tabblad actief wordt
+        
         if (tabName === 'bijection-tab' && spiralObj) {
             setTimeout(() => spiralObj.resize(), 10);
         }
     }
 
-    /* ================= KLOK (alleen wijzerplaat) ================= */
+    /* ================= KLOK ================= */
     const svgNS = "http://www.w3.org/2000/svg";
     function el(tag, attrs) {
         const e = document.createElementNS(svgNS, tag);
@@ -682,7 +452,6 @@
       return out.reverse();
     }
 
-    // Tuple opbouwen
     const tupleEl = document.getElementById("tuple");
     for (const u of UNITS) {
         const d = document.createElement("div");
@@ -695,16 +464,14 @@
 
     function updateBijection(dayIndex) {
         currentDayIndex = dayIndex;
-        const N = BigInt(dayIndex) * 86400000n; // dag naar ms
+        const N = BigInt(dayIndex) * 86400000n;
         const t = N_to_ClockTuple(N);
         const hour = t[6], minute = t[7], second = t[8];
         const pm = Math.floor((hour - 1) / 12);
         document.getElementById("paper-m").textContent = pm;
-        document.getElementById("paper-m-sub").textContent =
-            pm === 0 ? "0 rondjes van 12 uur" : `${pm} rondje${pm > 1 ? "s" : ""} van 12 uur`;
+        document.getElementById("paper-m-sub").textContent = pm === 0 ? "0 rondjes van 12 uur" : `${pm} rondje${pm > 1 ? "s" : ""} van 12 uur`;
         document.getElementById("hour-pos").textContent = hour;
-        tupleEl.querySelectorAll(".val").forEach(e =>
-            e.textContent = t[UNITS.indexOf(e.dataset.u)]);
+        tupleEl.querySelectorAll(".val").forEach(e => e.textContent = t[UNITS.indexOf(e.dataset.u)]);
 
         if (spiralObj) {
             const { position, m } = spiral(N + 1n, currentSystem);
@@ -720,33 +487,22 @@
     /* ================= SPIRAAL ================= */
     class Spiral {
       constructor(canvas, q = 7) {
-        this.c = canvas;
-        this.ctx = canvas.getContext("2d");
-        this.q = q;
-        this.rotation = 0;
-        this.tilt = 0.35;
-        this.autoRotate = true;
-        this.dragging = false;
-        this.lastX = 0;
-        this.currentM = 0;
-        this.currentPos = 1;
+        this.c = canvas; this.ctx = canvas.getContext("2d"); this.q = q;
+        this.rotation = 0; this.tilt = 0.35; this.autoRotate = true;
+        this.dragging = false; this.lastX = 0; this.currentM = 0; this.currentPos = 1;
         this.dpr = window.devicePixelRatio || 1;
-        this.resize();
-        this.setupEvents();
-        this.loop();
+        this.resize(); this.setupEvents(); this.loop();
       }
       resize() {
         const r = this.c.getBoundingClientRect();
-        this.c.width = r.width * this.dpr;
-        this.c.height = r.height * this.dpr;
+        this.c.width = r.width * this.dpr; this.c.height = r.height * this.dpr;
         this.ctx.setTransform(this.dpr, 0, 0, this.dpr, 0, 0);
       }
       setupEvents() {
         this.c.addEventListener("pointerdown", e => { this.dragging = true; this.lastX = e.clientX; });
         window.addEventListener("pointermove", e => {
           if (!this.dragging) return;
-          this.rotation += (e.clientX - this.lastX) * 0.01;
-          this.lastX = e.clientX;
+          this.rotation += (e.clientX - this.lastX) * 0.01; this.lastX = e.clientX;
         });
         window.addEventListener("pointerup", () => { this.dragging = false; });
         window.addEventListener("resize", () => this.resize());
@@ -754,13 +510,10 @@
       project(x, y, z) {
         const w = this.c.width / this.dpr, h = this.c.height / this.dpr;
         const ca = Math.cos(this.rotation), sa = Math.sin(this.rotation);
-        const x1 = x * ca - z * sa;
-        const z1 = x * sa + z * ca;
+        const x1 = x * ca - z * sa; const z1 = x * sa + z * ca;
         const ct = Math.cos(this.tilt), st = Math.sin(this.tilt);
-        const y1 = y * ct - z1 * st;
-        const z2 = y * st + z1 * ct;
-        const fov = 400;
-        const scale = fov / (fov + z2);
+        const y1 = y * ct - z1 * st; const z2 = y * st + z1 * ct;
+        const fov = 400; const scale = fov / (fov + z2);
         return { x: w/2 + x1*scale*55, y: h/2 - y1*scale*22, z: z2, scale };
       }
       setQ(q) { this.q = q; }
@@ -768,8 +521,7 @@
       draw() {
         const w = this.c.width / this.dpr, h = this.c.height / this.dpr;
         this.ctx.clearRect(0, 0, w, h);
-        const minM = Math.max(0, this.currentM - 5);
-        const maxM = this.currentM + 5;
+        const minM = Math.max(0, this.currentM - 5); const maxM = this.currentM + 5;
         const pts = [];
         for (let m = minM; m <= maxM; m++) {
           for (let p = 1; p <= this.q; p++) {
@@ -780,31 +532,20 @@
         pts.sort((a, b) => b.z - a.z);
         for (let i = 0; i < pts.length - 1; i++) {
           const a = pts[i], b = pts[i+1];
-          if (Math.abs(a.m - b.m) > 1) continue;
-          if (Math.abs(a.p - b.p) > 1) continue;
-          const dist = Math.abs(a.m - this.currentM);
-          const alpha = Math.max(0.08, 1 - dist / 6);
+          if (Math.abs(a.m - b.m) > 1) continue; if (Math.abs(a.p - b.p) > 1) continue;
+          const dist = Math.abs(a.m - this.currentM); const alpha = Math.max(0.08, 1 - dist / 6);
           const isCur = a.m === this.currentM;
-          this.ctx.beginPath();
-          this.ctx.moveTo(a.x, a.y);
-          this.ctx.lineTo(b.x, b.y);
+          this.ctx.beginPath(); this.ctx.moveTo(a.x, a.y); this.ctx.lineTo(b.x, b.y);
           this.ctx.strokeStyle = isCur ? `rgba(244,197,66,${alpha})` : `rgba(77,208,225,${alpha*0.5})`;
-          this.ctx.lineWidth = isCur ? 2.2 : 1;
-          this.ctx.stroke();
+          this.ctx.lineWidth = isCur ? 2.2 : 1; this.ctx.stroke();
         }
         const t = (this.currentPos - 1) / this.q * Math.PI * 2;
         const cur = this.project(Math.cos(t), this.currentM, Math.sin(t));
-        this.ctx.beginPath();
-        this.ctx.arc(cur.x, cur.y, 7, 0, Math.PI * 2);
-        this.ctx.fillStyle = "#f4c542";
-        this.ctx.shadowColor = "#f4c542";
-        this.ctx.shadowBlur = 16;
-        this.ctx.fill();
-        this.ctx.shadowBlur = 0;
-        this.ctx.fillStyle = "rgba(122,130,168,0.9)";
-        this.ctx.font = "11px -apple-system, sans-serif";
-        this.ctx.textAlign = "left";
-        this.ctx.fillText(`m = ${this.currentM}`, 12, 20);
+        this.ctx.beginPath(); this.ctx.arc(cur.x, cur.y, 7, 0, Math.PI * 2);
+        this.ctx.fillStyle = "#f4c542"; this.ctx.shadowColor = "#f4c542"; this.ctx.shadowBlur = 16;
+        this.ctx.fill(); this.ctx.shadowBlur = 0;
+        this.ctx.fillStyle = "rgba(122,130,168,0.9)"; this.ctx.font = "11px -apple-system, sans-serif";
+        this.ctx.textAlign = "left"; this.ctx.fillText(`m = ${this.currentM}`, 12, 20);
         if (this.autoRotate && !this.dragging) this.rotation += 0.004;
       }
       loop() { this.draw(); requestAnimationFrame(() => this.loop()); }
@@ -812,47 +553,68 @@
 
     let spiralObj = null;
 
-    // Initialiseer bijectie zodra het script geladen is
     function initBijection() {
         const canvas = document.getElementById("spiral-canvas");
         if (!canvas) return;
         spiralObj = new Spiral(canvas, currentSystem);
-        
         document.getElementById("spiral-system").addEventListener("change", e => {
-            currentSystem = parseInt(e.target.value, 10);
-            updateBijection(currentDayIndex);
+            currentSystem = parseInt(e.target.value, 10); updateBijection(currentDayIndex);
         });
-        
         document.getElementById("spiral-toggle").addEventListener("click", e => {
             spiralObj.autoRotate = !spiralObj.autoRotate;
             e.target.textContent = spiralObj.autoRotate ? "⏸ Rotatie" : "▶ Rotatie";
         });
-        
         document.getElementById("bijection-slider").addEventListener("input", e => {
             updateBijection(parseInt(e.target.value, 10));
         });
-        
-        // Start met dag 0
         updateBijection(0);
     }
 
-    // Roep initBijection aan na laden
-    window.addEventListener('load', initBijection);
+    /* ================= 100-JARIGE CYCLUS (Perfecte Kalender) ================= */
+    const GREG_M = ["januari","februari","maart","april","mei","juni","juli","augustus","september","oktober","november","december"];
+    const GREG_D = ["maandag","dinsdag","woensdag","donderdag","vrijdag","zaterdag","zondag"];
+    const ANCHOR_MS = new Date("2026-01-01T00:00:00+01:00").getTime();
+    const DAY_MS = 86400000;
 
-    /* ================= 100-JARIGE CYCLUS ================= */
-    const cycleGrid = document.getElementById('cycleGrid');
-    for (let year = 2000; year <= 2099; year++) {
-        const yearBox = document.createElement('div');
-        yearBox.className = 'year-box';
-        yearBox.textContent = year;
-        cycleGrid.appendChild(yearBox);
+    function renderCalendar(dayIndex) {
+        const monthIdx = Math.floor(dayIndex / 30) % 12;
+        const dayInMonth = dayIndex % 30;
+        const year = Math.floor(dayIndex / 360) + 1;
+        const weekDay = dayIndex % 7;
+
+        document.getElementById("cal-model").textContent = `Jaar ${year} · maand ${monthIdx + 1} · dag ${dayInMonth + 1}`;
+        const greg = new Date(ANCHOR_MS + dayIndex * DAY_MS);
+        document.getElementById("cal-greg").textContent = `${greg.getDate()} ${GREG_M[greg.getMonth()]} ${greg.getFullYear()}`;
+        document.getElementById("cal-week").textContent = `dag ${weekDay + 1} (${GREG_D[weekDay]})`;
+
+        const grid = document.getElementById("cal-year");
+        if (grid.children.length !== 360) {
+            grid.innerHTML = "";
+            for (let i = 0; i < 360; i++) grid.appendChild(document.createElement("div"));
+        }
+        for (let i = 0; i < 360; i++) {
+            const cell = grid.children[i];
+            cell.className = `cal-cell w${(i % 7) + 1}`;
+            if (i === dayIndex) cell.classList.add("current");
+            cell.title = `Maand ${Math.floor(i/30)+1}, dag ${(i%30)+1} · weekdag ${(i%7)+1}`;
+        }
+        const drift = (monthIdx * 30) % 7;
+        document.getElementById("drift-fill").style.width = (drift / 7) * 100 + "%";
+        document.getElementById("drift-text").textContent = `De week is ${drift} dag${drift !== 1 ? "en" : ""} verschoven t.o.v. de maandstart`;
+        
+        const remaining = (2520 - (dayIndex % 2520)) % 2520;
+        const years = (remaining / 360).toFixed(1).replace(".", ",");
+        document.getElementById("sync-countdown").innerHTML = remaining === 0
+            ? "Op dit moment vallen week en maand samen."
+            : `Volgende synchronisatie over <b>${remaining}</b> dagen (${years} jaar). Dan vallen week (7) en maand (30) weer samen.`;
     }
 
-    /* ================= STOPWATCH ================= */
-    let swInterval = null;
-    let swTime = 0;
-    let swRunning = false;
+    document.getElementById("cal-slider").addEventListener("input", e => {
+        renderCalendar(parseInt(e.target.value, 10));
+    });
 
+    /* ================= STOPWATCH ================= */
+    let swInterval = null; let swTime = 0; let swRunning = false;
     function formatStopwatch(ms) {
         const totalSeconds = Math.floor(ms / 1000);
         const minutes = Math.floor(totalSeconds / 60);
@@ -860,93 +622,56 @@
         const hundredths = Math.floor((ms % 1000) / 10);
         return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}:${String(hundredths).padStart(2, '0')}`;
     }
-
     function startStopwatch() {
-        if (swRunning) return;
-        swRunning = true;
-        document.getElementById('swStart').disabled = true;
-        document.getElementById('swStop').disabled = false;
+        if (swRunning) return; swRunning = true;
+        document.getElementById('swStart').disabled = true; document.getElementById('swStop').disabled = false;
         const startTime = Date.now() - swTime;
         swInterval = setInterval(() => {
             swTime = Date.now() - startTime;
             document.getElementById('swDisplay').textContent = formatStopwatch(swTime);
         }, 10);
     }
-
     function stopStopwatch() {
-        swRunning = false;
-        clearInterval(swInterval);
-        document.getElementById('swStart').disabled = false;
-        document.getElementById('swStop').disabled = true;
+        swRunning = false; clearInterval(swInterval);
+        document.getElementById('swStart').disabled = false; document.getElementById('swStop').disabled = true;
     }
-
     function resetStopwatch() {
-        stopStopwatch();
-        swTime = 0;
+        stopStopwatch(); swTime = 0;
         document.getElementById('swDisplay').textContent = formatStopwatch(0);
     }
 
     /* ================= AGENDA ================= */
-    let currentDate = new Date();
-    let selectedDate = new Date();
+    let currentDate = new Date(); let selectedDate = new Date();
     let events = JSON.parse(localStorage.getItem('agendaEvents')) || {};
 
-    function renderCalendar() {
-        const year = currentDate.getFullYear();
-        const month = currentDate.getMonth();
+    function renderAgendaCalendar() {
+        const year = currentDate.getFullYear(); const month = currentDate.getMonth();
         const monthNames = ["Januari", "Februari", "Maart", "April", "Mei", "Juni", "Juli", "Augustus", "September", "Oktober", "November", "December"];
         document.getElementById('monthYearDisplay').textContent = `${monthNames[month]} ${year}`;
-
         const firstDay = new Date(year, month, 1).getDay();
         const daysInMonth = new Date(year, month + 1, 0).getDate();
-        
-        const grid = document.getElementById('calendarGrid');
-        grid.innerHTML = '';
-
+        const grid = document.getElementById('calendarGrid'); grid.innerHTML = '';
         const dayNames = ["Zo", "Ma", "Di", "Wo", "Do", "Vr", "Za"];
         dayNames.forEach(day => {
-            const el = document.createElement('div');
-            el.className = 'day-name';
-            el.textContent = day;
-            grid.appendChild(el);
+            const el = document.createElement('div'); el.className = 'day-name'; el.textContent = day; grid.appendChild(el);
         });
-
-        for (let i = 0; i < (firstDay === 0 ? 6 : firstDay - 1); i++) {
-            const empty = document.createElement('div');
-            grid.appendChild(empty);
-        }
-
+        for (let i = 0; i < (firstDay === 0 ? 6 : firstDay - 1); i++) { grid.appendChild(document.createElement('div')); }
         for (let day = 1; day <= daysInMonth; day++) {
-            const el = document.createElement('div');
-            el.className = 'calendar-day';
-            el.textContent = day;
-            
+            const el = document.createElement('div'); el.className = 'calendar-day'; el.textContent = day;
             const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-            
-            if (day === new Date().getDate() && month === new Date().getMonth() && year === new Date().getFullYear()) {
-                el.classList.add('today');
-            }
-            if (dateStr === selectedDate.toISOString().split('T')[0]) {
-                el.classList.add('selected');
-            }
-
+            if (day === new Date().getDate() && month === new Date().getMonth() && year === new Date().getFullYear()) el.classList.add('today');
+            if (dateStr === selectedDate.toISOString().split('T')[0]) el.classList.add('selected');
             el.onclick = () => {
-                selectedDate = new Date(year, month, day);
-                renderCalendar();
-                renderEvents();
+                selectedDate = new Date(year, month, day); renderAgendaCalendar(); renderEvents();
             };
             grid.appendChild(el);
         }
     }
-
     function renderEvents() {
         const dateStr = selectedDate.toISOString().split('T')[0];
-        const list = document.getElementById('eventList');
-        list.innerHTML = '';
-        
+        const list = document.getElementById('eventList'); list.innerHTML = '';
         const displayStr = selectedDate.toLocaleDateString('nl-NL', { weekday: 'long', day: 'numeric', month: 'long' });
         document.getElementById('selectedDateDisplay').textContent = displayStr;
-
         if (events[dateStr] && events[dateStr].length > 0) {
             events[dateStr].forEach((eventText, index) => {
                 const li = document.createElement('li');
@@ -957,46 +682,30 @@
             list.innerHTML = '<li style="color: #666; background: transparent; justify-content: center; border: none;">Geen afspraken</li>';
         }
     }
-
     function addEvent() {
-        const input = document.getElementById('eventInput');
-        const text = input.value.trim();
-        if (!text) return;
+        const input = document.getElementById('eventInput'); const text = input.value.trim(); if (!text) return;
         const dateStr = selectedDate.toISOString().split('T')[0];
         if (!events[dateStr]) events[dateStr] = [];
         events[dateStr].push(text);
         localStorage.setItem('agendaEvents', JSON.stringify(events));
-        input.value = '';
-        renderEvents();
+        input.value = ''; renderEvents();
     }
-
     function removeEvent(dateStr, index) {
-        events[dateStr].splice(index, 1);
-        if (events[dateStr].length === 0) delete events[dateStr];
-        localStorage.setItem('agendaEvents', JSON.stringify(events));
-        renderEvents();
+        events[dateStr].splice(index, 1); if (events[dateStr].length === 0) delete events[dateStr];
+        localStorage.setItem('agendaEvents', JSON.stringify(events)); renderEvents();
     }
-
-    renderCalendar();
-    renderEvents();
 
     /* ================= KLUIS ================= */
     let vaultItems = JSON.parse(localStorage.getItem('vaultData')) || [];
-
     function renderVault() {
-        const list = document.getElementById('vaultList');
-        list.innerHTML = '';
-        
+        const list = document.getElementById('vaultList'); list.innerHTML = '';
         if (vaultItems.length === 0) {
             list.innerHTML = '<li style="text-align: center; color: #666; background: transparent; border: none;">De kluis is leeg.</li>';
             return;
         }
-
         vaultItems.forEach((item, index) => {
-            const li = document.createElement('li');
-            li.className = 'vault-item';
+            const li = document.createElement('li'); li.className = 'vault-item';
             const isVisible = item.visible ? item.secret : '••••••••••••';
-            
             li.innerHTML = `
                 <div class="vault-info">
                     <span class="vault-title">${item.title}</span>
@@ -1011,44 +720,33 @@
             list.appendChild(li);
         });
     }
-
     function addVaultItem() {
-        const titleInput = document.getElementById('vaultTitle');
-        const secretInput = document.getElementById('vaultSecret');
-        const title = titleInput.value.trim();
-        const secret = secretInput.value.trim();
-        
-        if (!title || !secret) {
-            alert('Vul zowel een titel als een geheim in.');
-            return;
-        }
+        const titleInput = document.getElementById('vaultTitle'); const secretInput = document.getElementById('vaultSecret');
+        const title = titleInput.value.trim(); const secret = secretInput.value.trim();
+        if (!title || !secret) { alert('Vul zowel een titel als een geheim in.'); return; }
         vaultItems.push({ title, secret, visible: false });
         localStorage.setItem('vaultData', JSON.stringify(vaultItems));
-        titleInput.value = '';
-        secretInput.value = '';
-        renderVault();
+        titleInput.value = ''; secretInput.value = ''; renderVault();
     }
-
-    function toggleSecret(index) {
-        vaultItems[index].visible = !vaultItems[index].visible;
-        renderVault();
-    }
-
+    function toggleSecret(index) { vaultItems[index].visible = !vaultItems[index].visible; renderVault(); }
     function copySecret(index) {
-        navigator.clipboard.writeText(vaultItems[index].secret).then(() => {
-            alert('Geheim gekopieerd naar klembord!');
-        });
+        navigator.clipboard.writeText(vaultItems[index].secret).then(() => alert('Geheim gekopieerd naar klembord!'));
     }
-
     function deleteVaultItem(index) {
         if(confirm('Weet je zeker dat je dit item wilt verwijderen?')) {
-            vaultItems.splice(index, 1);
-            localStorage.setItem('vaultData', JSON.stringify(vaultItems));
-            renderVault();
+            vaultItems.splice(index, 1); localStorage.setItem('vaultData', JSON.stringify(vaultItems)); renderVault();
         }
     }
 
-    renderVault();
+    /* ================= INIT ================= */
+    window.addEventListener('load', () => {
+        initBijection();
+        renderCalendar(0); // Start de perfecte cyclus op dag 0
+        renderAgendaCalendar();
+        renderEvents();
+        renderVault();
+    });
+
 </script>
 
 </body>
