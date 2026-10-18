@@ -1,8 +1,8 @@
-const CACHE = "igospiral-v1";
+const CACHE = "igospiral-v2";
 const ASSETS = [
-  "/igospiral/",
-  "/igospiral/index.html",
-  "/igospiral/manifest.json",
+  "./",
+  "./index.html",
+  "./manifest.json"
 ];
 
 self.addEventListener("install", (e) => {
@@ -12,13 +12,11 @@ self.addEventListener("install", (e) => {
 
 self.addEventListener("activate", (e) => {
   e.waitUntil(
-    caches
-      .keys()
-      .then((keys) =>
-        Promise.all(
-          keys.filter((k) => k !== CACHE).map((k) => caches.delete(k)),
-        ),
-      ),
+    caches.keys().then((keys) =>
+      Promise.all(
+        keys.filter((k) => k !== CACHE).map((k) => caches.delete(k))
+      )
+    )
   );
   self.clients.claim();
 });
@@ -26,6 +24,12 @@ self.addEventListener("activate", (e) => {
 self.addEventListener("fetch", (e) => {
   if (e.request.method !== "GET") return;
   e.respondWith(
-    caches.match(e.request).then((cached) => cached || fetch(e.request)),
+    fetch(e.request)
+      .then((response) => {
+        const clone = response.clone();
+        caches.open(CACHE).then((cache) => cache.put(e.request, clone));
+        return response;
+      })
+      .catch(() => caches.match(e.request))
   );
 });
