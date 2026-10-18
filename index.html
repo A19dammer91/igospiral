@@ -36,15 +36,11 @@
     button.primary { background: var(--gold); color: var(--bg); border-color: var(--gold); font-weight: 600; }
     button.danger { border-color: var(--pink); color: var(--pink); }
     .row { display: flex; gap: 8px; flex-wrap: wrap; }
-    
-    /* SPIRAAL */
     #spiral-canvas { width: 100%; height: 400px; display: block; background: rgba(10, 14, 39, 0.3); border-radius: 10px; touch-action: none; }
     .pearl-info { text-align: center; margin-top: 12px; font-size: 12px; color: var(--muted); }
     .pearl-info b { color: var(--gold); font-size: 16px; }
     .progress-track { height: 6px; background: var(--panel-2); border-radius: 3px; overflow: hidden; margin-top: 10px; }
     .progress-fill { height: 100%; background: linear-gradient(90deg, var(--cyan), var(--gold)); transition: width 0.3s; }
-    
-    /* LIVE KLOK */
     .formulas { background: var(--panel-2); border-radius: 12px; padding: 16px; margin-bottom: 16px; border-left: 4px solid var(--cyan); }
     .formulas h3 { font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: var(--cyan); margin-bottom: 10px; font-weight: 600; }
     .formula-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 1px solid var(--border); font-family: 'Courier New', monospace; font-size: 12px; }
@@ -71,8 +67,6 @@
     .sync-bar { height: 6px; background: var(--bg); border-radius: 3px; overflow: hidden; margin-bottom: 6px; }
     .sync-fill { height: 100%; background: linear-gradient(90deg, var(--cyan), var(--pink)); transition: width 0.3s; }
     .sync-text { font-size: 11px; color: var(--muted); display: flex; justify-content: space-between; }
-    
-    /* BIJECTIE */
     .bij-container { background: var(--panel-2); border-radius: 12px; padding: 16px; margin-bottom: 16px; border-left: 4px solid var(--cyan); }
     .bij-label { font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: var(--cyan); margin-bottom: 6px; font-weight: 600; }
     .bij-input { font-family: monospace; font-size: 16px; color: var(--gold); background: var(--bg); border: 1px solid var(--border); }
@@ -81,14 +75,11 @@
     .bij-val { color: var(--gold); font-weight: bold; }
     .bij-row { cursor: pointer; padding: 4px 0; border-bottom: 1px dashed rgba(255,255,255,0.1); }
     .bij-row:hover { background: rgba(255,255,255,0.05); }
-    
-    /* LISTS & TIMELINE */
     .list-item { background: var(--panel-2); border-radius: 10px; padding: 12px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
     .list-item .info { flex: 1; min-width: 0; cursor: pointer; }
     .list-item .title { font-weight: 500; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .list-item .meta { font-size: 11px; color: var(--muted); margin-top: 4px; }
     .list-item .del { color: var(--pink); cursor: pointer; padding: 8px; font-size: 16px; }
-    
     .timeline { position: relative; padding-left: 20px; margin-top: 10px; }
     .timeline::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: var(--border); }
     .timeline-item { position: relative; margin-bottom: 20px; }
@@ -96,23 +87,16 @@
     .timeline-date { font-size: 11px; color: var(--gold); font-family: monospace; margin-bottom: 4px; }
     .timeline-content { background: var(--panel-2); border-radius: 8px; padding: 12px; border: 1px solid var(--border); }
     .timeline-content small { color: var(--muted); font-size: 10px; display: block; margin-top: 4px; }
-    
     .photo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 8px; }
     .photo-grid img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 8px; background: #0a0e27; }
-    
-    /* STOPWATCH */
     .sw-time { font-size: 56px; font-weight: 200; text-align: center; color: var(--cyan); font-variant-numeric: tabular-nums; margin: 20px 0; }
     .sw-laps { max-height: 200px; overflow-y: auto; font-size: 13px; font-variant-numeric: tabular-nums; }
     .sw-lap { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--border); }
-    
-    /* FOOTER */
     footer { text-align: center; font-size: 10px; color: var(--muted); padding: 20px 0; margin-top: 20px; border-top: 1px solid var(--border); }
     footer b { color: var(--text); }
     footer .formula { font-family: monospace; color: var(--gold); margin-top: 4px; opacity: 0.7; display: block; }
     .status { font-size: 12px; text-align: center; margin-top: 10px; color: var(--green); min-height: 18px; }
     .status.err { color: var(--pink); }
-    
-    /* STAMP MODAL */
     #stamp-sheet { position: fixed; inset: 0; background: rgba(5,8,24,.8); display: none; align-items: flex-end; justify-content: center; z-index: 50; backdrop-filter: blur(4px); }
     #stamp-sheet.open { display: flex; }
     #stamp-box { background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius) var(--radius) 0 0; width: 100%; max-width: 800px; max-height: 88vh; overflow-y: auto; padding: 20px 20px calc(24px + env(safe-area-inset-bottom)); animation: slideUp 0.2s ease-out; }
@@ -150,7 +134,6 @@
     <button data-tab="backup" id="tab-btn-backup">Back-up</button>
   </nav>
 
-  <!-- SPIRAAL TAB -->
   <section class="tab-content active" id="tab-spiral">
     <div class="panel">
       <h2 id="txt-spiral-title">De 100-jarige cyclus</h2>
@@ -169,11 +152,9 @@
     </div>
   </section>
 
-  <!-- LIVE KLOK TAB -->
   <section class="tab-content" id="tab-live">
     <div class="panel">
       <h2 id="txt-live-title">Live Framework Klok</h2>
-      
       <div class="date-compare">
         <div class="date-box">
           <div class="date-label" id="txt-live-greg">Gregoriaans (Echt)</div>
@@ -184,12 +165,10 @@
           <div class="date-value" id="model-date">Laden...</div>
         </div>
       </div>
-
       <div class="n-display">
         <div class="n-label" id="txt-live-n">Totale Tijd Sinds 1970 (N ms)</div>
         <div class="n-value" id="live-n-display">0</div>
       </div>
-
       <div class="grid" id="live-clock-grid">
         <div class="unit-box" id="box-millennium"><div class="unit-label">millennium</div><div class="unit-value" id="val-millennium">1</div></div>
         <div class="unit-box" id="box-eeuw"><div class="unit-label">eeuw</div><div class="unit-value" id="val-eeuw">1</div></div>
@@ -202,7 +181,6 @@
         <div class="unit-box" id="box-seconde"><div class="unit-label">seconde</div><div class="unit-value" id="val-seconde">1</div></div>
         <div class="unit-box" id="box-ms"><div class="unit-label">ms</div><div class="unit-value" id="val-ms">1</div></div>
       </div>
-
       <div class="sync-panel">
         <div class="sync-title" id="txt-live-sync">2520-Dagen Cyclus (7 Model Jaren)</div>
         <div class="sync-bar"><div class="sync-fill" id="sync-fill" style="width:0%"></div></div>
@@ -214,18 +192,15 @@
     </div>
   </section>
 
-  <!-- BIJECTIE TAB -->
   <section class="tab-content" id="tab-bijection">
     <div class="panel">
       <h2 id="txt-bij-title">Bijectie · De Vertaler</h2>
-      
       <div class="bij-container">
         <div class="bij-label" id="txt-bij-n-to-t">Milliseconden (N) → Klok Tuple</div>
         <input type="text" id="bij-n-input" class="bij-input" value="100000000" style="margin-bottom:8px">
         <button class="btn primary" id="bij-btn-n-to-t" style="width:100%" id="txt-bij-calc">Bereken</button>
         <div id="bij-out-1" class="bij-output" style="margin-top:12px; display:none;"></div>
       </div>
-      
       <div class="bij-container" style="border-left-color:var(--pink)">
         <div class="bij-label" style="color:var(--pink)" id="txt-bij-t-to-n">Klok Tuple → Milliseconden (N)</div>
         <div style="display:grid; grid-template-columns:repeat(2, 1fr); gap:6px; margin-bottom:8px;">
@@ -246,7 +221,6 @@
     </div>
   </section>
 
-  <!-- TIJDLIJN TAB -->
   <section class="tab-content" id="tab-timeline">
     <div class="panel">
       <h2 id="txt-timeline-title">Tijdlijn</h2>
@@ -254,7 +228,6 @@
     </div>
   </section>
 
-  <!-- NOTITIES TAB -->
   <section class="tab-content" id="tab-notes">
     <div class="panel">
       <h2 id="txt-note-new">Nieuwe notitie</h2>
@@ -272,7 +245,6 @@
     </div>
   </section>
 
-  <!-- FOTOS TAB -->
   <section class="tab-content" id="tab-photos">
     <div class="panel">
       <h2 id="txt-photo-new">Nieuwe foto</h2>
@@ -288,7 +260,6 @@
     </div>
   </section>
 
-  <!-- KLUIS TAB -->
   <section class="tab-content" id="tab-vault">
     <div class="panel">
       <h2 id="txt-vault-new">Geheime sleutel / Wachtwoord</h2>
@@ -302,7 +273,6 @@
     </div>
   </section>
 
-  <!-- STOPWATCH TAB -->
   <section class="tab-content" id="tab-stopwatch">
     <div class="panel">
       <h2 id="txt-sw-title">Stopwatch</h2>
@@ -317,7 +287,6 @@
     </div>
   </section>
 
-  <!-- BACKUP TAB -->
   <section class="tab-content" id="tab-backup">
     <div class="panel">
       <h2 id="txt-backup-title">Back-up & Herstel</h2>
@@ -338,13 +307,11 @@
   <span class="formula">p ≡ 1 (mod q) met m = 2</span>
 </footer>
 
-<!-- STAMP MODAL -->
 <div id="stamp-sheet">
   <div id="stamp-box"></div>
 </div>
 <input type="file" id="stamp-photo-input" accept="image/*" style="display:none">
 <script>
-// --- VERTALINGEN ---
 const translations = {
     nl: {
         subtitle: "Jouw leven in een spiraal",
@@ -473,7 +440,6 @@ document.getElementById("lang-toggle").onclick = () => {
     setLanguage(currentLang === "nl" ? "en" : "nl");
 };
 
-// --- TABS ---
 document.querySelectorAll("nav button").forEach(btn => {
     btn.onclick = () => {
         document.querySelectorAll("nav button").forEach(b => b.classList.remove("active"));
@@ -486,7 +452,6 @@ document.querySelectorAll("nav button").forEach(btn => {
     };
 });
 
-// --- 3D SPIRAAL ---
 const IGO_BIRTH_KEY = "igospiral_birth";
 
 function lifeClock(birth, nowMs) {
@@ -588,26 +553,51 @@ class Spiral {
     }
 
     pearl(p, time) {
-        const ctx = this.ctx, r = Math.max(9, p.R * 0.075) * p.s, hue = (time / 40) % 360;
-        ctx.save(); ctx.translate(p.x, p.y + r * 0.9); ctx.scale(1, 0.35);
-        const sh = ctx.createRadialGradient(0, 0, 0, 0, 0, r * 1.3);
-        sh.addColorStop(0, "rgba(0,0,0,0.45)"); sh.addColorStop(1, "rgba(0,0,0,0)");
-        ctx.fillStyle = sh; ctx.beginPath(); ctx.arc(0, 0, r * 1.3, 0, 7); ctx.fill(); ctx.restore();
-        const glow = ctx.createRadialGradient(p.x, p.y, r * 0.8, p.x, p.y, r * 3.2);
-        glow.addColorStop(0, "rgba(244,197,66,0.45)"); glow.addColorStop(1, "rgba(244,197,66,0)");
-        ctx.fillStyle = glow; ctx.beginPath(); ctx.arc(p.x, p.y, r * 3.2, 0, 7); ctx.fill();
-        const body = ctx.createRadialGradient(p.x - r * 0.38, p.y - r * 0.42, r * 0.1, p.x, p.y, r);
-        body.addColorStop(0, "#ffffff"); body.addColorStop(0.28, "#fbf4e2");
-        body.addColorStop(0.62, "#e4d4b2"); body.addColorStop(0.86, "#b6a3cf"); body.addColorStop(1, "#6a7aa6");
-        ctx.beginPath(); ctx.arc(p.x, p.y, r, 0, 7); ctx.fillStyle = body; ctx.fill();
+        const ctx = this.ctx;
+        const r = Math.max(12, p.R * 0.08) * p.s; 
+        
+        ctx.save(); 
+        ctx.translate(p.x, p.y + r * 0.8); 
+        ctx.scale(1, 0.4);
+        const sh = ctx.createRadialGradient(0, 0, 0, 0, 0, r * 1.2);
+        sh.addColorStop(0, "rgba(0,0,0,0.5)"); 
+        sh.addColorStop(1, "rgba(0,0,0,0)");
+        ctx.fillStyle = sh; 
+        ctx.beginPath(); 
+        ctx.arc(0, 0, r * 1.2, 0, 7); 
+        ctx.fill(); 
+        ctx.restore();
+
+        const body = ctx.createRadialGradient(p.x - r * 0.3, p.y - r * 0.3, r * 0.1, p.x, p.y, r);
+        body.addColorStop(0, "#ffffff"); 
+        body.addColorStop(0.6, "#f0f4f8"); 
+        body.addColorStop(1, "#c0c8d6"); 
+        
+        ctx.beginPath(); 
+        ctx.arc(p.x, p.y, r, 0, 7); 
+        ctx.fillStyle = body; 
+        ctx.fill();
+
+        const hue = (time / 50) % 360; 
         const irid = ctx.createLinearGradient(p.x - r, p.y - r, p.x + r, p.y + r);
-        irid.addColorStop(0, `hsla(${hue},90%,75%,0)`); irid.addColorStop(0.5, `hsla(${hue},90%,75%,0.28)`);
-        irid.addColorStop(1, `hsla(${(hue + 120) % 360},90%,75%,0)`);
-        ctx.fillStyle = irid; ctx.beginPath(); ctx.arc(p.x, p.y, r, 0, 7); ctx.fill();
-        ctx.beginPath(); ctx.arc(p.x + r * 0.35, p.y + r * 0.4, r * 0.5, 0.1, 1.5);
-        ctx.strokeStyle = "rgba(255,255,255,0.25)"; ctx.lineWidth = r * 0.12; ctx.stroke();
-        ctx.save(); ctx.translate(p.x - r * 0.36, p.y - r * 0.42); ctx.rotate(-0.6); ctx.scale(1, 0.6);
-        ctx.beginPath(); ctx.arc(0, 0, r * 0.3, 0, 7); ctx.fillStyle = "rgba(255,255,255,0.95)"; ctx.fill(); ctx.restore();
+        irid.addColorStop(0, `hsla(${hue}, 70%, 80%, 0.4)`); 
+        irid.addColorStop(0.5, `hsla(${(hue + 60) % 360}, 70%, 80%, 0.3)`);
+        irid.addColorStop(1, `hsla(${(hue + 120) % 360}, 70%, 80%, 0.4)`);
+        
+        ctx.fillStyle = irid; 
+        ctx.beginPath(); 
+        ctx.arc(p.x, p.y, r, 0, 7); 
+        ctx.fill();
+
+        ctx.save(); 
+        ctx.translate(p.x - r * 0.35, p.y - r * 0.35); 
+        ctx.rotate(-0.5); 
+        ctx.scale(1, 0.6);
+        ctx.beginPath(); 
+        ctx.arc(0, 0, r * 0.25, 0, 7); 
+        ctx.fillStyle = "rgba(255,255,255,1)"; 
+        ctx.fill(); 
+        ctx.restore();
     }
 
     update() {
@@ -702,7 +692,6 @@ if (savedBirth) {
     document.getElementById("birthdate").value = savedBirth;
     applyBirth(savedBirth);
 }
-// --- KERN & LIVE KLOK ---
 const UNITS = ["millennium", "eeuw", "decennium", "jaar", "maand", "dag", "uur", "minuut", "seconde", "ms"];
 const BASES = { ms: 1000, seconde: 60, minuut: 60, uur: 24, dag: 30, maand: 12, jaar: 10, decennium: 10, eeuw: 10, millennium: Infinity };
 
@@ -760,7 +749,6 @@ function liveTick() {
 }
 requestAnimationFrame(liveTick);
 
-// --- BIJECTIE ---
 document.getElementById("bij-btn-n-to-t").onclick = () => {
     try {
         let rest = BigInt(document.getElementById("bij-n-input").value.trim()); 
@@ -805,7 +793,6 @@ document.getElementById("bij-btn-t-to-n").onclick = () => {
     }
 };
 
-// --- OPSLAG (IndexedDB V2) ---
 let db;
 const req = indexedDB.open("igospiral_db", 2);
 req.onupgradeneeded = e => {
@@ -824,7 +811,6 @@ const dbDel = (s, i) => new Promise(r => { const tx = db.transaction(s, "readwri
 const dbAll = (s) => new Promise(r => { const tx = db.transaction(s); const q = tx.objectStore(s).getAll(); q.onsuccess = () => r(q.result); });
 const dbGet = (s, i) => new Promise(r => { const q = db.transaction(s).objectStore(s).get(i); q.onsuccess = () => r(q.result); });
 
-// --- TIJDSTEMPELS (STAMPS) ---
 const IGO_W = {};
 (() => { let w = 1n; for (let i = UNITS.length - 1; i >= 0; i--) { const u = UNITS[i]; IGO_W[u] = w; if (BASES[u] !== Infinity) w *= BigInt(BASES[u]); } })();
 const stampStart = (unit, N) => (BigInt(N) / IGO_W[unit]) * IGO_W[unit];
@@ -892,7 +878,6 @@ async function openStamp(unit, N) {
     paint(); sheet.classList.add("open");
 }
 
-// Live Clock clicks
 UNITS.forEach(u => {
     const b = document.getElementById("box-" + u);
     if (b) b.addEventListener("click", () => openStamp(u, BigInt(Date.now())));
@@ -920,7 +905,6 @@ async function loadStamps() {
     });
 }
 
-// --- TIJDLIJN ---
 async function loadTimeline() {
     const all = await dbAll("stamps");
     const el = document.getElementById("timeline-list");
@@ -943,7 +927,6 @@ async function loadTimeline() {
     }).join("") : `<div style="color:var(--muted);font-size:12px;padding:20px;text-align:center;">${translations[currentLang].stamp_empty}</div>`;
 }
 
-// --- NOTITIES & FOTOS & KLUIS ---
 document.getElementById("save-note").onclick = async () => {
     const t = document.getElementById("note-title").value.trim(), c = document.getElementById("note-content").value.trim();
     if (!t && !c) return; 
@@ -993,7 +976,6 @@ window.delItem = async (s, id) => {
     if (s === "stamps") { loadStamps(); loadTimeline(); }
 };
 
-// --- BACKUP & EXPORT ---
 document.getElementById("btn-export").onclick = async () => {
     const notes = await dbAll("notes");
     const photos = await dbAll("photos");
@@ -1044,7 +1026,6 @@ document.getElementById("import-file").onchange = (e) => {
     r.readAsText(f);
 };
 
-// --- STOPWATCH ---
 let swStart = 0, swElapsed = 0, swRunning = false, swLaps = [], swTimer;
 const swNow = () => swRunning ? performance.now() - swStart : swElapsed;
 const swFmt = ms => {
@@ -1064,7 +1045,6 @@ document.getElementById("sw-lap").onclick = () => {
     document.getElementById("sw-laps-list").prepend(d);
 };
 
-// Start de vertaling
 setLanguage("nl");
 </script>
 </body>
