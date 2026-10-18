@@ -13,12 +13,18 @@
     * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
     body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: radial-gradient(ellipse at top, #1a2150 0%, var(--bg) 70%); color: var(--text); min-height: 100vh; padding: 16px; padding-bottom: 80px; font-size: 15px; line-height: 1.5; }
     .wrap { max-width: 800px; margin: 0 auto; position: relative; }
-    header { text-align: center; margin-bottom: 20px; }
+    header { text-align: center; margin-bottom: 10px; }
     header h1 { font-weight: 300; letter-spacing: 4px; font-size: 24px; }
     header h1 b { color: var(--gold); font-weight: 500; }
     header p { color: var(--muted); font-size: 10px; letter-spacing: 2px; margin-top: 4px; text-transform: uppercase; }
-    .lang-btn { position: absolute; top: 0; right: 0; background: var(--panel-2); border: 1px solid var(--border); color: var(--text); padding: 6px 12px; border-radius: 8px; cursor: pointer; font-size: 12px; font-weight: 600; font-family: inherit; transition: all 0.15s; }
+    .lang-btn { position: absolute; top: 0; right: 0; background: var(--panel-2); border: 1px solid var(--border); color: var(--text); padding: 6px 12px; border-radius: 8px; cursor: pointer; font-size: 12px; font-weight: 600; font-family: inherit; transition: all 0.15s; z-index: 10; }
     .lang-btn:hover { border-color: var(--gold); color: var(--gold); }
+    
+    /* ANALOG CLOCK */
+    .clock-container { display: flex; justify-content: center; margin-bottom: 16px; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.5)); }
+    .analog-clock { width: 100%; max-width: 260px; height: auto; }
+    
+    /* TABS */
     nav { display: flex; gap: 4px; background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 4px; margin-bottom: 20px; overflow-x: auto; scrollbar-width: none; }
     nav::-webkit-scrollbar { display: none; }
     nav button { background: transparent; border: none; color: var(--muted); padding: 10px 14px; border-radius: 8px; cursor: pointer; font-size: 13px; font-family: inherit; white-space: nowrap; transition: all 0.15s; }
@@ -27,6 +33,7 @@
     .tab-content { display: none; animation: fadeIn 0.3s; }
     .tab-content.active { display: block; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: none; } }
+    
     .panel { background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; margin-bottom: 16px; }
     .panel h2 { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 16px; }
     input, textarea { width: 100%; background: var(--panel-2); border: 1px solid var(--border); color: var(--text); padding: 10px; border-radius: 8px; font-family: inherit; font-size: 14px; margin-bottom: 10px; }
@@ -36,17 +43,15 @@
     button.primary { background: var(--gold); color: var(--bg); border-color: var(--gold); font-weight: 600; }
     button.danger { border-color: var(--pink); color: var(--pink); }
     .row { display: flex; gap: 8px; flex-wrap: wrap; }
+    
+    /* SPIRAAL */
     #spiral-canvas { width: 100%; height: 400px; display: block; background: rgba(10, 14, 39, 0.3); border-radius: 10px; touch-action: none; }
     .pearl-info { text-align: center; margin-top: 12px; font-size: 12px; color: var(--muted); }
     .pearl-info b { color: var(--gold); font-size: 16px; }
     .progress-track { height: 6px; background: var(--panel-2); border-radius: 3px; overflow: hidden; margin-top: 10px; }
     .progress-fill { height: 100%; background: linear-gradient(90deg, var(--cyan), var(--gold)); transition: width 0.3s; }
-    .formulas { background: var(--panel-2); border-radius: 12px; padding: 16px; margin-bottom: 16px; border-left: 4px solid var(--cyan); }
-    .formulas h3 { font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: var(--cyan); margin-bottom: 10px; font-weight: 600; }
-    .formula-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 1px solid var(--border); font-family: 'Courier New', monospace; font-size: 12px; }
-    .formula-row:last-child { border-bottom: none; }
-    .f-label { color: var(--muted); }
-    .f-math { color: var(--gold); }
+    
+    /* LIVE KLOK */
     .date-compare { display: flex; gap: 8px; margin-bottom: 16px; }
     .date-box { flex: 1; background: var(--panel-2); border-radius: 10px; padding: 12px; text-align: center; }
     .date-label { font-size: 9px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 2px; }
@@ -67,6 +72,8 @@
     .sync-bar { height: 6px; background: var(--bg); border-radius: 3px; overflow: hidden; margin-bottom: 6px; }
     .sync-fill { height: 100%; background: linear-gradient(90deg, var(--cyan), var(--pink)); transition: width 0.3s; }
     .sync-text { font-size: 11px; color: var(--muted); display: flex; justify-content: space-between; }
+    
+    /* BIJECTIE */
     .bij-container { background: var(--panel-2); border-radius: 12px; padding: 16px; margin-bottom: 16px; border-left: 4px solid var(--cyan); }
     .bij-label { font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: var(--cyan); margin-bottom: 6px; font-weight: 600; }
     .bij-input { font-family: monospace; font-size: 16px; color: var(--gold); background: var(--bg); border: 1px solid var(--border); }
@@ -75,6 +82,8 @@
     .bij-val { color: var(--gold); font-weight: bold; }
     .bij-row { cursor: pointer; padding: 4px 0; border-bottom: 1px dashed rgba(255,255,255,0.1); }
     .bij-row:hover { background: rgba(255,255,255,0.05); }
+    
+    /* LISTS & TIMELINE */
     .list-item { background: var(--panel-2); border-radius: 10px; padding: 12px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
     .list-item .info { flex: 1; min-width: 0; cursor: pointer; }
     .list-item .title { font-weight: 500; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -87,16 +96,23 @@
     .timeline-date { font-size: 11px; color: var(--gold); font-family: monospace; margin-bottom: 4px; }
     .timeline-content { background: var(--panel-2); border-radius: 8px; padding: 12px; border: 1px solid var(--border); }
     .timeline-content small { color: var(--muted); font-size: 10px; display: block; margin-top: 4px; }
+    
     .photo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 8px; }
     .photo-grid img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 8px; background: #0a0e27; }
+    
+    /* STOPWATCH */
     .sw-time { font-size: 56px; font-weight: 200; text-align: center; color: var(--cyan); font-variant-numeric: tabular-nums; margin: 20px 0; }
     .sw-laps { max-height: 200px; overflow-y: auto; font-size: 13px; font-variant-numeric: tabular-nums; }
     .sw-lap { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--border); }
+    
+    /* FOOTER */
     footer { text-align: center; font-size: 10px; color: var(--muted); padding: 20px 0; margin-top: 20px; border-top: 1px solid var(--border); }
     footer b { color: var(--text); }
     footer .formula { font-family: monospace; color: var(--gold); margin-top: 4px; opacity: 0.7; display: block; }
     .status { font-size: 12px; text-align: center; margin-top: 10px; color: var(--green); min-height: 18px; }
     .status.err { color: var(--pink); }
+    
+    /* STAMP MODAL */
     #stamp-sheet { position: fixed; inset: 0; background: rgba(5,8,24,.8); display: none; align-items: flex-end; justify-content: center; z-index: 50; backdrop-filter: blur(4px); }
     #stamp-sheet.open { display: flex; }
     #stamp-box { background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius) var(--radius) 0 0; width: 100%; max-width: 800px; max-height: 88vh; overflow-y: auto; padding: 20px 20px calc(24px + env(safe-area-inset-bottom)); animation: slideUp 0.2s ease-out; }
@@ -121,6 +137,45 @@
     <h1>iGo<b>Spiral</b></h1>
     <p id="txt-subtitle">Jouw leven in een spiraal</p>
   </header>
+
+  <div class="clock-container">
+    <svg class="analog-clock" viewBox="0 0 200 200">
+      <defs>
+        <radialGradient id="pearlFace" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#ffffff"/>
+          <stop offset="60%" stop-color="#f0f4f8"/>
+          <stop offset="100%" stop-color="#b0b8c6"/>
+        </radialGradient>
+        <filter id="glow">
+          <feGaussianBlur stdDeviation="1.5" result="coloredBlur"/>
+          <feMerge>
+            <feMergeNode in="coloredBlur"/>
+            <feMergeNode in="SourceGraphic"/>
+          </feMerge>
+        </filter>
+      </defs>
+      
+      <circle cx="100" cy="100" r="95" fill="url(#pearlFace)" stroke="#f4c542" stroke-width="4"/>
+      <circle cx="100" cy="100" r="90" fill="none" stroke="rgba(244, 197, 66, 0.3)" stroke-width="1"/>
+      
+      <path d="M100,100 L100,5 A95,95 0 0,1 195,100 Z" fill="rgba(77, 208, 225, 0.15)" />
+      <path d="M100,100 L195,100 A95,95 0 0,1 100,195 Z" fill="rgba(244, 197, 66, 0.15)" />
+      <path d="M100,100 L100,195 A95,95 0 0,1 5,100 Z" fill="rgba(255, 111, 145, 0.15)" />
+      <path d="M100,100 L5,100 A95,95 0 0,1 100,5 Z" fill="rgba(179, 136, 255, 0.15)" />
+      
+      <line x1="100" y1="5" x2="100" y2="195" stroke="rgba(244, 197, 66, 0.4)" stroke-width="2" />
+      <line x1="5" y1="100" x2="195" y2="100" stroke="rgba(244, 197, 66, 0.4)" stroke-width="2" />
+      
+      <g id="clock-ticks"></g>
+      <g id="clock-numbers"></g>
+      
+      <line id="hour-hand" x1="100" y1="105" x2="100" y2="50" stroke="#f4c542" stroke-width="6" stroke-linecap="round" filter="url(#glow)"/>
+      <line id="minute-hand" x1="100" y1="105" x2="100" y2="25" stroke="#f4c542" stroke-width="4" stroke-linecap="round" filter="url(#glow)"/>
+      <line id="second-hand" x1="100" y1="110" x2="100" y2="15" stroke="#4dd0e1" stroke-width="2" stroke-linecap="round"/>
+      <circle cx="100" cy="100" r="7" fill="#f4c542"/>
+      <circle cx="100" cy="100" r="3" fill="#0a0e27"/>
+    </svg>
+  </div>
 
   <nav>
     <button data-tab="spiral" class="active" id="tab-btn-spiral">Spiraal</button>
@@ -440,17 +495,61 @@ document.getElementById("lang-toggle").onclick = () => {
     setLanguage(currentLang === "nl" ? "en" : "nl");
 };
 
-document.querySelectorAll("nav button").forEach(btn => {
-    btn.onclick = () => {
-        document.querySelectorAll("nav button").forEach(b => b.classList.remove("active"));
-        document.querySelectorAll(".tab-content").forEach(c => c.classList.remove("active"));
-        btn.classList.add("active");
-        document.getElementById(`tab-${btn.dataset.tab}`).classList.add("active");
-        if (btn.dataset.tab === "spiral" && typeof spiral !== 'undefined') {
-            setTimeout(() => spiral.resize(), 50);
-        }
-    };
-});
+const clockTicks = document.getElementById("clock-ticks");
+for (let i = 0; i < 60; i++) {
+    const angle = (i * 6) * Math.PI / 180;
+    const isHour = i % 5 === 0;
+    const r1 = isHour ? 80 : 85;
+    const r2 = 88;
+    const x1 = 100 + Math.sin(angle) * r1;
+    const y1 = 100 - Math.cos(angle) * r1;
+    const x2 = 100 + Math.sin(angle) * r2;
+    const y2 = 100 - Math.cos(angle) * r2;
+    
+    const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+    line.setAttribute("x1", x1);
+    line.setAttribute("y1", y1);
+    line.setAttribute("x2", x2);
+    line.setAttribute("y2", y2);
+    line.setAttribute("stroke", isHour ? "#f4c542" : "rgba(244, 197, 66, 0.4)");
+    line.setAttribute("stroke-width", isHour ? "3" : "1");
+    clockTicks.appendChild(line);
+}
+
+const clockNumbers = document.getElementById("clock-numbers");
+for (let i = 1; i <= 12; i++) {
+    const angle = (i * 30) * Math.PI / 180;
+    const x = 100 + Math.sin(angle) * 68;
+    const y = 100 - Math.cos(angle) * 68;
+    
+    const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+    text.setAttribute("x", x);
+    text.setAttribute("y", y + 6);
+    text.setAttribute("text-anchor", "middle");
+    text.setAttribute("fill", "#d4af37");
+    text.setAttribute("font-size", i % 3 === 0 ? "18" : "14");
+    text.setAttribute("font-weight", "bold");
+    text.setAttribute("font-family", "serif");
+    text.textContent = i;
+    clockNumbers.appendChild(text);
+}
+
+function updateAnalogClock() {
+    const now = new Date();
+    const s = now.getSeconds();
+    const m = now.getMinutes();
+    const h = now.getHours();
+    
+    const sDeg = s * 6;
+    const mDeg = m * 6 + s * 0.1;
+    const hDeg = (h % 12) * 30 + m * 0.5;
+    
+    document.getElementById('second-hand').setAttribute('transform', `rotate(${sDeg} 100 100)`);
+    document.getElementById('minute-hand').setAttribute('transform', `rotate(${mDeg} 100 100)`);
+    document.getElementById('hour-hand').setAttribute('transform', `rotate(${hDeg} 100 100)`);
+}
+setInterval(updateAnalogClock, 1000);
+updateAnalogClock();
 
 const IGO_BIRTH_KEY = "igospiral_birth";
 
@@ -658,41 +757,7 @@ class Spiral {
         ctx.textAlign = "left";
         for (let lvl = from; lvl <= to; lvl++) {
             const q = this.pt(0, lvl, 1.07);
-            ctx.fillStyle = lvl === L ? "#f4c542" : "rgba(154,163,199,0.5)";
-            ctx.font = (lvl === L ? "bold 11px" : "9px") + " -apple-system, sans-serif";
-            ctx.fillText(lvl, q.x + 4, q.y);
-        }
-
-        const pp = this.pt(A0 + Math.PI * 2 * this.f, L);
-        this.pearl(pp, performance.now());
-
-        if (this.autoRotate) this.rotation += 0.002;
-    }
-
-    loop() {
-        if (!document.hidden) { this.update(); this.draw(); }
-        requestAnimationFrame(() => this.loop());
-    }
-}
-
-const spiral = new Spiral(document.getElementById("spiral-canvas"));
-
-function applyBirth(val) {
-    const d = new Date(val + "T00:00:00");
-    if (isNaN(d.getTime())) return;
-    localStorage.setItem(IGO_BIRTH_KEY, val);
-    spiral.setBirth(d);
-}
-document.getElementById("btn-calc-age").onclick = () => {
-    const v = document.getElementById("birthdate").value;
-    if (v) applyBirth(v);
-};
-const savedBirth = localStorage.getItem(IGO_BIRTH_KEY);
-if (savedBirth) {
-    document.getElementById("birthdate").value = savedBirth;
-    applyBirth(savedBirth);
-}
-const UNITS = ["millennium", "eeuw", "decennium", "jaar", "maand", "dag", "uur", "minuut", "seconde", "ms"];
+     const UNITS = ["millennium", "eeuw", "decennium", "jaar", "maand", "dag", "uur", "minuut", "seconde", "ms"];
 const BASES = { ms: 1000, seconde: 60, minuut: 60, uur: 24, dag: 30, maand: 12, jaar: 10, decennium: 10, eeuw: 10, millennium: Infinity };
 
 function calculateTuple(N) {
@@ -1044,6 +1109,18 @@ document.getElementById("sw-lap").onclick = () => {
     d.innerHTML = `<span>${translations[currentLang].sw_lap} ${swLaps.length}</span><span>${swFmt(n - prev)}</span>`; 
     document.getElementById("sw-laps-list").prepend(d);
 };
+
+document.querySelectorAll("nav button").forEach(btn => {
+    btn.onclick = () => {
+        document.querySelectorAll("nav button").forEach(b => b.classList.remove("active"));
+        document.querySelectorAll(".tab-content").forEach(c => c.classList.remove("active"));
+        btn.classList.add("active");
+        document.getElementById(`tab-${btn.dataset.tab}`).classList.add("active");
+        if (btn.dataset.tab === "spiral" && typeof spiral !== 'undefined') {
+            setTimeout(() => spiral.resize(), 50);
+        }
+    };
+});
 
 setLanguage("nl");
 </script>
