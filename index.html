@@ -2,1127 +2,590 @@
 <html lang="nl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="theme-color" content="#0a0e27">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<title>iGoSpiral</title>
-<link rel="manifest" href="manifest.json">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Definitieve Applicatie</title>
 <style>
-    :root { --bg: #0a0e27; --panel: #141a3a; --panel-2: #1e2650; --border: #232a55; --gold: #f4c542; --cyan: #4dd0e1; --pink: #ff6f91; --green: #4caf50; --text: #e8e8f0; --muted: #9aa3c7; --radius: 16px; }
-    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: radial-gradient(ellipse at top, #1a2150 0%, var(--bg) 70%); color: var(--text); min-height: 100vh; padding: 16px; padding-bottom: 80px; font-size: 15px; line-height: 1.5; }
-    .wrap { max-width: 800px; margin: 0 auto; position: relative; }
-    header { text-align: center; margin-bottom: 10px; }
-    header h1 { font-weight: 300; letter-spacing: 4px; font-size: 24px; }
-    header h1 b { color: var(--gold); font-weight: 500; }
-    header p { color: var(--muted); font-size: 10px; letter-spacing: 2px; margin-top: 4px; text-transform: uppercase; }
-    .lang-btn { position: absolute; top: 0; right: 0; background: var(--panel-2); border: 1px solid var(--border); color: var(--text); padding: 6px 12px; border-radius: 8px; cursor: pointer; font-size: 12px; font-weight: 600; font-family: inherit; transition: all 0.15s; z-index: 10; }
-    .lang-btn:hover { border-color: var(--gold); color: var(--gold); }
+    :root {
+        --bg-color: #161d30;
+        --panel-bg: #1c2438;
+        --border-color: #3b4b6e;
+        --text-color: #c2cbe0;
+        --accent-color: #fbc531;
+        --highlight: #e84118;
+        --success: #4cd137;
+    }
+
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-height: 100vh;
+        padding: 20px;
+    }
+
+    nav {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 30px;
+        background: var(--panel-bg);
+        padding: 10px;
+        border-radius: 12px;
+        border: 1px solid var(--border-color);
+        box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .tab-btn {
+        background: transparent;
+        border: none;
+        color: var(--text-color);
+        padding: 10px 20px;
+        font-size: 1rem;
+        cursor: pointer;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        font-weight: 500;
+    }
+
+    .tab-btn:hover {
+        background: rgba(255, 255, 255, 0.05);
+    }
+
+    .tab-btn.active {
+        background: var(--accent-color);
+        color: var(--bg-color);
+        font-weight: bold;
+    }
+
+    .tab-content {
+        display: none;
+        width: 100%;
+        max-width: 900px;
+        justify-content: center;
+        align-items: center;
+        animation: fadeIn 0.4s;
+    }
+
+    .tab-content.active {
+        display: flex;
+        flex-direction: column;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ================= KLOK ================= */
+    .clock-container {
+        width: 80vmin;
+        height: 80vmin;
+        max-width: 500px;
+        max-height: 500px;
+        border-radius: 50%;
+        background: var(--panel-bg);
+        border: 2px solid var(--border-color);
+        position: relative;
+        box-shadow: 0 0 30px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(0, 0, 0, 0.3);
+        margin-top: 20px;
+    }
+
+    .center-dot {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 4%;
+        height: 4%;
+        background-color: var(--accent-color);
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 10;
+    }
+
+    .number {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        font-size: 4vmin;
+        font-weight: 500;
+        transform-origin: center center;
+        pointer-events: none;
+    }
+
+    .number span { display: inline-block; padding-top: 5%; }
+    .number div { position: absolute; top: 0; left: 50%; transform: translateX(-50%); }
     
-    /* ANALOG CLOCK */
-    .clock-container { display: flex; justify-content: center; margin-bottom: 16px; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.5)); }
-    .analog-clock { width: 100%; max-width: 260px; height: auto; }
+    .hand { position: absolute; bottom: 50%; left: 50%; transform-origin: bottom center; border-radius: 10px; z-index: 5; }
+    .hour-hand { width: 1.5%; height: 25%; background-color: var(--accent-color); }
+    .minute-hand { width: 1%; height: 38%; background-color: var(--accent-color); }
+    .second-hand { width: 0.5%; height: 42%; background-color: var(--highlight); z-index: 6; }
+    .inner-ring { position: absolute; top: 5%; left: 5%; width: 90%; height: 90%; border-radius: 50%; border: 1px solid rgba(59, 75, 110, 0.3); }
+
+    /* ================= 100-JARIGE CYCLUS ================= */
+    .cycle-container { background: var(--panel-bg); padding: 20px; border-radius: 12px; border: 1px solid var(--border-color); width: 100%; text-align: center; }
+    .cycle-container h2 { margin-bottom: 20px; color: var(--accent-color); }
+    .cycle-grid { display: grid; grid-template-columns: repeat(10, 1fr); gap: 5px; }
+    .year-box { background: rgba(255, 255, 255, 0.05); padding: 10px 5px; border-radius: 4px; font-size: 0.9rem; border: 1px solid transparent; }
+    .year-box:hover { background: rgba(251, 197, 49, 0.2); border-color: var(--accent-color); }
+
+    /* ================= STOPWATCH & BEEP ================= */
+    .action-panel { background: var(--panel-bg); padding: 40px; border-radius: 12px; border: 1px solid var(--border-color); text-align: center; width: 100%; max-width: 450px; }
+    .stopwatch-display { font-size: 4rem; font-weight: bold; color: var(--accent-color); font-variant-numeric: tabular-nums; margin-bottom: 20px; font-family: monospace; }
+    .btn-group { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
+    .action-btn { background: var(--accent-color); color: var(--bg-color); border: none; padding: 12px 24px; font-size: 1.1rem; font-weight: bold; border-radius: 8px; cursor: pointer; transition: opacity 0.2s; }
+    .action-btn:hover { opacity: 0.8; }
+    .action-btn.reset { background: var(--highlight); color: white; }
+    .action-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+    .input-group { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; }
+    .input-group input { padding: 12px; font-size: 1.2rem; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-color); color: var(--text-color); width: 120px; text-align: center; }
+    .beep-status { font-size: 1.5rem; font-weight: bold; margin-top: 20px; color: var(--accent-color); min-height: 30px; }
+
+    /* ================= AGENDA ================= */
+    .agenda-container { background: var(--panel-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); width: 100%; display: flex; gap: 30px; flex-wrap: wrap; }
+    .calendar-section { flex: 1; min-width: 300px; }
+    .calendar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+    .calendar-header h2 { color: var(--accent-color); margin: 0; }
+    .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; text-align: center; }
+    .day-name { font-weight: bold; color: var(--border-color); padding: 10px 0; }
+    .calendar-day { padding: 15px 5px; background: rgba(255, 255, 255, 0.03); border-radius: 6px; cursor: pointer; transition: all 0.2s; border: 1px solid transparent; }
+    .calendar-day:hover { background: rgba(251, 197, 49, 0.1); }
+    .calendar-day.selected { background: var(--accent-color); color: var(--bg-color); font-weight: bold; border-color: var(--accent-color); }
+    .calendar-day.today { border-color: var(--highlight); }
     
-    /* TABS */
-    nav { display: flex; gap: 4px; background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 4px; margin-bottom: 20px; overflow-x: auto; scrollbar-width: none; }
-    nav::-webkit-scrollbar { display: none; }
-    nav button { background: transparent; border: none; color: var(--muted); padding: 10px 14px; border-radius: 8px; cursor: pointer; font-size: 13px; font-family: inherit; white-space: nowrap; transition: all 0.15s; }
-    nav button:hover { color: var(--text); }
-    nav button.active { background: var(--panel-2); color: var(--gold); font-weight: 500; }
-    .tab-content { display: none; animation: fadeIn 0.3s; }
-    .tab-content.active { display: block; }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: none; } }
-    
-    .panel { background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; margin-bottom: 16px; }
-    .panel h2 { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 16px; }
-    input, textarea { width: 100%; background: var(--panel-2); border: 1px solid var(--border); color: var(--text); padding: 10px; border-radius: 8px; font-family: inherit; font-size: 14px; margin-bottom: 10px; }
-    input:focus, textarea:focus { outline: none; border-color: var(--gold); }
-    button.btn { background: var(--panel-2); border: 1px solid var(--border); color: var(--text); padding: 10px 16px; border-radius: 8px; cursor: pointer; font-size: 13px; font-family: inherit; transition: all 0.15s; }
-    button.btn:hover { border-color: var(--gold); color: var(--gold); }
-    button.primary { background: var(--gold); color: var(--bg); border-color: var(--gold); font-weight: 600; }
-    button.danger { border-color: var(--pink); color: var(--pink); }
-    .row { display: flex; gap: 8px; flex-wrap: wrap; }
-    
-    /* SPIRAAL */
-    #spiral-canvas { width: 100%; height: 400px; display: block; background: rgba(10, 14, 39, 0.3); border-radius: 10px; touch-action: none; }
-    .pearl-info { text-align: center; margin-top: 12px; font-size: 12px; color: var(--muted); }
-    .pearl-info b { color: var(--gold); font-size: 16px; }
-    .progress-track { height: 6px; background: var(--panel-2); border-radius: 3px; overflow: hidden; margin-top: 10px; }
-    .progress-fill { height: 100%; background: linear-gradient(90deg, var(--cyan), var(--gold)); transition: width 0.3s; }
-    
-    /* LIVE KLOK */
-    .date-compare { display: flex; gap: 8px; margin-bottom: 16px; }
-    .date-box { flex: 1; background: var(--panel-2); border-radius: 10px; padding: 12px; text-align: center; }
-    .date-label { font-size: 9px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 2px; }
-    .date-value { font-size: 13px; font-weight: 600; color: var(--gold); }
-    .date-value.cyan { color: var(--cyan); }
-    .n-display { text-align: center; margin-bottom: 16px; }
-    .n-label { font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); margin-bottom: 2px; }
-    .n-value { font-size: 24px; font-weight: 300; color: var(--cyan); font-variant-numeric: tabular-nums; letter-spacing: 1px; }
-    .grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin-bottom: 16px; }
-    @media(max-width: 600px) { .grid { grid-template-columns: repeat(2, 1fr); } }
-    .unit-box { background: var(--panel-2); border-radius: 8px; padding: 10px 6px; text-align: center; border: 1px solid transparent; transition: all 0.1s; cursor: pointer; position: relative; }
-    .unit-box.highlight { border-color: var(--gold); box-shadow: 0 0 10px rgba(244, 197, 66, 0.2); }
-    .unit-box.has-stamp::after { content: ""; position: absolute; top: 6px; right: 6px; width: 7px; height: 7px; border-radius: 50%; background: var(--pink); box-shadow: 0 0 6px var(--pink); }
-    .unit-label { font-size: 8px; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); margin-bottom: 2px; }
-    .unit-value { font-size: 18px; font-weight: 600; color: var(--gold); font-variant-numeric: tabular-nums; }
-    .sync-panel { background: var(--panel-2); border-radius: 10px; padding: 12px; border-left: 3px solid var(--pink); }
-    .sync-title { font-size: 9px; text-transform: uppercase; letter-spacing: 1px; color: var(--pink); font-weight: bold; margin-bottom: 6px; }
-    .sync-bar { height: 6px; background: var(--bg); border-radius: 3px; overflow: hidden; margin-bottom: 6px; }
-    .sync-fill { height: 100%; background: linear-gradient(90deg, var(--cyan), var(--pink)); transition: width 0.3s; }
-    .sync-text { font-size: 11px; color: var(--muted); display: flex; justify-content: space-between; }
-    
-    /* BIJECTIE */
-    .bij-container { background: var(--panel-2); border-radius: 12px; padding: 16px; margin-bottom: 16px; border-left: 4px solid var(--cyan); }
-    .bij-label { font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: var(--cyan); margin-bottom: 6px; font-weight: 600; }
-    .bij-input { font-family: monospace; font-size: 16px; color: var(--gold); background: var(--bg); border: 1px solid var(--border); }
-    .bij-output { background: var(--bg); border-radius: 8px; padding: 16px; font-family: 'Courier New', monospace; font-size: 14px; color: var(--text); line-height: 1.8; white-space: pre-wrap; border: 1px solid var(--border); }
-    .bij-key { color: var(--muted); }
-    .bij-val { color: var(--gold); font-weight: bold; }
-    .bij-row { cursor: pointer; padding: 4px 0; border-bottom: 1px dashed rgba(255,255,255,0.1); }
-    .bij-row:hover { background: rgba(255,255,255,0.05); }
-    
-    /* LISTS & TIMELINE */
-    .list-item { background: var(--panel-2); border-radius: 10px; padding: 12px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
-    .list-item .info { flex: 1; min-width: 0; cursor: pointer; }
-    .list-item .title { font-weight: 500; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .list-item .meta { font-size: 11px; color: var(--muted); margin-top: 4px; }
-    .list-item .del { color: var(--pink); cursor: pointer; padding: 8px; font-size: 16px; }
-    .timeline { position: relative; padding-left: 20px; margin-top: 10px; }
-    .timeline::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: var(--border); }
-    .timeline-item { position: relative; margin-bottom: 20px; }
-    .timeline-item::before { content: ''; position: absolute; left: -25px; top: 5px; width: 10px; height: 10px; border-radius: 50%; background: var(--gold); box-shadow: 0 0 10px var(--gold); }
-    .timeline-date { font-size: 11px; color: var(--gold); font-family: monospace; margin-bottom: 4px; }
-    .timeline-content { background: var(--panel-2); border-radius: 8px; padding: 12px; border: 1px solid var(--border); }
-    .timeline-content small { color: var(--muted); font-size: 10px; display: block; margin-top: 4px; }
-    
-    .photo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 8px; }
-    .photo-grid img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 8px; background: #0a0e27; }
-    
-    /* STOPWATCH */
-    .sw-time { font-size: 56px; font-weight: 200; text-align: center; color: var(--cyan); font-variant-numeric: tabular-nums; margin: 20px 0; }
-    .sw-laps { max-height: 200px; overflow-y: auto; font-size: 13px; font-variant-numeric: tabular-nums; }
-    .sw-lap { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--border); }
-    
-    /* FOOTER */
-    footer { text-align: center; font-size: 10px; color: var(--muted); padding: 20px 0; margin-top: 20px; border-top: 1px solid var(--border); }
-    footer b { color: var(--text); }
-    footer .formula { font-family: monospace; color: var(--gold); margin-top: 4px; opacity: 0.7; display: block; }
-    .status { font-size: 12px; text-align: center; margin-top: 10px; color: var(--green); min-height: 18px; }
-    .status.err { color: var(--pink); }
-    
-    /* STAMP MODAL */
-    #stamp-sheet { position: fixed; inset: 0; background: rgba(5,8,24,.8); display: none; align-items: flex-end; justify-content: center; z-index: 50; backdrop-filter: blur(4px); }
-    #stamp-sheet.open { display: flex; }
-    #stamp-box { background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius) var(--radius) 0 0; width: 100%; max-width: 800px; max-height: 88vh; overflow-y: auto; padding: 20px 20px calc(24px + env(safe-area-inset-bottom)); animation: slideUp 0.2s ease-out; }
-    @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
-    #stamp-box h3 { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--pink); margin-bottom: 6px; }
-    .stamp-tuple { font-family: 'Courier New', monospace; font-size: 11px; color: var(--gold); word-break: break-word; margin-bottom: 4px; }
-    .stamp-date { font-size: 11px; color: var(--muted); margin-bottom: 12px; }
-    .stamp-note { background: var(--panel-2); border-radius: 10px; padding: 10px; margin-bottom: 8px; white-space: pre-wrap; font-size: 14px; }
-    .stamp-note small, .stamp-ph small { display: block; color: var(--muted); font-size: 10px; margin-top: 4px; }
-    .stamp-photos { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 8px; margin: 10px 0; }
-    .stamp-ph { position: relative; }
-    .stamp-ph img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 8px; cursor: zoom-in; }
-    .stamp-ph img.zoom { grid-column: 1/-1; aspect-ratio: auto; max-height: 60vh; object-fit: contain; cursor: zoom-out; }
-    .stamp-x { color: var(--pink); cursor: pointer; float: right; padding: 0 4px; font-weight: bold; }
+    .events-section { flex: 1; min-width: 300px; border-left: 1px solid var(--border-color); padding-left: 30px; }
+    .events-section h3 { margin-bottom: 15px; color: var(--text-color); }
+    .event-list { list-style: none; margin-bottom: 20px; max-height: 250px; overflow-y: auto; }
+    .event-list li { background: rgba(255, 255, 255, 0.05); padding: 10px; border-radius: 6px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
+    .event-list li button { background: var(--highlight); border: none; color: white; border-radius: 4px; padding: 4px 8px; cursor: pointer; }
+    .event-input-group { display: flex; gap: 10px; }
+    .event-input-group input { flex: 1; padding: 10px; border-radius: 6px; border: 1px solid var(--border-color); background: var(--bg-color); color: var(--text-color); }
+
+    /* ================= KLUIS ================= */
+    .vault-container { background: var(--panel-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); width: 100%; max-width: 600px; }
+    .vault-container h2 { color: var(--accent-color); margin-bottom: 20px; text-align: center; }
+    .vault-form { display: flex; flex-direction: column; gap: 10px; margin-bottom: 30px; background: rgba(0,0,0,0.2); padding: 20px; border-radius: 8px; }
+    .vault-form input { padding: 12px; border-radius: 6px; border: 1px solid var(--border-color); background: var(--bg-color); color: var(--text-color); width: 100%; }
+    .vault-list { list-style: none; }
+    .vault-item { background: rgba(255, 255, 255, 0.05); padding: 15px; border-radius: 8px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; border-left: 4px solid var(--accent-color); }
+    .vault-info { display: flex; flex-direction: column; gap: 5px; }
+    .vault-title { font-weight: bold; color: var(--accent-color); }
+    .vault-secret { font-family: monospace; letter-spacing: 2px; color: var(--text-color); }
+    .vault-actions { display: flex; gap: 10px; }
+    .vault-actions button { background: transparent; border: 1px solid var(--border-color); color: var(--text-color); padding: 6px 12px; border-radius: 6px; cursor: pointer; transition: all 0.2s; }
+    .vault-actions button:hover { background: var(--border-color); }
 </style>
 </head>
 <body>
-<div class="wrap">
-  <button class="lang-btn" id="lang-toggle">EN</button>
-  
-  <header>
-    <h1>iGo<b>Spiral</b></h1>
-    <p id="txt-subtitle">Jouw leven in een spiraal</p>
-  </header>
 
-  <div class="clock-container">
-    <svg class="analog-clock" viewBox="0 0 200 200">
-      <defs>
-        <radialGradient id="pearlFace" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stop-color="#ffffff"/>
-          <stop offset="60%" stop-color="#f0f4f8"/>
-          <stop offset="100%" stop-color="#b0b8c6"/>
-        </radialGradient>
-        <filter id="glow">
-          <feGaussianBlur stdDeviation="1.5" result="coloredBlur"/>
-          <feMerge>
-            <feMergeNode in="coloredBlur"/>
-            <feMergeNode in="SourceGraphic"/>
-          </feMerge>
-        </filter>
-      </defs>
-      
-      <circle cx="100" cy="100" r="95" fill="url(#pearlFace)" stroke="#f4c542" stroke-width="4"/>
-      <circle cx="100" cy="100" r="90" fill="none" stroke="rgba(244, 197, 66, 0.3)" stroke-width="1"/>
-      
-      <path d="M100,100 L100,5 A95,95 0 0,1 195,100 Z" fill="rgba(77, 208, 225, 0.15)" />
-      <path d="M100,100 L195,100 A95,95 0 0,1 100,195 Z" fill="rgba(244, 197, 66, 0.15)" />
-      <path d="M100,100 L100,195 A95,95 0 0,1 5,100 Z" fill="rgba(255, 111, 145, 0.15)" />
-      <path d="M100,100 L5,100 A95,95 0 0,1 100,5 Z" fill="rgba(179, 136, 255, 0.15)" />
-      
-      <line x1="100" y1="5" x2="100" y2="195" stroke="rgba(244, 197, 66, 0.4)" stroke-width="2" />
-      <line x1="5" y1="100" x2="195" y2="100" stroke="rgba(244, 197, 66, 0.4)" stroke-width="2" />
-      
-      <g id="clock-ticks"></g>
-      <g id="clock-numbers"></g>
-      
-      <line id="hour-hand" x1="100" y1="105" x2="100" y2="50" stroke="#f4c542" stroke-width="6" stroke-linecap="round" filter="url(#glow)"/>
-      <line id="minute-hand" x1="100" y1="105" x2="100" y2="25" stroke="#f4c542" stroke-width="4" stroke-linecap="round" filter="url(#glow)"/>
-      <line id="second-hand" x1="100" y1="110" x2="100" y2="15" stroke="#4dd0e1" stroke-width="2" stroke-linecap="round"/>
-      <circle cx="100" cy="100" r="7" fill="#f4c542"/>
-      <circle cx="100" cy="100" r="3" fill="#0a0e27"/>
-    </svg>
-  </div>
+    <nav>
+        <button class="tab-btn active" onclick="openTab(event, 'clock-tab')">Klok</button>
+        <button class="tab-btn" onclick="openTab(event, 'cycle-tab')">100-Jarige Cyclus</button>
+        <button class="tab-btn" onclick="openTab(event, 'stopwatch-tab')">Stopwatch</button>
+        <button class="tab-btn" onclick="openTab(event, 'beep-tab')">Biepsectie</button>
+        <button class="tab-btn" onclick="openTab(event, 'agenda-tab')">Agenda</button>
+        <button class="tab-btn" onclick="openTab(event, 'vault-tab')">Kluis</button>
+    </nav>
 
-  <nav>
-    <button data-tab="spiral" class="active" id="tab-btn-spiral">Spiraal</button>
-    <button data-tab="live" id="tab-btn-live">Live Klok</button>
-    <button data-tab="bijection" id="tab-btn-bijection">Bijectie</button>
-    <button data-tab="timeline" id="tab-btn-timeline">Tijdlijn</button>
-    <button data-tab="notes" id="tab-btn-notes">Notities</button>
-    <button data-tab="photos" id="tab-btn-photos">Foto's</button>
-    <button data-tab="vault" id="tab-btn-vault">Kluis</button>
-    <button data-tab="stopwatch" id="tab-btn-stopwatch">Stopwatch</button>
-    <button data-tab="backup" id="tab-btn-backup">Back-up</button>
-  </nav>
-
-  <section class="tab-content active" id="tab-spiral">
-    <div class="panel">
-      <h2 id="txt-spiral-title">De 100-jarige cyclus</h2>
-      <div style="margin-bottom:12px">
-        <label style="font-size:11px;color:var(--muted);display:block;margin-bottom:4px" id="txt-spiral-dob">Geboortedatum (JJJJ-MM-DD)</label>
-        <div class="row">
-          <input type="date" id="birthdate" style="flex:1;margin:0">
-          <button class="btn primary" id="btn-calc-age" id="txt-spiral-calc">Bereken</button>
+    <!-- TAB 1: KLOK -->
+    <section id="clock-tab" class="tab-content active">
+        <div class="clock-container">
+            <div class="inner-ring"></div>
+            <div class="center-dot"></div>
+            <div class="hand hour-hand" id="hour"></div>
+            <div class="hand minute-hand" id="minute"></div>
+            <div class="hand second-hand" id="second"></div>
         </div>
-      </div>
-      <canvas id="spiral-canvas"></canvas>
-      <div class="pearl-info" id="pearl-info" id="txt-spiral-enter">
-        Voer je geboortedatum in om je parel op de spiraal te zien.
-      </div>
-      <div class="progress-track"><div class="progress-fill" id="life-progress" style="width:0%"></div></div>
-    </div>
-  </section>
+    </section>
 
-  <section class="tab-content" id="tab-live">
-    <div class="panel">
-      <h2 id="txt-live-title">Live Framework Klok</h2>
-      <div class="date-compare">
-        <div class="date-box">
-          <div class="date-label" id="txt-live-greg">Gregoriaans (Echt)</div>
-          <div class="date-value cyan" id="real-date">Laden...</div>
+    <!-- TAB 2: 100-JARIGE CYCLUS -->
+    <section id="cycle-tab" class="tab-content">
+        <div class="cycle-container">
+            <h2>100-Jarige Cyclus (2000 - 2099)</h2>
+            <div class="cycle-grid" id="cycleGrid"></div>
         </div>
-        <div class="date-box">
-          <div class="date-label" id="txt-live-model">Model (360 dagen)</div>
-          <div class="date-value" id="model-date">Laden...</div>
-        </div>
-      </div>
-      <div class="n-display">
-        <div class="n-label" id="txt-live-n">Totale Tijd Sinds 1970 (N ms)</div>
-        <div class="n-value" id="live-n-display">0</div>
-      </div>
-      <div class="grid" id="live-clock-grid">
-        <div class="unit-box" id="box-millennium"><div class="unit-label">millennium</div><div class="unit-value" id="val-millennium">1</div></div>
-        <div class="unit-box" id="box-eeuw"><div class="unit-label">eeuw</div><div class="unit-value" id="val-eeuw">1</div></div>
-        <div class="unit-box" id="box-decennium"><div class="unit-label">decennium</div><div class="unit-value" id="val-decennium">1</div></div>
-        <div class="unit-box" id="box-jaar"><div class="unit-label">jaar</div><div class="unit-value" id="val-jaar">1</div></div>
-        <div class="unit-box" id="box-maand"><div class="unit-label">maand</div><div class="unit-value" id="val-maand">1</div></div>
-        <div class="unit-box" id="box-dag"><div class="unit-label">dag</div><div class="unit-value" id="val-dag">1</div></div>
-        <div class="unit-box" id="box-uur"><div class="unit-label">uur</div><div class="unit-value" id="val-uur">1</div></div>
-        <div class="unit-box" id="box-minuut"><div class="unit-label">minuut</div><div class="unit-value" id="val-minuut">1</div></div>
-        <div class="unit-box" id="box-seconde"><div class="unit-label">seconde</div><div class="unit-value" id="val-seconde">1</div></div>
-        <div class="unit-box" id="box-ms"><div class="unit-label">ms</div><div class="unit-value" id="val-ms">1</div></div>
-      </div>
-      <div class="sync-panel">
-        <div class="sync-title" id="txt-live-sync">2520-Dagen Cyclus (7 Model Jaren)</div>
-        <div class="sync-bar"><div class="sync-fill" id="sync-fill" style="width:0%"></div></div>
-        <div class="sync-text">
-          <span id="txt-live-day">Dag</span> <span id="sync-day" style="color:var(--gold)">1</span> <span id="txt-live-of">van 2520</span>
-          <span id="sync-percent">0%</span>
-        </div>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <section class="tab-content" id="tab-bijection">
-    <div class="panel">
-      <h2 id="txt-bij-title">Bijectie · De Vertaler</h2>
-      <div class="bij-container">
-        <div class="bij-label" id="txt-bij-n-to-t">Milliseconden (N) → Klok Tuple</div>
-        <input type="text" id="bij-n-input" class="bij-input" value="100000000" style="margin-bottom:8px">
-        <button class="btn primary" id="bij-btn-n-to-t" style="width:100%" id="txt-bij-calc">Bereken</button>
-        <div id="bij-out-1" class="bij-output" style="margin-top:12px; display:none;"></div>
-      </div>
-      <div class="bij-container" style="border-left-color:var(--pink)">
-        <div class="bij-label" style="color:var(--pink)" id="txt-bij-t-to-n">Klok Tuple → Milliseconden (N)</div>
-        <div style="display:grid; grid-template-columns:repeat(2, 1fr); gap:6px; margin-bottom:8px;">
-          <div><label style="font-size:9px;color:var(--muted);text-transform:uppercase;">millennium</label><input type="number" id="bij-in-millennium" value="1" min="1" style="margin-bottom:0;padding:6px;text-align:center;font-family:monospace;"></div>
-          <div><label style="font-size:9px;color:var(--muted);text-transform:uppercase;">eeuw</label><input type="number" id="bij-in-eeuw" value="1" min="1" style="margin-bottom:0;padding:6px;text-align:center;font-family:monospace;"></div>
-          <div><label style="font-size:9px;color:var(--muted);text-transform:uppercase;">decennium</label><input type="number" id="bij-in-decennium" value="1" min="1" style="margin-bottom:0;padding:6px;text-align:center;font-family:monospace;"></div>
-          <div><label style="font-size:9px;color:var(--muted);text-transform:uppercase;">jaar</label><input type="number" id="bij-in-jaar" value="1" min="1" style="margin-bottom:0;padding:6px;text-align:center;font-family:monospace;"></div>
-          <div><label style="font-size:9px;color:var(--muted);text-transform:uppercase;">maand</label><input type="number" id="bij-in-maand" value="1" min="1" style="margin-bottom:0;padding:6px;text-align:center;font-family:monospace;"></div>
-          <div><label style="font-size:9px;color:var(--muted);text-transform:uppercase;">dag</label><input type="number" id="bij-in-dag" value="1" min="1" style="margin-bottom:0;padding:6px;text-align:center;font-family:monospace;"></div>
-          <div><label style="font-size:9px;color:var(--muted);text-transform:uppercase;">uur</label><input type="number" id="bij-in-uur" value="1" min="1" style="margin-bottom:0;padding:6px;text-align:center;font-family:monospace;"></div>
-          <div><label style="font-size:9px;color:var(--muted);text-transform:uppercase;">minuut</label><input type="number" id="bij-in-minuut" value="1" min="1" style="margin-bottom:0;padding:6px;text-align:center;font-family:monospace;"></div>
-          <div><label style="font-size:9px;color:var(--muted);text-transform:uppercase;">seconde</label><input type="number" id="bij-in-seconde" value="1" min="1" style="margin-bottom:0;padding:6px;text-align:center;font-family:monospace;"></div>
-          <div><label style="font-size:9px;color:var(--muted);text-transform:uppercase;">ms</label><input type="number" id="bij-in-ms" value="1" min="1" style="margin-bottom:0;padding:6px;text-align:center;font-family:monospace;"></div>
-        </div>
-        <button class="btn primary" id="bij-btn-t-to-n" style="width:100%; border-color:var(--pink); color:var(--pink)" id="txt-bij-calc-n">Bereken N</button>
-        <div id="bij-out-2" class="bij-output" style="margin-top:12px; display:none;"></div>
-      </div>
-    </div>
-  </section>
-
-  <section class="tab-content" id="tab-timeline">
-    <div class="panel">
-      <h2 id="txt-timeline-title">Tijdlijn</h2>
-      <div id="timeline-list" class="timeline"></div>
-    </div>
-  </section>
-
-  <section class="tab-content" id="tab-notes">
-    <div class="panel">
-      <h2 id="txt-note-new">Nieuwe notitie</h2>
-      <input type="text" id="note-title" placeholder="Titel (optioneel)">
-      <textarea id="note-content" rows="4" placeholder="Schrijf hier je gedachten..."></textarea>
-      <button class="btn primary" id="save-note" style="width:100%" id="txt-note-save">Opslaan</button>
-    </div>
-    <div class="panel">
-      <h2 id="txt-note-saved">Opgeslagen notities</h2>
-      <div id="notes-list"></div>
-    </div>
-    <div class="panel">
-      <h2 id="txt-stamps-title">Tijdstempels</h2>
-      <div id="stamps-list"></div>
-    </div>
-  </section>
-
-  <section class="tab-content" id="tab-photos">
-    <div class="panel">
-      <h2 id="txt-photo-new">Nieuwe foto</h2>
-      <input type="file" id="photo-input" accept="image/*" style="display:none">
-      <div class="row">
-        <button class="btn primary" id="btn-upload-photo" style="flex:1" id="txt-photo-choose">📷 Kies een foto</button>
-      </div>
-      <div id="photo-status" class="status"></div>
-    </div>
-    <div class="panel">
-      <h2 id="txt-photo-gallery">Foto galerij</h2>
-      <div class="photo-grid" id="photos-list"></div>
-    </div>
-  </section>
-
-  <section class="tab-content" id="tab-vault">
-    <div class="panel">
-      <h2 id="txt-vault-new">Geheime sleutel / Wachtwoord</h2>
-      <input type="text" id="vault-name" placeholder="Naam (bijv. E-mail)">
-      <input type="text" id="vault-pass" placeholder="Wachtwoord of Sleutel">
-      <button class="btn primary" id="save-vault" style="width:100%" id="txt-vault-save">Veilig opslaan</button>
-    </div>
-    <div class="panel">
-      <h2 id="txt-vault-saved">Opgeslagen items</h2>
-      <div id="vault-list"></div>
-    </div>
-  </section>
-
-  <section class="tab-content" id="tab-stopwatch">
-    <div class="panel">
-      <h2 id="txt-sw-title">Stopwatch</h2>
-      <div class="sw-time" id="sw-time">00:00:00.00</div>
-      <div class="row" style="justify-content:center">
-        <button class="btn primary" id="sw-start" id="txt-sw-start">Start</button>
-        <button class="btn" id="sw-stop" id="txt-sw-stop">Stop</button>
-        <button class="btn" id="sw-lap" id="txt-sw-lap">Ronde</button>
-        <button class="btn danger" id="sw-reset" id="txt-sw-reset">Reset</button>
-      </div>
-      <div class="sw-laps" id="sw-laps-list"></div>
-    </div>
-  </section>
-
-  <section class="tab-content" id="tab-backup">
-    <div class="panel">
-      <h2 id="txt-backup-title">Back-up & Herstel</h2>
-      <p style="font-size:13px;color:var(--muted);margin-bottom:16px;" id="txt-backup-desc">Maak een back-up van al je gegevens (notities, foto's, kluis, tijdstempels) en sla deze veilig op. Of herstel een eerdere back-up.</p>
-      <div class="row">
-        <button class="btn primary" id="btn-export" style="flex:1" id="txt-backup-export">⬇ Download Back-up (.json)</button>
-        <button class="btn" id="btn-import" style="flex:1" id="txt-backup-import">⬆ Herstel Back-up</button>
-      </div>
-      <input type="file" id="import-file" accept=".json" style="display:none">
-      <div id="backup-status" class="status"></div>
-    </div>
-  </section>
-
-</div>
-
-<footer>
-  <span id="txt-footer">Made by</span> <b>Bilal el Issaoui</b><br>
-  <span class="formula">p ≡ 1 (mod q) met m = 2</span>
-</footer>
-
-<div id="stamp-sheet">
-  <div id="stamp-box"></div>
-</div>
-<input type="file" id="stamp-photo-input" accept="image/*" style="display:none">
-<script>
-const translations = {
-    nl: {
-        subtitle: "Jouw leven in een spiraal",
-        tab_spiral: "Spiraal", tab_live: "Live Klok", tab_bijection: "Bijectie", tab_timeline: "Tijdlijn", tab_notes: "Notities", tab_photos: "Foto's", tab_vault: "Kluis", tab_stopwatch: "Stopwatch", tab_backup: "Back-up",
-        spiral_title: "De 100-jarige cyclus", spiral_dob: "Geboortedatum (JJJJ-MM-DD)", spiral_calc: "Bereken", spiral_enter: "Voer je geboortedatum in om je parel op de spiraal te zien.",
-        spiral_age: "Je bent <b>{y}</b> jaar en <b>{m}</b> maanden.<br>Dat is <b>{p}%</b> van een 100-jarig leven.",
-        live_title: "Live Framework Klok", live_greg: "Gregoriaans (Echt)", live_model: "Model (360 dagen)", live_n: "Totale Tijd Sinds 1970 (N ms)",
-        live_sync: "2520-Dagen Cyclus (7 Model Jaren)", live_day: "Dag", live_of: "van 2520", live_formulas: "De Live Formules (1-gebaseerd)",
-        live_pos: "Positie", live_carry: "Overloop", live_anchor: "IJkpunt (N=0)",
-        bij_title: "Bijectie · De Vertaler", bij_n_to_t: "Milliseconden (N) → Klok Tuple", bij_t_to_n: "Klok Tuple → Milliseconden (N)", bij_calc: "Bereken", bij_calc_n: "Bereken N",
-        timeline_title: "Tijdlijn",
-        note_new: "Nieuwe notitie", note_saved: "Opgeslagen notities", note_save: "Opslaan",
-        photo_new: "Nieuwe foto", photo_gallery: "Foto galerij", photo_choose: "📷 Kies een foto", photo_saved: "Foto opgeslagen!",
-        vault_new: "Geheime sleutel / Wachtwoord", vault_saved: "Opgeslagen items", vault_save: "Veilig opslaan",
-        sw_title: "Stopwatch", sw_start: "Start", sw_stop: "Stop", sw_lap: "Ronde", sw_reset: "Reset",
-        footer: "Made by", confirm_del: "Weet je zeker dat je dit wilt verwijderen?",
-        backup_title: "Back-up & Herstel", backup_desc: "Maak een back-up van al je gegevens (notities, foto's, kluis, tijdstempels) en sla deze veilig op. Of herstel een eerdere back-up.",
-        backup_export: "⬇ Download Back-up (.json)", backup_import: "⬆ Herstel Back-up",
-        stamp_title: "Tijdstempel", stamp_note_ph: "Schrijf je notitie bij dit moment...", stamp_add: "Notitie opslaan",
-        stamp_photo: "📷 Foto toevoegen", stamp_close: "Sluiten", stamp_none: "Nog niets op dit moment.",
-        stamp_confirm: "Verwijderen?", stamp_list: "Tijdstempels", stamp_empty: "Tik op een eenheid in Live Klok of Bijectie om iets te plaatsen.",
-        stamp_pin: "📌 Plaats notitie of foto op deze N", stamp_of: "van", stamp_notes: "notities", stamp_photos: "foto's"
-    },
-    en: {
-        subtitle: "Your life in a spiral",
-        tab_spiral: "Spiral", tab_live: "Live Clock", tab_bijection: "Bijection", tab_timeline: "Timeline", tab_notes: "Notes", tab_photos: "Photos", tab_vault: "Vault", tab_stopwatch: "Stopwatch", tab_backup: "Backup",
-        spiral_title: "The 100-year cycle", spiral_dob: "Birthdate (YYYY-MM-DD)", spiral_calc: "Calculate", spiral_enter: "Enter your birthdate to see your pearl on the spiral.",
-        spiral_age: "You are <b>{y}</b> years and <b>{m}</b> months.<br>That is <b>{p}%</b> of a 100-year life.",
-        live_title: "Live Framework Clock", live_greg: "Gregorian (Real)", live_model: "Model (360 days)", live_n: "Total Time Since 1970 (N ms)",
-        live_sync: "2520-Day Cycle (7 Model Years)", live_day: "Day", live_of: "of 2520", live_formulas: "The Live Formulas (1-based)",
-        live_pos: "Position", live_carry: "Carry", live_anchor: "Anchor (N=0)",
-        bij_title: "Bijection · The Translator", bij_n_to_t: "Milliseconds (N) → Clock Tuple", bij_t_to_n: "Clock Tuple → Milliseconds (N)", bij_calc: "Calculate", bij_calc_n: "Calculate N",
-        timeline_title: "Timeline",
-        note_new: "New Note", note_saved: "Saved Notes", note_save: "Save",
-        photo_new: "New Photo", photo_gallery: "Photo Gallery", photo_choose: "📷 Choose a photo", photo_saved: "Photo saved!",
-        vault_new: "Secret Key / Password", vault_saved: "Saved items", vault_save: "Save securely",
-        sw_title: "Stopwatch", sw_start: "Start", sw_stop: "Stop", sw_lap: "Lap", sw_reset: "Reset",
-        footer: "Made by", confirm_del: "Are you sure you want to delete this?",
-        backup_title: "Backup & Restore", backup_desc: "Create a backup of all your data (notes, photos, vault, timestamps) and save it securely. Or restore a previous backup.",
-        backup_export: "⬇ Download Backup (.json)", backup_import: "⬆ Restore Backup",
-        stamp_title: "Timestamp", stamp_note_ph: "Write your note for this moment...", stamp_add: "Save note",
-        stamp_photo: "📷 Add photo", stamp_close: "Close", stamp_none: "Nothing on this moment yet.",
-        stamp_confirm: "Delete?", stamp_list: "Timestamps", stamp_empty: "Tap a unit in Live Clock or Bijection to attach something.",
-        stamp_pin: "📌 Attach note or photo to this N", stamp_of: "of", stamp_notes: "notes", stamp_photos: "photos"
-    }
-};
-
-let currentLang = "nl";
-
-function setLanguage(lang) {
-    currentLang = lang;
-    document.getElementById("lang-toggle").textContent = lang === "nl" ? "EN" : "NL";
-    const t = translations[lang];
-
-    document.getElementById("txt-subtitle").textContent = t.subtitle;
-    document.getElementById("tab-btn-spiral").textContent = t.tab_spiral;
-    document.getElementById("tab-btn-live").textContent = t.tab_live;
-    document.getElementById("tab-btn-bijection").textContent = t.tab_bijection;
-    document.getElementById("tab-btn-timeline").textContent = t.tab_timeline;
-    document.getElementById("tab-btn-notes").textContent = t.tab_notes;
-    document.getElementById("tab-btn-photos").textContent = t.tab_photos;
-    document.getElementById("tab-btn-vault").textContent = t.tab_vault;
-    document.getElementById("tab-btn-stopwatch").textContent = t.tab_stopwatch;
-    document.getElementById("tab-btn-backup").textContent = t.tab_backup;
-
-    document.getElementById("txt-spiral-title").textContent = t.spiral_title;
-    document.getElementById("txt-spiral-dob").textContent = t.spiral_dob;
-    document.getElementById("txt-spiral-calc").textContent = t.spiral_calc;
-    if(document.getElementById("pearl-info").innerHTML.includes("Voer") || document.getElementById("pearl-info").innerHTML.includes("Enter")) {
-        document.getElementById("pearl-info").textContent = t.spiral_enter;
-    }
-
-    document.getElementById("txt-live-title").textContent = t.live_title;
-    document.getElementById("txt-live-greg").textContent = t.live_greg;
-    document.getElementById("txt-live-model").textContent = t.live_model;
-    document.getElementById("txt-live-n").textContent = t.live_n;
-    document.getElementById("txt-live-sync").textContent = t.live_sync;
-    document.getElementById("txt-live-day").textContent = t.live_day;
-    document.getElementById("txt-live-of").textContent = t.live_of;
-    document.getElementById("txt-live-formulas").textContent = t.live_formulas;
-    document.getElementById("txt-live-pos").textContent = t.live_pos;
-    document.getElementById("txt-live-carry").textContent = t.live_carry;
-    document.getElementById("txt-live-anchor").textContent = t.live_anchor;
-
-    document.getElementById("txt-bij-title").textContent = t.bij_title;
-    document.getElementById("txt-bij-n-to-t").textContent = t.bij_n_to_t;
-    document.getElementById("txt-bij-t-to-n").textContent = t.bij_t_to_n;
-    document.getElementById("txt-bij-calc").textContent = t.bij_calc;
-    document.getElementById("txt-bij-calc-n").textContent = t.bij_calc_n;
-
-    document.getElementById("txt-timeline-title").textContent = t.timeline_title;
-
-    document.getElementById("txt-note-new").textContent = t.note_new;
-    document.getElementById("txt-note-saved").textContent = t.note_saved;
-    document.getElementById("txt-note-save").textContent = t.note_save;
-
-    document.getElementById("txt-photo-new").textContent = t.photo_new;
-    document.getElementById("txt-photo-gallery").textContent = t.photo_gallery;
-    document.getElementById("txt-photo-choose").textContent = t.photo_choose;
-
-    document.getElementById("txt-vault-new").textContent = t.vault_new;
-    document.getElementById("txt-vault-saved").textContent = t.vault_saved;
-    document.getElementById("txt-vault-save").textContent = t.vault_save;
-
-    document.getElementById("txt-sw-title").textContent = t.sw_title;
-    document.getElementById("txt-sw-start").textContent = t.sw_start;
-    document.getElementById("txt-sw-stop").textContent = t.sw_stop;
-    document.getElementById("txt-sw-lap").textContent = t.sw_lap;
-    document.getElementById("txt-sw-reset").textContent = t.sw_reset;
-
-    document.getElementById("txt-footer").textContent = t.footer;
-    
-    document.getElementById("txt-backup-title").textContent = t.backup_title;
-    document.getElementById("txt-backup-desc").textContent = t.backup_desc;
-    document.getElementById("txt-backup-export").textContent = t.backup_export;
-    document.getElementById("txt-backup-import").textContent = t.backup_import;
-    
-    document.getElementById("txt-stamps-title").textContent = t.stamp_list;
-
-    if (spiral && spiral.birth) {
-        spiral.updateInfo();
-    }
-}
-
-document.getElementById("lang-toggle").onclick = () => {
-    setLanguage(currentLang === "nl" ? "en" : "nl");
-};
-
-const clockTicks = document.getElementById("clock-ticks");
-for (let i = 0; i < 60; i++) {
-    const angle = (i * 6) * Math.PI / 180;
-    const isHour = i % 5 === 0;
-    const r1 = isHour ? 80 : 85;
-    const r2 = 88;
-    const x1 = 100 + Math.sin(angle) * r1;
-    const y1 = 100 - Math.cos(angle) * r1;
-    const x2 = 100 + Math.sin(angle) * r2;
-    const y2 = 100 - Math.cos(angle) * r2;
-    
-    const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
-    line.setAttribute("x1", x1);
-    line.setAttribute("y1", y1);
-    line.setAttribute("x2", x2);
-    line.setAttribute("y2", y2);
-    line.setAttribute("stroke", isHour ? "#f4c542" : "rgba(244, 197, 66, 0.4)");
-    line.setAttribute("stroke-width", isHour ? "3" : "1");
-    clockTicks.appendChild(line);
-}
-
-const clockNumbers = document.getElementById("clock-numbers");
-for (let i = 1; i <= 12; i++) {
-    const angle = (i * 30) * Math.PI / 180;
-    const x = 100 + Math.sin(angle) * 68;
-    const y = 100 - Math.cos(angle) * 68;
-    
-    const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
-    text.setAttribute("x", x);
-    text.setAttribute("y", y + 6);
-    text.setAttribute("text-anchor", "middle");
-    text.setAttribute("fill", "#d4af37");
-    text.setAttribute("font-size", i % 3 === 0 ? "18" : "14");
-    text.setAttribute("font-weight", "bold");
-    text.setAttribute("font-family", "serif");
-    text.textContent = i;
-    clockNumbers.appendChild(text);
-}
-
-function updateAnalogClock() {
-    const now = new Date();
-    const s = now.getSeconds();
-    const m = now.getMinutes();
-    const h = now.getHours();
-    
-    const sDeg = s * 6;
-    const mDeg = m * 6 + s * 0.1;
-    const hDeg = (h % 12) * 30 + m * 0.5;
-    
-    document.getElementById('second-hand').setAttribute('transform', `rotate(${sDeg} 100 100)`);
-    document.getElementById('minute-hand').setAttribute('transform', `rotate(${mDeg} 100 100)`);
-    document.getElementById('hour-hand').setAttribute('transform', `rotate(${hDeg} 100 100)`);
-}
-setInterval(updateAnalogClock, 1000);
-updateAnalogClock();
-
-const IGO_BIRTH_KEY = "igospiral_birth";
-
-function lifeClock(birth, nowMs) {
-    if (birth.getTime() > nowMs) return { years: 0, month: 1, f: 0 };
-    const now = new Date(nowMs);
-    const at = k => { const d = new Date(birth); d.setFullYear(birth.getFullYear() + k); return d; };
-    let y = now.getFullYear() - birth.getFullYear();
-    if (at(y) > now) y--;
-    const last = at(y), next = at(y + 1);
-    const f = Math.min(0.999999, Math.max(0, (nowMs - last) / (next - last)));
-    return { years: y, month: Math.floor(f * 12) + 1, f };
-}
-
-class Spiral {
-    constructor(canvas) {
-        this.c = canvas;
-        this.ctx = canvas.getContext("2d");
-        this.dpr = window.devicePixelRatio || 1;
-        this.rotation = 0.5;
-        this.tilt = 1.0;
-        this.autoRotate = true;
-        this.birth = null;
-        this.manual = null;
-        this.level = 0;
-        this.shown = 0;
-        this.f = 0;
-        this.month = 1;
-        this._infoKey = "";
-        this.resize();
-        this.setupEvents();
-        this.loop();
-    }
-
-    resize() {
-        const r = this.c.getBoundingClientRect();
-        if (r.width === 0) return;
-        this.c.width = r.width * this.dpr;
-        this.c.height = r.height * this.dpr;
-        this.ctx.setTransform(this.dpr, 0, 0, this.dpr, 0, 0);
-    }
-
-    setupEvents() {
-        let d = false, lx = 0, ly = 0;
-        this.c.addEventListener("pointerdown", e => { d = true; lx = e.clientX; ly = e.clientY; });
-        window.addEventListener("pointermove", e => {
-            if (!d) return;
-            this.rotation += (e.clientX - lx) * 0.01;
-            this.tilt = Math.max(0.45, Math.min(1.35, this.tilt + (e.clientY - ly) * 0.005));
-            lx = e.clientX; ly = e.clientY;
-        });
-        window.addEventListener("pointerup", () => d = false);
-        window.addEventListener("resize", () => this.resize());
-    }
-
-    setAge(age, month) { this.birth = null; this.manual = { years: age, month }; }
-    setBirth(date) { this.birth = date; this.manual = null; this.shown = this.level; }
-
-    pt(a, lvl, rs = 1) {
-        const w = this.c.width / this.dpr, h = this.c.height / this.dpr, u = Math.min(w, h);
-        const R = u * 0.34 * rs, gap = u * 0.085;
-        const X = Math.cos(a) * R, Z = Math.sin(a) * R, Y = (lvl - this.shown) * gap;
-        const ca = Math.cos(this.rotation), sa = Math.sin(this.rotation);
-        const x1 = X * ca + Z * sa, z1 = -X * sa + Z * ca;
-        const ct = Math.cos(this.tilt), st = Math.sin(this.tilt);
-        const y2 = Y * ct + z1 * st;
-        const z2 = z1 * ct - Y * st;
-        const D = u * 1.6, s = D / (D + z2);
-        return { x: w / 2 + x1 * s, y: h / 2 + 0.05 * h - y2 * s, z: z2, s, R };
-    }
-
-    arc(lvl, a0, a1, rgb, alpha, width, glow = 0) {
-        const ctx = this.ctx, n = Math.max(2, Math.ceil(Math.abs(a1 - a0) / (Math.PI * 2) * 96));
-        let prev = this.pt(a0, lvl);
-        ctx.lineCap = "round";
-        for (let i = 1; i <= n; i++) {
-            const p = this.pt(a0 + (a1 - a0) * i / n, lvl);
-            const k = Math.max(0.2, Math.min(1, 0.6 - p.z / (p.R * 2.2)));
-            ctx.beginPath(); ctx.moveTo(prev.x, prev.y); ctx.lineTo(p.x, p.y);
-            ctx.strokeStyle = `rgba(${rgb},${alpha * k})`;
-            ctx.lineWidth = width * (0.6 + 0.4 * k);
-            ctx.shadowColor = glow ? `rgba(${rgb},0.8)` : "transparent";
-            ctx.shadowBlur = glow;
-            ctx.stroke();
-            prev = p;
-        }
-        ctx.shadowBlur = 0;
-    }
-
-    helix(t0, t1, rgb, alpha, width) {
-        const ctx = this.ctx, A0 = -Math.PI / 2, steps = Math.max(2, Math.ceil((t1 - t0) * 72));
-        let prev = this.pt(A0 + Math.PI * 2 * t0, t0);
-        for (let i = 1; i <= steps; i++) {
-            const t = t0 + (t1 - t0) * i / steps, p = this.pt(A0 + Math.PI * 2 * t, t);
-            const k = Math.max(0.2, Math.min(1, 0.6 - p.z / (p.R * 2.2)));
-            ctx.beginPath(); ctx.moveTo(prev.x, prev.y); ctx.lineTo(p.x, p.y);
-            ctx.strokeStyle = `rgba(${rgb},${alpha * k})`; ctx.lineWidth = width;
-            ctx.stroke(); prev = p;
-        }
-    }
-
-    pearl(p, time) {
-        const ctx = this.ctx;
-        const r = Math.max(12, p.R * 0.08) * p.s; 
-        
-        ctx.save(); 
-        ctx.translate(p.x, p.y + r * 0.8); 
-        ctx.scale(1, 0.4);
-        const sh = ctx.createRadialGradient(0, 0, 0, 0, 0, r * 1.2);
-        sh.addColorStop(0, "rgba(0,0,0,0.5)"); 
-        sh.addColorStop(1, "rgba(0,0,0,0)");
-        ctx.fillStyle = sh; 
-        ctx.beginPath(); 
-        ctx.arc(0, 0, r * 1.2, 0, 7); 
-        ctx.fill(); 
-        ctx.restore();
-
-        const body = ctx.createRadialGradient(p.x - r * 0.3, p.y - r * 0.3, r * 0.1, p.x, p.y, r);
-        body.addColorStop(0, "#ffffff"); 
-        body.addColorStop(0.6, "#f0f4f8"); 
-        body.addColorStop(1, "#c0c8d6"); 
-        
-        ctx.beginPath(); 
-        ctx.arc(p.x, p.y, r, 0, 7); 
-        ctx.fillStyle = body; 
-        ctx.fill();
-
-        const hue = (time / 50) % 360; 
-        const irid = ctx.createLinearGradient(p.x - r, p.y - r, p.x + r, p.y + r);
-        irid.addColorStop(0, `hsla(${hue}, 70%, 80%, 0.4)`); 
-        irid.addColorStop(0.5, `hsla(${(hue + 60) % 360}, 70%, 80%, 0.3)`);
-        irid.addColorStop(1, `hsla(${(hue + 120) % 360}, 70%, 80%, 0.4)`);
-        
-        ctx.fillStyle = irid; 
-        ctx.beginPath(); 
-        ctx.arc(p.x, p.y, r, 0, 7); 
-        ctx.fill();
-
-        ctx.save(); 
-        ctx.translate(p.x - r * 0.35, p.y - r * 0.35); 
-        ctx.rotate(-0.5); 
-        ctx.scale(1, 0.6);
-        ctx.beginPath(); 
-        ctx.arc(0, 0, r * 0.25, 0, 7); 
-        ctx.fillStyle = "rgba(255,255,255,1)"; 
-        ctx.fill(); 
-        ctx.restore();
-    }
-
-    update() {
-        const now = Date.now();
-        if (this.manual) {
-            this.level = this.manual.years; this.month = this.manual.month; this.f = (this.month - 1) / 12;
-        } else if (this.birth) {
-            const lc = lifeClock(this.birth, now);
-            this.level = lc.years; this.month = lc.month; this.f = lc.f;
-        } else {
-            this.level = 0; this.f = (now % 24000) / 24000; this.month = Math.floor(this.f * 12) + 1;
-        }
-        this.shown += (this.level - this.shown) * 0.06;
-        if (Math.abs(this.level - this.shown) < 0.001) this.shown = this.level;
-        this.updateInfo();
-    }
-
-    updateInfo() {
-        if (!this.birth) return;
-        const el = document.getElementById("pearl-info"); if (!el) return;
-        const pct = Math.min(100, (this.level + this.f));
-        const key = [this.level, this.month, currentLang, pct.toFixed(2)].join("|");
-        if (key === this._infoKey) return;
-        this._infoKey = key;
-        el.innerHTML = translations[currentLang].spiral_age
-            .replace("{y}", this.level).replace("{m}", this.month - 1).replace("{p}", pct.toFixed(2));
-        const bar = document.getElementById("life-progress"); if (bar) bar.style.width = pct + "%";
-    }
-
-    draw() {
-        const w = this.c.width / this.dpr, h = this.c.height / this.dpr, ctx = this.ctx;
-        ctx.clearRect(0, 0, w, h);
-        const L = this.level, from = Math.max(0, Math.floor(this.shown) - 4), to = Math.min(100, Math.ceil(this.shown) + 5);
-        const A0 = -Math.PI / 2;
-
-        if (L > 0) this.helix(Math.max(0, this.shown - 4), L, "244,197,66", 0.35, 1.2);
-        this.helix(Math.max(L, this.shown - 4), Math.min(101, this.shown + 5), "154,163,199", 0.18, 1);
-
-        for (let lvl = from; lvl <= to; lvl++) {
-            const dist = Math.abs(lvl - this.shown), fade = Math.max(0.12, 1 - dist / 6);
-            if (lvl === L) continue;
-            const rgb = lvl < L ? "77,208,225" : "154,163,199";
-            this.arc(lvl, A0, A0 + Math.PI * 2, rgb, 0.55 * fade, lvl < L ? 1.6 : 1);
-        }
-
-        this.arc(L, A0, A0 + Math.PI * 2, "154,163,199", 0.35, 1.6);
-        if (this.f > 0.002) this.arc(L, A0, A0 + Math.PI * 2 * this.f, "244,197,66", 0.95, 3.2, 10);
-
-        ctx.font = "10px -apple-system, sans-serif"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
-        for (let p = 1; p <= 12; p++) {
-            const a = A0 + Math.PI * 2 * (p - 1) / 12, d = this.pt(a, L), o = this.pt(a, L, 1.13);
-            const on = p === this.month;
-            ctx.beginPath(); ctx.arc(d.x, d.y, (on ? 4.5 : 2.5) * d.s, 0, 7);
-            ctx.fillStyle = on ? "#f4c542" : p <= this.month ? "rgba(244,197,66,0.8)" : "rgba(154,163,199,0.7)"; ctx.fill();
-            ctx.fillStyle = on ? "#f4c542" : "rgba(154,163,199,0.75)"; ctx.fillText(p, o.x, o.y);
-        }
-
-        ctx.textAlign = "left";
-        for (let lvl = from; lvl <= to; lvl++) {
-            const q = this.pt(0, lvl, 1.07);
-     const UNITS = ["millennium", "eeuw", "decennium", "jaar", "maand", "dag", "uur", "minuut", "seconde", "ms"];
-const BASES = { ms: 1000, seconde: 60, minuut: 60, uur: 24, dag: 30, maand: 12, jaar: 10, decennium: 10, eeuw: 10, millennium: Infinity };
-
-function calculateTuple(N) {
-    let rest = BigInt(N); 
-    const tuple = {};
-    for (let i = UNITS.length - 1; i >= 0; i--) {
-        const unit = UNITS[i]; 
-        const base = BASES[unit];
-        if (base === Infinity) { tuple[unit] = rest + 1n; break; }
-        const b = BigInt(base); 
-        const position = (rest % b) + 1n; 
-        tuple[unit] = position;
-        rest = (rest - (position - 1n)) / b;
-    }
-    return tuple;
-}
-
-let lastUpdate = 0;
-function liveTick() {
-    const now = Date.now();
-    if (now - lastUpdate > 30) {
-        const tuple = calculateTuple(now);
-        document.getElementById("live-n-display").textContent = now.toLocaleString(currentLang === 'nl' ? 'nl-NL' : 'en-US');
-        
-        UNITS.forEach(u => {
-            const valEl = document.getElementById(`val-${u}`);
-            if (valEl) valEl.textContent = tuple[u].toString();
-            const boxEl = document.getElementById(`box-${u}`);
-            if (boxEl) {
-                if (tuple[u] == BASES[u]) boxEl.classList.add("highlight");
-                else boxEl.classList.remove("highlight");
-            }
-        });
-        
-        const realDate = new Date(now);
-        document.getElementById("real-date").textContent = realDate.toLocaleDateString(currentLang === 'nl' ? 'nl-NL' : 'en-US');
-        
-        const jaarModel = Number(tuple.jaar) + (Number(tuple.decennium) - 1) * 10 + (Number(tuple.eeuw) - 1) * 100 + (Number(tuple.millennium) - 1) * 1000;
-        document.getElementById("model-date").textContent = currentLang === 'nl' 
-            ? `Jaar ${jaarModel}, Maand ${tuple.maand}, Dag ${tuple.dag}` 
-            : `Year ${jaarModel}, Month ${tuple.maand}, Day ${tuple.dag}`;
-            
-        const totalDays = Math.floor(now / 86400000);
-        const dayInCycle = (totalDays % 2520) + 1;
-        const cyclePct = ((dayInCycle / 2520) * 100).toFixed(2);
-        
-        document.getElementById("sync-day").textContent = dayInCycle;
-        document.getElementById("sync-fill").style.width = cyclePct + "%";
-        document.getElementById("sync-percent").textContent = cyclePct + "%";
-        
-        lastUpdate = now;
-    }
-    requestAnimationFrame(liveTick);
-}
-requestAnimationFrame(liveTick);
-
-document.getElementById("bij-btn-n-to-t").onclick = () => {
-    try {
-        let rest = BigInt(document.getElementById("bij-n-input").value.trim()); 
-        const out = [];
-        for (let i = UNITS.length - 1; i >= 0; i--) {
-            const b = BASES[UNITS[i]]; 
-            if (b === Infinity) { out.push(Number(rest + 1n)); break; } 
-            out.push(Number((rest % BigInt(b)) + 1n)); 
-            rest = rest / BigInt(b);
-        }
-        const t = out.reverse();
-        document.getElementById("bij-out-1").style.display = "block"; 
-        document.getElementById("bij-out-1").innerHTML = t.map((v, i) => `<div class="bij-row" data-unit="${UNITS[i]}"><span class="bij-key">${UNITS[i]}:</span> <span class="bij-val">${v}</span></div>`).join("");
-        t.forEach((v, i) => document.getElementById(`bij-in-${UNITS[i]}`).value = v);
-        
-        document.querySelectorAll("#bij-out-1 .bij-row").forEach(r => {
-            r.onclick = () => openStamp(r.dataset.unit, BigInt(document.getElementById("bij-n-input").value.trim()));
-        });
-    } catch (e) {
-        alert(e.message);
-    }
-};
-
-document.getElementById("bij-btn-t-to-n").onclick = () => {
-    try {
-        const t = UNITS.map(u => {
-            const v = parseInt(document.getElementById(`bij-in-${u}`).value, 10); 
-            if (isNaN(v) || v < 1) throw new Error(u); 
-            return v;
-        });
-        let N = 0n, w = 1n;
-        for (let i = 0; i < UNITS.length; i++) {
-            const u = UNITS[UNITS.length - 1 - i]; 
-            const p = BigInt(t[UNITS.length - 1 - i]); 
-            N += (p - 1n) * w; 
-            if (BASES[u] !== Infinity) w *= BigInt(BASES[u]);
-        }
-        document.getElementById("bij-out-2").style.display = "block"; 
-        document.getElementById("bij-out-2").innerHTML = `<span class="bij-key">N (ms):</span><br><span class="bij-val" style="font-size:18px;">${N.toString()}</span>`;
-    } catch (e) {
-        alert(e.message);
-    }
-};
-
-let db;
-const req = indexedDB.open("igospiral_db", 2);
-req.onupgradeneeded = e => {
-    const d = e.target.result;
-    ["notes", "photos", "vault", "stamps"].forEach(s => {
-        if (!d.objectStoreNames.contains(s)) d.createObjectStore(s, { keyPath: "id" });
-    });
-};
-req.onsuccess = e => {
-    db = e.target.result;
-    loadNotes(); loadPhotos(); loadVault(); loadStamps(); loadTimeline();
-};
-
-const dbAdd = (s, i) => new Promise(r => { const tx = db.transaction(s, "readwrite"); tx.objectStore(s).put(i); tx.oncomplete = r; });
-const dbDel = (s, i) => new Promise(r => { const tx = db.transaction(s, "readwrite"); tx.objectStore(s).delete(i); tx.oncomplete = r; });
-const dbAll = (s) => new Promise(r => { const tx = db.transaction(s); const q = tx.objectStore(s).getAll(); q.onsuccess = () => r(q.result); });
-const dbGet = (s, i) => new Promise(r => { const q = db.transaction(s).objectStore(s).get(i); q.onsuccess = () => r(q.result); });
-
-const IGO_W = {};
-(() => { let w = 1n; for (let i = UNITS.length - 1; i >= 0; i--) { const u = UNITS[i]; IGO_W[u] = w; if (BASES[u] !== Infinity) w *= BigInt(BASES[u]); } })();
-const stampStart = (unit, N) => (BigInt(N) / IGO_W[unit]) * IGO_W[unit];
-const stampId = (unit, N) => `${unit}:${stampStart(unit, N)}`;
-let stampIds = new Set();
-
-const sheet = document.getElementById("stamp-sheet"), box = document.getElementById("stamp-box"), photoInput = document.getElementById("stamp-photo-input");
-sheet.onclick = e => { if (e.target === sheet) sheet.classList.remove("open"); };
-
-async function persistStamp(rec) {
-    if (!rec.notes.length && !rec.photos.length) { await dbDel("stamps", rec.id); stampIds.delete(rec.id); }
-    else { await dbAdd("stamps", rec); stampIds.add(rec.id); }
-    loadStamps();
-    loadTimeline();
-}
-
-async function openStamp(unit, N) {
-    N = BigInt(N);
-    const start = stampStart(unit, N), id = `${unit}:${start}`;
-    const rec = (await dbGet("stamps", id)) || { id, unit, n: start.toString(), anchor: "unix1970", notes: [], photos: [], created: Date.now() };
-    const t = calculateTuple(start);
-    const tupleTxt = UNITS.map(u => `${u} ${t[u]}`).join(" · ");
-    const when = new Date(Number(start)).toLocaleString(currentLang === "nl" ? "nl-NL" : "en-US");
-
-    const paint = () => {
-        box.innerHTML = `
-            <h3>${translations[currentLang].stamp_title} · ${unit}</h3>
-            <div class="stamp-tuple">${tupleTxt}</div>
-            <div class="stamp-date">N = ${start.toString()} ms · ${when}</div>
-            ${rec.notes.length || rec.photos.length ? "" : `<div class="stamp-date">${translations[currentLang].stamp_none}</div>`}
-            ${rec.notes.map((n, i) => `<div class="stamp-note"><span class="stamp-x" data-n="${i}">✕</span>${n.text}<small>${new Date(n.t).toLocaleString()}</small></div>`).join("")}
-            <div class="stamp-photos">${rec.photos.map((p, i) => `<div class="stamp-ph"><span class="stamp-x" data-p="${i}">✕</span><img src="${p.dataUrl}"><small>${new Date(p.t).toLocaleString()}</small></div>`).join("")}</div>
-            <textarea id="stamp-text" rows="3" placeholder="${translations[currentLang].stamp_note_ph}"></textarea>
-            <div class="row">
-                <button class="btn primary" id="stamp-save" style="flex:1">${translations[currentLang].stamp_add}</button>
-                <button class="btn" id="stamp-photo" style="flex:1">${translations[currentLang].stamp_photo}</button>
-                <button class="btn" id="stamp-close">${translations[currentLang].stamp_close}</button>
-            </div>`;
-        box.querySelector("#stamp-close").onclick = () => sheet.classList.remove("open");
-        box.querySelector("#stamp-save").onclick = async () => {
-            const text = box.querySelector("#stamp-text").value.trim(); if (!text) return;
-            rec.notes.push({ t: Date.now(), text }); await persistStamp(rec); paint();
-        };
-        box.querySelector("#stamp-photo").onclick = () => photoInput.click();
-        box.querySelectorAll("[data-n]").forEach(x => x.onclick = async () => {
-            if (!confirm(translations[currentLang].stamp_confirm)) return;
-            rec.notes.splice(+x.dataset.n, 1); await persistStamp(rec); paint();
-        });
-        box.querySelectorAll("[data-p]").forEach(x => x.onclick = async () => {
-            if (!confirm(translations[currentLang].stamp_confirm)) return;
-            rec.photos.splice(+x.dataset.p, 1); await persistStamp(rec); paint();
-        });
-        box.querySelectorAll(".stamp-ph img").forEach(im => im.onclick = () => im.classList.toggle("zoom"));
-    };
-    
-    photoInput.onchange = async e => {
-        const f = e.target.files[0]; if (!f) return;
-        const r = new FileReader();
-        r.onload = async ev => {
-            rec.photos.push({ t: Date.now(), dataUrl: ev.target.result });
-            photoInput.value = ""; await persistStamp(rec); paint();
-        };
-        r.readAsDataURL(f);
-    };
-    paint(); sheet.classList.add("open");
-}
-
-UNITS.forEach(u => {
-    const b = document.getElementById("box-" + u);
-    if (b) b.addEventListener("click", () => openStamp(u, BigInt(Date.now())));
-});
-setInterval(() => {
-    const n = BigInt(Date.now());
-    UNITS.forEach(u => { 
-        const b = document.getElementById("box-" + u);
-        if (b) b.classList.toggle("has-stamp", stampIds.has(stampId(u, n))); 
-    });
-}, 400);
-
-async function loadStamps() {
-    const all = await dbAll("stamps");
-    stampIds = new Set(all.map(r => r.id));
-    const el = document.getElementById("stamps-list");
-    all.sort((a, b) => (BigInt(b.n) > BigInt(a.n) ? 1 : -1));
-    el.innerHTML = all.length ? all.map(r => {
-        const t = calculateTuple(BigInt(r.n));
-        return `<div class="list-item" data-id="${r.id}"><div class="info"><div class="title">${r.unit} · ${t.dag}/${t.maand}/${t.jaar}</div>
-                <div class="meta">${r.notes.length} ${translations[currentLang].stamp_notes} · ${r.photos.length} ${translations[currentLang].stamp_photos} · N=${r.n}</div></div></div>`;
-    }).join("") : `<div class="meta" style="color:var(--muted);font-size:12px">${translations[currentLang].stamp_empty}</div>`;
-    el.querySelectorAll(".list-item").forEach(x => x.onclick = () => {
-        const [unit, n] = x.dataset.id.split(":"); openStamp(unit, BigInt(n)); 
-    });
-}
-
-async function loadTimeline() {
-    const all = await dbAll("stamps");
-    const el = document.getElementById("timeline-list");
-    if (!el) return;
-    
-    all.sort((a, b) => BigInt(b.n) - BigInt(a.n));
-    
-    el.innerHTML = all.length ? all.map(r => {
-        const date = new Date(Number(r.n)).toLocaleString(currentLang === 'nl' ? 'nl-NL' : 'en-US');
-        const notesHtml = r.notes.map(n => `<div class="timeline-content" style="margin-bottom:4px">${n.text}</div>`).join("");
-        const photosHtml = r.photos.map(p => `<img src="${p.dataUrl}" style="width:100%;border-radius:8px;margin-top:8px;">`).join("");
-        
-        return `
-            <div class="timeline-item">
-                <div class="timeline-date">${date} · ${r.unit}</div>
-                ${notesHtml}
-                ${photosHtml}
+    <!-- TAB 3: STOPWATCH -->
+    <section id="stopwatch-tab" class="tab-content">
+        <div class="action-panel">
+            <div class="stopwatch-display" id="swDisplay">00:00:00</div>
+            <div class="btn-group">
+                <button class="action-btn" id="swStart" onclick="startStopwatch()">Start</button>
+                <button class="action-btn" id="swStop" onclick="stopStopwatch()" disabled>Stop</button>
+                <button class="action-btn reset" onclick="resetStopwatch()">Reset</button>
             </div>
-        `;
-    }).join("") : `<div style="color:var(--muted);font-size:12px;padding:20px;text-align:center;">${translations[currentLang].stamp_empty}</div>`;
-}
+        </div>
+    </section>
 
-document.getElementById("save-note").onclick = async () => {
-    const t = document.getElementById("note-title").value.trim(), c = document.getElementById("note-content").value.trim();
-    if (!t && !c) return; 
-    await dbAdd("notes", { id: Date.now().toString(), title: t || "Zonder titel", content: c, date: new Date().toLocaleDateString() });
-    document.getElementById("note-title").value = ""; document.getElementById("note-content").value = ""; loadNotes();
-};
-async function loadNotes() { 
-    const l = await dbAll("notes"); 
-    document.getElementById("notes-list").innerHTML = l.reverse().map(n => `<div class="list-item"><div class="info"><div class="title">${n.title}</div><div class="meta">${n.content.substring(0, 50)}...</div></div><div class="del" onclick="delItem('notes','${n.id}')">✕</div></div>`).join(""); 
-}
+    <!-- TAB 4: BIEPSECTIE -->
+    <section id="beep-tab" class="tab-content">
+        <div class="action-panel">
+            <h2 style="margin-bottom: 20px; color: var(--accent-color);">Biepsectie</h2>
+            <div class="input-group">
+                <input type="number" id="beepTime" value="5" min="1">
+                <button class="action-btn" onclick="startBeep()">Start Timer</button>
+            </div>
+            <div class="beep-status" id="beepStatus">Gereed.</div>
+        </div>
+    </section>
 
-document.getElementById("btn-upload-photo").onclick = () => document.getElementById("photo-input").click();
-document.getElementById("photo-input").onchange = (e) => {
-    const f = e.target.files[0]; 
-    if (!f) return;
-    const r = new FileReader(); 
-    r.onload = async (ev) => { 
-        await dbAdd("photos", { id: Date.now().toString(), dataUrl: ev.target.result, date: new Date().toLocaleDateString() }); 
-        loadPhotos(); 
-        document.getElementById("photo-status").textContent = translations[currentLang].photo_saved; 
-        setTimeout(() => document.getElementById("photo-status").textContent = "", 2000); 
-    }; 
-    r.readAsDataURL(f);
-};
-async function loadPhotos() { 
-    const l = await dbAll("photos"); 
-    document.getElementById("photos-list").innerHTML = l.reverse().map(p => `<div style="position:relative"><img src="${p.dataUrl}"><div style="position:absolute;top:4px;right:4px;background:rgba(0,0,0,0.6);border-radius:50%;width:24px;height:24px;display:flex;align-items:center;justify-content:center;cursor:pointer;" onclick="delItem('photos','${p.id}')">✕</div></div>`).join(""); 
-}
+    <!-- TAB 5: AGENDA -->
+    <section id="agenda-tab" class="tab-content">
+        <div class="agenda-container">
+            <div class="calendar-section">
+                <div class="calendar-header">
+                    <h2 id="monthYearDisplay">Maand</h2>
+                </div>
+                <div class="calendar-grid" id="calendarGrid">
+                    <!-- Kalender wordt via JS gegenereerd -->
+                </div>
+            </div>
+            <div class="events-section">
+                <h3 id="selectedDateDisplay">Selecteer een dag</h3>
+                <ul class="event-list" id="eventList"></ul>
+                <div class="event-input-group">
+                    <input type="text" id="eventInput" placeholder="Nieuwe afspraak...">
+                    <button class="action-btn" onclick="addEvent()" style="padding: 10px 15px;">+</button>
+                </div>
+            </div>
+        </div>
+    </section>
 
-document.getElementById("save-vault").onclick = async () => {
-    const n = document.getElementById("vault-name").value.trim(), p = document.getElementById("vault-pass").value.trim();
-    if (!n || !p) return; 
-    await dbAdd("vault", { id: Date.now().toString(), name: n, pass: p });
-    document.getElementById("vault-name").value = ""; document.getElementById("vault-pass").value = ""; loadVault();
-};
-async function loadVault() { 
-    const l = await dbAll("vault"); 
-    document.getElementById("vault-list").innerHTML = l.reverse().map(v => `<div class="list-item"><div class="info"><div class="title">${v.name}</div><div class="meta">••••••••</div></div><div class="del" onclick="delItem('vault','${v.id}')">✕</div></div>`).join(""); 
-}
+    <!-- TAB 6: KLUIS -->
+    <section id="vault-tab" class="tab-content">
+        <div class="vault-container">
+            <h2>Beveiligde Kluis</h2>
+            <div class="vault-form">
+                <input type="text" id="vaultTitle" placeholder="Titel (bijv. Gmail, Crypto Wallet)">
+                <input type="password" id="vaultSecret" placeholder="Wachtwoord / Cryptografische Sleutel">
+                <button class="action-btn" onclick="addVaultItem()">Opslaan in Kluis</button>
+            </div>
+            <ul class="vault-list" id="vaultList">
+                <!-- Kluis items worden hier weergegeven -->
+            </ul>
+        </div>
+    </section>
 
-window.delItem = async (s, id) => { 
-    if (!confirm(translations[currentLang].confirm_del)) return; 
-    await dbDel(s, id); 
-    if (s === "notes") loadNotes(); 
-    if (s === "photos") loadPhotos(); 
-    if (s === "vault") loadVault(); 
-    if (s === "stamps") { loadStamps(); loadTimeline(); }
-};
-
-document.getElementById("btn-export").onclick = async () => {
-    const notes = await dbAll("notes");
-    const photos = await dbAll("photos");
-    const vault = await dbAll("vault");
-    const stamps = await dbAll("stamps");
-    
-    const backup = { notes, photos, vault, stamps, exportedAt: Date.now() };
-    const blob = new Blob([JSON.stringify(backup, null, 2)], { type: "application/json" });
-    const a = document.createElement("a");
-    a.href = URL.createObjectURL(blob);
-    a.download = `igospiral_backup_${new Date().toISOString().slice(0,10)}.json`;
-    a.click();
-    document.getElementById("backup-status").textContent = currentLang === 'nl' ? "Back-up gedownload!" : "Backup downloaded!";
-    setTimeout(() => document.getElementById("backup-status").textContent = "", 3000);
-};
-
-document.getElementById("btn-import").onclick = () => document.getElementById("import-file").click();
-document.getElementById("import-file").onchange = (e) => {
-    const f = e.target.files[0];
-    if (!f) return;
-    const r = new FileReader();
-    r.onload = async (ev) => {
-        try {
-            const data = JSON.parse(ev.target.result);
-            if (!data.notes || !data.photos) throw new Error("Invalid file");
-            
-            await new Promise(res => { const tx = db.transaction(["notes", "photos", "vault", "stamps"], "readwrite"); tx.oncomplete = res; 
-                tx.objectStore("notes").clear();
-                tx.objectStore("photos").clear();
-                tx.objectStore("vault").clear();
-                tx.objectStore("stamps").clear();
-            });
-            
-            await new Promise(res => { const tx = db.transaction(["notes", "photos", "vault", "stamps"], "readwrite"); tx.oncomplete = res; 
-                data.notes.forEach(n => tx.objectStore("notes").put(n));
-                data.photos.forEach(p => tx.objectStore("photos").put(p));
-                data.vault.forEach(v => tx.objectStore("vault").put(v));
-                (data.stamps || []).forEach(s => tx.objectStore("stamps").put(s));
-            });
-            
-            document.getElementById("backup-status").textContent = currentLang === 'nl' ? "Back-up succesvol hersteld!" : "Backup restored successfully!";
-            loadNotes(); loadPhotos(); loadVault(); loadStamps(); loadTimeline();
-        } catch (err) {
-            document.getElementById("backup-status").textContent = currentLang === 'nl' ? "Fout bij inladen (ongeldig bestand)" : "Error loading (invalid file)";
+<script>
+    /* ================= TAB LOGICA ================= */
+    function openTab(evt, tabName) {
+        let i, tabcontent, tablinks;
+        
+        tabcontent = document.getElementsByClassName("tab-content");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+            tabcontent[i].classList.remove("active");
         }
-        setTimeout(() => document.getElementById("backup-status").textContent = "", 3000);
-    };
-    r.readAsText(f);
-};
-
-let swStart = 0, swElapsed = 0, swRunning = false, swLaps = [], swTimer;
-const swNow = () => swRunning ? performance.now() - swStart : swElapsed;
-const swFmt = ms => {
-    const h = Math.floor(ms / 3600000), m = Math.floor((ms % 3600000) / 60000), s = Math.floor((ms % 60000) / 1000), cs = Math.floor((ms % 1000) / 10);
-    return `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}.${String(cs).padStart(2, "0")}`;
-};
-function updateSW() { document.getElementById("sw-time").textContent = swFmt(swNow()); }
-document.getElementById("sw-start").onclick = () => { if (swRunning) return; swStart = performance.now() - swElapsed; swRunning = true; swTimer = setInterval(updateSW, 30); };
-document.getElementById("sw-stop").onclick = () => { if (!swRunning) return; swElapsed = performance.now() - swStart; swRunning = false; clearInterval(swTimer); updateSW(); };
-document.getElementById("sw-reset").onclick = () => { swRunning = false; swElapsed = 0; swStart = 0; swLaps = []; clearInterval(swTimer); updateSW(); document.getElementById("sw-laps-list").innerHTML = ""; };
-document.getElementById("sw-lap").onclick = () => {
-    const n = swNow(), prev = swLaps.length ? swLaps[swLaps.length - 1] : 0; 
-    swLaps.push(n);
-    const d = document.createElement("div"); 
-    d.className = "sw-lap"; 
-    d.innerHTML = `<span>${translations[currentLang].sw_lap} ${swLaps.length}</span><span>${swFmt(n - prev)}</span>`; 
-    document.getElementById("sw-laps-list").prepend(d);
-};
-
-document.querySelectorAll("nav button").forEach(btn => {
-    btn.onclick = () => {
-        document.querySelectorAll("nav button").forEach(b => b.classList.remove("active"));
-        document.querySelectorAll(".tab-content").forEach(c => c.classList.remove("active"));
-        btn.classList.add("active");
-        document.getElementById(`tab-${btn.dataset.tab}`).classList.add("active");
-        if (btn.dataset.tab === "spiral" && typeof spiral !== 'undefined') {
-            setTimeout(() => spiral.resize(), 50);
+        
+        tablinks = document.getElementsByClassName("tab-btn");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].classList.remove("active");
         }
-    };
-});
+        
+        document.getElementById(tabName).style.display = "flex";
+        document.getElementById(tabName).classList.add("active");
+        evt.currentTarget.classList.add("active");
+    }
 
-setLanguage("nl");
+    /* ================= KLOK LOGICA ================= */
+    const clockContainer = document.querySelector('.clock-container');
+    for (let i = 1; i <= 12; i++) {
+        const numberDiv = document.createElement('div');
+        numberDiv.className = 'number';
+        numberDiv.style.transform = `rotate(${i * 30}deg)`;
+        const innerDiv = document.createElement('div');
+        innerDiv.style.transform = `rotate(${-i * 30}deg)`;
+        const span = document.createElement('span');
+        span.textContent = i;
+        innerDiv.appendChild(span);
+        numberDiv.appendChild(innerDiv);
+        clockContainer.appendChild(numberDiv);
+    }
+
+    function updateClock() {
+        const now = new Date();
+        const seconds = now.getSeconds();
+        const minutes = now.getMinutes();
+        const hours = now.getHours();
+        const secondDegrees = (seconds / 60) * 360;
+        const minuteDegrees = ((minutes + seconds / 60) / 60) * 360;
+        const hourDegrees = ((hours % 12 + minutes / 60) / 12) * 360;
+        document.getElementById('second').style.transform = `translateX(-50%) rotate(${secondDegrees}deg)`;
+        document.getElementById('minute').style.transform = `translateX(-50%) rotate(${minuteDegrees}deg)`;
+        document.getElementById('hour').style.transform = `translateX(-50%) rotate(${hourDegrees}deg)`;
+    }
+    updateClock();
+    setInterval(updateClock, 1000);
+
+    /* ================= 100-JARIGE CYCLUS ================= */
+    const cycleGrid = document.getElementById('cycleGrid');
+    for (let year = 2000; year <= 2099; year++) {
+        const yearBox = document.createElement('div');
+        yearBox.className = 'year-box';
+        yearBox.textContent = year;
+        cycleGrid.appendChild(yearBox);
+    }
+
+    /* ================= STOPWATCH ================= */
+    let swInterval = null;
+    let swTime = 0;
+    let swRunning = false;
+
+    function formatStopwatch(ms) {
+        const totalSeconds = Math.floor(ms / 1000);
+        const minutes = Math.floor(totalSeconds / 60);
+        const seconds = totalSeconds % 60;
+        const hundredths = Math.floor((ms % 1000) / 10);
+        return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}:${String(hundredths).padStart(2, '0')}`;
+    }
+
+    function startStopwatch() {
+        if (swRunning) return;
+        swRunning = true;
+        document.getElementById('swStart').disabled = true;
+        document.getElementById('swStop').disabled = false;
+        const startTime = Date.now() - swTime;
+        swInterval = setInterval(() => {
+            swTime = Date.now() - startTime;
+            document.getElementById('swDisplay').textContent = formatStopwatch(swTime);
+        }, 10);
+    }
+
+    function stopStopwatch() {
+        swRunning = false;
+        clearInterval(swInterval);
+        document.getElementById('swStart').disabled = false;
+        document.getElementById('swStop').disabled = true;
+    }
+
+    function resetStopwatch() {
+        stopStopwatch();
+        swTime = 0;
+        document.getElementById('swDisplay').textContent = formatStopwatch(0);
+    }
+
+    /* ================= BIEPSECTIE ================= */
+    let beepTimeout = null;
+    let audioCtx = null;
+
+    function playBeep() {
+        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const oscillator = audioCtx.createOscillator();
+        const gainNode = audioCtx.createGain();
+        oscillator.type = 'sine';
+        oscillator.frequency.setValueAtTime(880, audioCtx.currentTime);
+        gainNode.gain.setValueAtTime(0.5, audioCtx.currentTime);
+        oscillator.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+        oscillator.start();
+        oscillator.stop(audioCtx.currentTime + 0.5);
+    }
+
+    function startBeep() {
+        const timeInput = document.getElementById('beepTime').value;
+        const status = document.getElementById('beepStatus');
+        const seconds = parseInt(timeInput);
+        if (isNaN(seconds) || seconds < 1) {
+            status.textContent = "Voer een geldig getal in!";
+            return;
+        }
+        if (beepTimeout) clearTimeout(beepTimeout);
+        status.textContent = `Timer gestart voor ${seconds} seconden...`;
+        beepTimeout = setTimeout(() => {
+            status.textContent = "BIEP! Tijd is om.";
+            playBeep();
+            setTimeout(playBeep, 600);
+            setTimeout(playBeep, 1200);
+        }, seconds * 1000);
+    }
+
+    /* ================= AGENDA ================= */
+    let currentDate = new Date();
+    let selectedDate = new Date();
+    let events = JSON.parse(localStorage.getItem('agendaEvents')) || {};
+
+    function renderCalendar() {
+        const year = currentDate.getFullYear();
+        const month = currentDate.getMonth();
+        
+        const monthNames = ["Januari", "Februari", "Maart", "April", "Mei", "Juni", "Juli", "Augustus", "September", "Oktober", "November", "December"];
+        document.getElementById('monthYearDisplay').textContent = `${monthNames[month]} ${year}`;
+
+        const firstDay = new Date(year, month, 1).getDay();
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+        
+        const grid = document.getElementById('calendarGrid');
+        grid.innerHTML = '';
+
+        const dayNames = ["Zo", "Ma", "Di", "Wo", "Do", "Vr", "Za"];
+        dayNames.forEach(day => {
+            const el = document.createElement('div');
+            el.className = 'day-name';
+            el.textContent = day;
+            grid.appendChild(el);
+        });
+
+        // Lege cellen voor de eerste dag
+        for (let i = 0; i < (firstDay === 0 ? 6 : firstDay - 1); i++) {
+            const empty = document.createElement('div');
+            grid.appendChild(empty);
+        }
+
+        // Dagen van de maand
+        for (let day = 1; day <= daysInMonth; day++) {
+            const el = document.createElement('div');
+            el.className = 'calendar-day';
+            el.textContent = day;
+            
+            const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+            
+            if (day === new Date().getDate() && month === new Date().getMonth() && year === new Date().getFullYear()) {
+                el.classList.add('today');
+            }
+
+            if (dateStr === selectedDate.toISOString().split('T')[0]) {
+                el.classList.add('selected');
+            }
+
+            el.onclick = () => {
+                selectedDate = new Date(year, month, day);
+                renderCalendar();
+                renderEvents();
+            };
+            grid.appendChild(el);
+        }
+    }
+
+    function renderEvents() {
+        const dateStr = selectedDate.toISOString().split('T')[0];
+        const list = document.getElementById('eventList');
+        list.innerHTML = '';
+        
+        const displayStr = selectedDate.toLocaleDateString('nl-NL', { weekday: 'long', day: 'numeric', month: 'long' });
+        document.getElementById('selectedDateDisplay').textContent = displayStr;
+
+        if (events[dateStr] && events[dateStr].length > 0) {
+            events[dateStr].forEach((eventText, index) => {
+                const li = document.createElement('li');
+                li.innerHTML = `<span>${eventText}</span> <button onclick="removeEvent('${dateStr}', ${index})">X</button>`;
+                list.appendChild(li);
+            });
+        } else {
+            list.innerHTML = '<li style="color: #666; background: transparent; justify-content: center;">Geen afspraken</li>';
+        }
+    }
+
+    function addEvent() {
+        const input = document.getElementById('eventInput');
+        const text = input.value.trim();
+        if (!text) return;
+
+        const dateStr = selectedDate.toISOString().split('T')[0];
+        if (!events[dateStr]) events[dateStr] = [];
+        
+        events[dateStr].push(text);
+        localStorage.setItem('agendaEvents', JSON.stringify(events));
+        input.value = '';
+        renderEvents();
+    }
+
+    function removeEvent(dateStr, index) {
+        events[dateStr].splice(index, 1);
+        if (events[dateStr].length === 0) delete events[dateStr];
+        localStorage.setItem('agendaEvents', JSON.stringify(events));
+        renderEvents();
+    }
+
+    renderCalendar();
+    renderEvents();
+
+    /* ================= KLUIS ================= */
+    let vaultItems = JSON.parse(localStorage.getItem('vaultData')) || [];
+
+    function renderVault() {
+        const list = document.getElementById('vaultList');
+        list.innerHTML = '';
+        
+        if (vaultItems.length === 0) {
+            list.innerHTML = '<li style="text-align: center; color: #666; background: transparent; border: none;">De kluis is leeg.</li>';
+            return;
+        }
+
+        vaultItems.forEach((item, index) => {
+            const li = document.createElement('li');
+            li.className = 'vault-item';
+            
+            const isVisible = item.visible ? item.secret : '••••••••••••';
+            
+            li.innerHTML = `
+                <div class="vault-info">
+                    <span class="vault-title">${item.title}</span>
+                    <span class="vault-secret" id="secret-${index}">${isVisible}</span>
+                </div>
+                <div class="vault-actions">
+                    <button onclick="toggleSecret(${index})">${item.visible ? 'Verberg' : 'Toon'}</button>
+                    <button onclick="copySecret(${index})">Kopieer</button>
+                    <button onclick="deleteVaultItem(${index})" style="color: var(--highlight); border-color: var(--highlight);">Verwijder</button>
+                </div>
+            `;
+            list.appendChild(li);
+        });
+    }
+
+    function addVaultItem() {
+        const titleInput = document.getElementById('vaultTitle');
+        const secretInput = document.getElementById('vaultSecret');
+        
+        const title = titleInput.value.trim();
+        const secret = secretInput.value.trim();
+        
+        if (!title || !secret) {
+            alert('Vul zowel een titel als een geheim in.');
+            return;
+        }
+
+        vaultItems.push({ title, secret, visible: false });
+        localStorage.setItem('vaultData', JSON.stringify(vaultItems));
+        
+        titleInput.value = '';
+        secretInput.value = '';
+        renderVault();
+    }
+
+    function toggleSecret(index) {
+        vaultItems[index].visible = !vaultItems[index].visible;
+        renderVault();
+    }
+
+    function copySecret(index) {
+        navigator.clipboard.writeText(vaultItems[index].secret).then(() => {
+            alert('Geheim gekopieerd naar klembord!');
+        });
+    }
+
+    function deleteVaultItem(index) {
+        if(confirm('Weet je zeker dat je dit item wilt verwijderen?')) {
+            vaultItems.splice(index, 1);
+            localStorage.setItem('vaultData', JSON.stringify(vaultItems));
+            renderVault();
+        }
+    }
+
+    renderVault();
 </script>
+
 </body>
 </html>
