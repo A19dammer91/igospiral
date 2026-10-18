@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+000" style="flex<!DOCTYPE html>
 <html lang="nl">
 <head>
 <meta charset="UTF-8">
@@ -504,6 +504,7 @@ class Spiral {
   constructor(canvas, q = 7) {
     this.c = canvas; this.ctx = canvas.getContext("2d");
     this.q = q; this.rotation = 0; this.tilt = 0.35;
+    this.pearlRotation = 0; // NIEUW: voor de roterende 3D parel
     this.autoRotate = true; this.dragging = false; this.lastX = 0;
     this.currentM = 0; this.currentPos = 1;
     this.moments = []; this.imageCache = new Map(); this.hitboxes = [];
@@ -575,6 +576,7 @@ class Spiral {
       this.ctx.lineWidth = (a.m === this.currentM) ? 2.2 : 1;
       this.ctx.stroke();
     }
+    
     this.hitboxes = [];
     for (const moment of this.moments) {
       try {
@@ -599,15 +601,55 @@ class Spiral {
         }
       } catch {}
     }
+    
+    // ==========================================
+    // NIEUW: 3D Parelmoer-Zon (Huidige positie)
+    // ==========================================
     const t = (this.currentPos - 1) / this.q * Math.PI * 2;
     const cur = this.project(Math.cos(t), this.currentM, Math.sin(t));
-    this.ctx.beginPath(); this.ctx.arc(cur.x, cur.y, 8, 0, Math.PI*2);
-    this.ctx.fillStyle = "#f4c542"; this.ctx.shadowColor = "#f4c542"; this.ctx.shadowBlur = 20; this.ctx.fill(); this.ctx.shadowBlur = 0;
+    
+    // 1. Buitenste gloed (Zon aura)
+    const glow = this.ctx.createRadialGradient(cur.x, cur.y, 2, cur.x, cur.y, 32);
+    glow.addColorStop(0, "rgba(244,197,66,0.85)");
+    glow.addColorStop(0.4, "rgba(244,197,66,0.3)");
+    glow.addColorStop(1, "rgba(244,197,66,0)");
+    this.ctx.fillStyle = glow;
+    this.ctx.beginPath(); this.ctx.arc(cur.x, cur.y, 32, 0, Math.PI*2); this.ctx.fill();
+
+    // 2. De 3D Parel (met roterende lichtbron)
+    this.pearlRotation += 0.04;
+    const lx = Math.cos(this.pearlRotation) * 5;
+    const ly = Math.sin(this.pearlRotation) * 5;
+    
+    const pearl = this.ctx.createRadialGradient(
+      cur.x + lx, cur.y + ly, 1, // Lichtpunt verschuift voor 3D rotatie
+      cur.x, cur.y, 12
+    );
+    // Parelmoer kleuren
+    pearl.addColorStop(0, "#ffffff");
+    pearl.addColorStop(0.2, "#f4c542"); // goud
+    pearl.addColorStop(0.5, "#4dd0e1"); // cyaan iridescentie
+    pearl.addColorStop(0.8, "#ff6f91"); // roze hint
+    pearl.addColorStop(1, "#0a0e27");   // donkere rand voor diepte
+    
+    this.ctx.beginPath();
+    this.ctx.arc(cur.x, cur.y, 12, 0, Math.PI * 2);
+    this.ctx.fillStyle = pearl;
+    this.ctx.fill();
+
+    // 3. Felle glans (Specular highlight)
+    this.ctx.beginPath();
+    this.ctx.arc(cur.x + lx*0.6, cur.y + ly*0.6, 2.5, 0, Math.PI*2);
+    this.ctx.fillStyle = "rgba(255,255,255,0.95)";
+    this.ctx.fill();
+
+    // Label
     this.ctx.fillStyle = "rgba(122,130,168,0.9)"; this.ctx.font = "11px -apple-system, sans-serif"; this.ctx.textAlign = "left";
     this.ctx.fillText(`m = ${this.currentM} · q = ${this.q}`, 12, 20);
   }
   loop() {
-    if (this.needsRedraw || (this.autoRotate && !this.dragging && !document.hidden)) {
+    // Altijd tekenen als de parel draait (voor de animatie)
+    if (!document.hidden || this.needsRedraw) {
       this.draw(); this.needsRedraw = false;
       if (this.autoRotate && !this.dragging) this.rotation += 0.004;
     }
