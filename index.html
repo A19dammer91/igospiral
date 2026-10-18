@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0a0e27">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>iGoSpiral · de klok als wiskundig object</title>
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
+<style>
+:root{--bg:#0a0e27;--panel:#141a3a;--panel-2:#1e2650;--border:#232a55;
+  --gold:#f4c542;--cyan:#4dd0e1;--pink:#ff6f91;--green:#4caf50;--purple:#b388ff;
+  --text:#e8e8f0;--muted:#9aa3c7;--radius:16px}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  background:radial-gradient(ellipse at top,#1a2150 0%,var(--bg) 70%);
+  color:var(--text);min-height:100vh;padding:16px;padding-bottom:100px;
+  font-size:15px;line-height:1.55}
+.wrap{max-width:1100px;margin:0 auto}
+header{text-align:center;margin-bottom:20px}
+header h1{font-weight:300;letter-spacing:2px;font-size:22px}
+header h1 b{color:var(--gold);font-weight:500}
+header p{color:var(--muted);font-size:10px;letter-spacing:2px;margin-top:4px}
+.panel{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);
+  padding:20px;margin-bottom:16px}
+.panel h2{font-size:10px;letter-spacing:2px;text-transform:uppercase;
+  color:var(--muted);margin-bottom:16px;font-weight:500}
+.hero{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:16px}
+.hero>.panel{flex:1;min-width:300px;margin-bottom:0}
+.clock-wrap{display:flex;gap:20px;align-items:center}
+.clock-face{width:100%;max-width:220px;height:auto;flex-shrink:0}
+.metric{margin-bottom:12px}
+.metric-label{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:2px}
+.metric-value{font-size:28px;font-weight:200;line-height:1.15;color:var(--gold);font-variant-numeric:tabular-nums}
+.metric-value.cyan{color:var(--cyan)}
+.metric-value.small{font-size:20px}
+.metric-sub{font-size:10px;color:var(--muted);margin-top:2px}
+.period-badge{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:20px;font-size:11px;margin-top:4px;background:rgba(255,255,255,0.06);border:1px solid currentColor}
+.period-badge .dot{width:8px;height:8px;border-radius:50%}
+.tuple{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;margin-top:14px}
+.tuple>div{background:var(--panel-2);border-radius:6px;padding:6px 2px;text-align:center}
+.tuple .val{font-size:14px;font-weight:600;color:var(--gold);font-variant-numeric:tabular-nums}
+.tuple .lbl{font-size:7px;letter-spacing:1px;color:var(--muted);text-transform:uppercase;margin-top:1px}
+.spiral-controls{display:flex;gap:8px;align-items:center;margin-bottom:10px;flex-wrap:wrap}
+select,input[type=text],input[type=number],textarea{background:var(--panel-2);border:1px solid var(--border);color:var(--text);padding:8px 10px;border-radius:8px;font-family:inherit;font-size:13px}
+select:focus,input:focus,textarea:focus{outline:none;border-color:var(--gold)}
+textarea{resize:vertical;min-height:60px;width:100%}
+#spiral-canvas{width:100%;height:min(380px,55vh);display:block;cursor:grab;background:rgba(10,14,39,0.5);border-radius:10px;touch-action:none}
+#spiral-canvas:active{cursor:grabbing}
+.spiral-info{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;font-size:11px;color:var(--muted);margin-top:10px}
+.spiral-info b{color:var(--gold);font-variant-numeric:tabular-nums}
+.legend{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;font-size:10px;color:var(--muted);margin-top:10px}
+.legend span{display:inline-flex;align-items:center;gap:4px}
+.legend .sw{width:10px;height:10px;border-radius:50%}
+.tabs{display:flex;gap:4px;background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:4px;margin-bottom:16px;overflow-x:auto}
+.tabs button{background:transparent;border:none;color:var(--muted);padding:10px 14px;border-radius:8px;cursor:pointer;font-size:12px;font-family:inherit;white-space:nowrap;transition:all 0.15s}
+.tabs button:hover{color:var(--text)}
+.tabs button.active{background:var(--panel-2);color:var(--gold)}
+.tab-content{display:none}
+.tab-content.active{display:block;animation:fadeIn 0.2s}
+@keyframes fadeIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+button{background:var(--panel-2);border:1px solid var(--border);color:var(--text);padding:9px 16px;border-radius:8px;cursor:pointer;font-size:13px;font-family:inherit;transition:all 0.15s}
+button:hover{border-color:var(--gold);color:var(--gold)}
+button:focus-visible,select:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+button.primary{background:var(--gold);color:var(--bg);border-color:var(--gold);font-weight:500}
+button.danger{border-color:var(--pink);color:var(--pink)}
+button.small{padding:6px 10px;font-size:11px}
+.btn-row{display:flex;gap:6px;flex-wrap:wrap}
+.btn-row.center{justify-content:center}
+.sw-time{font-size:52px;font-weight:200;text-align:center;color:var(--cyan);font-variant-numeric:tabular-nums;letter-spacing:1px;margin:12px 0 16px}
+.laps{max-height:300px;overflow-y:auto;margin-top:14px}
+table{width:100%;border-collapse:collapse;font-size:12px;font-variant-numeric:tabular-nums}
+th{text-align:left;color:var(--muted);font-weight:500;padding:6px 4px;border-bottom:1px solid var(--border);font-size:9px;letter-spacing:1px;text-transform:uppercase}
+td{padding:6px 4px;border-bottom:1px solid var(--border)}
+tr:last-child td{border-bottom:none}
+.moment{background:var(--panel-2);border-radius:10px;padding:10px;margin-bottom:8px;display:flex;gap:12px;align-items:center}
+.moment img{width:52px;height:52px;object-fit:cover;border-radius:8px;flex-shrink:0;background:#0a0e27;cursor:pointer}
+.moment .info{flex:1;min-width:0;cursor:pointer}
+.moment .label{font-size:13px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.moment .meta{font-size:10px;color:var(--muted);margin-top:2px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.moment .badge{display:inline-flex;align-items:center;gap:3px;font-size:9px;padding:1px 6px;border-radius:10px;background:rgba(255,255,255,0.06)}
+.moment .del{color:var(--pink);cursor:pointer;font-size:16px;padding:6px;opacity:0.7}
+.moment .del:hover{opacity:1}
+.cal-dates{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px}
+.cal-label{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:3px}
+.cal-value{font-size:13px;font-weight:500}
+.cal-year{display:grid;grid-template-columns:repeat(30,1fr);gap:1px;background:var(--panel-2);padding:8px;border-radius:10px;margin-bottom:14px;overflow-x:auto}
+.cal-cell{aspect-ratio:1;border-radius:2px;min-width:7px;transition:transform 0.15s}
+.cal-cell.current{outline:2px solid var(--gold);outline-offset:-1px;z-index:1;transform:scale(1.4);position:relative}
+.cal-cell.w1{background:rgba(244,197,66,0.35)}.cal-cell.w2{background:rgba(77,208,225,0.35)}
+.cal-cell.w3{background:rgba(255,111,145,0.35)}.cal-cell.w4{background:rgba(179,136,255,0.35)}
+.cal-cell.w5{background:rgba(76,175,80,0.35)}.cal-cell.w6{background:rgba(255,183,77,0.35)}
+.cal-cell.w7{background:rgba(96,125,139,0.35)}
+.drift-track{height:8px;background:var(--panel-2);border-radius:4px;overflow:hidden;margin-bottom:6px}
+.drift-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--pink));transition:width 0.2s}
+input[type=range]{width:100%;accent-color:var(--gold);margin:8px 0}
+.slider-labels{display:flex;justify-content:space-between;font-size:10px;color:var(--muted);margin-top:-4px}
+.bij-inputs{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-bottom:12px}
+.bij-field label{display:block;font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:3px}
+.bij-field input{width:100%;padding:6px;font-size:13px;text-align:center;font-variant-numeric:tabular-nums}
+.bij-out{background:var(--panel-2);border-radius:10px;padding:14px;font-size:12px;line-height:1.7;font-family:'Courier New',monospace}
+.bij-out .row{display:flex;justify-content:space-between;gap:12px;padding:4px 0;border-bottom:1px solid var(--border)}
+.bij-out .row:last-child{border-bottom:none}
+.bij-out .key{color:var(--muted)}
+.bij-out .val{color:var(--gold);font-variant-numeric:tabular-nums;text-align:right;word-break:break-all}
+.bij-out .val.cyan{color:var(--cyan)}
+.bij-out .val.pink{color:var(--pink)}
+details{background:var(--panel-2);border-radius:10px;padding:0;margin-bottom:10px;overflow:hidden}
+details summary{padding:12px 16px;cursor:pointer;font-size:12px;font-weight:500;color:var(--gold);user-select:none;display:flex;justify-content:space-between;align-items:center}
+details summary::after{content:'▸';transition:transform 0.2s;color:var(--muted)}
+details[open] summary::after{transform:rotate(90deg)}
+details .body{padding:0 16px 16px}
+.status{font-size:11px;text-align:center;margin-top:10px;min-height:16px;color:var(--muted)}
+.status.ok{color:var(--green)}
+.status.err{color:var(--pink)}
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:100;padding:20px;overflow-y:auto}
+.modal.active{display:flex;align-items:flex-start;justify-content:center;padding-top:40px}
+.modal-card{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);max-width:500px;width:100%;padding:24px;position:relative}
+.modal-close{position:absolute;top:12px;right:12px;background:transparent;border:none;color:var(--muted);font-size:20px;cursor:pointer;padding:4px 10px}
+.modal-close:hover{color:var(--text)}
+.modal img{width:100%;border-radius:10px;margin-bottom:16px;max-height:400px;object-fit:contain;background:#0a0e27}
+.modal h3{font-size:18px;font-weight:500;margin-bottom:8px}
+.modal p{font-size:13px;color:var(--muted);margin-bottom:12px;white-space:pre-wrap}
+.fab{position:fixed;bottom:24px;right:24px;width:56px;height:56px;border-radius:50%;background:var(--gold);color:var(--bg);border:none;font-size:24px;cursor:pointer;box-shadow:0 4px 20px rgba(244,197,66,0.4);z-index:50;display:flex;align-items:center;justify-content:center}
+.fab:hover{transform:scale(1.05)}
+@media(max-width:600px){
+  body{padding:12px;padding-bottom:80px}
+  .panel{padding:16px}
+  .clock-wrap{flex-direction:column}
+  .clock-face{max-width:180px}
+  .sw-time{font-size:40px}
+  .cal-dates{grid-template-columns:1fr;gap:6px}
+  .tabs button{padding:8px 10px;font-size:11px}
+  .bij-inputs{grid-template-columns:repeat(2,1fr)}
+  .hero{flex-direction:column}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>iGoSpiral · <b>de klok als wiskundig object</b></h1>
+    <p>p ≡ 1 (mod q) · m = 2 · cycle 2.520 · BigInt</p>
+  </header>
+
+  <div class="hero">
+    <div class="panel">
+      <h2>Klok</h2>
+      <div class="clock-wrap">
+        <svg class="clock-face" viewBox="0 0 200 200">
+          <circle cx="100" cy="100" r="95" fill="none" stroke="#232a55" stroke-width="1"/>
+          <path d="M 100 100 m -70 0 A 70 70 0 0 1 100 30 L 100 100 Z" fill="rgba(244,197,66,0.08)"/>
+          <path d="M 100 100 m -70 0 A 70 70 0 0 0 100 170 L 100 100 Z" fill="rgba(77,208,225,0.08)"/>
+          <g id="ticks"></g>
+          <circle cx="100" cy="100" r="3" fill="var(--gold)"/>
+          <line id="hand" x1="100" y1="100" x2="100" y2="26" stroke="var(--gold)" stroke-width="3" stroke-linecap="round"/>
+          <circle id="tip" cx="100" cy="26" r="4" fill="var(--gold)"/>
+        </svg>
+        <div style="flex:1;min-width:0">
+          <div class="metric">
+            <div class="metric-label">Uur</div>
+            <div class="metric-value small" id="hour-pos">1</div>
+            <div class="period-badge" id="period-badge">
+              <span class="dot" style="background:#1a237e"></span>
+              <span id="period-name">Nacht</span>
+            </div>
+          </div>
+          <div class="metric">
+            <div class="metric-label">Paper-m (mod 12)</div>
+            <div class="metric-value cyan" id="paper-m">0</div>
+            <div class="metric-sub" id="paper-m-sub">0 rondjes van 12 uur</div>
+          </div>
+        </div>
+      </div>
+      <div class="tuple" id="tuple"></div>
+    </div>
+
+    <div class="panel">
+      <h2>Spiraal · 3D</h2>
+      <div class="spiral-controls">
+        <select id="spiral-system">
+          <option value="7">Week · q = 7</option>
+          <option value="12">Klok · q = 12</option>
+          <option value="30">Maand · q = 30</option>
+          <option value="60">Minuut · q = 60</option>
+          <option value="9">(19, 9) · q = 9</option>
+        </select>
+        <button id="spiral-toggle" class="small">⏸ Rotatie</button>
+        <button id="spiral-reset" class="small">↺ Reset</button>
+      </div>
+      <canvas id="spiral-canvas"></canvas>
+      <div class="spiral-info" id="spiral-info"></div>
+      <div class="legend">
+        <span><span class="sw" style="background:#1a237e"></span>Nacht</span>
+        <span><span class="sw" style="background:#ff7043"></span>Dageraad</span>
+        <span><span class="sw" style="background:#4dd0e1"></span>Ochtend</span>
+        <span><span class="sw" style="background:#f4c542"></span>Middag</span>
+        <span><span class="sw" style="background:#ff9800"></span>Namiddag</span>
+        <span><span class="sw" style="background:#e91e63"></span>Avond</span>
+        <span><span class="sw" style="background:#7e57c2"></span>Schemering</span>
+      </div>
+    </div>
+  </div>
+
+  <nav class="tabs">
+    <button data-tab="kalender" class="active">Kalender</button>
+    <button data-tab="stopwatch">Stopwatch</button>
+    <button data-tab="momenten">Momenten</button>
+    <button data-tab="bijectie">Bijectie</button>
+    <button data-tab="opslag">Opslag</button>
+  </nav>
+
+  <section class="tab-content active" data-tab="kalender">
+    <div class="panel">
+      <h2>Kalender · model en gregoriaans</h2>
+      <div class="cal-dates">
+        <div><div class="cal-label">Model</div><div class="cal-value" id="cal-model">—</div></div>
+        <div><div class="cal-label">Gregoriaans</div><div class="cal-value" id="cal-greg">—</div></div>
+        <div><div class="cal-label">Weekdag</div><div class="cal-value" id="cal-week">—</div></div>
+      </div>
+      <div class="cal-year" id="cal-year"></div>
+      <div class="cal-label">Drift binnen maand</div>
+      <div class="drift-track"><div class="drift-fill" id="drift-fill"></div></div>
+      <div style="font-size:11px;color:var(--muted);margin-bottom:12px" id="drift-text">—</div>
+      <input type="range" id="cal-slider" min="0" max="2520" value="0" step="1">
+      <div class="slider-labels"><span>dag 0</span><span>2.520</span></div>
+      <div class="btn-row" style="margin-top:12px">
+        <button id="cal-today">→ Vandaag</button>
+        <button id="cal-sync">→ Volgende sync</button>
+      </div>
+      <div style="background:rgba(77,208,225,0.08);border-left:3px solid var(--cyan);border-radius:8px;padding:10px 14px;margin-top:12px;font-size:11px;line-height:1.5" id="sync-countdown">—</div>
+    </div>
+  </section>
+
+  <section class="tab-content" data-tab="stopwatch">
+    <div class="panel">
+      <h2>Stopwatch · N-generator</h2>
+      <div class="sw-time" id="sw-time">00:00:00.00</div>
+      <div class="btn-row center">
+        <button id="sw-start" class="primary">Start</button>
+        <button id="sw-stop">Stop</button>
+        <button id="sw-lap">Lap</button>
+        <button id="sw-reset" class="danger">Reset</button>
+      </div>
+      <div class="laps">
+        <table>
+          <thead><tr><th>#</th><th>N (ms)</th><th>Δ (ms)</th><th>Uur</th><th>Periode</th></tr></thead>
+          <tbody id="laps-body"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="tab-content" data-tab="momenten">
+    <div class="panel">
+      <h2>Nieuw moment</h2>
+      <div style="margin-bottom:10px">
+        <label style="display:block;font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:4px">N (ms, optioneel)</label>
+        <div style="display:flex;gap:6px">
+          <input type="text" id="m-n" placeholder="laat leeg voor huidige positie" style="flex:1">
+          <button id="m-use-current" class="small">Huidige</button>
+        </div>
+      </div>
+      <input type="text" id="m-label" placeholder="Label (bv. Einde cursus)" style="width:100%;margin-bottom:10px">
+      <textarea id="m-note" placeholder="Notitie (optioneel)"></textarea>
+      <div class="btn-row" style="margin-top:10px">
+        <button id="m-photo-btn" class="primary">📷 Foto</button>
+        <input type="file" id="m-photo" accept="image/*" capture="environment" style="display:none">
+        <button id="m-save" class="primary">💾 Opslaan</button>
+      </div>
+      <div style="font-size:11px;color:var(--muted);margin-top:8px" id="m-photo-preview"></div>
+    </div>
+    <div class="panel">
+      <h2>Momenten</h2>
+      <div class="btn-row" style="margin-bottom:12px">
+        <select id="m-filter" style="flex:1">
+          <option value="all">Alle periodes</option>
+          <option value="1">Nacht (1-5)</option>
+          <option value="2">Dageraad (6-7)</option>
+          <option value="3">Ochtend (8-11)</option>
+          <option value="4">Middag (12-13)</option>
+          <option value="5">Namiddag (14-17)</option>
+          <option value="6">Avond (18-20)</option>
+          <option value="7">Schemering (21-24)</option>
+        </select>
+        <select id="m-sort" style="flex:1">
+          <option value="recent">Recent toegevoegd</option>
+          <option value="n">Op N</option>
+        </select>
+      </div>
+      <div id="m-list"></div>
+    </div>
+  </section>
+
+  <section class="tab-content" data-tab="bijectie">
+    <div class="panel">
+      <h2>De bijectie · N ↔ tuple</h2>
+      <details open>
+        <summary>N → tuple</summary>
+        <div class="body">
+          <input type="text" id="bij-n" value="100000000" style="width:100%;margin-bottom:10px">
+          <div class="btn-row">
+            <button id="bij-n-go" class="primary">Bereken</button>
+            <button id="bij-n-jump" class="small">Spring naar N</button>
+            <button id="bij-n-copy" class="small">Kopieer tuple</button>
+          </div>
+          <div class="bij-out" id="bij-n-out" style="margin-top:12px"></div>
+        </div>
+      </details>
+      <details>
+        <summary>Tuple → N</summary>
+        <div class="body">
+          <div class="bij-inputs" id="bij-tuple-inputs"></div>
+          <div class="btn-row">
+            <button id="bij-tuple-go" class="primary">Bereken</button>
+            <button id="bij-tuple-fill" class="small">Vul met huidige</button>
+          </div>
+          <div class="bij-out" id="bij-tuple-out" style="margin-top:12px"></div>
+        </div>
+      </details>
+      <details>
+        <summary>Gewichten per positie</summary>
+        <div class="body">
+          <div class="bij-out" id="bij-weights"></div>
+        </div>
+      </details>
+      <details>
+        <summary>Carry-keten</summary>
+        <div class="body">
+          <p style="font-size:11px;color:var(--muted);margin-bottom:10px">Hoe N door de basissen cascadeert. Elke stap: rest = N mod basis, carry = N / basis.</p>
+          <input type="text" id="bij-carry-n" value="100000000" style="width:100%;margin-bottom:10px">
+          <button id="bij-carry-go" class="primary small">Bereken</button>
+          <div class="bij-out" id="bij-carry-out" style="margin-top:10px"></div>
+        </div>
+      </details>
+      <details>
+        <summary>Afstand tussen twee N</summary>
+        <div class="body">
+          <div style="display:flex;gap:6px;margin-bottom:10px">
+            <input type="text" id="bij-dist-a" value="0" style="flex:1" placeholder="N₁">
+            <input type="text" id="bij-dist-b" value="86400000" style="flex:1" placeholder="N₂">
+          </div>
+          <button id="bij-dist-go" class="primary small">Bereken afstand</button>
+          <div class="bij-out" id="bij-dist-out" style="margin-top:10px"></div>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <section class="tab-content" data-tab="opslag">
+    <div class="panel">
+      <h2>Opslag</h2>
+      <div class="bij-out" id="storage-info"></div>
+      <div class="btn-row" style="margin-top:14px">
+        <button id="export" class="primary">⬇ Export (.json)</button>
+        <button id="import-btn">⬆ Import (.json)</button>
+        <button id="clear-all" class="danger">🗑 Wis alles</button>
+        <input type="file" id="import" accept=".json" style="display:none">
+      </div>
+      <div class="status" id="status"></div>
+    </div>
+  </section>
+</div>
+
+<div class="modal" id="modal">
+  <div class="modal-card">
+    <button class="modal-close">✕</button>
+    <img id="modal-photo" style="display:none">
+    <h3 id="modal-label"></h3>
+    <p id="modal-note"></p>
+    <div class="bij-out" id="modal-tuple"></div>
+    <div class="btn-row" style="margin-top:14px">
+      <button id="modal-jump" class="small">Spring naar</button>
+      <button id="modal-delete" class="small danger">Verwijder</button>
+    </div>
+  </div>
+</div>
+
+<button class="fab" id="fab-save" title="Snel opslaan">＋</button>
+
+<script type="module">
+const UNITS = ["millennium","eeuw","decennium","jaar","maand","dag","uur","minuut","seconde","ms"];
+const BASES = {ms:1000n,seconde:60n,minuut:60n,uur:24n,dag:30n,maand:12n,jaar:10n,decennium:10n,eeuw:10n,millennium:null};
+const SMALL_TO_LARGE = [...UNITS].reverse();
+const WEIGHTS = {};
+{ let w = 1n; for (const unit of SMALL_TO_LARGE) { WEIGHTS[unit] = w; const base = BASES[unit]; if (base !== null) w *= base; } }
+const DAY_MS = 86400000n;
+const ANCHOR_MS = new Date("2026-01-01T00:00:00+01:00").getTime();
+
+const TIME_PERIODS = [
+  { min:1, max:5, name:'Nacht', color:'#1a237e', icon:'🌙' },
+  { min:6, max:7, name:'Dageraad', color:'#ff7043', icon:'🌅' },
+  { min:8, max:11, name:'Ochtend', color:'#4dd0e1', icon:'☀️' },
+  { min:12, max:13, name:'Middag', color:'#f4c542', icon:'🌞' },
+  { min:14, max:17, name:'Namiddag', color:'#ff9800', icon:'🌤️' },
+  { min:18, max:20, name:'Avond', color:'#e91e63', icon:'🌆' },
+  { min:21, max:24, name:'Schemering', color:'#7e57c2', icon:'🌃' },
+];
+const getTimePeriod = hour => TIME_PERIODS.find(p => hour >= p.min && hour <= p.max) || TIME_PERIODS[0];
+
+function spiral(value, q) {
+  if (typeof value === "number" && !Number.isSafeInteger(value)) throw new RangeError("Te groot voor Number.");
+  const v = BigInt(value), base = BigInt(q);
+  if (v < 1n) throw new Error("value begint bij 1");
+  return { position: Number(((v - 1n) % base) + 1n), m: (v - 1n) / base };
+}
+
+function N_to_ClockTuple(N) {
+  if (typeof N === "number" && !Number.isSafeInteger(N)) throw new RangeError("Te groot voor Number.");
+  let rest = BigInt(N);
+  if (rest < 0n) throw new Error("N >= 0");
+  const out = [];
+  for (const unit of SMALL_TO_LARGE) {
+    const base = BASES[unit];
+    if (base === null) out.push(Number(rest + 1n));
+    else { const { position, m } = spiral(rest + 1n, base); out.push(position); rest = m; }
+  }
+  return out.reverse();
+}
+
+function ClockTuple_to_N(t) {
+  if (t.length !== UNITS.length) throw new Error(`10 delen nodig`);
+  let N = 0n, weight = 1n;
+  for (let i = 0; i < UNITS.length; i++) {
+    const unit = SMALL_TO_LARGE[i];
+    const pos = BigInt(t[UNITS.length - 1 - i]);
+    const base = BASES[unit];
+    if (pos < 1n || (base !== null && pos > base)) throw new RangeError(`${unit}=${pos} valt buiten bereik`);
+    N += (pos - 1n) * weight;
+    if (base !== null) weight *= base;
+  }
+  return N;
+}
+
+function carryChain(N) {
+  let rest = BigInt(N);
+  const chain = [];
+  for (const unit of SMALL_TO_LARGE) {
+    const base = BASES[unit];
+    if (base === null) chain.push({ unit, position: Number(rest + 1n), carry: 0n, base: null });
+    else {
+      const pos = Number(rest % base) + 1;
+      const carry = rest / base;
+      chain.push({ unit, position: pos, carry, base: Number(base) });
+      rest = carry;
+    }
+  }
+  return chain.reverse();
+}
+
+function digitalRoot(N) {
+  const s = BigInt(N).toString();
+  let sum = 0;
+  for (const c of s) sum += parseInt(c, 10);
+  return sum < 10 ? sum : digitalRoot(sum);
+}
+
+function formatDuration(ms) {
+  ms = BigInt(ms);
+  return `${ms / 86400000n}d ${(ms % 86400000n) / 3600000n}u ${(ms % 3600000n) / 60000n}m ${(ms % 60000n) / 1000n}s`;
+}
+
+const svgNS = "http://www.w3.org/2000/svg";
+const el = (tag, attrs) => { const e = document.createElementNS(svgNS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); return e; };
+
+const ticks = document.getElementById("ticks");
+for (let i = 0; i < 12; i++) {
+  const a = (i / 12) * Math.PI * 2 - Math.PI / 2;
+  ticks.appendChild(el("line", { x1: 100 + Math.cos(a) * 78, y1: 100 + Math.sin(a) * 78, x2: 100 + Math.cos(a) * 90, y2: 100 + Math.sin(a) * 90, stroke: i === 0 ? "var(--gold)" : "#2a3160", "stroke-width": i === 0 ? 3 : 1.5 }));
+  const t = el("text", { x: 100 + Math.cos(a) * 66, y: 100 + Math.sin(a) * 66 + 3, "text-anchor": "middle", "font-size": 9, fill: "#7a82a8" });
+  t.textContent = i + 1; ticks.appendChild(t);
+}
+
+const tupleEl = document.getElementById("tuple");
+for (const u of UNITS) {
+  const d = document.createElement("div");
+  d.innerHTML = `<div class="val" data-u="${u}">1</div><div class="lbl">${u}</div>`;
+  tupleEl.appendChild(d);
+}
+
+function updateClock(N) {
+  const t = N_to_ClockTuple(N);
+  const hr = ((t[6] - 1) % 12) + (t[7] - 1) / 60 + (t[8] - 1) / 3600;
+  const angle = (hr / 12) * 360;
+  document.getElementById("hand").setAttribute("transform", `rotate(${angle} 100 100)`);
+  document.getElementById("tip").setAttribute("transform", `rotate(${angle} 100 100)`);
+  
+  const period = getTimePeriod(t[6]);
+  document.getElementById("hour-pos").textContent = t[6];
+  const badge = document.getElementById("period-badge");
+  badge.style.color = period.color;
+  badge.querySelector(".dot").style.background = period.color;
+  document.getElementById("period-name").textContent = `${period.icon} ${period.name}`;
+
+  const pm = Math.floor((t[6] - 1) / 12);
+  document.getElementById("paper-m").textContent = pm;
+  document.getElementById("paper-m-sub").textContent = pm === 0 ? "0 rondjes van 12 uur" : `${pm} rondje${pm > 1 ? "s" : ""} van 12 uur`;
+  tupleEl.querySelectorAll(".val").forEach(e => e.textContent = t[UNITS.indexOf(e.dataset.u)]);
+}
+
+class Spiral {
+  constructor(canvas, q = 7) {
+    this.c = canvas; this.ctx = canvas.getContext("2d");
+    this.q = q; this.rotation = 0; this.tilt = 0.35;
+    this.autoRotate = true; this.dragging = false; this.lastX = 0;
+    this.currentM = 0; this.currentPos = 1;
+    this.moments = []; this.imageCache = new Map(); this.hitboxes = [];
+    this.dpr = window.devicePixelRatio || 1;
+    this.resize(); this.setupEvents(); this.loop();
+  }
+  resize() {
+    const r = this.c.getBoundingClientRect();
+    this.c.width = r.width * this.dpr; this.c.height = r.height * this.dpr;
+    this.ctx.setTransform(this.dpr, 0, 0, this.dpr, 0, 0);
+  }
+  setupEvents() {
+    this._onMove = e => { if (!this.dragging) return; this.rotation += (e.clientX - this.lastX) * 0.01; this.lastX = e.clientX; this.needsRedraw = true; };
+    this._onUp = () => { this.dragging = false; window.removeEventListener("pointermove", this._onMove); window.removeEventListener("pointerup", this._onUp); };
+    this.c.addEventListener("pointerdown", e => { this.dragging = true; this.lastX = e.clientX; window.addEventListener("pointermove", this._onMove); window.addEventListener("pointerup", this._onUp); });
+    window.addEventListener("resize", () => { this.resize(); this.needsRedraw = true; });
+    this.c.addEventListener("click", e => {
+      const rect = this.c.getBoundingClientRect();
+      const cx = e.clientX - rect.left, cy = e.clientY - rect.top;
+      for (const hb of this.hitboxes) {
+        if ((cx - hb.x)**2 + (cy - hb.y)**2 < hb.r**2) { showMomentModal(hb.moment); return; }
+      }
+    });
+  }
+  project(x, y, z) {
+    const w = this.c.width / this.dpr, h = this.c.height / this.dpr;
+    const ca = Math.cos(this.rotation), sa = Math.sin(this.rotation);
+    const x1 = x * ca - z * sa; const z1 = x * sa + z * ca;
+    const ct = Math.cos(this.tilt), st = Math.sin(this.tilt);
+    const y1 = y * ct - z1 * st; const z2 = y * st + z1 * ct;
+    const scale = 400 / (400 + z2);
+    return { x: w/2 + x1*scale*55, y: h/2 - y1*scale*22, z: z2, scale };
+  }
+  setQ(q) { this.q = q; this.needsRedraw = true; }
+  setCurrent(m, pos) { this.currentM = m; this.currentPos = pos; this.needsRedraw = true; }
+  setMoments(list) {
+    for (const url of this.imageCache.values()) if (url._blobUrl) URL.revokeObjectURL(url._blobUrl);
+    this.moments = list; this.imageCache.clear();
+    for (const m of list) this.preloadImage(m);
+    this.needsRedraw = true;
+  }
+  async preloadImage(moment) {
+    if (!moment.photoRef || this.imageCache.has(moment.id)) return;
+    try {
+      const blob = await loadPhotoBlob(moment.photoRef);
+      const url = URL.createObjectURL(blob);
+      const img = new Image(); img.src = url;
+      img.onload = () => { img._blobUrl = url; this.imageCache.set(moment.id, img); this.needsRedraw = true; };
+    } catch {}
+  }
+  draw() {
+    const w = this.c.width / this.dpr, h = this.c.height / this.dpr;
+    this.ctx.clearRect(0, 0, w, h);
+    const minM = Math.max(0, this.currentM - 5), maxM = this.currentM + 5;
+    const pts = [];
+    for (let m = minM; m <= maxM; m++) {
+      for (let p = 1; p <= this.q; p++) {
+        const t = (p - 1) / this.q * Math.PI * 2;
+        pts.push({ m, p, ...this.project(Math.cos(t), m, Math.sin(t)) });
+      }
+    }
+    pts.sort((a, b) => b.z - a.z);
+    for (let i = 0; i < pts.length - 1; i++) {
+      const a = pts[i], b = pts[i+1];
+      if (Math.abs(a.m - b.m) > 1 || Math.abs(a.p - b.p) > 1) continue;
+      const alpha = Math.max(0.08, 1 - Math.abs(a.m - this.currentM) / 6);
+      this.ctx.beginPath(); this.ctx.moveTo(a.x, a.y); this.ctx.lineTo(b.x, b.y);
+      this.ctx.strokeStyle = (a.m === this.currentM) ? `rgba(244,197,66,${alpha})` : `rgba(77,208,225,${alpha*0.5})`;
+      this.ctx.lineWidth = (a.m === this.currentM) ? 2.2 : 1;
+      this.ctx.stroke();
+    }
+    this.hitboxes = [];
+    for (const moment of this.moments) {
+      try {
+        const N = BigInt(moment.n);
+        const { position, m } = spiral(N / DAY_MS + 1n, BigInt(this.q));
+        if (m < BigInt(minM) || m > BigInt(maxM)) continue;
+        const t = ((position - 1) / this.q) * Math.PI * 2;
+        const p = this.project(Math.cos(t), Number(m), Math.sin(t));
+        const period = getTimePeriod(Number((N / 3600000n) % 24n) + 1);
+        const img = this.imageCache.get(moment.id);
+        if (img) {
+          this.ctx.save(); this.ctx.beginPath(); this.ctx.arc(p.x, p.y, 9, 0, Math.PI*2); this.ctx.clip();
+          this.ctx.drawImage(img, p.x - 9, p.y - 9, 18, 18); this.ctx.restore();
+          this.ctx.beginPath(); this.ctx.arc(p.x, p.y, 9, 0, Math.PI*2);
+          this.ctx.strokeStyle = period.color; this.ctx.lineWidth = 2.5; this.ctx.stroke();
+          this.hitboxes.push({ x: p.x, y: p.y, r: 14, moment });
+        } else {
+          this.ctx.beginPath(); this.ctx.arc(p.x, p.y, 5, 0, Math.PI*2);
+          this.ctx.fillStyle = period.color; this.ctx.fill();
+          this.ctx.strokeStyle = 'rgba(255,255,255,0.4)'; this.ctx.lineWidth = 1; this.ctx.stroke();
+          this.hitboxes.push({ x: p.x, y: p.y, r: 10, moment });
+        }
+      } catch {}
+    }
+    const t = (this.currentPos - 1) / this.q * Math.PI * 2;
+    const cur = this.project(Math.cos(t), this.currentM, Math.sin(t));
+    this.ctx.beginPath(); this.ctx.arc(cur.x, cur.y, 8, 0, Math.PI*2);
+    this.ctx.fillStyle = "#f4c542"; this.ctx.shadowColor = "#f4c542"; this.ctx.shadowBlur = 20; this.ctx.fill(); this.ctx.shadowBlur = 0;
+    this.ctx.fillStyle = "rgba(122,130,168,0.9)"; this.ctx.font = "11px -apple-system, sans-serif"; this.ctx.textAlign = "left";
+    this.ctx.fillText(`m = ${this.currentM} · q = ${this.q}`, 12, 20);
+  }
+  loop() {
+    if (this.needsRedraw || (this.autoRotate && !this.dragging && !document.hidden)) {
+      this.draw(); this.needsRedraw = false;
+      if (this.autoRotate && !this.dragging) this.rotation += 0.004;
+    }
+    requestAnimationFrame(() => this.loop());
+  }
+}
+
+const GREG_M = ["januari","februari","maart","april","mei","juni","juli","augustus","september","oktober","november","december"];
+const GREG_D = ["maandag","dinsdag","woensdag","donderdag","vrijdag","zaterdag","zondag"];
+
+function renderCalendar(dayIndex) {
+  const monthIdx = Math.floor(dayIndex / 30) % 12;
+  const dayInMonth = dayIndex % 30;
+  const year = Math.floor(dayIndex / 360) + 1;
+  const weekDay = dayIndex % 7;
+  document.getElementById("cal-model").textContent = `Jaar ${year} · maand ${monthIdx + 1} · dag ${dayInMonth + 1}`;
+  const greg = new Date(ANCHOR_MS + dayIndex * 86400000);
+  document.getElementById("cal-greg").textContent = `${greg.getDate()} ${GREG_M[greg.getMonth()]} ${greg.getFullYear()}`;
+  document.getElementById("cal-week").textContent = `${GREG_D[weekDay]}`;
+  
+  const grid = document.getElementById("cal-year");
+  if (grid.children.length !== 360) {
+    grid.innerHTML = "";
+    for (let i = 0; i < 360; i++) grid.appendChild(document.createElement("div"));
+  }
+  for (let i = 0; i < 360; i++) {
+    const cell = grid.children[i];
+    cell.className = `cal-cell w${(i % 7) + 1}`;
+    if (i === (dayIndex % 360)) cell.classList.add("current");
+  }
+  const drift = (monthIdx * 30) % 7;
+  document.getElementById("drift-fill").style.width = (drift / 7) * 100 + "%";
+  document.getElementById("drift-text").textContent = `Week verschoven ${drift} dag${drift !== 1 ? "en" : ""} t.o.v. maandstart`;
+  const remaining = (2520 - (dayIndex % 2520)) % 2520;
+  const years = (remaining / 360).toFixed(1).replace(".", ",");
+  document.getElementById("sync-countdown").innerHTML = remaining === 0 ? "✦ Op dit moment vallen week en maand samen." : `Volgende synchronisatie over <b>${remaining}</b> dagen (${years} jaar). Dan vallen week (7) en maand (30) weer samen.`;
+}
+
+let swStart = 0, swElapsed = 0, swRunning = false, swLaps = [];
+const swNow = () => swRunning ? performance.now() - swStart : swElapsed;
+const swFmt = ms => {
+  const h = Math.floor(ms/3600000), m = Math.floor((ms%3600000)/60000), s = Math.floor((ms%60000)/1000), cs = Math.floor((ms%1000)/10);
+  return `${String(h).padStart(2,"0")}:${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}.${String(cs).padStart(2,"0")}`;
+};
+function swRender() {
+  document.getElementById("sw-time").textContent = swFmt(swNow());
+  const body = document.getElementById("laps-body"); body.innerHTML = "";
+  swLaps.forEach((lap, i) => {
+    const t = N_to_ClockTuple(BigInt(Math.floor(lap.n)));
+    const period = getTimePeriod(t[6]);
+    const tr = document.createElement("tr");
+    tr.innerHTML = `<td>${i+1}</td><td>${Math.floor(lap.n)}</td><td>${Math.floor(lap.delta)}</td><td>${t[6]}</td><td><span style="color:${period.color}">${period.icon}</span></td>`;
+    body.appendChild(tr);
+  });
+}
+let swInterval = null;
+const swStartInterval = () => { if (!swInterval) swInterval = setInterval(swRender, 50); };
+const swStopInterval = () => { if (swInterval) { clearInterval(swInterval); swInterval = null; } swRender(); };
+
+document.getElementById("sw-start").onclick = () => { if (swRunning) return; swRunning = true; swStart = performance.now() - swElapsed; swStartInterval(); };
+document.getElementById("sw-stop").onclick = () => { if (!swRunning) return; swElapsed = performance.now() - swStart; swRunning = false; swStopInterval(); };
+document.getElementById("sw-reset").onclick = () => { swRunning = false; swElapsed = 0; swStart = 0; swLaps = []; swStopInterval(); document.getElementById("laps-body").innerHTML = ""; };
+document.getElementById("sw-lap").onclick = () => { const n = swNow(); const prev = swLaps.length ? swLaps[swLaps.length-1].n : 0; swLaps.push({ n, delta: n - prev }); swRender(); };
+
+const DB_NAME = "spiraal", DB_VERSION = 1; let db;
+function openDB() {
+  return new Promise((res, rej) => {
+    const r = indexedDB.open(DB_NAME, DB_VERSION);
+    r.onupgradeneeded = () => { const d = r.result; d.createObjectStore("moments", { keyPath: "id" }); d.createObjectStore("photos", { keyPath: "id" }); };
+    r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error);
+  });
+}
+const dbGet = (s, k) => new Promise((res, rej) => { const r = db.transaction(s).objectStore(s).get(k); r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error); });
+const dbPut = (s, v) => new Promise((res, rej) => { const r = db.transaction(s, "readwrite").objectStore(s).put(v); r.onsuccess = () => res(); r.onerror = () => rej(r.error); });
+const dbAll = (s) => new Promise((res, rej) => { const r = db.transaction(s).objectStore(s).getAll(); r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error); });
+const dbDelete = (s, k) => new Promise((res, rej) => { const r = db.transaction(s, "readwrite").objectStore(s).delete(k); r.onsuccess = () => res(); r.onerror = () => rej(r.error); });
+
+let opfsRoot = null;
+async function initOPFS() { if (!navigator.storage?.getDirectory) return null; try { opfsRoot = await navigator.storage.getDirectory(); return opfsRoot; } catch { return null; } }
+async function savePhotoBlob(id, blob) {
+  if (opfsRoot) {
+    const dir = await opfsRoot.getDirectoryHandle("photos", { create: true });
+    const fh = await dir.getFileHandle(id, { create: true });
+    const w = await fh.createWritable(); await w.write(blob); await w.close(); return `opfs:${id}`;
+  }
+  const buf = await blob.arrayBuffer(); await dbPut("photos", { id, buf, type: blob.type }); return `idb:${id}`;
+}
+async function loadPhotoBlob(ref) {
+  if (ref.startsWith("opfs:")) { const dir = await opfsRoot.getDirectoryHandle("photos"); const fh = await dir.getFileHandle(ref.slice(5)); return await fh.getFile(); }
+  const rec = await dbGet("photos", ref.slice(4)); return new Blob([rec.buf], { type: rec.type });
+}
+async function deletePhotoBlob(ref) {
+  if (!ref) return;
+  try { if (ref.startsWith("opfs:")) { const dir = await opfsRoot.getDirectoryHandle("photos"); await dir.removeEntry(ref.slice(5)); } else { await dbDelete("photos", ref.slice(4)); } } catch {}
+}
+
+let pendingPhoto = null;
+document.getElementById("m-photo-btn").onclick = () => document.getElementById("m-photo").click();
+document.getElementById("m-photo").onchange = async (e) => {
+  const f = e.target.files[0]; if (!f) return;
+  const resized = await resizeImage(f, 2048, 0.85); pendingPhoto = resized;
+  document.getElementById("m-photo-preview").textContent = `✓ Foto klaar: ${(resized.size / 1024).toFixed(0)} KB`;
+};
+document.getElementById("m-use-current").onclick = () => { document.getElementById("m-n").value = (currentDayIndex * 86400000).toString(); };
+async function resizeImage(file, maxSide, quality) {
+  const bmp = await createImageBitmap(file);
+  const scale = Math.min(1, maxSide / Math.max(bmp.width, bmp.height));
+  const canvas = document.createElement("canvas"); canvas.width = Math.round(bmp.width * scale); canvas.height = Math.round(bmp.height * scale);
+  canvas.getContext("2d").drawImage(bmp, 0, 0, canvas.width, canvas.height);
+  return new Promise(r => canvas.toBlob(r, "image/jpeg", quality));
+}
+
+async function renderMoments() {
+  const filter = document.getElementById("m-filter").value, sort = document.getElementById("m-sort").value;
+  let list = await dbAll("moments");
+  if (filter !== "all") list = list.filter(m => { const t = N_to_ClockTuple(BigInt(m.n)); return TIME_PERIODS.findIndex(p => t[6] >= p.min && t[6] <= p.max) === parseInt(filter, 10) - 1; });
+  list.sort((a, b) => sort === "n" ? a.n - b.n : b.createdAt - a.createdAt);
+  const container = document.getElementById("m-list"); container.innerHTML = "";
+  if (list.length === 0) { container.innerHTML = `<p style="color:var(--muted);font-size:12px;text-align:center;padding:20px">Nog geen momenten opgeslagen.<br><span style="opacity:0.7">Tik op de gele ＋ knop rechtsonder.</span></p>`; return; }
+  for (const m of list) {
+    const div = document.createElement("div"); div.className = "moment";
+    let img = "";
+    if (m.photoRef) { try { const blob = await loadPhotoBlob(m.photoRef); img = `<img src="${URL.createObjectURL(blob)}" alt="">`; } catch {} }
+    const t = N_to_ClockTuple(BigInt(m.n)), period = getTimePeriod(t[6]);
+    div.innerHTML = `${img} <div class="info"> <div class="label">${m.label || "(geen label)"}</div> <div class="meta"> <span>N = ${m.n} ms</span> <span class="badge" style="color:${period.color}">${period.icon} ${period.name}</span> <span>uur ${t[6]}</span> </div> </div> <div class="del">✕</div>`;
+    div.querySelector(".info").onclick = () => showMomentModal(m);
+    if (img) div.querySelector("img").onclick = () => showMomentModal(m);
+    div.querySelector(".del").onclick = async () => {
+      if (!confirm("Dit moment verwijderen?")) return;
+      if (m.photoRef) await deletePhotoBlob(m.photoRef);
+      await dbDelete("moments", m.id); renderMoments(); refreshSpiralMoments();
+    };
+    container.appendChild(div);
+  }
+}
+
+document.getElementById("m-save").onclick = async () => {
+  const label = document.getElementById("m-label").value.trim(), note = document.getElementById("m-note").value.trim(), nRaw = document.getElementById("m-n").value.trim();
+  const n = nRaw ? parseInt(nRaw, 10) : currentDayIndex * 86400000;
+  if (!label && !pendingPhoto) { status("Vul een label of foto in", "err"); return; }
+  const id = crypto.randomUUID(); let photoRef = null;
+  if (pendingPhoto) photoRef = await savePhotoBlob(id, pendingPhoto);
+  await dbPut("moments", { id, n, label, note, photoRef, createdAt: Date.now() });
+  document.getElementById("m-label").value = ""; document.getElementById("m-note").value = ""; document.getElementById("m-n").value = ""; document.getElementById("m-photo-preview").textContent = ""; pendingPhoto = null;
+  status("Opgeslagen", "ok"); renderMoments(); refreshSpiralMoments();
+};
+document.getElementById("fab-save").onclick = () => { document.querySelector('[data-tab="momenten"]').click(); document.getElementById("m-label").focus(); };
+document.getElementById("m-filter").onchange = renderMoments; document.getElementById("m-sort").onchange = renderMoments;
+
+function showMomentModal(moment) {
+  const modal = document.getElementById("modal"); modal.classList.add("active");
+  const t = N_to_ClockTuple(BigInt(moment.n)), period = getTimePeriod(t[6]);
+  document.getElementById("modal-label").textContent = moment.label || "(geen label)";
+  document.getElementById("modal-note").textContent = moment.note || "";
+  const photoEl = document.getElementById("modal-photo");
+  if (moment.photoRef) { loadPhotoBlob(moment.photoRef).then(blob => { photoEl.src = URL.createObjectURL(blob); photoEl.style.display = "block"; }); } else { photoEl.style.display = "none"; }
+  document.getElementById("modal-tuple").innerHTML = `<div class="row"><span class="key">N</span><span class="val">${moment.n} ms</span></div><div class="row"><span class="key">Periode</span><span class="val" style="color:${period.color}">${period.icon} ${period.name}</span></div>${t.map((v, i) => `<div class="row"><span class="key">${UNITS[i]}</span><span class="val cyan">${v}</span></div>`).join("")}`;
+  document.getElementById("modal-jump").onclick = () => { const dayIndex = Math.floor(moment.n / 86400000); updateAll(dayIndex); document.getElementById("cal-slider").value = dayIndex % 2520; modal.classList.remove("active"); document.querySelector('[data-tab="kalender"]').click(); };
+  document.getElementById("modal-delete").onclick = async () => { if (!confirm("Dit moment verwijderen?")) return; if (moment.photoRef) await deletePhotoBlob(moment.photoRef); await dbDelete("moments", moment.id); modal.classList.remove("active"); renderMoments(); refreshSpiralMoments(); };
+}
+document.querySelector(".modal-close").onclick = () => document.getElementById("modal").classList.remove("active");
+document.getElementById("modal").onclick = (e) => { if (e.target.id === "modal") e.target.classList.remove("active"); };
+async function refreshSpiralMoments() { if (!spiralObj) return; const list = await dbAll("moments"); spiralObj.setMoments(list); }
+
+function bijRender(outId, rows) { document.getElementById(outId).innerHTML = rows.map(([k, v, cls]) => `<div class="row"><span class="key">${k}</span><span class="val ${cls || ''}">${v}</span></div>`).join(""); }
+document.getElementById("bij-n-go").onclick = () => {
+  try {
+    const N = BigInt(document.getElementById("bij-n").value.trim()), t = N_to_ClockTuple(N);
+    bijRender("bij-n-out", [["N", N.toString() + " ms"], ["digitale wortel", digitalRoot(N)], ...t.map((v, i) => [UNITS[i], v, "cyan"]), ["terug (controle)", ClockTuple_to_N(t).toString() === N.toString() ? "✓ klopt" : "✗ fout", "pink"]]);
+  } catch (e) { bijRender("bij-n-out", [["fout", e.message, "pink"]]); }
+};
+document.getElementById("bij-n-jump").onclick = () => { try { const N = BigInt(document.getElementById("bij-n").value.trim()), dayIndex = Number(N / DAY_MS); updateAll(dayIndex); document.getElementById("cal-slider").value = dayIndex % 2520; document.querySelector('[data-tab="kalender"]').click(); } catch {} };
+document.getElementById("bij-n-copy").onclick = () => { try { const N = BigInt(document.getElementById("bij-n").value.trim()), t = N_to_ClockTuple(N); navigator.clipboard.writeText(JSON.stringify(t)); status("Tuple gekopieerd", "ok"); } catch {} };
+
+const bijInputs = document.getElementById("bij-tuple-inputs");
+for (const u of UNITS) { const f = document.createElement("div"); f.className = "bij-field"; f.innerHTML = `<label>${u}</label><input type="number" id="bij-t-${u}" value="1" min="1">`; bijInputs.appendChild(f); }
+document.getElementById("bij-tuple-go").onclick = () => {
+  try {
+    const t = UNITS.map(u => { const v = parseInt(document.getElementById(`bij-t-${u}`).value, 10); if (isNaN(v) || v < 1) throw new Error(`${u}: min 1`); return v; });
+    const N = ClockTuple_to_N(t); bijRender("bij-tuple-out", [["N", N.toString() + " ms"], ["als dagen", formatDuration(N)], ["digitale wortel", digitalRoot(N)]]);
+  } catch (e) { bijRender("bij-tuple-out", [["fout", e.message, "pink"]]); }
+};
+document.getElementById("bij-tuple-fill").onclick = () => { const t = N_to_ClockTuple(BigInt(currentDayIndex * 86400000)); t.forEach((v, i) => document.getElementById(`bij-t-${UNITS[i]}`).value = v); };
+document.getElementById("bij-weights").innerHTML = UNITS.map(u => `<div class="row"><span class="key">${u}</span><span class="val">${WEIGHTS[u].toString()} ms</span></div>`).join("");
+document.getElementById("bij-carry-go").onclick = () => {
+  try {
+    const N = BigInt(document.getElementById("bij-carry-n").value.trim()), chain = carryChain(N);
+    document.getElementById("bij-carry-out").innerHTML = chain.map(c => `<div class="row"><span class="key">${c.unit}</span><span class="val">pos ${c.position}${c.base !== null ? ` / ${c.base}` : ''} · carry ${c.carry}</span></div>`).join("");
+  } catch (e) { bijRender("bij-carry-out", [["fout", e.message, "pink"]]); }
+};
+document.getElementById("bij-dist-go").onclick = () => {
+  try {
+    const a = BigInt(document.getElementById("bij-dist-a").value.trim()), b = BigInt(document.getElementById("bij-dist-b").value.trim());
+    const diff = b > a ? b - a : a - b;
+    bijRender("bij-dist-out", [["verschil", diff.toString() + " ms"], ["in dagen/uren/min/sec", formatDuration(diff)], ["aantal dagen", (diff / DAY_MS).toString()], ["aantal weken", (diff / (DAY_MS * 7n)).toString()], ["aantal 2520-cycli", (diff / (DAY_MS * 2520n)).toString()]]);
+  } catch (e) { bijRender("bij-dist-out", [["fout", e.message, "pink"]]); }
+};
+
+document.getElementById("export").onclick = async () => {
+  const moments = await dbAll("moments");
+  const blob = new Blob([JSON.stringify({ version: 1, moments, exportedAt: Date.now() }, null, 2)], { type: "application/json" });
+  const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = `igospiral-export-${Date.now()}.json`; a.click(); status("Geëxporteerd", "ok");
+};
+document.getElementById("import-btn").onclick = () => document.getElementById("import").click();
+document.getElementById("import").onchange = async (e) => {
+  const f = e.target.files[0]; if (!f) return;
+  try {
+    const payload = JSON.parse(await f.text());
+    for (const m of payload.moments || []) await dbPut("moments", m);
+    status(`Geïmporteerd: ${payload.moments?.length || 0} momenten`, "ok"); renderMoments(); refreshSpiralMoments();
+  } catch (err) { status("Import mislukt: " + err.message, "err"); }
+};
+document.getElementById("clear-all").onclick = async () => {
+  if (!confirm("Weet je zeker dat je ALLE momenten en foto's wilt verwijderen?")) return;
+  const moments = await dbAll("moments");
+  for (const m of moments) { if (m.photoRef) await deletePhotoBlob(m.photoRef); await dbDelete("moments", m.id); }
+  renderMoments(); refreshSpiralMoments(); status("Alles gewist", "ok");
+};
+function status(msg, kind) {
+  const el = document.getElementById("status"); el.textContent = msg; el.className = "status " + (kind || "");
+  setTimeout(() => { el.textContent = ""; el.className = "status"; }, 3000);
+}
+
+let spiralObj, currentSystem = 7, currentDayIndex = 0;
+function updateAll(dayIndex) {
+  currentDayIndex = dayIndex;
+  const N = BigInt(dayIndex) * DAY_MS;
+  updateClock(N);
+  const { position, m } = spiral(BigInt(dayIndex + 1), currentSystem);
+  spiralObj.setQ(currentSystem); spiralObj.setCurrent(Number(m), position);
+  document.getElementById("spiral-info").innerHTML = `<span>Positie <b>${position}</b></span><span>m = <b>${m}</b></span><span>p = m·q + 1 = <b>${Number(m) * currentSystem + 1}</b></span>`;
+  renderCalendar(dayIndex);
+}
+
+async function init() {
+  db = await openDB(); await initOPFS();
+  const est = await navigator.storage?.estimate?.();
+  if (est) {
+    document.getElementById("storage-info").innerHTML = `<div class="row"><span class="key">gebruikt</span><span class="val">${(est.usage/1024/1024).toFixed(1)} MB</span></div><div class="row"><span class="key">quotum</span><span class="val">${(est.quota/1024/1024).toFixed(0)} MB</span></div><div class="row"><span class="key">foto-opslag</span><span class="val">${opfsRoot ? 'OPFS (bestanden)' : 'IndexedDB (data-URL)'}</span></div>`;
+  }
+  await renderMoments();
+  spiralObj = new Spiral(document.getElementById("spiral-canvas"), currentSystem);
+  await refreshSpiralMoments();
+  
+  document.getElementById("spiral-system").addEventListener("change", e => { currentSystem = parseInt(e.target.value, 10); updateAll(currentDayIndex); });
+  document.getElementById("spiral-toggle").addEventListener("click", e => { spiralObj.autoRotate = !spiralObj.autoRotate; e.target.textContent = spiralObj.autoRotate ? "⏸ Rotatie" : "▶ Rotatie"; });
+  document.getElementById("spiral-reset").onclick = () => { spiralObj.rotation = 0; spiralObj.tilt = 0.35; };
+
+  document.querySelectorAll(".tabs button").forEach(btn => {
+    btn.onclick = () => {
+      document.querySelectorAll(".tabs button").forEach(b => b.classList.remove("active"));
+      document.querySelectorAll(".tab-content").forEach(c => c.classList.remove("active"));
+      btn.classList.add("active"); document.querySelector(`.tab-content[data-tab="${btn.dataset.tab}"]`).classList.add("active");
+    };
+  });
+
+  let sliderTimer = null;
+  document.getElementById("cal-slider").addEventListener("input", e => {
+    const v = parseInt(e.target.value, 10); currentDayIndex = v;
+    updateClock(BigInt(v) * DAY_MS);
+    const { position, m } = spiral(BigInt(v + 1), currentSystem); spiralObj.setCurrent(Number(m), position);
+    clearTimeout(sliderTimer); sliderTimer = setTimeout(() => renderCalendar(v), 80);
+  });
+  document.getElementById("cal-slider").addEventListener("change", e => { clearTimeout(sliderTimer); updateAll(parseInt(e.target.value, 10)); });
+  document.getElementById("cal-today").onclick = () => { const dayIndex = Math.floor((Date.now() - ANCHOR_MS) / 86400000); updateAll(dayIndex); document.getElementById("cal-slider").value = dayIndex % 2520; };
+  document.getElementById("cal-sync").onclick = () => { const next = Math.ceil((currentDayIndex + 1) / 2520) * 2520; updateAll(next); document.getElementById("cal-slider").value = 0; };
+
+  const today = Math.floor((Date.now() - ANCHOR_MS) / 86400000);
+  updateAll(today); document.getElementById("cal-slider").value = today % 2520;
+
+  if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(() => {});
+}
+init();
+</script>
+</body>
+</html>
