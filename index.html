@@ -9,542 +9,104 @@
 <title>iGoSpiral</title>
 <link rel="manifest" href="manifest.json">
 <style>
-    :root {
-        --bg: #0a0e27;
-        --panel: #141a3a;
-        --panel-2: #1e2650;
-        --border: #232a55;
-        --gold: #f4c542;
-        --cyan: #4dd0e1;
-        --pink: #ff6f91;
-        --green: #4caf50;
-        --text: #e8e8f0;
-        --muted: #9aa3c7;
-        --radius: 16px;
-    }
-
-    * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-        -webkit-tap-highlight-color: transparent;
-    }
-
-    body {
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-        background: radial-gradient(ellipse at top, #1a2150 0%, var(--bg) 70%);
-        color: var(--text);
-        min-height: 100vh;
-        padding: 16px;
-        padding-bottom: 80px;
-        font-size: 15px;
-        line-height: 1.5;
-    }
-
-    .wrap {
-        max-width: 800px;
-        margin: 0 auto;
-        position: relative;
-    }
-
-    header {
-        text-align: center;
-        margin-bottom: 20px;
-    }
-
-    header h1 {
-        font-weight: 300;
-        letter-spacing: 4px;
-        font-size: 24px;
-    }
-
-    header h1 b {
-        color: var(--gold);
-        font-weight: 500;
-    }
-
-    header p {
-        color: var(--muted);
-        font-size: 10px;
-        letter-spacing: 2px;
-        margin-top: 4px;
-        text-transform: uppercase;
-    }
-
-    .lang-btn {
-        position: absolute;
-        top: 0;
-        right: 0;
-        background: var(--panel-2);
-        border: 1px solid var(--border);
-        color: var(--text);
-        padding: 6px 12px;
-        border-radius: 8px;
-        cursor: pointer;
-        font-size: 12px;
-        font-weight: 600;
-        font-family: inherit;
-        transition: all 0.15s;
-    }
-
-    .lang-btn:hover {
-        border-color: var(--gold);
-        color: var(--gold);
-    }
-
-    nav {
-        display: flex;
-        gap: 4px;
-        background: var(--panel);
-        border: 1px solid var(--border);
-        border-radius: 12px;
-        padding: 4px;
-        margin-bottom: 20px;
-        overflow-x: auto;
-        scrollbar-width: none;
-    }
-
-    nav::-webkit-scrollbar {
-        display: none;
-    }
-
-    nav button {
-        background: transparent;
-        border: none;
-        color: var(--muted);
-        padding: 10px 14px;
-        border-radius: 8px;
-        cursor: pointer;
-        font-size: 13px;
-        font-family: inherit;
-        white-space: nowrap;
-        transition: all 0.15s;
-    }
-
-    nav button:hover {
-        color: var(--text);
-    }
-
-    nav button.active {
-        background: var(--panel-2);
-        color: var(--gold);
-        font-weight: 500;
-    }
-
-    .tab-content {
-        display: none;
-        animation: fadeIn 0.3s;
-    }
-
-    .tab-content.active {
-        display: block;
-    }
-
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(5px); }
-        to { opacity: 1; transform: none; }
-    }
-
-    .panel {
-        background: var(--panel);
-        border: 1px solid var(--border);
-        border-radius: var(--radius);
-        padding: 20px;
-        margin-bottom: 16px;
-    }
-
-    .panel h2 {
-        font-size: 11px;
-        letter-spacing: 2px;
-        text-transform: uppercase;
-        color: var(--muted);
-        margin-bottom: 16px;
-    }
-
-    input, textarea {
-        width: 100%;
-        background: var(--panel-2);
-        border: 1px solid var(--border);
-        color: var(--text);
-        padding: 10px;
-        border-radius: 8px;
-        font-family: inherit;
-        font-size: 14px;
-        margin-bottom: 10px;
-    }
-
-    input:focus, textarea:focus {
-        outline: none;
-        border-color: var(--gold);
-    }
-
-    button.btn {
-        background: var(--panel-2);
-        border: 1px solid var(--border);
-        color: var(--text);
-        padding: 10px 16px;
-        border-radius: 8px;
-        cursor: pointer;
-        font-size: 13px;
-        font-family: inherit;
-        transition: all 0.15s;
-    }
-
-    button.btn:hover {
-        border-color: var(--gold);
-        color: var(--gold);
-    }
-
-    button.primary {
-        background: var(--gold);
-        color: var(--bg);
-        border-color: var(--gold);
-        font-weight: 600;
-    }
-
-    button.danger {
-        border-color: var(--pink);
-        color: var(--pink);
-    }
-
-    .row {
-        display: flex;
-        gap: 8px;
-    }
-
-    #spiral-canvas {
-        width: 100%;
-        height: 350px;
-        display: block;
-        background: rgba(10, 14, 39, 0.5);
-        border-radius: 10px;
-        touch-action: none;
-    }
-
-    .pearl-info {
-        text-align: center;
-        margin-top: 12px;
-        font-size: 12px;
-        color: var(--muted);
-    }
-
-    .pearl-info b {
-        color: var(--gold);
-        font-size: 16px;
-    }
-
-    .progress-track {
-        height: 6px;
-        background: var(--panel-2);
-        border-radius: 3px;
-        overflow: hidden;
-        margin-top: 10px;
-    }
-
-    .progress-fill {
-        height: 100%;
-        background: linear-gradient(90deg, var(--cyan), var(--gold));
-        transition: width 0.3s;
-    }
-
-    .formulas {
-        background: var(--panel-2);
-        border-radius: 12px;
-        padding: 16px;
-        margin-bottom: 16px;
-        border-left: 4px solid var(--cyan);
-    }
-
-    .formulas h3 {
-        font-size: 10px;
-        letter-spacing: 1px;
-        text-transform: uppercase;
-        color: var(--cyan);
-        margin-bottom: 10px;
-        font-weight: 600;
-    }
-
-    .formula-row {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 6px 0;
-        border-bottom: 1px solid var(--border);
-        font-family: 'Courier New', monospace;
-        font-size: 12px;
-    }
-
-    .formula-row:last-child {
-        border-bottom: none;
-    }
-
-    .f-label {
-        color: var(--muted);
-    }
-
-    .f-math {
-        color: var(--gold);
-    }
-
-    .date-compare {
-        display: flex;
-        gap: 8px;
-        margin-bottom: 16px;
-    }
-
-    .date-box {
-        flex: 1;
-        background: var(--panel-2);
-        border-radius: 10px;
-        padding: 12px;
-        text-align: center;
-    }
-
-    .date-label {
-        font-size: 9px;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        color: var(--muted);
-        margin-bottom: 2px;
-    }
-
-    .date-value {
-        font-size: 13px;
-        font-weight: 600;
-        color: var(--gold);
-    }
-
-    .date-value.cyan {
-        color: var(--cyan);
-    }
-
-    .n-display {
-        text-align: center;
-        margin-bottom: 16px;
-    }
-
-    .n-label {
-        font-size: 10px;
-        letter-spacing: 1px;
-        text-transform: uppercase;
-        color: var(--muted);
-        margin-bottom: 2px;
-    }
-
-    .n-value {
-        font-size: 24px;
-        font-weight: 300;
-        color: var(--cyan);
-        font-variant-numeric: tabular-nums;
-        letter-spacing: 1px;
-    }
-
-    .grid {
-        display: grid;
-        grid-template-columns: repeat(5, 1fr);
-        gap: 6px;
-        margin-bottom: 16px;
-    }
-
-    @media(max-width: 600px) {
-        .grid {
-            grid-template-columns: repeat(2, 1fr);
-        }
-    }
-
-    .unit-box {
-        background: var(--panel-2);
-        border-radius: 8px;
-        padding: 10px 6px;
-        text-align: center;
-        border: 1px solid transparent;
-        transition: all 0.1s;
-    }
-
-    .unit-box.highlight {
-        border-color: var(--gold);
-        box-shadow: 0 0 10px rgba(244, 197, 66, 0.2);
-    }
-
-    .unit-label {
-        font-size: 8px;
-        letter-spacing: 1px;
-        text-transform: uppercase;
-        color: var(--muted);
-        margin-bottom: 2px;
-    }
-
-    .unit-value {
-        font-size: 18px;
-        font-weight: 600;
-        color: var(--gold);
-        font-variant-numeric: tabular-nums;
-    }
-
-    .sync-panel {
-        background: var(--panel-2);
-        border-radius: 10px;
-        padding: 12px;
-        border-left: 3px solid var(--pink);
-    }
-
-    .sync-title {
-        font-size: 9px;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        color: var(--pink);
-        font-weight: bold;
-        margin-bottom: 6px;
-    }
-
-    .sync-bar {
-        height: 6px;
-        background: var(--bg);
-        border-radius: 3px;
-        overflow: hidden;
-        margin-bottom: 6px;
-    }
-
-    .sync-fill {
-        height: 100%;
-        background: linear-gradient(90deg, var(--cyan), var(--pink));
-        transition: width 0.3s;
-    }
-
-    .sync-text {
-        font-size: 11px;
-        color: var(--muted);
-        display: flex;
-        justify-content: space-between;
-    }
-
-    .bij-container {
-        background: var(--panel-2);
-        border-radius: 12px;
-        padding: 16px;
-        margin-bottom: 16px;
-        border-left: 4px solid var(--cyan);
-    }
-
-    .bij-label {
-        font-size: 11px;
-        letter-spacing: 1px;
-        text-transform: uppercase;
-        color: var(--cyan);
-        margin-bottom: 6px;
-        font-weight: 600;
-    }
-
-    .bij-input {
-        font-family: monospace;
-        font-size: 16px;
-        color: var(--gold);
-        background: var(--bg);
-        border: 1px solid var(--border);
-    }
-
-    .bij-output {
-        background: var(--bg);
-        border-radius: 8px;
-        padding: 16px;
-        font-family: 'Courier New', monospace;
-        font-size: 14px;
-        color: var(--text);
-        line-height: 1.8;
-        white-space: pre-wrap;
-        border: 1px solid var(--border);
-    }
-
+    :root { --bg: #0a0e27; --panel: #141a3a; --panel-2: #1e2650; --border: #232a55; --gold: #f4c542; --cyan: #4dd0e1; --pink: #ff6f91; --green: #4caf50; --text: #e8e8f0; --muted: #9aa3c7; --radius: 16px; }
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: radial-gradient(ellipse at top, #1a2150 0%, var(--bg) 70%); color: var(--text); min-height: 100vh; padding: 16px; padding-bottom: 80px; font-size: 15px; line-height: 1.5; }
+    .wrap { max-width: 800px; margin: 0 auto; position: relative; }
+    header { text-align: center; margin-bottom: 20px; }
+    header h1 { font-weight: 300; letter-spacing: 4px; font-size: 24px; }
+    header h1 b { color: var(--gold); font-weight: 500; }
+    header p { color: var(--muted); font-size: 10px; letter-spacing: 2px; margin-top: 4px; text-transform: uppercase; }
+    .lang-btn { position: absolute; top: 0; right: 0; background: var(--panel-2); border: 1px solid var(--border); color: var(--text); padding: 6px 12px; border-radius: 8px; cursor: pointer; font-size: 12px; font-weight: 600; font-family: inherit; transition: all 0.15s; }
+    .lang-btn:hover { border-color: var(--gold); color: var(--gold); }
+    nav { display: flex; gap: 4px; background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 4px; margin-bottom: 20px; overflow-x: auto; scrollbar-width: none; }
+    nav::-webkit-scrollbar { display: none; }
+    nav button { background: transparent; border: none; color: var(--muted); padding: 10px 14px; border-radius: 8px; cursor: pointer; font-size: 13px; font-family: inherit; white-space: nowrap; transition: all 0.15s; }
+    nav button:hover { color: var(--text); }
+    nav button.active { background: var(--panel-2); color: var(--gold); font-weight: 500; }
+    .tab-content { display: none; animation: fadeIn 0.3s; }
+    .tab-content.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: none; } }
+    .panel { background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; margin-bottom: 16px; }
+    .panel h2 { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 16px; }
+    input, textarea { width: 100%; background: var(--panel-2); border: 1px solid var(--border); color: var(--text); padding: 10px; border-radius: 8px; font-family: inherit; font-size: 14px; margin-bottom: 10px; }
+    input:focus, textarea:focus { outline: none; border-color: var(--gold); }
+    button.btn { background: var(--panel-2); border: 1px solid var(--border); color: var(--text); padding: 10px 16px; border-radius: 8px; cursor: pointer; font-size: 13px; font-family: inherit; transition: all 0.15s; }
+    button.btn:hover { border-color: var(--gold); color: var(--gold); }
+    button.primary { background: var(--gold); color: var(--bg); border-color: var(--gold); font-weight: 600; }
+    button.danger { border-color: var(--pink); color: var(--pink); }
+    .row { display: flex; gap: 8px; flex-wrap: wrap; }
+    #spiral-canvas { width: 100%; height: 400px; display: block; background: rgba(10, 14, 39, 0.3); border-radius: 10px; touch-action: none; }
+    .pearl-info { text-align: center; margin-top: 12px; font-size: 12px; color: var(--muted); }
+    .pearl-info b { color: var(--gold); font-size: 16px; }
+    .progress-track { height: 6px; background: var(--panel-2); border-radius: 3px; overflow: hidden; margin-top: 10px; }
+    .progress-fill { height: 100%; background: linear-gradient(90deg, var(--cyan), var(--gold)); transition: width 0.3s; }
+    .formulas { background: var(--panel-2); border-radius: 12px; padding: 16px; margin-bottom: 16px; border-left: 4px solid var(--cyan); }
+    .formulas h3 { font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: var(--cyan); margin-bottom: 10px; font-weight: 600; }
+    .formula-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 1px solid var(--border); font-family: 'Courier New', monospace; font-size: 12px; }
+    .formula-row:last-child { border-bottom: none; }
+    .f-label { color: var(--muted); }
+    .f-math { color: var(--gold); }
+    .date-compare { display: flex; gap: 8px; margin-bottom: 16px; }
+    .date-box { flex: 1; background: var(--panel-2); border-radius: 10px; padding: 12px; text-align: center; }
+    .date-label { font-size: 9px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 2px; }
+    .date-value { font-size: 13px; font-weight: 600; color: var(--gold); }
+    .date-value.cyan { color: var(--cyan); }
+    .n-display { text-align: center; margin-bottom: 16px; }
+    .n-label { font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); margin-bottom: 2px; }
+    .n-value { font-size: 24px; font-weight: 300; color: var(--cyan); font-variant-numeric: tabular-nums; letter-spacing: 1px; }
+    .grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin-bottom: 16px; }
+    @media(max-width: 600px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+    .unit-box { background: var(--panel-2); border-radius: 8px; padding: 10px 6px; text-align: center; border: 1px solid transparent; transition: all 0.1s; cursor: pointer; position: relative; }
+    .unit-box.highlight { border-color: var(--gold); box-shadow: 0 0 10px rgba(244, 197, 66, 0.2); }
+    .unit-box.has-stamp::after { content: ""; position: absolute; top: 6px; right: 6px; width: 7px; height: 7px; border-radius: 50%; background: var(--pink); box-shadow: 0 0 6px var(--pink); }
+    .unit-label { font-size: 8px; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); margin-bottom: 2px; }
+    .unit-value { font-size: 18px; font-weight: 600; color: var(--gold); font-variant-numeric: tabular-nums; }
+    .sync-panel { background: var(--panel-2); border-radius: 10px; padding: 12px; border-left: 3px solid var(--pink); }
+    .sync-title { font-size: 9px; text-transform: uppercase; letter-spacing: 1px; color: var(--pink); font-weight: bold; margin-bottom: 6px; }
+    .sync-bar { height: 6px; background: var(--bg); border-radius: 3px; overflow: hidden; margin-bottom: 6px; }
+    .sync-fill { height: 100%; background: linear-gradient(90deg, var(--cyan), var(--pink)); transition: width 0.3s; }
+    .sync-text { font-size: 11px; color: var(--muted); display: flex; justify-content: space-between; }
+    .bij-container { background: var(--panel-2); border-radius: 12px; padding: 16px; margin-bottom: 16px; border-left: 4px solid var(--cyan); }
+    .bij-label { font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: var(--cyan); margin-bottom: 6px; font-weight: 600; }
+    .bij-input { font-family: monospace; font-size: 16px; color: var(--gold); background: var(--bg); border: 1px solid var(--border); }
+    .bij-output { background: var(--bg); border-radius: 8px; padding: 16px; font-family: 'Courier New', monospace; font-size: 14px; color: var(--text); line-height: 1.8; white-space: pre-wrap; border: 1px solid var(--border); }
     .bij-key { color: var(--muted); }
     .bij-val { color: var(--gold); font-weight: bold; }
-
-    .list-item {
-        background: var(--panel-2);
-        border-radius: 10px;
-        padding: 12px;
-        margin-bottom: 8px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        gap: 12px;
-    }
-
-    .list-item .info {
-        flex: 1;
-        min-width: 0;
-    }
-
-    .list-item .title {
-        font-weight: 500;
-        font-size: 14px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-
-    .list-item .meta {
-        font-size: 11px;
-        color: var(--muted);
-        margin-top: 4px;
-    }
-
-    .list-item .del {
-        color: var(--pink);
-        cursor: pointer;
-        padding: 8px;
-        font-size: 16px;
-    }
-
-    .photo-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-        gap: 8px;
-    }
-
-    .photo-grid img {
-        width: 100%;
-        aspect-ratio: 1;
-        object-fit: cover;
-        border-radius: 8px;
-        background: #0a0e27;
-    }
-
-    .sw-time {
-        font-size: 56px;
-        font-weight: 200;
-        text-align: center;
-        color: var(--cyan);
-        font-variant-numeric: tabular-nums;
-        margin: 20px 0;
-    }
-
-    .sw-laps {
-        max-height: 200px;
-        overflow-y: auto;
-        font-size: 13px;
-        font-variant-numeric: tabular-nums;
-    }
-
-    .sw-lap {
-        display: flex;
-        justify-content: space-between;
-        padding: 8px 0;
-        border-bottom: 1px solid var(--border);
-    }
-
-    footer {
-        text-align: center;
-        font-size: 10px;
-        color: var(--muted);
-        padding: 20px 0;
-        margin-top: 20px;
-        border-top: 1px solid var(--border);
-    }
-
+    .bij-row { cursor: pointer; padding: 4px 0; border-bottom: 1px dashed rgba(255,255,255,0.1); }
+    .bij-row:hover { background: rgba(255,255,255,0.05); }
+    .bij-pin { float: right; color: var(--pink); }
+    .list-item { background: var(--panel-2); border-radius: 10px; padding: 12px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+    .list-item .info { flex: 1; min-width: 0; cursor: pointer; }
+    .list-item .title { font-weight: 500; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .list-item .meta { font-size: 11px; color: var(--muted); margin-top: 4px; }
+    .list-item .del { color: var(--pink); cursor: pointer; padding: 8px; font-size: 16px; }
+    .photo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 8px; }
+    .photo-grid img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 8px; background: #0a0e27; }
+    .sw-time { font-size: 56px; font-weight: 200; text-align: center; color: var(--cyan); font-variant-numeric: tabular-nums; margin: 20px 0; }
+    .sw-laps { max-height: 200px; overflow-y: auto; font-size: 13px; font-variant-numeric: tabular-nums; }
+    .sw-lap { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--border); }
+    footer { text-align: center; font-size: 10px; color: var(--muted); padding: 20px 0; margin-top: 20px; border-top: 1px solid var(--border); }
     footer b { color: var(--text); }
     footer .formula { font-family: monospace; color: var(--gold); margin-top: 4px; opacity: 0.7; }
     .status { font-size: 12px; text-align: center; margin-top: 10px; color: var(--green); min-height: 18px; }
     .status.err { color: var(--pink); }
+    
+    /* STAMP SHEET MODAL */
+    #stamp-sheet { position: fixed; inset: 0; background: rgba(5,8,24,.8); display: none; align-items: flex-end; justify-content: center; z-index: 50; backdrop-filter: blur(4px); }
+    #stamp-sheet.open { display: flex; }
+    #stamp-box { background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius) var(--radius) 0 0; width: 100%; max-width: 800px; max-height: 88vh; overflow-y: auto; padding: 20px 20px calc(24px + env(safe-area-inset-bottom)); animation: slideUp 0.2s ease-out; }
+    @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+    #stamp-box h3 { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--pink); margin-bottom: 6px; }
+    .stamp-tuple { font-family: 'Courier New', monospace; font-size: 11px; color: var(--gold); word-break: break-word; margin-bottom: 4px; }
+    .stamp-date { font-size: 11px; color: var(--muted); margin-bottom: 12px; }
+    .stamp-note { background: var(--panel-2); border-radius: 10px; padding: 10px; margin-bottom: 8px; white-space: pre-wrap; font-size: 14px; }
+    .stamp-note small, .stamp-ph small { display: block; color: var(--muted); font-size: 10px; margin-top: 4px; }
+    .stamp-photos { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 8px; margin: 10px 0; }
+    .stamp-ph { position: relative; }
+    .stamp-ph img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 8px; cursor: zoom-in; }
+    .stamp-ph img.zoom { grid-column: 1/-1; aspect-ratio: auto; max-height: 60vh; object-fit: contain; cursor: zoom-out; }
+    .stamp-x { color: var(--pink); cursor: pointer; float: right; padding: 0 4px; font-weight: bold; }
 </style>
 </head>
 <body>
@@ -564,6 +126,7 @@
     <button data-tab="photos" id="tab-btn-photos">Foto's</button>
     <button data-tab="vault" id="tab-btn-vault">Kluis</button>
     <button data-tab="stopwatch" id="tab-btn-stopwatch">Stopwatch</button>
+    <button data-tab="backup" id="tab-btn-backup">Back-up</button>
   </nav>
 
   <!-- SPIRAAL TAB -->
@@ -574,7 +137,7 @@
         <label style="font-size:11px;color:var(--muted);display:block;margin-bottom:4px" id="txt-spiral-dob">Geboortedatum (JJJJ-MM-DD)</label>
         <div class="row">
           <input type="date" id="birthdate" style="flex:1;margin:0">
-          <button class="btn primary" id="calc-age" id="txt-spiral-calc">Bereken</button>
+          <button class="btn primary" id="btn-calc-age" id="txt-spiral-calc">Bereken</button>
         </div>
       </div>
       <canvas id="spiral-canvas"></canvas>
@@ -606,7 +169,6 @@
         <div class="n-value" id="live-n-display">0</div>
       </div>
 
-      <!-- Expliciet uitgeschreven vakjes -->
       <div class="grid" id="live-clock-grid">
         <div class="unit-box" id="box-millennium"><div class="unit-label">millennium</div><div class="unit-value" id="val-millennium">1</div></div>
         <div class="unit-box" id="box-eeuw"><div class="unit-label">eeuw</div><div class="unit-value" id="val-eeuw">1</div></div>
@@ -628,13 +190,6 @@
           <span id="sync-percent">0%</span>
         </div>
       </div>
-
-      <div class="formulas" style="margin-top:16px">
-        <h3 id="txt-live-formulas">De Live Formules (1-gebaseerd)</h3>
-        <div class="formula-row"><span class="f-label" id="txt-live-pos">Positie</span><span class="f-math">positie = (N mod basis) + 1</span></div>
-        <div class="formula-row"><span class="f-label" id="txt-live-carry">Overloop</span><span class="f-math">carry = floor(N / basis)</span></div>
-        <div class="formula-row"><span class="f-label" id="txt-live-anchor">IJkpunt (N=0)</span><span class="f-math">1 jan 1970 (Unix Epoch)</span></div>
-      </div>
     </div>
   </section>
 
@@ -651,8 +206,6 @@
       
       <div class="bij-container" style="border-left-color:var(--pink)">
         <div class="bij-label" style="color:var(--pink)" id="txt-bij-t-to-n">Klok Tuple → Milliseconden (N)</div>
-        
-        <!-- Expliciet uitgeschreven invoervelden -->
         <div style="display:grid; grid-template-columns:repeat(2, 1fr); gap:6px; margin-bottom:8px;">
           <div><label style="font-size:9px;color:var(--muted);text-transform:uppercase;">millennium</label><input type="number" id="bij-in-millennium" value="1" min="1" style="margin-bottom:0;padding:6px;text-align:center;font-family:monospace;"></div>
           <div><label style="font-size:9px;color:var(--muted);text-transform:uppercase;">eeuw</label><input type="number" id="bij-in-eeuw" value="1" min="1" style="margin-bottom:0;padding:6px;text-align:center;font-family:monospace;"></div>
@@ -665,7 +218,6 @@
           <div><label style="font-size:9px;color:var(--muted);text-transform:uppercase;">seconde</label><input type="number" id="bij-in-seconde" value="1" min="1" style="margin-bottom:0;padding:6px;text-align:center;font-family:monospace;"></div>
           <div><label style="font-size:9px;color:var(--muted);text-transform:uppercase;">ms</label><input type="number" id="bij-in-ms" value="1" min="1" style="margin-bottom:0;padding:6px;text-align:center;font-family:monospace;"></div>
         </div>
-
         <button class="btn primary" id="bij-btn-t-to-n" style="width:100%; border-color:var(--pink); color:var(--pink)" id="txt-bij-calc-n">Bereken N</button>
         <div id="bij-out-2" class="bij-output" style="margin-top:12px; display:none;"></div>
       </div>
@@ -683,6 +235,10 @@
     <div class="panel">
       <h2 id="txt-note-saved">Opgeslagen notities</h2>
       <div id="notes-list"></div>
+    </div>
+    <div class="panel">
+      <h2 id="txt-stamps-title">Tijdstempels</h2>
+      <div id="stamps-list"></div>
     </div>
   </section>
 
@@ -731,18 +287,39 @@
     </div>
   </section>
 
+  <!-- BACKUP TAB -->
+  <section class="tab-content" id="tab-backup">
+    <div class="panel">
+      <h2 id="txt-backup-title">Back-up & Herstel</h2>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:16px;" id="txt-backup-desc">Maak een back-up van al je gegevens (notities, foto's, kluis, tijdstempels) en sla deze veilig op. Of herstel een eerdere back-up.</p>
+      <div class="row">
+        <button class="btn primary" id="btn-export" style="flex:1" id="txt-backup-export">⬇ Download Back-up (.json)</button>
+        <button class="btn" id="btn-import" style="flex:1" id="txt-backup-import">⬆ Herstel Back-up</button>
+      </div>
+      <input type="file" id="import-file" accept=".json" style="display:none">
+      <div id="backup-status" class="status"></div>
+    </div>
+  </section>
+
 </div>
 
 <footer>
   <span id="txt-footer">Gemaakt door</span> <b>Bilal el Issaoui</b><br>
   <span class="formula">p ≡ 1 (mod q) met m = 2</span>
 </footer>
+
+<!-- STAMP MODAL -->
+<div id="stamp-sheet">
+  <div id="stamp-box"></div>
+</div>
+<input type="file" id="stamp-photo-input" accept="image/*" style="display:none">
+
 <script>
 // --- VERTALINGEN ---
 const translations = {
     nl: {
         subtitle: "Jouw leven in een spiraal",
-        tab_spiral: "Spiraal", tab_live: "Live Klok", tab_bijection: "Bijectie", tab_notes: "Notities", tab_photos: "Foto's", tab_vault: "Kluis", tab_stopwatch: "Stopwatch",
+        tab_spiral: "Spiraal", tab_live: "Live Klok", tab_bijection: "Bijectie", tab_notes: "Notities", tab_photos: "Foto's", tab_vault: "Kluis", tab_stopwatch: "Stopwatch", tab_backup: "Back-up",
         spiral_title: "De 100-jarige cyclus", spiral_dob: "Geboortedatum (JJJJ-MM-DD)", spiral_calc: "Bereken", spiral_enter: "Voer je geboortedatum in om je parel op de spiraal te zien.",
         spiral_age: "Je bent <b>{y}</b> jaar en <b>{m}</b> maanden.<br>Dat is <b>{p}%</b> van een 100-jarig leven.",
         live_title: "Live Framework Klok", live_greg: "Gregoriaans (Echt)", live_model: "Model (360 dagen)", live_n: "Totale Tijd Sinds 1970 (N ms)",
@@ -753,11 +330,17 @@ const translations = {
         photo_new: "Nieuwe foto", photo_gallery: "Foto galerij", photo_choose: "📷 Kies een foto", photo_saved: "Foto opgeslagen!",
         vault_new: "Geheime sleutel / Wachtwoord", vault_saved: "Opgeslagen items", vault_save: "Veilig opslaan",
         sw_title: "Stopwatch", sw_start: "Start", sw_stop: "Stop", sw_lap: "Ronde", sw_reset: "Reset",
-        footer: "Gemaakt door", confirm_del: "Weet je zeker dat je dit wilt verwijderen?"
+        footer: "Gemaakt door", confirm_del: "Weet je zeker dat je dit wilt verwijderen?",
+        backup_title: "Back-up & Herstel", backup_desc: "Maak een back-up van al je gegevens (notities, foto's, kluis, tijdstempels) en sla deze veilig op. Of herstel een eerdere back-up.",
+        backup_export: "⬇ Download Back-up (.json)", backup_import: "⬆ Herstel Back-up",
+        stamp_title: "Tijdstempel", stamp_note_ph: "Schrijf je notitie bij dit moment...", stamp_add: "Notitie opslaan",
+        stamp_photo: "📷 Foto toevoegen", stamp_close: "Sluiten", stamp_none: "Nog niets op dit moment.",
+        stamp_confirm: "Verwijderen?", stamp_list: "Tijdstempels", stamp_empty: "Tik op een eenheid in Live Klok of Bijectie om iets te plaatsen.",
+        stamp_pin: "📌 Plaats notitie of foto op deze N", stamp_of: "van", stamp_notes: "notities", stamp_photos: "foto's"
     },
     en: {
         subtitle: "Your life in a spiral",
-        tab_spiral: "Spiral", tab_live: "Live Clock", tab_bijection: "Bijection", tab_notes: "Notes", tab_photos: "Photos", tab_vault: "Vault", tab_stopwatch: "Stopwatch",
+        tab_spiral: "Spiral", tab_live: "Live Clock", tab_bijection: "Bijection", tab_notes: "Notes", tab_photos: "Photos", tab_vault: "Vault", tab_stopwatch: "Stopwatch", tab_backup: "Backup",
         spiral_title: "The 100-year cycle", spiral_dob: "Birthdate (YYYY-MM-DD)", spiral_calc: "Calculate", spiral_enter: "Enter your birthdate to see your pearl on the spiral.",
         spiral_age: "You are <b>{y}</b> years and <b>{m}</b> months.<br>That is <b>{p}%</b> of a 100-year life.",
         live_title: "Live Framework Clock", live_greg: "Gregorian (Real)", live_model: "Model (360 days)", live_n: "Total Time Since 1970 (N ms)",
@@ -768,7 +351,13 @@ const translations = {
         photo_new: "New Photo", photo_gallery: "Photo Gallery", photo_choose: "📷 Choose a photo", photo_saved: "Photo saved!",
         vault_new: "Secret Key / Password", vault_saved: "Saved items", vault_save: "Save securely",
         sw_title: "Stopwatch", sw_start: "Start", sw_stop: "Stop", sw_lap: "Lap", sw_reset: "Reset",
-        footer: "Made by", confirm_del: "Are you sure you want to delete this?"
+        footer: "Made by", confirm_del: "Are you sure you want to delete this?",
+        backup_title: "Backup & Restore", backup_desc: "Create a backup of all your data (notes, photos, vault, timestamps) and save it securely. Or restore a previous backup.",
+        backup_export: "⬇ Download Backup (.json)", backup_import: "⬆ Restore Backup",
+        stamp_title: "Timestamp", stamp_note_ph: "Write your note for this moment...", stamp_add: "Save note",
+        stamp_photo: "📷 Add photo", stamp_close: "Close", stamp_none: "Nothing on this moment yet.",
+        stamp_confirm: "Delete?", stamp_list: "Timestamps", stamp_empty: "Tap a unit in Live Clock or Bijection to attach something.",
+        stamp_pin: "📌 Attach note or photo to this N", stamp_of: "of", stamp_notes: "notes", stamp_photos: "photos"
     }
 };
 
@@ -779,7 +368,6 @@ function setLanguage(lang) {
     document.getElementById("lang-toggle").textContent = lang === "nl" ? "EN" : "NL";
     const t = translations[lang];
 
-    // Vertaal alle elementen met een ID
     document.getElementById("txt-subtitle").textContent = t.subtitle;
     document.getElementById("tab-btn-spiral").textContent = t.tab_spiral;
     document.getElementById("tab-btn-live").textContent = t.tab_live;
@@ -788,6 +376,7 @@ function setLanguage(lang) {
     document.getElementById("tab-btn-photos").textContent = t.tab_photos;
     document.getElementById("tab-btn-vault").textContent = t.tab_vault;
     document.getElementById("tab-btn-stopwatch").textContent = t.tab_stopwatch;
+    document.getElementById("tab-btn-backup").textContent = t.tab_backup;
 
     document.getElementById("txt-spiral-title").textContent = t.spiral_title;
     document.getElementById("txt-spiral-dob").textContent = t.spiral_dob;
@@ -833,6 +422,18 @@ function setLanguage(lang) {
     document.getElementById("txt-sw-reset").textContent = t.sw_reset;
 
     document.getElementById("txt-footer").textContent = t.footer;
+    
+    document.getElementById("txt-backup-title").textContent = t.backup_title;
+    document.getElementById("txt-backup-desc").textContent = t.backup_desc;
+    document.getElementById("txt-backup-export").textContent = t.backup_export;
+    document.getElementById("txt-backup-import").textContent = t.backup_import;
+    
+    document.getElementById("txt-stamps-title").textContent = t.stamp_list;
+
+    // Refresh the spiral info if it exists
+    if (spiral && spiral.birth) {
+        spiral.updateInfo();
+    }
 }
 
 document.getElementById("lang-toggle").onclick = () => {
@@ -853,142 +454,223 @@ document.querySelectorAll("nav button").forEach(btn => {
 });
 
 // --- 3D SPIRAAL ---
+const IGO_BIRTH_KEY = "igospiral_birth";
+
+function lifeClock(birth, nowMs) {
+    if (birth.getTime() > nowMs) return { years: 0, month: 1, f: 0 };
+    const now = new Date(nowMs);
+    const at = k => { const d = new Date(birth); d.setFullYear(birth.getFullYear() + k); return d; };
+    let y = now.getFullYear() - birth.getFullYear();
+    if (at(y) > now) y--;
+    const last = at(y), next = at(y + 1);
+    const f = Math.min(0.999999, Math.max(0, (nowMs - last) / (next - last)));
+    return { years: y, month: Math.floor(f * 12) + 1, f };
+}
+
 class Spiral {
     constructor(canvas) {
         this.c = canvas;
         this.ctx = canvas.getContext("2d");
-        this.q = 12; 
-        this.rotation = 0; 
-        this.tilt = 0.35; 
-        this.pearlRotation = 0;
-        this.currentM = 0; 
-        this.currentPos = 1; 
         this.dpr = window.devicePixelRatio || 1;
-        this.autoRotate = true; 
-        this.resize(); 
-        this.setupEvents(); 
+        this.rotation = 0.5;
+        this.tilt = 1.0;
+        this.autoRotate = true;
+        this.birth = null;
+        this.manual = null;
+        this.level = 0;
+        this.shown = 0;
+        this.f = 0;
+        this.month = 1;
+        this._infoKey = "";
+        this.resize();
+        this.setupEvents();
         this.loop();
     }
-    
-    resize() { 
-        const r = this.c.getBoundingClientRect(); 
-        if (r.width === 0) return; 
-        this.c.width = r.width * this.dpr; 
-        this.c.height = r.height * this.dpr; 
-        this.ctx.setTransform(this.dpr, 0, 0, this.dpr, 0, 0); 
+
+    resize() {
+        const r = this.c.getBoundingClientRect();
+        if (r.width === 0) return;
+        this.c.width = r.width * this.dpr;
+        this.c.height = r.height * this.dpr;
+        this.ctx.setTransform(this.dpr, 0, 0, this.dpr, 0, 0);
     }
-    
-    setupEvents() { 
-        let d = false, lx = 0; 
-        this.c.addEventListener("pointerdown", e => { d = true; lx = e.clientX; }); 
-        window.addEventListener("pointermove", e => { if (!d) return; this.rotation += (e.clientX - lx) * 0.01; lx = e.clientX; }); 
-        window.addEventListener("pointerup", () => d = false); 
-        window.addEventListener("resize", () => this.resize()); 
+
+    setupEvents() {
+        let d = false, lx = 0, ly = 0;
+        this.c.addEventListener("pointerdown", e => { d = true; lx = e.clientX; ly = e.clientY; });
+        window.addEventListener("pointermove", e => {
+            if (!d) return;
+            this.rotation += (e.clientX - lx) * 0.01;
+            this.tilt = Math.max(0.45, Math.min(1.35, this.tilt + (e.clientY - ly) * 0.005));
+            lx = e.clientX; ly = e.clientY;
+        });
+        window.addEventListener("pointerup", () => d = false);
+        window.addEventListener("resize", () => this.resize());
     }
-    
-    project(x, y, z, offsetM) { 
-        const w = this.c.width / this.dpr, h = this.c.height / this.dpr; 
-        const ca = Math.cos(this.rotation), sa = Math.sin(this.rotation); 
-        const x1 = x * ca - z * sa, z1 = x * sa + z * ca; 
-        const ct = Math.cos(this.tilt), st = Math.sin(this.tilt); 
-        const y1 = (y - offsetM) * ct - z1 * st, z2 = (y - offsetM) * st + z1 * ct; 
-        const scale = 400 / (400 + z2); 
-        return { x: w/2 + x1*scale*60, y: h/2 - y1*scale*25, z: z2, scale }; 
+
+    setAge(age, month) { this.birth = null; this.manual = { years: age, month }; }
+    setBirth(date) { this.birth = date; this.manual = null; this.shown = this.level; }
+
+    pt(a, lvl, rs = 1) {
+        const w = this.c.width / this.dpr, h = this.c.height / this.dpr, u = Math.min(w, h);
+        const R = u * 0.34 * rs, gap = u * 0.085;
+        const X = Math.cos(a) * R, Z = Math.sin(a) * R, Y = (lvl - this.shown) * gap;
+        const ca = Math.cos(this.rotation), sa = Math.sin(this.rotation);
+        const x1 = X * ca + Z * sa, z1 = -X * sa + Z * ca;
+        const ct = Math.cos(this.tilt), st = Math.sin(this.tilt);
+        const y2 = Y * ct + z1 * st;
+        const z2 = z1 * ct - Y * st;
+        const D = u * 1.6, s = D / (D + z2);
+        return { x: w / 2 + x1 * s, y: h / 2 + 0.05 * h - y2 * s, z: z2, s, R };
     }
-    
-    setAge(age, month) { this.currentM = age; this.currentPos = month; }
-    
+
+    arc(lvl, a0, a1, rgb, alpha, width, glow = 0) {
+        const ctx = this.ctx, n = Math.max(2, Math.ceil(Math.abs(a1 - a0) / (Math.PI * 2) * 96));
+        let prev = this.pt(a0, lvl);
+        ctx.lineCap = "round";
+        for (let i = 1; i <= n; i++) {
+            const p = this.pt(a0 + (a1 - a0) * i / n, lvl);
+            const k = Math.max(0.2, Math.min(1, 0.6 - p.z / (p.R * 2.2)));
+            ctx.beginPath(); ctx.moveTo(prev.x, prev.y); ctx.lineTo(p.x, p.y);
+            ctx.strokeStyle = `rgba(${rgb},${alpha * k})`;
+            ctx.lineWidth = width * (0.6 + 0.4 * k);
+            ctx.shadowColor = glow ? `rgba(${rgb},0.8)` : "transparent";
+            ctx.shadowBlur = glow;
+            ctx.stroke();
+            prev = p;
+        }
+        ctx.shadowBlur = 0;
+    }
+
+    helix(t0, t1, rgb, alpha, width) {
+        const ctx = this.ctx, A0 = -Math.PI / 2, steps = Math.max(2, Math.ceil((t1 - t0) * 72));
+        let prev = this.pt(A0 + Math.PI * 2 * t0, t0);
+        for (let i = 1; i <= steps; i++) {
+            const t = t0 + (t1 - t0) * i / steps, p = this.pt(A0 + Math.PI * 2 * t, t);
+            const k = Math.max(0.2, Math.min(1, 0.6 - p.z / (p.R * 2.2)));
+            ctx.beginPath(); ctx.moveTo(prev.x, prev.y); ctx.lineTo(p.x, p.y);
+            ctx.strokeStyle = `rgba(${rgb},${alpha * k})`; ctx.lineWidth = width;
+            ctx.stroke(); prev = p;
+        }
+    }
+
+    pearl(p, time) {
+        const ctx = this.ctx, r = Math.max(9, p.R * 0.075) * p.s, hue = (time / 40) % 360;
+        ctx.save(); ctx.translate(p.x, p.y + r * 0.9); ctx.scale(1, 0.35);
+        const sh = ctx.createRadialGradient(0, 0, 0, 0, 0, r * 1.3);
+        sh.addColorStop(0, "rgba(0,0,0,0.45)"); sh.addColorStop(1, "rgba(0,0,0,0)");
+        ctx.fillStyle = sh; ctx.beginPath(); ctx.arc(0, 0, r * 1.3, 0, 7); ctx.fill(); ctx.restore();
+        const glow = ctx.createRadialGradient(p.x, p.y, r * 0.8, p.x, p.y, r * 3.2);
+        glow.addColorStop(0, "rgba(244,197,66,0.45)"); glow.addColorStop(1, "rgba(244,197,66,0)");
+        ctx.fillStyle = glow; ctx.beginPath(); ctx.arc(p.x, p.y, r * 3.2, 0, 7); ctx.fill();
+        const body = ctx.createRadialGradient(p.x - r * 0.38, p.y - r * 0.42, r * 0.1, p.x, p.y, r);
+        body.addColorStop(0, "#ffffff"); body.addColorStop(0.28, "#fbf4e2");
+        body.addColorStop(0.62, "#e4d4b2"); body.addColorStop(0.86, "#b6a3cf"); body.addColorStop(1, "#6a7aa6");
+        ctx.beginPath(); ctx.arc(p.x, p.y, r, 0, 7); ctx.fillStyle = body; ctx.fill();
+        const irid = ctx.createLinearGradient(p.x - r, p.y - r, p.x + r, p.y + r);
+        irid.addColorStop(0, `hsla(${hue},90%,75%,0)`); irid.addColorStop(0.5, `hsla(${hue},90%,75%,0.28)`);
+        irid.addColorStop(1, `hsla(${(hue + 120) % 360},90%,75%,0)`);
+        ctx.fillStyle = irid; ctx.beginPath(); ctx.arc(p.x, p.y, r, 0, 7); ctx.fill();
+        ctx.beginPath(); ctx.arc(p.x + r * 0.35, p.y + r * 0.4, r * 0.5, 0.1, 1.5);
+        ctx.strokeStyle = "rgba(255,255,255,0.25)"; ctx.lineWidth = r * 0.12; ctx.stroke();
+        ctx.save(); ctx.translate(p.x - r * 0.36, p.y - r * 0.42); ctx.rotate(-0.6); ctx.scale(1, 0.6);
+        ctx.beginPath(); ctx.arc(0, 0, r * 0.3, 0, 7); ctx.fillStyle = "rgba(255,255,255,0.95)"; ctx.fill(); ctx.restore();
+    }
+
+    update() {
+        const now = Date.now();
+        if (this.manual) {
+            this.level = this.manual.years; this.month = this.manual.month; this.f = (this.month - 1) / 12;
+        } else if (this.birth) {
+            const lc = lifeClock(this.birth, now);
+            this.level = lc.years; this.month = lc.month; this.f = lc.f;
+        } else {
+            this.level = 0; this.f = (now % 24000) / 24000; this.month = Math.floor(this.f * 12) + 1;
+        }
+        this.shown += (this.level - this.shown) * 0.06;
+        if (Math.abs(this.level - this.shown) < 0.001) this.shown = this.level;
+        this.updateInfo();
+    }
+
+    updateInfo() {
+        if (!this.birth) return;
+        const el = document.getElementById("pearl-info"); if (!el) return;
+        const pct = Math.min(100, (this.level + this.f));
+        const key = [this.level, this.month, currentLang, pct.toFixed(2)].join("|");
+        if (key === this._infoKey) return;
+        this._infoKey = key;
+        el.innerHTML = translations[currentLang].spiral_age
+            .replace("{y}", this.level).replace("{m}", this.month - 1).replace("{p}", pct.toFixed(2));
+        const bar = document.getElementById("life-progress"); if (bar) bar.style.width = pct + "%";
+    }
+
     draw() {
-        const w = this.c.width / this.dpr, h = this.c.height / this.dpr; 
-        this.ctx.clearRect(0, 0, w, h);
-        const minM = Math.max(0, this.currentM - 5), maxM = Math.min(100, this.currentM + 5);
-        const pts = [];
-        
-        for (let m = minM; m <= maxM; m++) {
-            for (let p = 1; p <= this.q; p++) { 
-                const t = (p - 1) / this.q * Math.PI * 2; 
-                pts.push({ m, p, ...this.project(Math.cos(t), m, Math.sin(t), this.currentM) }); 
-            }
+        const w = this.c.width / this.dpr, h = this.c.height / this.dpr, ctx = this.ctx;
+        ctx.clearRect(0, 0, w, h);
+        const L = this.level, from = Math.max(0, Math.floor(this.shown) - 4), to = Math.min(100, Math.ceil(this.shown) + 5);
+        const A0 = -Math.PI / 2;
+
+        if (L > 0) this.helix(Math.max(0, this.shown - 4), L, "244,197,66", 0.35, 1.2);
+        this.helix(Math.max(L, this.shown - 4), Math.min(101, this.shown + 5), "154,163,199", 0.18, 1);
+
+        for (let lvl = from; lvl <= to; lvl++) {
+            const dist = Math.abs(lvl - this.shown), fade = Math.max(0.12, 1 - dist / 6);
+            if (lvl === L) continue;
+            const rgb = lvl < L ? "77,208,225" : "154,163,199";
+            this.arc(lvl, A0, A0 + Math.PI * 2, rgb, 0.55 * fade, lvl < L ? 1.6 : 1);
         }
-        
-        pts.sort((a, b) => b.z - a.z);
-        
-        for (let i = 0; i < pts.length - 1; i++) { 
-            const a = pts[i], b = pts[i+1]; 
-            if (Math.abs(a.m - b.m) > 1 || Math.abs(a.p - b.p) > 1) continue; 
-            const alpha = Math.max(0.08, 1 - Math.abs(a.m - this.currentM) / 6); 
-            this.ctx.beginPath(); 
-            this.ctx.moveTo(a.x, a.y); 
-            this.ctx.lineTo(b.x, b.y); 
-            this.ctx.strokeStyle = (a.m === this.currentM) ? `rgba(244, 197, 66, ${alpha})` : `rgba(77, 208, 225, ${alpha * 0.5})`; 
-            this.ctx.lineWidth = (a.m === this.currentM) ? 2.5 : 1; 
-            this.ctx.stroke(); 
+
+        this.arc(L, A0, A0 + Math.PI * 2, "154,163,199", 0.35, 1.6);
+        if (this.f > 0.002) this.arc(L, A0, A0 + Math.PI * 2 * this.f, "244,197,66", 0.95, 3.2, 10);
+
+        ctx.font = "10px -apple-system, sans-serif"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
+        for (let p = 1; p <= 12; p++) {
+            const a = A0 + Math.PI * 2 * (p - 1) / 12, d = this.pt(a, L), o = this.pt(a, L, 1.13);
+            const on = p === this.month;
+            ctx.beginPath(); ctx.arc(d.x, d.y, (on ? 4.5 : 2.5) * d.s, 0, 7);
+            ctx.fillStyle = on ? "#f4c542" : p <= this.month ? "rgba(244,197,66,0.8)" : "rgba(154,163,199,0.7)"; ctx.fill();
+            ctx.fillStyle = on ? "#f4c542" : "rgba(154,163,199,0.75)"; ctx.fillText(p, o.x, o.y);
         }
-        
-        const t = (this.currentPos - 1) / this.q * Math.PI * 2; 
-        const cur = this.project(Math.cos(t), this.currentM, Math.sin(t), this.currentM);
-        
-        const glow = this.ctx.createRadialGradient(cur.x, cur.y, 5, cur.x, cur.y, 50); 
-        glow.addColorStop(0, "rgba(244, 197, 66, 0.9)"); 
-        glow.addColorStop(0.5, "rgba(244, 197, 66, 0.3)"); 
-        glow.addColorStop(1, "rgba(244, 197, 66, 0)"); 
-        this.ctx.fillStyle = glow; 
-        this.ctx.beginPath(); 
-        this.ctx.arc(cur.x, cur.y, 50, 0, Math.PI * 2); 
-        this.ctx.fill();
-        
-        this.pearlRotation += 0.03; 
-        const lx = Math.cos(this.pearlRotation) * 8, ly = Math.sin(this.pearlRotation) * 8;
-        
-        const pearl = this.ctx.createRadialGradient(cur.x + lx, cur.y + ly, 2, cur.x, cur.y, 18); 
-        pearl.addColorStop(0, "#ffffff"); 
-        pearl.addColorStop(0.3, "#f4c542"); 
-        pearl.addColorStop(0.7, "#4dd0e1"); 
-        pearl.addColorStop(1, "#0a0e27"); 
-        this.ctx.beginPath(); 
-        this.ctx.arc(cur.x, cur.y, 18, 0, Math.PI * 2); 
-        this.ctx.fillStyle = pearl; 
-        this.ctx.fill();
-        
-        this.ctx.beginPath(); 
-        this.ctx.arc(cur.x + lx * 0.5, cur.y + ly * 0.5, 5, 0, Math.PI * 2); 
-        this.ctx.fillStyle = "#ffffff"; 
-        this.ctx.fill();
-        
-        if (this.autoRotate) this.rotation += 0.003;
+
+        ctx.textAlign = "left";
+        for (let lvl = from; lvl <= to; lvl++) {
+            const q = this.pt(0, lvl, 1.07);
+            ctx.fillStyle = lvl === L ? "#f4c542" : "rgba(154,163,199,0.5)";
+            ctx.font = (lvl === L ? "bold 11px" : "9px") + " -apple-system, sans-serif";
+            ctx.fillText(lvl, q.x + 4, q.y);
+        }
+
+        const pp = this.pt(A0 + Math.PI * 2 * this.f, L);
+        this.pearl(pp, performance.now());
+
+        if (this.autoRotate) this.rotation += 0.002;
     }
-    
-    loop() { 
-        if (!document.hidden) this.draw(); 
-        requestAnimationFrame(() => this.loop()); 
+
+    loop() {
+        if (!document.hidden) { this.update(); this.draw(); }
+        requestAnimationFrame(() => this.loop());
     }
 }
 
 const spiral = new Spiral(document.getElementById("spiral-canvas"));
-// --- LEEFTIJD BEREKENEN ---
-document.getElementById("calc-age").onclick = () => {
-    const bdVal = document.getElementById("birthdate").value; 
-    if (!bdVal) return;
-    
-    const bd = new Date(bdVal), now = new Date();
-    let y = now.getFullYear() - bd.getFullYear(), m = now.getMonth() - bd.getMonth();
-    
-    if (m < 0 || (m === 0 && now.getDate() < bd.getDate())) { 
-        y--; 
-        m += 12; 
-    }
-    
-    spiral.setAge(y, m + 1);
-    const pct = Math.min(100, Math.max(0, (y / 100) * 100));
-    
-    document.getElementById("life-progress").style.width = pct + "%";
-    document.getElementById("pearl-info").innerHTML = translations[currentLang].spiral_age
-        .replace("{y}", y)
-        .replace("{m}", m)
-        .replace("{p}", pct.toFixed(1));
-};
 
-// --- LIVE KLOK & FRAMEWORK ---
+function applyBirth(val) {
+    const d = new Date(val + "T00:00:00");
+    if (isNaN(d.getTime())) return;
+    localStorage.setItem(IGO_BIRTH_KEY, val);
+    spiral.setBirth(d);
+}
+document.getElementById("btn-calc-age").onclick = () => {
+    const v = document.getElementById("birthdate").value;
+    if (v) applyBirth(v);
+};
+const savedBirth = localStorage.getItem(IGO_BIRTH_KEY);
+if (savedBirth) {
+    document.getElementById("birthdate").value = savedBirth;
+    applyBirth(savedBirth);
+}
+
+// --- KERN & LIVE KLOK ---
 const UNITS = ["millennium", "eeuw", "decennium", "jaar", "maand", "dag", "uur", "minuut", "seconde", "ms"];
 const BASES = { ms: 1000, seconde: 60, minuut: 60, uur: 24, dag: 30, maand: 12, jaar: 10, decennium: 10, eeuw: 10, millennium: Infinity };
 
@@ -998,10 +680,7 @@ function calculateTuple(N) {
     for (let i = UNITS.length - 1; i >= 0; i--) {
         const unit = UNITS[i]; 
         const base = BASES[unit];
-        if (base === Infinity) { 
-            tuple[unit] = rest + 1n; 
-            break; 
-        }
+        if (base === Infinity) { tuple[unit] = rest + 1n; break; }
         const b = BigInt(base); 
         const position = (rest % b) + 1n; 
         tuple[unit] = position;
@@ -1018,11 +697,12 @@ function liveTick() {
         document.getElementById("live-n-display").textContent = now.toLocaleString(currentLang === 'nl' ? 'nl-NL' : 'en-US');
         
         UNITS.forEach(u => {
-            document.getElementById(`val-${u}`).textContent = tuple[u].toString();
-            if (tuple[u] == BASES[u]) {
-                document.getElementById(`box-${u}`).classList.add("highlight");
-            } else {
-                document.getElementById(`box-${u}`).classList.remove("highlight");
+            const valEl = document.getElementById(`val-${u}`);
+            if (valEl) valEl.textContent = tuple[u].toString();
+            const boxEl = document.getElementById(`box-${u}`);
+            if (boxEl) {
+                if (tuple[u] == BASES[u]) boxEl.classList.add("highlight");
+                else boxEl.classList.remove("highlight");
             }
         });
         
@@ -1055,17 +735,19 @@ document.getElementById("bij-btn-n-to-t").onclick = () => {
         const out = [];
         for (let i = UNITS.length - 1; i >= 0; i--) {
             const b = BASES[UNITS[i]]; 
-            if (b === Infinity) { 
-                out.push(Number(rest + 1n)); 
-                break; 
-            } 
+            if (b === Infinity) { out.push(Number(rest + 1n)); break; } 
             out.push(Number((rest % BigInt(b)) + 1n)); 
             rest = rest / BigInt(b);
         }
         const t = out.reverse();
         document.getElementById("bij-out-1").style.display = "block"; 
-        document.getElementById("bij-out-1").innerHTML = t.map((v, i) => `<span class="bij-key">${UNITS[i]}:</span> <span class="bij-val">${v}</span>`).join("<br>");
+        document.getElementById("bij-out-1").innerHTML = t.map((v, i) => `<div class="bij-row" data-unit="${UNITS[i]}"><span class="bij-key">${UNITS[i]}:</span> <span class="bij-val">${v}</span></div>`).join("");
         t.forEach((v, i) => document.getElementById(`bij-in-${UNITS[i]}`).value = v);
+        
+        // Rebind clicks voor stamps
+        document.querySelectorAll("#bij-out-1 .bij-row").forEach(r => {
+            r.onclick = () => openStamp(r.dataset.unit, BigInt(document.getElementById("bij-n-input").value.trim()));
+        });
     } catch (e) {
         alert(e.message);
     }
@@ -1092,32 +774,126 @@ document.getElementById("bij-btn-t-to-n").onclick = () => {
     }
 };
 
-// --- INDEXEDDB OPSLAG ---
+// --- OPSLAG (IndexedDB V2) ---
 let db;
-const req = indexedDB.open("igospiral_db", 1);
-req.onupgradeneeded = e => { 
-    const d = e.target.result; 
-    if (!d.objectStoreNames.contains("notes")) d.createObjectStore("notes", { keyPath: "id" }); 
-    if (!d.objectStoreNames.contains("photos")) d.createObjectStore("photos", { keyPath: "id" }); 
-    if (!d.objectStoreNames.contains("vault")) d.createObjectStore("vault", { keyPath: "id" }); 
+const req = indexedDB.open("igospiral_db", 2);
+req.onupgradeneeded = e => {
+    const d = e.target.result;
+    ["notes", "photos", "vault", "stamps"].forEach(s => {
+        if (!d.objectStoreNames.contains(s)) d.createObjectStore(s, { keyPath: "id" });
+    });
 };
-req.onsuccess = e => { 
-    db = e.target.result; 
-    loadNotes(); 
-    loadPhotos(); 
-    loadVault(); 
+req.onsuccess = e => {
+    db = e.target.result;
+    loadNotes(); loadPhotos(); loadVault(); loadStamps();
 };
+
 const dbAdd = (s, i) => new Promise(r => { const tx = db.transaction(s, "readwrite"); tx.objectStore(s).put(i); tx.oncomplete = r; });
 const dbDel = (s, i) => new Promise(r => { const tx = db.transaction(s, "readwrite"); tx.objectStore(s).delete(i); tx.oncomplete = r; });
 const dbAll = (s) => new Promise(r => { const tx = db.transaction(s); const q = tx.objectStore(s).getAll(); q.onsuccess = () => r(q.result); });
+const dbGet = (s, i) => new Promise(r => { const q = db.transaction(s).objectStore(s).get(i); q.onsuccess = () => r(q.result); });
 
+// --- TIJDSTEMPELS (STAMPS) ---
+const IGO_W = {};
+(() => { let w = 1n; for (let i = UNITS.length - 1; i >= 0; i--) { const u = UNITS[i]; IGO_W[u] = w; if (BASES[u] !== Infinity) w *= BigInt(BASES[u]); } })();
+const stampStart = (unit, N) => (BigInt(N) / IGO_W[unit]) * IGO_W[unit];
+const stampId = (unit, N) => `${unit}:${stampStart(unit, N)}`;
+let stampIds = new Set();
+
+const sheet = document.getElementById("stamp-sheet"), box = document.getElementById("stamp-box"), photoInput = document.getElementById("stamp-photo-input");
+sheet.onclick = e => { if (e.target === sheet) sheet.classList.remove("open"); };
+
+async function persistStamp(rec) {
+    if (!rec.notes.length && !rec.photos.length) { await dbDel("stamps", rec.id); stampIds.delete(rec.id); }
+    else { await dbAdd("stamps", rec); stampIds.add(rec.id); }
+    loadStamps();
+}
+
+async function openStamp(unit, N) {
+    N = BigInt(N);
+    const start = stampStart(unit, N), id = `${unit}:${start}`;
+    const rec = (await dbGet("stamps", id)) || { id, unit, n: start.toString(), anchor: "unix1970", notes: [], photos: [], created: Date.now() };
+    const t = calculateTuple(start);
+    const tupleTxt = UNITS.map(u => `${u} ${t[u]}`).join(" · ");
+    const when = new Date(Number(start)).toLocaleString(currentLang === "nl" ? "nl-NL" : "en-US");
+
+    const paint = () => {
+        box.innerHTML = `
+            <h3>${translations[currentLang].stamp_title} · ${unit}</h3>
+            <div class="stamp-tuple">${tupleTxt}</div>
+            <div class="stamp-date">N = ${start.toString()} ms · ${when}</div>
+            ${rec.notes.length || rec.photos.length ? "" : `<div class="stamp-date">${translations[currentLang].stamp_none}</div>`}
+            ${rec.notes.map((n, i) => `<div class="stamp-note"><span class="stamp-x" data-n="${i}">✕</span>${n.text}<small>${new Date(n.t).toLocaleString()}</small></div>`).join("")}
+            <div class="stamp-photos">${rec.photos.map((p, i) => `<div class="stamp-ph"><span class="stamp-x" data-p="${i}">✕</span><img src="${p.dataUrl}"><small>${new Date(p.t).toLocaleString()}</small></div>`).join("")}</div>
+            <textarea id="stamp-text" rows="3" placeholder="${translations[currentLang].stamp_note_ph}"></textarea>
+            <div class="row">
+                <button class="btn primary" id="stamp-save" style="flex:1">${translations[currentLang].stamp_add}</button>
+                <button class="btn" id="stamp-photo" style="flex:1">${translations[currentLang].stamp_photo}</button>
+                <button class="btn" id="stamp-close">${translations[currentLang].stamp_close}</button>
+            </div>`;
+        box.querySelector("#stamp-close").onclick = () => sheet.classList.remove("open");
+        box.querySelector("#stamp-save").onclick = async () => {
+            const text = box.querySelector("#stamp-text").value.trim(); if (!text) return;
+            rec.notes.push({ t: Date.now(), text }); await persistStamp(rec); paint();
+        };
+        box.querySelector("#stamp-photo").onclick = () => photoInput.click();
+        box.querySelectorAll("[data-n]").forEach(x => x.onclick = async () => {
+            if (!confirm(translations[currentLang].stamp_confirm)) return;
+            rec.notes.splice(+x.dataset.n, 1); await persistStamp(rec); paint();
+        });
+        box.querySelectorAll("[data-p]").forEach(x => x.onclick = async () => {
+            if (!confirm(translations[currentLang].stamp_confirm)) return;
+            rec.photos.splice(+x.dataset.p, 1); await persistStamp(rec); paint();
+        });
+        box.querySelectorAll(".stamp-ph img").forEach(im => im.onclick = () => im.classList.toggle("zoom"));
+    };
+    
+    photoInput.onchange = async e => {
+        const f = e.target.files[0]; if (!f) return;
+        const r = new FileReader();
+        r.onload = async ev => {
+            rec.photos.push({ t: Date.now(), dataUrl: ev.target.result });
+            photoInput.value = ""; await persistStamp(rec); paint();
+        };
+        r.readAsDataURL(f);
+    };
+    paint(); sheet.classList.add("open");
+}
+
+// Live Clock clicks
+UNITS.forEach(u => {
+    const b = document.getElementById("box-" + u);
+    if (b) b.addEventListener("click", () => openStamp(u, BigInt(Date.now())));
+});
+setInterval(() => {
+    const n = BigInt(Date.now());
+    UNITS.forEach(u => { 
+        const b = document.getElementById("box-" + u);
+        if (b) b.classList.toggle("has-stamp", stampIds.has(stampId(u, n))); 
+    });
+}, 400);
+
+async function loadStamps() {
+    const all = await dbAll("stamps");
+    stampIds = new Set(all.map(r => r.id));
+    const el = document.getElementById("stamps-list");
+    all.sort((a, b) => (BigInt(b.n) > BigInt(a.n) ? 1 : -1));
+    el.innerHTML = all.length ? all.map(r => {
+        const t = calculateTuple(BigInt(r.n));
+        return `<div class="list-item" data-id="${r.id}"><div class="info"><div class="title">${r.unit} · ${t.dag}/${t.maand}/${t.jaar}</div>
+                <div class="meta">${r.notes.length} ${translations[currentLang].stamp_notes} · ${r.photos.length} ${translations[currentLang].stamp_photos} · N=${r.n}</div></div></div>`;
+    }).join("") : `<div class="meta" style="color:var(--muted);font-size:12px">${translations[currentLang].stamp_empty}</div>`;
+    el.querySelectorAll(".list-item").forEach(x => x.onclick = () => {
+        const [unit, n] = x.dataset.id.split(":"); openStamp(unit, BigInt(n)); 
+    });
+}
+
+// --- NOTITIES & FOTOS & KLUIS ---
 document.getElementById("save-note").onclick = async () => {
     const t = document.getElementById("note-title").value.trim(), c = document.getElementById("note-content").value.trim();
     if (!t && !c) return; 
     await dbAdd("notes", { id: Date.now().toString(), title: t || "Zonder titel", content: c, date: new Date().toLocaleDateString() });
-    document.getElementById("note-title").value = ""; 
-    document.getElementById("note-content").value = ""; 
-    loadNotes();
+    document.getElementById("note-title").value = ""; document.getElementById("note-content").value = ""; loadNotes();
 };
 async function loadNotes() { 
     const l = await dbAll("notes"); 
@@ -1146,9 +922,7 @@ document.getElementById("save-vault").onclick = async () => {
     const n = document.getElementById("vault-name").value.trim(), p = document.getElementById("vault-pass").value.trim();
     if (!n || !p) return; 
     await dbAdd("vault", { id: Date.now().toString(), name: n, pass: p });
-    document.getElementById("vault-name").value = ""; 
-    document.getElementById("vault-pass").value = ""; 
-    loadVault();
+    document.getElementById("vault-name").value = ""; document.getElementById("vault-pass").value = ""; loadVault();
 };
 async function loadVault() { 
     const l = await dbAll("vault"); 
@@ -1161,6 +935,57 @@ window.delItem = async (s, id) => {
     if (s === "notes") loadNotes(); 
     if (s === "photos") loadPhotos(); 
     if (s === "vault") loadVault(); 
+};
+
+// --- BACKUP & EXPORT ---
+document.getElementById("btn-export").onclick = async () => {
+    const notes = await dbAll("notes");
+    const photos = await dbAll("photos");
+    const vault = await dbAll("vault");
+    const stamps = await dbAll("stamps");
+    
+    const backup = { notes, photos, vault, stamps, exportedAt: Date.now() };
+    const blob = new Blob([JSON.stringify(backup, null, 2)], { type: "application/json" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = `igospiral_backup_${new Date().toISOString().slice(0,10)}.json`;
+    a.click();
+    document.getElementById("backup-status").textContent = currentLang === 'nl' ? "Back-up gedownload!" : "Backup downloaded!";
+    setTimeout(() => document.getElementById("backup-status").textContent = "", 3000);
+};
+
+document.getElementById("btn-import").onclick = () => document.getElementById("import-file").click();
+document.getElementById("import-file").onchange = (e) => {
+    const f = e.target.files[0];
+    if (!f) return;
+    const r = new FileReader();
+    r.onload = async (ev) => {
+        try {
+            const data = JSON.parse(ev.target.result);
+            if (!data.notes || !data.photos) throw new Error("Invalid file");
+            
+            await new Promise(res => { const tx = db.transaction(["notes", "photos", "vault", "stamps"], "readwrite"); tx.oncomplete = res; 
+                tx.objectStore("notes").clear();
+                tx.objectStore("photos").clear();
+                tx.objectStore("vault").clear();
+                tx.objectStore("stamps").clear();
+            });
+            
+            await new Promise(res => { const tx = db.transaction(["notes", "photos", "vault", "stamps"], "readwrite"); tx.oncomplete = res; 
+                data.notes.forEach(n => tx.objectStore("notes").put(n));
+                data.photos.forEach(p => tx.objectStore("photos").put(p));
+                data.vault.forEach(v => tx.objectStore("vault").put(v));
+                (data.stamps || []).forEach(s => tx.objectStore("stamps").put(s));
+            });
+            
+            document.getElementById("backup-status").textContent = currentLang === 'nl' ? "Back-up succesvol hersteld!" : "Backup restored successfully!";
+            loadNotes(); loadPhotos(); loadVault(); loadStamps();
+        } catch (err) {
+            document.getElementById("backup-status").textContent = currentLang === 'nl' ? "Fout bij inladen (ongeldig bestand)" : "Error loading (invalid file)";
+        }
+        setTimeout(() => document.getElementById("backup-status").textContent = "", 3000);
+    };
+    r.readAsText(f);
 };
 
 // --- STOPWATCH ---
