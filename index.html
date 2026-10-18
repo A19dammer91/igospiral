@@ -374,8 +374,8 @@ footer a:hover{text-decoration:underline}
 <script>
 let currentLang="nl";
 const TRANSLATIONS={
-nl:{subtitle:"de klok als wiskundig object",tab_klok:"Klok",tab_spiraal:"Spiraal",tab_bijectie:"Bijectie",tab_agenda:"Agenda",tab_kluis:"Kluis",tab_extra:"Extra",klok_title:"Analoge klok",spiraal_title:"De 100-jarige cyclus",spiraal_calc:"Bereken",spiraal_enter:"Voer je geboortedatum in om je parel op de spiraal te zien.",spiraal_age:"Je bent <b>{y}</b> jaar en <b>{m}</b> maanden.<br>Dat is <b>{p}%</b> van een 100-jarig leven.",bij_title:"Bijectie · De Vertaler",bij_n_to_t:"Milliseconden (N) → Klok Tuple",bij_t_to_n:"Klok Tuple → Milliseconden (N)",bij_calc:"Bereken",bij_calc_n:"Bereken N",agenda_title:"Agenda",kluis_new:"Geheime sleutel / Wachtwoord",kluis_saved:"Opgeslagen items",kluis_save:"Veilig opslaan",sw_title:"Stopwatch",sw_start:"Start",sw_stop:"Stop",sw_lap:"Ronde",sw_reset:"Reset",stamps_title:"Momenten & notities",backup_title:"Back-up & herstel",backup_export:"⬇ Export (.json)",backup_import:"⬆ Import",storage_title:"Opslag",confirm_del:"Weet je zeker dat je dit wilt verwijderen?",stamp_title:"Moment",stamp_note_ph:"Schrijf je notitie bij dit moment...",stamp_add:"Notitie opslaan",stamp_photo:"📷 Foto toevoegen",stamp_close:"Sluiten",stamp_none:"Nog niets op dit moment.",stamp_confirm:"Verwijderen?",stamp_empty:"Tik op een eenheid in Bijectie of op de klok om iets te plaatsen.",stamp_notes:"notities",stamp_photos:"foto's",photo_saved:"Foto opgeslagen!"},
-en:{subtitle:"the clock as a mathematical object",tab_klok:"Clock",tab_spiraal:"Spiral",tab_bijectie:"Bijection",tab_agenda:"Agenda",tab_kluis:"Vault",tab_extra:"Extra",klok_title:"Analog clock",spiraal_title:"The 100-year cycle",spiraal_calc:"Calculate",spiraal_enter:"Enter your birthdate to see your pearl on the spiral.",spiraal_age:"You are <b>{y}</b> years and <b>{m}</b> months.<br>That is <b>{p}%</b> of a 100-year life.",bij_title:"Bijection · The Translator",bij_n_to_t:"Milliseconds (N) → Clock Tuple",bij_t_to_n:"Clock Tuple → Milliseconds (N)",bij_calc:"Calculate",bij_calc_n:"Calculate N",agenda_title:"Agenda",kluis_new:"Secret key / Password",kluis_saved:"Saved items",kluis_save:"Save securely",sw_title:"Stopwatch",sw_start:"Start",sw_stop:"Stop",sw_lap:"Lap",sw_reset:"Reset",stamps_title:"Moments & notes",backup_title:"Backup & restore",backup_export:"⬇ Export (.json)",backup_import:"⬆ Import",storage_title:"Storage",confirm_del:"Are you sure you want to delete this?",stamp_title:"Moment",stamp_note_ph:"Write your note for this moment...",stamp_add:"Save note",stamp_photo:"📷 Add photo",stamp_close:"Close",stamp_none:"Nothing on this moment yet.",stamp_confirm:"Delete?",stamp_empty:"Tap a unit in Bijection or the clock to attach something.",stamp_notes:"notes",stamp_photos:"photos",photo_saved:"Photo saved!"}
+nl:{subtitle:"de klok als wiskundig object",tab_klok:"Klok",tab_spiraal:"Spiraal",tab_bijectie:"Bijectie",tab_agenda:"Agenda",tab_kluis:"Kluis",tab_extra:"Extra",klok_title:"Analoge klok",spiraal_title:"De 100-jarige cyclus",spiraal_calc:"Bereken",spiraal_enter:"Voer je geboortedatum in om je parel op de spiraal te zien.",spiraal_age:"Leeftijd <b>{y}</b> jaar · spiraalpositie <b>{h}</b>/24<br>Dat is <b>{p}%</b> van een 100-jarig leven.",bij_title:"Bijectie · De Vertaler",bij_n_to_t:"Milliseconden (N) → Klok Tuple",bij_t_to_n:"Klok Tuple → Milliseconden (N)",bij_calc:"Bereken",bij_calc_n:"Bereken N",agenda_title:"Agenda",kluis_new:"Geheime sleutel / Wachtwoord",kluis_saved:"Opgeslagen items",kluis_save:"Veilig opslaan",sw_title:"Stopwatch",sw_start:"Start",sw_stop:"Stop",sw_lap:"Ronde",sw_reset:"Reset",stamps_title:"Momenten & notities",backup_title:"Back-up & herstel",backup_export:"⬇ Export (.json)",backup_import:"⬆ Import",storage_title:"Opslag",confirm_del:"Weet je zeker dat je dit wilt verwijderen?",stamp_title:"Moment",stamp_note_ph:"Schrijf je notitie bij dit moment...",stamp_add:"Notitie opslaan",stamp_photo:"📷 Foto toevoegen",stamp_close:"Sluiten",stamp_none:"Nog niets op dit moment.",stamp_confirm:"Verwijderen?",stamp_empty:"Tik op een eenheid in Bijectie of op de klok om iets te plaatsen.",stamp_notes:"notities",stamp_photos:"foto's",photo_saved:"Foto opgeslagen!"},
+en:{subtitle:"the clock as a mathematical object",tab_klok:"Clock",tab_spiraal:"Spiral",tab_bijectie:"Bijection",tab_agenda:"Agenda",tab_kluis:"Vault",tab_extra:"Extra",klok_title:"Analog clock",spiraal_title:"The 100-year cycle",spiraal_calc:"Calculate",spiraal_enter:"Enter your birthdate to see your pearl on the spiral.",spiraal_age:"Age <b>{y}</b> years · spiral position <b>{h}</b>/24<br>That is <b>{p}%</b> of a 100-year life.",bij_title:"Bijection · The Translator",bij_n_to_t:"Milliseconds (N) → Clock Tuple",bij_t_to_n:"Clock Tuple → Milliseconds (N)",bij_calc:"Calculate",bij_calc_n:"Calculate N",agenda_title:"Agenda",kluis_new:"Secret key / Password",kluis_saved:"Saved items",kluis_save:"Save securely",sw_title:"Stopwatch",sw_start:"Start",sw_stop:"Stop",sw_lap:"Lap",sw_reset:"Reset",stamps_title:"Moments & notes",backup_title:"Backup & restore",backup_export:"⬇ Export (.json)",backup_import:"⬆ Import",storage_title:"Storage",confirm_del:"Are you sure you want to delete this?",stamp_title:"Moment",stamp_note_ph:"Write your note for this moment...",stamp_add:"Save note",stamp_photo:"📷 Add photo",stamp_close:"Close",stamp_none:"Nothing on this moment yet.",stamp_confirm:"Delete?",stamp_empty:"Tap a unit in Bijection or the clock to attach something.",stamp_notes:"notes",stamp_photos:"photos",photo_saved:"Photo saved!"}
 };
 const t=k=>TRANSLATIONS[currentLang][k]||k;
 
@@ -446,14 +446,14 @@ return`${d}d ${h}u ${m}m ${s}s`;
 const stampStart=(unit,N)=>(BigInt(N)/WEIGHTS[unit])*WEIGHTS[unit];
 const IGO_BIRTH_KEY="igospiral_birth";
 function lifeClock(birth,nowMs){
-if(birth.getTime()>nowMs)return{years:0,month:1,f:0};
+if(birth.getTime()>nowMs)return{years:0,f:0,month:1,h:1};
 const now=new Date(nowMs);
 const at=k=>{const d=new Date(birth);d.setFullYear(birth.getFullYear()+k);return d;};
 let y=now.getFullYear()-birth.getFullYear();
 if(at(y)>now)y--;
 const last=at(y),next=at(y+1);
-const f=Math.min(0.999999,Math.max(0,(nowMs-last)/(next-last)));
-return{years:y,month:Math.floor(f*12)+1,f};
+const f=Math.min(0.999999,Math.max(0,(nowMs-last.getTime())/(next.getTime()-last.getTime())));
+return{years:y,f,month:Math.floor(f*12)+1,h:Math.floor(f*24)+1};
 }
 
 let db=null;
@@ -584,7 +584,9 @@ class Spiral{
 constructor(canvas){
 this.c=canvas;this.ctx=canvas.getContext("2d");this.dpr=window.devicePixelRatio||1;
 this.rotation=0.5;this.tilt=1.0;this.autoRotate=true;this.birth=null;
-this.level=0;this.shown=0;this.f=0;this.month=1;this.moments=[];this._infoKey="";this._raf=null;
+this.level=0;this.shown=0;this.f=0;this.h=1;this.moments=[];this._infoKey="";this._raf=null;
+this.stars=[];
+for(let i=0;i<120;i++)this.stars.push({x:Math.random(),y:Math.random(),r:0.3+Math.random()*1.2,p:Math.random()*6.283,s:0.4+Math.random()*1.1});
 this.resize();this.setupEvents();this.loop();
 }
 resize(){
@@ -630,7 +632,7 @@ const D=u*1.6,s=D/(D+z2);
 return{x:w/2+x1*s,y:h/2+0.05*h-y2*s,z:z2,s,R};
 }
 arc(lvl,a0,a1,rgb,alpha,width,glow=0){
-const ctx=this.ctx,n=Math.max(2,Math.ceil(Math.abs(a1-a0)/(Math.PI*2)*96));
+const ctx=this.ctx,n=Math.max(2,Math.ceil(Math.abs(a1-a0)/(Math.PI*2)*120));
 let prev=this.pt(a0,lvl);ctx.lineCap="round";
 for(let i=1;i<=n;i++){
 const p=this.pt(a0+(a1-a0)*i/n,lvl);
@@ -642,7 +644,7 @@ ctx.shadowColor=glow?`rgba(${rgb},0.8)`:"transparent";ctx.shadowBlur=glow;ctx.st
 ctx.shadowBlur=0;
 }
 helix(t0,t1,rgb,alpha,width){
-const ctx=this.ctx,A0=-Math.PI/2,steps=Math.max(2,Math.ceil(Math.abs(t1-t0)*72));
+const ctx=this.ctx,A0=-Math.PI/2,steps=Math.max(2,Math.ceil(Math.abs(t1-t0)*90));
 let prev=this.pt(A0+Math.PI*2*t0,t0);
 for(let i=1;i<=steps;i++){
 const tt=t0+(t1-t0)*i/steps,p=this.pt(A0+Math.PI*2*tt,tt);
@@ -651,15 +653,25 @@ ctx.beginPath();ctx.moveTo(prev.x,prev.y);ctx.lineTo(p.x,p.y);
 ctx.strokeStyle=`rgba(${rgb},${alpha*k})`;ctx.lineWidth=width;ctx.stroke();prev=p;
 }
 }
+radial(a,l0,l1,rgb,alpha){
+const ctx=this.ctx,steps=Math.max(2,Math.ceil(Math.abs(l1-l0)*10));
+let prev=this.pt(a,l0);
+for(let i=1;i<=steps;i++){
+const p=this.pt(a,l0+(l1-l0)*i/steps);
+const k=Math.max(0.15,Math.min(1,0.6-p.z/(p.R*2.2)));
+ctx.beginPath();ctx.moveTo(prev.x,prev.y);ctx.lineTo(p.x,p.y);
+ctx.strokeStyle=`rgba(${rgb},${alpha*k})`;ctx.lineWidth=0.8;ctx.stroke();prev=p;
+}
+}
 pearl(p,time){
-const ctx=this.ctx,r=Math.max(10,p.R*0.08)*p.s,hue=(time/40)%360;
+const ctx=this.ctx,r=Math.max(10,p.R*0.085)*p.s,hue=(time/40)%360;
 ctx.save();ctx.translate(p.x,p.y+r*0.9);ctx.scale(1,0.35);
 const sh=ctx.createRadialGradient(0,0,0,0,0,r*1.3);
 sh.addColorStop(0,"rgba(0,0,0,0.5)");sh.addColorStop(1,"rgba(0,0,0,0)");
 ctx.fillStyle=sh;ctx.beginPath();ctx.arc(0,0,r*1.3,0,7);ctx.fill();ctx.restore();
-const gl=ctx.createRadialGradient(p.x,p.y,r*0.8,p.x,p.y,r*3.2);
-gl.addColorStop(0,"rgba(244,197,66,0.5)");gl.addColorStop(1,"rgba(244,197,66,0)");
-ctx.fillStyle=gl;ctx.beginPath();ctx.arc(p.x,p.y,r*3.2,0,7);ctx.fill();
+const gl=ctx.createRadialGradient(p.x,p.y,r*0.8,p.x,p.y,r*3.4);
+gl.addColorStop(0,"rgba(244,197,66,0.6)");gl.addColorStop(1,"rgba(244,197,66,0)");
+ctx.fillStyle=gl;ctx.beginPath();ctx.arc(p.x,p.y,r*3.4,0,7);ctx.fill();
 const body=ctx.createRadialGradient(p.x-r*0.38,p.y-r*0.42,r*0.1,p.x,p.y,r);
 body.addColorStop(0,"#ffffff");body.addColorStop(0.28,"#fbf4e2");body.addColorStop(0.62,"#e4d4b2");
 body.addColorStop(0.86,"#b6a3cf");body.addColorStop(1,"#6a7aa6");
@@ -675,16 +687,16 @@ _projectMoment(mom){
 try{
 const N=BigInt(mom.n);const tup=N_to_Tuple(N);
 const year=(Number(tup[1])-1)*1000+(Number(tup[2])-1)*100+(Number(tup[3])-1)*10+(Number(tup[4])-1);
-const month=Number(tup[5]);
+const h=Number(tup[6]);
 if(year<Math.floor(this.shown)-4||year>Math.ceil(this.shown)+5)return null;
-const a=-Math.PI/2+Math.PI*2*(month-1)/12;
+const a=-Math.PI/2+Math.PI*2*(h-1)/24;
 return this.pt(a,year,1.08);
 }catch{return null;}
 }
 update(){
 const now=Date.now();
-if(this.birth){const lc=lifeClock(this.birth,now);this.level=lc.years;this.f=lc.f;this.month=lc.month;}
-else{const cycleMs=80000;const phase=(now%cycleMs)/cycleMs;const tri=phase<0.5?phase*2:(1-phase)*2;const total=tri*99;this.level=Math.floor(total);this.f=total-this.level;this.month=Math.floor(this.f*12)+1;}
+if(this.birth){const lc=lifeClock(this.birth,now);this.level=lc.years;this.f=lc.f;this.h=lc.h;}
+else{const cycleMs=160000;const phase=(now%cycleMs)/cycleMs;const tri=phase<0.5?phase*2:(1-phase)*2;const total=tri*99;this.level=Math.floor(total);this.f=total-this.level;this.h=Math.floor(this.f*24)+1;}
 const continuous=this.level+this.f;
 this.shown+=(continuous-this.shown)*0.05;
 if(Math.abs(continuous-this.shown)<0.001)this.shown=continuous;
@@ -693,22 +705,29 @@ this.updateInfo();
 updateInfo(){
 const el=document.getElementById("pearl-info");
 const bar=document.getElementById("life-progress");
-if(!this.birth){if(bar)bar.style.width=(this.shown/99*100).toFixed(1)+"%";return;}
+if(!this.birth){if(bar)bar.style.width=(this.shown/99*100).toFixed(1)+"%";if(el&&!el.querySelector("b"))el.textContent=t("spiraal_enter");return;}
 if(!el)return;
 const pct=Math.min(100,this.level+this.f);
-const key=[this.level,this.month,currentLang,pct.toFixed(2)].join("|");
+const key=[this.level,this.h,currentLang,pct.toFixed(2)].join("|");
 if(key===this._infoKey)return;
 this._infoKey=key;
-el.innerHTML=t("spiraal_age").replace("{y}",this.level).replace("{m}",this.month-1).replace("{p}",pct.toFixed(2));
+el.innerHTML=t("spiraal_age").replace("{y}",this.level).replace("{h}",this.h).replace("{p}",pct.toFixed(2));
 if(bar)bar.style.width=pct+"%";
 }
 draw(){
-const w=this.c.width/this.dpr,h=this.c.height/this.dpr,ctx=this.ctx;
-ctx.clearRect(0,0,w,h);
+const w=this.c.width/this.dpr,hh=this.c.height/this.dpr,ctx=this.ctx;
+ctx.clearRect(0,0,w,hh);
+const tm=performance.now()/1000;
+for(const st of this.stars){
+const a=0.2+0.5*Math.abs(Math.sin(tm*st.s+st.p));
+ctx.beginPath();ctx.arc(st.x*w,st.y*hh,st.r,0,7);
+ctx.fillStyle=`rgba(200,210,255,${a*0.45})`;ctx.fill();
+}
 const L=this.level;const from=Math.max(0,Math.floor(this.shown)-4);const to=Math.min(100,Math.ceil(this.shown)+5);
 const A0=-Math.PI/2;const continuous=L+this.f;
-if(this.shown>0)this.helix(Math.max(0,this.shown-4),this.shown,"244,197,66",0.35,1.2);
-this.helix(Math.max(this.shown,0),Math.min(101,this.shown+5),"154,163,199",0.18,1);
+if(this.shown>0)this.helix(Math.max(0,this.shown-4),this.shown,"244,197,66",0.4,1.4);
+this.helix(Math.max(this.shown,0),Math.min(101,this.shown+5),"154,163,199",0.16,1);
+for(let p=1;p<=24;p++)this.radial(A0+Math.PI*2*(p-1)/24,from,to,"244,197,66",0.05);
 for(let lvl=from;lvl<=to;lvl++){
 const dist=Math.abs(lvl-this.shown),fade=Math.max(0.12,1-dist/6);
 if(lvl===L)continue;
@@ -719,13 +738,15 @@ if(this.birth){
 this.arc(L,A0,A0+Math.PI*2,"154,163,199",0.35,1.6);
 if(this.f>0.002)this.helix(L,L+this.f,"244,197,66",0.95,3.0);
 }
-if(this.birth){
-ctx.font="10px -apple-system, sans-serif";ctx.textAlign="center";ctx.textBaseline="middle";
-for(let p=1;p<=12;p++){
-const a=A0+Math.PI*2*(p-1)/12;const d=this.pt(a,L),o=this.pt(a,L,1.13);const on=p===this.month;
-ctx.beginPath();ctx.arc(d.x,d.y,(on?4.5:2.5)*d.s,0,7);
-ctx.fillStyle=on?"#f4c542":p<=this.month?"rgba(244,197,66,0.8)":"rgba(154,163,199,0.7)";ctx.fill();
-ctx.fillStyle=on?"#f4c542":"rgba(154,163,199,0.75)";ctx.fillText(p,o.x,o.y);
+ctx.font="9px -apple-system, sans-serif";ctx.textAlign="center";ctx.textBaseline="middle";
+for(let p=1;p<=24;p++){
+const a=A0+Math.PI*2*(p-1)/24;const d=this.pt(a,L),o=this.pt(a,L,1.14);const on=p===this.h;
+ctx.beginPath();ctx.arc(d.x,d.y,(on?5:2.2)*d.s,0,7);
+ctx.fillStyle=on?"#f4c542":p<=this.h?"rgba(244,197,66,0.8)":"rgba(154,163,199,0.6)";ctx.fill();
+if(on||p%2===1){
+ctx.fillStyle=on?"#f4c542":"rgba(154,163,199,0.7)";
+ctx.font=(on?"bold 10px":"8px")+" -apple-system, sans-serif";
+ctx.fillText(p,o.x,o.y);
 }
 }
 ctx.textAlign="left";
@@ -742,6 +763,15 @@ ctx.beginPath();ctx.arc(p.x,p.y,6*p.s,0,7);ctx.fillStyle=period.color;ctx.fill()
 ctx.strokeStyle="rgba(255,255,255,.7)";ctx.lineWidth=1.5;ctx.stroke();}catch{}
 }
 const pp=this.pt(A0+Math.PI*2*continuous,continuous);
+
+const centerPt = this.pt(A0, continuous);
+ctx.beginPath();
+ctx.moveTo(centerPt.x, centerPt.y);
+ctx.lineTo(pp.x, pp.y);
+ctx.strokeStyle = "rgba(244,197,66,0.15)";
+ctx.lineWidth = 1.5;
+ctx.stroke();
+
 this.pearl(pp,performance.now());
 if(this.autoRotate)this.rotation+=0.002;
 }
