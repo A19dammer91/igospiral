@@ -37,6 +37,9 @@ button.btn.danger{border-color:var(--pink);color:var(--pink)}
 button.btn.small{padding:6px 10px;font-size:11px}
 .row{display:flex;gap:8px;flex-wrap:wrap}
 .row.center{justify-content:center}
+
+.formula{text-align:center;font-family:monospace;color:var(--gold);font-size:14px;margin-bottom:16px;background:rgba(244,197,66,0.1);padding:8px;border-radius:8px;border:1px solid rgba(244,197,66,0.3)}
+
 .clock-wrap{display:flex;gap:24px;align-items:center;flex-wrap:wrap;justify-content:center}
 .clock-face{width:100%;max-width:280px;height:auto;flex-shrink:0;display:block}
 .clock-info{flex:1;min-width:220px;max-width:340px}
@@ -53,6 +56,7 @@ button.btn.small{padding:6px 10px;font-size:11px}
 .tuple>div.has-note::after{content:"";position:absolute;top:4px;right:4px;width:6px;height:6px;border-radius:50%;background:var(--pink);box-shadow:0 0 6px var(--pink)}
 .tuple .val{font-size:14px;font-weight:600;color:var(--gold);font-variant-numeric:tabular-nums}
 .tuple .lbl{font-size:7px;letter-spacing:1px;color:var(--muted);text-transform:uppercase;margin-top:1px}
+
 .spiral-controls{display:flex;gap:8px;align-items:center;margin-bottom:12px;flex-wrap:wrap}
 .spiral-controls input[type=date]{width:auto;flex:1;min-width:160px;margin-bottom:0}
 .spiral-controls select{width:auto;margin-bottom:0}
@@ -65,6 +69,7 @@ button.btn.small{padding:6px 10px;font-size:11px}
 .legend{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;font-size:10px;color:var(--muted);margin-top:12px}
 .legend span{display:inline-flex;align-items:center;gap:4px}
 .legend .sw{width:10px;height:10px;border-radius:50%}
+
 .bij-container{background:var(--panel-2);border-radius:12px;padding:16px;margin-bottom:16px;border-left:4px solid var(--cyan)}
 .bij-container.pink{border-left-color:var(--pink)}
 .bij-label{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--cyan);margin-bottom:8px;font-weight:600}
@@ -88,6 +93,7 @@ details summary{padding:12px 16px;cursor:pointer;font-size:12px;font-weight:500;
 details summary::after{content:'▸';transition:transform .2s;color:var(--muted)}
 details[open] summary::after{transform:rotate(90deg)}
 details .body{padding:0 16px 16px}
+
 .cal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px}
 .cal-header h3{color:var(--gold);font-size:1.1rem}
 .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:16px}
@@ -104,12 +110,14 @@ details .body{padding:0 16px 16px}
 .event-item .del{color:var(--pink);cursor:pointer;padding:0 6px;font-weight:bold}
 .event-input-group{display:flex;gap:8px}
 .event-input-group input{margin:0;flex:1}
+
 .vault-item{background:var(--panel-2);border-radius:8px;padding:12px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;border-left:4px solid var(--gold);gap:8px}
 .vault-info{flex:1;min-width:0}
 .vault-title{font-weight:600;color:var(--gold);font-size:14px}
 .vault-secret{font-family:monospace;font-size:13px;color:var(--text);margin-top:4px;word-break:break-all}
 .vault-actions{display:flex;gap:4px;flex-wrap:wrap}
 .vault-actions button{padding:4px 8px;font-size:11px}
+
 .sw-time{font-size:52px;font-weight:200;text-align:center;color:var(--cyan);font-variant-numeric:tabular-nums;margin:16px 0;font-family:monospace}
 @media(max-width:500px){.sw-time{font-size:36px}}
 .moment{background:var(--panel-2);border-radius:10px;padding:10px;margin-bottom:8px;display:flex;gap:12px;align-items:center}
@@ -142,15 +150,7 @@ footer{text-align:center;font-size:11px;color:var(--muted);padding:24px 0;margin
 footer .brand{color:var(--gold);font-weight:500;font-size:13px;letter-spacing:2px}
 footer a{color:var(--cyan);text-decoration:none}
 footer a:hover{text-decoration:underline}
-@media(max-width:600px){
-body{padding:12px;padding-bottom:80px}
-.panel{padding:16px}
-.clock-face{max-width:220px}
-.clock-wrap{flex-direction:column}
-.tuple{grid-template-columns:repeat(2,1fr)}
-.tuple>div:nth-child(n+3){display:none}
-header h1{font-size:18px}
-}
+@media(max-width:600px){body{padding:12px;padding-bottom:80px}.panel{padding:16px}.clock-face{max-width:220px}.clock-wrap{flex-direction:column}.tuple{grid-template-columns:repeat(2,1fr)}.tuple>div:nth-child(n+3){display:none}header h1{font-size:18px}}
 </style>
 </head>
 <body>
@@ -161,16 +161,42 @@ header h1{font-size:18px}
 <p id="txt-subtitle">de klok als wiskundig object</p>
 </header>
 <nav class="tabs">
-<button data-tab="klok" class="active" id="tab-btn-klok">Klok</button>
-<button data-tab="spiraal" id="tab-btn-spiraal">Spiraal</button>
+<button data-tab="spiraal" class="active" id="tab-btn-spiraal">Spiraal</button>
+<button data-tab="klok" id="tab-btn-klok">Klok</button>
 <button data-tab="bijectie" id="tab-btn-bijectie">Bijectie</button>
 <button data-tab="agenda" id="tab-btn-agenda">Agenda</button>
 <button data-tab="kluis" id="tab-btn-kluis">Kluis</button>
 <button data-tab="extra" id="tab-btn-extra">Extra</button>
 </nav>
 
-<section class="tab-content active" data-tab="klok">
+<section class="tab-content active" data-tab="spiraal">
 <div class="panel">
+<div class="formula">100 Jaar Cyclus: p ≡ 1 (mod q)</div>
+<h2 id="txt-spiraal-title">De 100-jarige cyclus</h2>
+<div class="spiral-controls">
+<input type="date" id="birthdate">
+<button class="btn primary small" id="btn-calc-age"><span id="txt-spiraal-calc">Bereken</span></button>
+<button class="btn small" id="spiral-toggle">⏸</button>
+<button class="btn small" id="spiral-reset">↺</button>
+</div>
+<canvas id="spiral-canvas"></canvas>
+<div class="pearl-info" id="pearl-info">Voer je geboortedatum in om je parel op de spiraal te zien.</div>
+<div class="progress-track"><div class="progress-fill" id="life-progress" style="width:0%"></div></div>
+<div class="legend">
+<span><span class="sw" style="background:#1a237e"></span>Nacht</span>
+<span><span class="sw" style="background:#ff7043"></span>Dageraad</span>
+<span><span class="sw" style="background:#4dd0e1"></span>Ochtend</span>
+<span><span class="sw" style="background:#f4c542"></span>Middag</span>
+<span><span class="sw" style="background:#ff9800"></span>Namiddag</span>
+<span><span class="sw" style="background:#e91e63"></span>Avond</span>
+<span><span class="sw" style="background:#7e57c2"></span>Schemering</span>
+</div>
+</div>
+</section>
+
+<section class="tab-content" data-tab="klok">
+<div class="panel">
+<div class="formula">25 ≡ 1 (mod 12)</div>
 <div class="clock-wrap">
 <svg class="clock-face" viewBox="0 0 200 200">
 <circle cx="100" cy="100" r="95" fill="none" stroke="#232a55" stroke-width="1"/>
@@ -201,32 +227,9 @@ header h1{font-size:18px}
 </div>
 </section>
 
-<section class="tab-content" data-tab="spiraal">
-<div class="panel">
-<h2 id="txt-spiraal-title">De 100-jarige cyclus</h2>
-<div class="spiral-controls">
-<input type="date" id="birthdate">
-<button class="btn primary small" id="btn-calc-age"><span id="txt-spiraal-calc">Bereken</span></button>
-<button class="btn small" id="spiral-toggle">⏸</button>
-<button class="btn small" id="spiral-reset">↺</button>
-</div>
-<canvas id="spiral-canvas"></canvas>
-<div class="pearl-info" id="pearl-info">Voer je geboortedatum in om je parel op de spiraal te zien.</div>
-<div class="progress-track"><div class="progress-fill" id="life-progress" style="width:0%"></div></div>
-<div class="legend">
-<span><span class="sw" style="background:#1a237e"></span>Nacht</span>
-<span><span class="sw" style="background:#ff7043"></span>Dageraad</span>
-<span><span class="sw" style="background:#4dd0e1"></span>Ochtend</span>
-<span><span class="sw" style="background:#f4c542"></span>Middag</span>
-<span><span class="sw" style="background:#ff9800"></span>Namiddag</span>
-<span><span class="sw" style="background:#e91e63"></span>Avond</span>
-<span><span class="sw" style="background:#7e57c2"></span>Schemering</span>
-</div>
-</div>
-</section>
-
 <section class="tab-content" data-tab="bijectie">
 <div class="panel">
+<div class="formula">N ↔ (d, u, m, s, ms)</div>
 <h2 id="txt-bij-title">Bijectie · De Vertaler</h2>
 <div class="bij-container">
 <div class="bij-label" id="txt-bij-n-to-t">Milliseconden (N) → Klok Tuple</div>
@@ -240,18 +243,23 @@ header h1{font-size:18px}
 <button class="btn primary" id="bij-btn-t-to-n" style="width:100%;border-color:var(--pink);color:var(--pink)"><span id="txt-bij-calc-n">Bereken N</span></button>
 <div id="bij-out-2" class="bij-out"></div>
 </div>
-**Summary:**
-Gewichten per positie
+
+<details>
+<summary>Gewichten per positie</summary>
 <div class="body"><div class="bij-out" id="bij-weights" style="display:block"></div></div>
-**Summary:**
-Carry-keten
+</details>
+
+<details>
+<summary>Carry-keten</summary>
 <div class="body">
 <input type="text" id="bij-carry-n" value="100000000">
 <button class="btn primary small" id="bij-carry-go">Bereken</button>
 <div class="bij-out" id="bij-carry-out"></div>
 </div>
-**Summary:**
-Afstand tussen twee N
+</details>
+
+<details>
+<summary>Afstand tussen twee N</summary>
 <div class="body">
 <div class="row" style="margin-bottom:10px">
 <input type="text" id="bij-dist-a" value="0" style="flex:1" placeholder="N₁">
@@ -260,11 +268,14 @@ Afstand tussen twee N
 <button class="btn primary small" id="bij-dist-go">Bereken afstand</button>
 <div class="bij-out" id="bij-dist-out"></div>
 </div>
+</details>
+
 </div>
 </section>
 
 <section class="tab-content" data-tab="agenda">
 <div class="panel">
+<div class="formula">t = d + 1</div>
 <h2 id="txt-agenda-title">Agenda</h2>
 <div class="cal-header">
 <button class="btn small" id="cal-prev">←</button>
@@ -285,6 +296,7 @@ Afstand tussen twee N
 
 <section class="tab-content" data-tab="kluis">
 <div class="panel">
+<div class="formula">Kluis</div>
 <h2 id="txt-kluis-new">Geheime sleutel / Wachtwoord</h2>
 <input type="text" id="vault-name" placeholder="Naam (bijv. E-mail)">
 <input type="text" id="vault-pass" placeholder="Wachtwoord of Sleutel">
@@ -298,6 +310,7 @@ Afstand tussen twee N
 
 <section class="tab-content" data-tab="extra">
 <div class="panel">
+<div class="formula">Extra Functies</div>
 <h2 id="txt-sw-title">Stopwatch</h2>
 <div class="sw-time" id="sw-time">00:00:00.00</div>
 <div class="row center">
@@ -405,7 +418,7 @@ for(let i=0;i<UNITS.length;i++){
 const u=SMALL_TO_LARGE[i];
 const pos=BigInt(arr[UNITS.length-1-i]);
 const b=BASES[u];
-if(pos<1n||(b!==null&&pos>b))throw new RangeError(`\( {u}= \){pos} buiten bereik`);
+if(pos<1n||(b!==null&&pos>b))throw new RangeError(`${u}=${pos} buiten bereik`);
 N+=(pos-1n)*w;
 if(b!==null)w*=b;
 }
@@ -514,7 +527,7 @@ ln.setAttribute("stroke",i===0?"#f4c542":"#2a3160");ln.setAttribute("stroke-widt
 clockTicks.appendChild(ln);
 const txt=document.createElementNS(svgNS,"text");
 txt.setAttribute("x",100+Math.cos(a)*66);txt.setAttribute("y",100+Math.sin(a)*66+3.5);
-txt.setAttribute("text-anchor","middle");txt.setAttribute("font-size",11);txt.setAttribute("fill","#7a82a8");
+txt.setAttribute("text-anchor","middle");txt.setAttribute("font-size",11);txt.setAttribute("fill","#fbf4e2");
 txt.setAttribute("font-family","-apple-system, sans-serif");txt.textContent=i===0?12:i;
 clockNumbers.appendChild(txt);
 }
@@ -532,7 +545,7 @@ const tupleEl=document.getElementById("tuple");
 for(const u of UNITS){
 const d=document.createElement("div");
 d.dataset.unit=u;
-d.innerHTML=`<div class="val" data-u="\( {u}">1</div><div class="lbl"> \){u}</div>`;
+d.innerHTML=`<div class="val" data-u="${u}">1</div><div class="lbl">${u}</div>`;
 d.onclick=()=>{if(typeof openStamp==="function")openStamp(u,BigInt(Date.now()));};
 tupleEl.appendChild(d);
 }
@@ -555,7 +568,7 @@ badge.querySelector(".dot").style.background=period.color;
 document.getElementById("period-name").textContent=`${period.icon} ${period.name}`;
 const pm=Math.floor((hour-1)/12);
 document.getElementById("paper-m").textContent=pm;
-document.getElementById("paper-m-sub").textContent=pm===0?"0 rondjes van 12 uur":`\( {pm} rondje \){pm>1?"s":""} van 12 uur`;
+document.getElementById("paper-m-sub").textContent=pm===0?"0 rondjes van 12 uur":`${pm} rondje${pm>1?"s":""} van 12 uur`;
 tupleEl.querySelectorAll(".val").forEach(el=>{el.textContent=tup[UNITS.indexOf(el.dataset.u)];});
 }
 
@@ -623,7 +636,7 @@ for(let i=1;i<=n;i++){
 const p=this.pt(a0+(a1-a0)*i/n,lvl);
 const k=Math.max(0.2,Math.min(1,0.6-p.z/(p.R*2.2)));
 ctx.beginPath();ctx.moveTo(prev.x,prev.y);ctx.lineTo(p.x,p.y);
-ctx.strokeStyle=`rgba(\( {rgb}, \){alpha*k})`;ctx.lineWidth=width*(0.6+0.4*k);
+ctx.strokeStyle=`rgba(${rgb},${alpha*k})`;ctx.lineWidth=width*(0.6+0.4*k);
 ctx.shadowColor=glow?`rgba(${rgb},0.8)`:"transparent";ctx.shadowBlur=glow;ctx.stroke();prev=p;
 }
 ctx.shadowBlur=0;
@@ -635,7 +648,7 @@ for(let i=1;i<=steps;i++){
 const tt=t0+(t1-t0)*i/steps,p=this.pt(A0+Math.PI*2*tt,tt);
 const k=Math.max(0.2,Math.min(1,0.6-p.z/(p.R*2.2)));
 ctx.beginPath();ctx.moveTo(prev.x,prev.y);ctx.lineTo(p.x,p.y);
-ctx.strokeStyle=`rgba(\( {rgb}, \){alpha*k})`;ctx.lineWidth=width;ctx.stroke();prev=p;
+ctx.strokeStyle=`rgba(${rgb},${alpha*k})`;ctx.lineWidth=width;ctx.stroke();prev=p;
 }
 }
 pearl(p,time){
@@ -652,7 +665,7 @@ body.addColorStop(0,"#ffffff");body.addColorStop(0.28,"#fbf4e2");body.addColorSt
 body.addColorStop(0.86,"#b6a3cf");body.addColorStop(1,"#6a7aa6");
 ctx.beginPath();ctx.arc(p.x,p.y,r,0,7);ctx.fillStyle=body;ctx.fill();
 const irid=ctx.createLinearGradient(p.x-r,p.y-r,p.x+r,p.y+r);
-irid.addColorStop(0,`hsla(\( {hue},90%,75%,0)`);irid.addColorStop(0.5,`hsla( \){hue},90%,75%,0.28)`);
+irid.addColorStop(0,`hsla(${hue},90%,75%,0)`);irid.addColorStop(0.5,`hsla(${hue},90%,75%,0.28)`);
 irid.addColorStop(1,`hsla(${(hue+120)%360},90%,75%,0)`);
 ctx.fillStyle=irid;ctx.beginPath();ctx.arc(p.x,p.y,r,0,7);ctx.fill();
 ctx.save();ctx.translate(p.x-r*0.36,p.y-r*0.42);ctx.rotate(-0.6);ctx.scale(1,0.6);
@@ -761,7 +774,7 @@ document.addEventListener("keydown",e=>{if(e.key==="Escape")stampModal.classList
 
 async function openStamp(unit,N){
 const start=stampStart(unit,N);
-const id=`\( {unit}: \){start}`;
+const id=`${unit}:${start}`;
 let rec=await dbGet("moments",id);
 if(!rec)rec={id,unit,n:start.toString(),notes:[],photos:[],created:Date.now()};
 const tup=N_to_Tuple(start);
@@ -772,10 +785,10 @@ stampContent.innerHTML=`
 <h3>${t("stamp_title")} · ${unit}</h3>
 <div class="stamp-tuple">${tupleTxt}</div>
 <div class="stamp-date">N = ${start.toString()} ms · ${when}</div>
-\( {(!rec.notes.length&&!rec.photos.length)?`<div class="stamp-date"> \){t("stamp_none")}</div>`:""}
-\( {rec.notes.map((n,i)=>`<div class="stamp-note"><span class="stamp-x" data-n=" \){i}">✕</span>\( {n.text.replace(/</g,"&lt;")}<small> \){new Date(n.t).toLocaleString()}</small></div>`).join("")}
+${(!rec.notes.length&&!rec.photos.length)?`<div class="stamp-date">${t("stamp_none")}</div>`:""}
+${rec.notes.map((n,i)=>`<div class="stamp-note"><span class="stamp-x" data-n="${i}">✕</span>${n.text.replace(/</g,"&lt;")}<small>${new Date(n.t).toLocaleString()}</small></div>`).join("")}
 <div class="stamp-photos">
-\( {rec.photos.map((p,i)=>`<div class="stamp-ph"><span class="stamp-x" data-p=" \){i}">✕</span><img src="\( {p.dataUrl}" alt=""><small> \){new Date(p.t).toLocaleString()}</small></div>`).join("")}
+${rec.photos.map((p,i)=>`<div class="stamp-ph"><span class="stamp-x" data-p="${i}">✕</span><img src="${p.dataUrl}" alt=""><small>${new Date(p.t).toLocaleString()}</small></div>`).join("")}
 </div>
 <textarea id="stamp-text" rows="3" placeholder="${t("stamp_note_ph")}"></textarea>
 <div class="row">
@@ -819,7 +832,7 @@ if(lifeSpiral)lifeSpiral.setMoments(list);
 const tupleInputsEl=document.getElementById("bij-tuple-inputs");
 for(const u of UNITS){
 const div=document.createElement("div");
-div.innerHTML=`<label>\( {u}</label><input type="number" id="bij-t- \){u}" value="1" min="1">`;
+div.innerHTML=`<label>${u}</label><input type="number" id="bij-t-${u}" value="1" min="1">`;
 tupleInputsEl.appendChild(div);
 }
 
@@ -831,7 +844,7 @@ const tup=N_to_Tuple(N);
 const out=document.getElementById("bij-out-1");
 out.style.display="block";
 const rows=[["N",N.toString()+" ms",""],["digitale wortel",digitalRoot(N),"cyan"],...UNITS.map((u,i)=>[u,tup[i],"cyan"]),["controle",Tuple_to_N(tup).toString()===N.toString()?"✓ klopt":"✗ fout","pink"]];
-out.innerHTML=rows.map(([k,v,cls])=>`<div class="row"><span class="bij-key">${k}</span><span class="bij-val \( {cls}"> \){v}</span></div>`).join("");
+out.innerHTML=rows.map(([k,v,cls])=>`<div class="row"><span class="bij-key">${k}</span><span class="bij-val ${cls}">${v}</span></div>`).join("");
 out.querySelectorAll(".row").forEach((r,idx)=>{
 if(idx<2||idx>=rows.length-1)return;
 r.classList.add("bij-row");r.innerHTML+=`<span class="bij-pin">＋</span>`;
@@ -855,7 +868,7 @@ return v;
 const N=Tuple_to_N(arr);
 const out=document.getElementById("bij-out-2");
 out.style.display="block";
-out.innerHTML=`<div class="row"><span class="bij-key">N</span><span class="bij-val">\( {N.toString()} ms</span></div><div class="row"><span class="bij-key">duur</span><span class="bij-val cyan"> \){formatDuration(N)}</span></div><div class="row"><span class="bij-key">digitale wortel</span><span class="bij-val cyan">${digitalRoot(N)}</span></div>`;
+out.innerHTML=`<div class="row"><span class="bij-key">N</span><span class="bij-val">${N.toString()} ms</span></div><div class="row"><span class="bij-key">duur</span><span class="bij-val cyan">${formatDuration(N)}</span></div><div class="row"><span class="bij-key">digitale wortel</span><span class="bij-val cyan">${digitalRoot(N)}</span></div>`;
 }catch(e){
 const out=document.getElementById("bij-out-2");
 out.style.display="block";
@@ -863,7 +876,7 @@ out.innerHTML=`<div class="row"><span class="bij-key">fout</span><span class="bi
 }
 };
 
-document.getElementById("bij-weights").innerHTML=UNITS.map(u=>`<div class="row"><span class="bij-key">\( {u}</span><span class="bij-val"> \){WEIGHTS[u].toString()} ms</span></div>`).join("");
+document.getElementById("bij-weights").innerHTML=UNITS.map(u=>`<div class="row"><span class="bij-key">${u}</span><span class="bij-val">${WEIGHTS[u].toString()} ms</span></div>`).join("");
 
 document.getElementById("bij-carry-go").onclick=()=>{
 try{
@@ -871,7 +884,7 @@ const N=BigInt(document.getElementById("bij-carry-n").value.trim());
 const chain=carryChain(N);
 const out=document.getElementById("bij-carry-out");
 out.style.display="block";
-out.innerHTML=chain.map(c=>`<div class="row"><span class="bij-key">${c.unit}</span><span class="bij-val">pos \( {c.pos} \){c.base!==null?` / ${c.base}`:""} · carry ${c.carry}</span></div>`).join("");
+out.innerHTML=chain.map(c=>`<div class="row"><span class="bij-key">${c.unit}</span><span class="bij-val">pos ${c.pos}${c.base!==null?` / ${c.base}`:""} · carry ${c.carry}</span></div>`).join("");
 }catch(e){
 const out=document.getElementById("bij-carry-out");
 out.style.display="block";
@@ -886,7 +899,7 @@ const b=BigInt(document.getElementById("bij-dist-b").value.trim());
 const diff=b>a?b-a:a-b;
 const out=document.getElementById("bij-dist-out");
 out.style.display="block";
-out.innerHTML=`<div class="row"><span class="bij-key">verschil</span><span class="bij-val">\( {diff.toString()} ms</span></div><div class="row"><span class="bij-key">duur</span><span class="bij-val cyan"> \){formatDuration(diff)}</span></div><div class="row"><span class="bij-key">dagen</span><span class="bij-val">\( {(diff/86400000n).toString()}</span></div><div class="row"><span class="bij-key">weken</span><span class="bij-val"> \){(diff/(86400000n*7n)).toString()}</span></div><div class="row"><span class="bij-key">2520-cycli</span><span class="bij-val">${(diff/(86400000n*2520n)).toString()}</span></div>`;
+out.innerHTML=`<div class="row"><span class="bij-key">verschil</span><span class="bij-val">${diff.toString()} ms</span></div><div class="row"><span class="bij-key">duur</span><span class="bij-val cyan">${formatDuration(diff)}</span></div><div class="row"><span class="bij-key">dagen</span><span class="bij-val">${(diff/86400000n).toString()}</span></div><div class="row"><span class="bij-key">weken</span><span class="bij-val">${(diff/(86400000n*7n)).toString()}</span></div><div class="row"><span class="bij-key">2520-cycli</span><span class="bij-val">${(diff/(86400000n*2520n)).toString()}</span></div>`;
 }catch(e){
 const out=document.getElementById("bij-dist-out");
 out.style.display="block";
@@ -913,7 +926,7 @@ const div=document.createElement("div");div.className="moment";
 let img="";if(m.photos&&m.photos.length)img=`<img src="${m.photos[0].dataUrl}" alt="">`;
 const tup=N_to_Tuple(BigInt(m.n));const period=getPeriod(Number(tup[6]));
 const noteCount=m.notes?.length||0;const photoCount=m.photos?.length||0;
-div.innerHTML=`\( {img}<div class="info"><div class="label"> \){m.unit} · \( {tup[5]}/ \){tup[4]}/${tup[3]}</div><div class="meta"><span>N = \( {m.n}</span><span class="badge" style="color: \){period.color}">${period.icon} \( {period.name}</span><span> \){noteCount} ${t("stamp_notes")} · ${photoCount} ${t("stamp_photos")}</span></div></div><div class="del">✕</div>`;
+div.innerHTML=`${img}<div class="info"><div class="label">${m.unit} · ${tup[5]}/${tup[4]}/${tup[3]}</div><div class="meta"><span>N = ${m.n}</span><span class="badge" style="color:${period.color}">${period.icon} ${period.name}</span><span>${noteCount} ${t("stamp_notes")} · ${photoCount} ${t("stamp_photos")}</span></div></div><div class="del">✕</div>`;
 div.querySelector(".info").onclick=()=>openStamp(m.unit,BigInt(m.n));
 if(img)div.querySelector("img").onclick=()=>openStamp(m.unit,BigInt(m.n));
 div.querySelector(".del").onclick=async()=>{if(!confirm(t("confirm_del")))return;await dbDel("moments",m.id);loadMoments();refreshSpiralMoments();};
@@ -926,7 +939,7 @@ document.getElementById("m-sort").onchange=loadMoments;
 let calView=new Date();let calSelected=new Date();let eventsCache={};
 const MONTHS_NL=["januari","februari","maart","april","mei","juni","juli","augustus","september","oktober","november","december"];
 const DAYS_NL=["ma","di","wo","do","vr","za","zo"];
-const dateKey=d=>`\( {d.getFullYear()}- \){String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+const dateKey=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
 
 async function loadEventsCache(){
 eventsCache={};
@@ -946,7 +959,7 @@ for(let d=1;d<=daysInMonth;d++){
 const date=new Date(y,m,d);const key=dateKey(date);
 const isToday=dateKey(new Date())===key;const isSel=dateKey(calSelected)===key;
 const hasEv=eventsCache[key]&&eventsCache[key].length;
-grid.insertAdjacentHTML("beforeend",`<div class="cal-day\( {isToday?" today":""} \){isSel?" selected":""}\( {hasEv?" has-events":""}" data-key=" \){key}">${d}</div>`);
+grid.insertAdjacentHTML("beforeend",`<div class="cal-day${isToday?" today":""}${isSel?" selected":""}${hasEv?" has-events":""}" data-key="${key}">${d}</div>`);
 }
 grid.querySelectorAll("[data-key]").forEach(el=>el.onclick=()=>{
 const[yy,mm,dd]=el.dataset.key.split("-").map(Number);
@@ -959,7 +972,7 @@ const key=dateKey(calSelected);const list=eventsCache[key]||[];
 const display=calSelected.toLocaleDateString(currentLang==="nl"?"nl-NL":"en-US",{weekday:"long",day:"numeric",month:"long"});
 const sel=document.getElementById("cal-selected-date");if(sel)sel.textContent=display;
 const el=document.getElementById("event-list");
-el.innerHTML=list.length?list.map(ev=>`<li class="event-item"><span>\( {ev.text.replace(/</g,"&lt;")}</span><span class="del" data-id=" \){ev.id}">✕</span></li>`).join(""):`<li style="color:var(--muted);background:transparent;padding:8px;text-align:center">—</li>`;
+el.innerHTML=list.length?list.map(ev=>`<li class="event-item"><span>${ev.text.replace(/</g,"&lt;")}</span><span class="del" data-id="${ev.id}">✕</span></li>`).join(""):`<li style="color:var(--muted);background:transparent;padding:8px;text-align:center">—</li>`;
 el.querySelectorAll(".del").forEach(x=>x.onclick=async()=>{await dbDel("events",x.dataset.id);await loadEventsCache();renderCalendar();});
 }
 document.getElementById("cal-prev").onclick=()=>{calView.setMonth(calView.getMonth()-1);renderCalendar();};
@@ -985,7 +998,7 @@ const el=document.getElementById("vault-list");
 if(!el)return;
 el.innerHTML=list.length?list.reverse().map(v=>`
 <div class="vault-item">
-<div class="vault-info"><div class="vault-title">\( {v.name.replace(/</g,"&lt;")}</div><div class="vault-secret" data-id=" \){v.id}">••••••••</div></div>
+<div class="vault-info"><div class="vault-title">${v.name.replace(/</g,"&lt;")}</div><div class="vault-secret" data-id="${v.id}">••••••••</div></div>
 <div class="vault-actions">
 <button class="btn small" data-show="${v.id}">Toon</button>
 <button class="btn small" data-copy="${v.id}">Kopieer</button>
@@ -1007,7 +1020,7 @@ let swStart=0,swElapsed=0,swRunning=false,swLaps=[],swTimer;
 const swNow=()=>swRunning?performance.now()-swStart:swElapsed;
 const swFmt=ms=>{
 const h=Math.floor(ms/3600000),m=Math.floor((ms%3600000)/60000),s=Math.floor((ms%60000)/1000),cs=Math.floor((ms%1000)/10);
-return`\( {String(h).padStart(2,"0")}: \){String(m).padStart(2,"0")}:\( {String(s).padStart(2,"0")}. \){String(cs).padStart(2,"0")}`;
+return`${String(h).padStart(2,"0")}:${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}.${String(cs).padStart(2,"0")}`;
 };
 function updateSW(){document.getElementById("sw-time").textContent=swFmt(swNow());}
 document.getElementById("sw-start").onclick=()=>{if(swRunning)return;swStart=performance.now()-swElapsed;swRunning=true;swTimer=setInterval(updateSW,30);};
@@ -1018,7 +1031,7 @@ const n=swNow(),prev=swLaps.length?swLaps[swLaps.length-1]:0;
 swLaps.push(n);
 const div=document.createElement("div");
 div.style.cssText="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border)";
-div.innerHTML=`<span>Ronde \( {swLaps.length}</span><span> \){swFmt(n-prev)}</span>`;
+div.innerHTML=`<span>Ronde ${swLaps.length}</span><span>${swFmt(n-prev)}</span>`;
 document.getElementById("sw-laps").prepend(div);
 };
 
