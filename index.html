@@ -310,18 +310,24 @@ footer a:hover{text-decoration:underline}
         <button class="btn primary" id="bij-btn-t-to-n" style="width:100%;border-color:var(--pink);color:var(--pink)"><span id="txt-bij-calc-n">Bereken N</span></button>
         <div id="bij-out-2" class="bij-out"></div>
       </div>
-      **Summary:**
-Gewichten per positie
+      
+      <!-- HIER WAS DE FOUT GECORRIGEERD -->
+      <details>
+        <summary>Gewichten per positie</summary>
         <div class="body"><div class="bij-out" id="bij-weights" style="display:block"></div></div>
-      **Summary:**
-Carry-keten
+      </details>
+      
+      <details>
+        <summary>Carry-keten</summary>
         <div class="body">
           <input type="text" id="bij-carry-n" value="100000000">
           <button class="btn primary small" id="bij-carry-go">Bereken</button>
           <div class="bij-out" id="bij-carry-out"></div>
         </div>
-      **Summary:**
-Afstand tussen twee N
+      </details>
+      
+      <details>
+        <summary>Afstand tussen twee N</summary>
         <div class="body">
           <div class="row" style="margin-bottom:10px">
             <input type="text" id="bij-dist-a" value="0" style="flex:1" placeholder="N₁">
@@ -330,6 +336,7 @@ Afstand tussen twee N
           <button class="btn primary small" id="bij-dist-go">Bereken afstand</button>
           <div class="bij-out" id="bij-dist-out"></div>
         </div>
+      </details>
     </div>
   </section>
 
