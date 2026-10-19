@@ -6,790 +6,583 @@
 <meta name="theme-color" content="#0a0e27">
 <title>iGoSpiral</title>
 <style>
-:root{--bg:#0a0e27;--panel:#141a3a;--panel-2:#1e2650;--border:#232a55;--gold:#f4c542;--cyan:#4dd0e1;--pink:#ff6f91;--green:#4caf50;--purple:#b388ff;--text:#e8e8f0;--muted:#9aa3c7;--radius:16px}
+:root{--bg:#0a0e27;--p:#141a3a;--p2:#1e2650;--bd:#232a55;--gold:#f4c542;--cy:#4dd0e1;--pk:#ff6f91;--tx:#e8e8f0;--mu:#9aa3c7}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:radial-gradient(ellipse at top,#1a2150 0%,var(--bg) 70%);color:var(--text);min-height:100vh;padding:16px;padding-bottom:80px;font-size:15px;line-height:1.55}
-.wrap{max-width:1200px;margin:0 auto}
-header{text-align:center;margin-bottom:16px;position:relative}
-header h1{font-weight:300;letter-spacing:4px;font-size:22px}
-header h1 b{color:var(--gold);font-weight:500}
-header p{color:var(--muted);font-size:10px;letter-spacing:2px;margin-top:4px}
-.lang-btn{position:absolute;top:0;right:0;background:var(--panel-2);border:1px solid var(--border);color:var(--text);padding:6px 12px;border-radius:8px;cursor:pointer;font-size:12px;font-weight:600;font-family:inherit}
-.lang-btn:hover{border-color:var(--gold);color:var(--gold)}
-nav.tabs{display:flex;gap:4px;background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:4px;margin-bottom:16px;overflow-x:auto;scrollbar-width:none;flex-wrap:nowrap}
-nav.tabs::-webkit-scrollbar{display:none}
-nav.tabs button{background:transparent;border:none;color:var(--muted);padding:10px 14px;border-radius:8px;cursor:pointer;font-size:12px;font-family:inherit;white-space:nowrap;transition:all .15s;font-weight:500}
-nav.tabs button:hover{color:var(--text)}
-nav.tabs button.active{background:var(--panel-2);color:var(--gold);font-weight:600}
-.tab-content{display:none}
-.tab-content.active{display:block;animation:fadeIn .25s}
-@keyframes fadeIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
-.panel{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:16px}
-.panel-header{text-align:center;font-family:monospace;color:var(--gold);font-size:14px;margin-bottom:10px;padding:8px;background:rgba(244,197,66,0.05);border-radius:8px;border:1px solid rgba(244,197,66,0.2)}
-.panel-footer{text-align:center;font-family:monospace;color:var(--gold);font-size:13px;margin-top:10px;padding:8px;background:rgba(244,197,66,0.05);border-radius:8px;border:1px solid rgba(244,197,66,0.2)}
-.panel h2{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:16px;font-weight:500}
-input,textarea,select{width:100%;background:var(--panel-2);border:1px solid var(--border);color:var(--text);padding:10px;border-radius:8px;font-family:inherit;font-size:14px;margin-bottom:10px}
-input:focus,textarea:focus,select:focus{outline:none;border-color:var(--gold)}
-button.btn{background:var(--panel-2);border:1px solid var(--border);color:var(--text);padding:10px 16px;border-radius:8px;cursor:pointer;font-size:13px;font-family:inherit;transition:all .15s}
-button.btn:hover{border-color:var(--gold);color:var(--gold)}
-button.btn.primary{background:var(--gold);color:var(--bg);border-color:var(--gold);font-weight:600}
-button.btn.danger{border-color:var(--pink);color:var(--pink)}
-button.btn.small{padding:6px 10px;font-size:11px}
-.row{display:flex;gap:8px;flex-wrap:wrap}
-.row.center{justify-content:center}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:radial-gradient(ellipse at top,#1a2150,var(--bg) 70%) fixed;color:var(--tx);min-height:100vh;padding:16px;padding-top:calc(16px + env(safe-area-inset-top,0px));padding-bottom:calc(40px + env(safe-area-inset-bottom,0px));font-size:15px;line-height:1.55}
+.wrap{max-width:900px;margin:0 auto}
+header{text-align:center;margin-bottom:14px}
+h1{font-weight:300;letter-spacing:4px;font-size:22px}h1 b{color:var(--gold);font-weight:500}
+header p{color:var(--mu);font-size:11px;letter-spacing:2px;margin-top:4px}
+nav{display:flex;gap:4px;background:var(--p);border:1px solid var(--bd);border-radius:12px;padding:4px;margin-bottom:14px}
+nav button{flex:1;background:none;border:0;color:var(--mu);padding:10px;border-radius:8px;font:500 13px inherit;font-family:inherit;cursor:pointer}
+nav button.on{background:var(--p2);color:var(--gold);font-weight:600}
+section{display:none}section.on{display:block}
+.panel{background:var(--p);border:1px solid var(--bd);border-radius:16px;padding:18px;margin-bottom:14px}
+.formula{text-align:center;font-family:monospace;color:var(--gold);font-size:14px;margin-bottom:14px;background:rgba(244,197,66,.1);padding:8px;border-radius:8px;border:1px solid rgba(244,197,66,.3)}
+.bar{display:flex;gap:8px;align-items:center;margin-bottom:10px;flex-wrap:wrap}
+select,input{background:var(--p2);border:1px solid var(--bd);color:var(--tx);padding:10px;border-radius:8px;font:14px inherit;font-family:inherit;width:100%}
+.bar select{width:auto;flex:1}
+.btn{background:var(--p2);border:1px solid var(--bd);color:var(--tx);padding:10px 14px;border-radius:8px;font-size:13px;font-family:inherit;cursor:pointer}
+.btn.pr{background:var(--gold);color:var(--bg);border-color:var(--gold);font-weight:600}
+#cv{width:100%;height:min(62vh,560px);display:block;border-radius:12px;pointer-events:none;touch-action:auto}
+.info{font-size:12px;color:var(--mu);text-align:center;line-height:1.6;margin:10px 0}
+.info b{color:var(--gold)}.info i{color:var(--cy);font-style:normal}
+.track{height:6px;background:var(--p2);border-radius:3px;overflow:hidden}
+#pg{height:100%;width:0;background:linear-gradient(90deg,var(--cy),var(--gold))}
+.cw{display:flex;gap:20px;align-items:center;justify-content:center;flex-wrap:wrap}
+svg.clock{width:100%;max-width:340px;height:auto}
+.ci{flex:1;min-width:210px;font-size:13px;color:var(--mu)}
+.m{margin-bottom:12px}.m small{display:block;font-size:9px;letter-spacing:2px;text-transform:uppercase}
+.m span{font-size:28px;font-weight:200;color:var(--gold);font-variant-numeric:tabular-nums}
+.badge{display:inline-block;padding:2px 10px;border-radius:20px;border:1px solid currentColor;font-size:11px}
+table{width:100%;border-collapse:collapse;font:12px monospace;margin-top:10px}
+td,th{padding:5px 4px;border-bottom:1px solid var(--bd);text-align:right}th{color:var(--mu);font-weight:400}td:first-child,th:first-child{text-align:left}td.g{color:var(--gold);font-weight:700}
+.eq{font:12px monospace;color:var(--cy);margin-top:8px;word-break:break-all}
+.grid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin:8px 0}
+.grid label{font-size:9px;color:var(--mu);text-transform:uppercase}.grid input{padding:6px;text-align:center;font-family:monospace}
+h2{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--mu);margin:14px 0 8px;font-weight:500}
 
-/* Spiraal */
-.spiral-controls{display:flex;gap:8px;align-items:center;margin-bottom:12px;flex-wrap:wrap}
-.spiral-controls input[type=date]{width:auto;flex:1;min-width:160px;margin-bottom:0}
-#spiral-canvas{width:100%;height:min(60vh,600px);display:block;cursor:grab;background:transparent;border-radius:12px;touch-action:none}
-#spiral-canvas:active{cursor:grabbing}
-.text-top{font-size:12px;line-height:1.6;color:var(--cyan);text-align:center;margin-bottom:12px;background:rgba(77,208,225,0.05);padding:10px;border-radius:8px;border:1px dashed rgba(77,208,225,0.3)}
-.text-top b{color:var(--text)}
-.text-bottom{font-size:12px;line-height:1.6;color:var(--gold);text-align:center;margin-top:12px;background:rgba(244,197,66,0.05);padding:10px;border-radius:8px;border:1px dashed rgba(244,197,66,0.3)}
-.text-bottom b{color:var(--text)}
-.progress-track{height:6px;background:var(--panel-2);border-radius:3px;overflow:hidden;margin-top:10px}
-.progress-fill{height:100%;background:linear-gradient(90deg,var(--cyan),var(--gold));transition:width .3s}
-
-/* Klok & Tandwielen */
-.clock-wrap{display:flex;gap:30px;align-items:center;flex-wrap:wrap;justify-content:center}
-.clock-face{width:100%;max-width:450px;height:auto;flex-shrink:0;display:block}
-.clock-info{flex:1;min-width:250px;max-width:400px}
-.metric{margin-bottom:14px}
-.metric-label{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:3px}
-.metric-value{font-size:28px;font-weight:200;line-height:1.15;color:var(--gold);font-variant-numeric:tabular-nums}
-.metric-value.cyan{color:var(--cyan)}
-.metric-sub{font-size:10px;color:var(--muted);margin-top:2px}
-.period-badge{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:20px;font-size:11px;margin-top:4px;background:rgba(255,255,255,.06);border:1px solid currentColor}
-.period-badge .dot{width:8px;height:8px;border-radius:50%;background:currentColor}
-.tuple{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;margin-top:14px}
-.tuple>div{background:var(--panel-2);border-radius:6px;padding:8px 2px;text-align:center;cursor:pointer;border:1px solid transparent;position:relative}
-.tuple>div:hover{border-color:var(--cyan)}
-.tuple>div.has-note::after{content:"";position:absolute;top:4px;right:4px;width:6px;height:6px;border-radius:50%;background:var(--pink);box-shadow:0 0 6px var(--pink)}
-.tuple .val{font-size:14px;font-weight:600;color:var(--gold)}
-.tuple .lbl{font-size:7px;letter-spacing:1px;color:var(--muted);text-transform:uppercase}
-
-/* Tabel Tandwielen */
-table.gears{width:100%;border-collapse:collapse;margin-top:16px;font-size:12px}
-table.gears th, table.gears td{border:1px solid var(--border);padding:8px;text-align:center}
-table.gears th{background:var(--panel-2);color:var(--gold);font-weight:500}
-table.gears td{color:var(--text)}
-
-/* Bijectie */
-.bij-container{background:var(--panel-2);border-radius:12px;padding:16px;margin-bottom:16px;border-left:4px solid var(--cyan)}
-.bij-container.pink{border-left-color:var(--pink)}
-.bij-label{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--cyan);margin-bottom:8px;font-weight:600}
-.bij-container.pink .bij-label{color:var(--pink)}
-.bij-input{font-family:monospace;font-size:16px;color:var(--gold);background:var(--bg)}
-.bij-out{background:var(--bg);border-radius:8px;padding:10px;font-family:'Courier New',monospace;font-size:13px;border:1px solid var(--border);margin-top:12px;display:none}
-.bij-out .row{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--border)}
-.bij-key{color:var(--muted)}.bij-val{color:var(--gold);font-weight:bold}.bij-val.cyan{color:var(--cyan)}.bij-val.pink{color:var(--pink)}
-.tuple-inputs{display:grid;grid-template-columns:repeat(2,1fr);gap:6px;margin-bottom:8px}
-.tuple-inputs label{font-size:9px;color:var(--muted);text-transform:uppercase;display:block;margin-bottom:3px}
-.tuple-inputs input{margin-bottom:0;padding:6px;text-align:center;font-family:monospace}
-details{background:var(--panel-2);border-radius:10px;margin-bottom:10px;overflow:hidden}
-details summary{padding:12px 16px;cursor:pointer;font-size:12px;color:var(--gold);display:flex;justify-content:space-between}
-details .body{padding:0 16px 16px}
-
-/* Agenda */
-.cal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px}
-.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:16px}
-.cal-day-name{font-weight:600;color:var(--muted);font-size:11px;text-align:center;text-transform:uppercase}
-.cal-day{padding:10px 4px;background:rgba(255,255,255,.03);border-radius:6px;text-align:center;cursor:pointer;position:relative;border:1px solid transparent}
-.cal-day.selected{background:var(--gold);color:var(--bg);font-weight:600}
-.cal-day.today{border-color:var(--pink)}
-.cal-day.has-events::after{content:'';position:absolute;bottom:3px;left:50%;transform:translateX(-50%);width:4px;height:4px;border-radius:50%;background:var(--cyan)}
-.event-item{background:var(--panel-2);padding:10px;border-radius:6px;margin-bottom:6px;display:flex;justify-content:space-between}
-
-/* Kluis */
-.vault-item{background:var(--panel-2);border-radius:8px;padding:12px;margin-bottom:8px;display:flex;justify-content:space-between;border-left:4px solid var(--gold);align-items:center;gap:8px}
-.vault-secret{font-family:monospace;font-size:13px;color:var(--text)}
-
-/* Extra */
-.sw-time{font-size:52px;font-weight:200;text-align:center;color:var(--cyan);font-family:monospace;margin:16px 0}
-.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:100;padding:20px;overflow-y:auto}
-.modal.active{display:flex;align-items:flex-start;justify-content:center;padding-top:40px}
-.modal-card{background:var(--panel);border:1px solid var(--border);border-radius:16px;max-width:520px;width:100%;padding:24px;position:relative;max-height:88vh;overflow-y:auto}
-footer{text-align:center;font-size:11px;color:var(--muted);padding:24px 0;margin-top:24px;border-top:1px solid var(--border)}
-
-/* Archief / Uitleg */
-.explanation h3{color:var(--gold);margin:20px 0 8px;font-size:15px;border-bottom:1px solid var(--border);padding-bottom:4px}
-.explanation h4{color:var(--cyan);margin:14px 0 6px;font-size:13px}
-.explanation p, .explanation li{font-size:13px;line-height:1.7;color:var(--muted)}
-.explanation ul{padding-left:20px;margin-bottom:10px}
-.explanation code{color:var(--gold);font-family:monospace;background:rgba(255,255,255,0.05);padding:2px 4px;border-radius:4px}
-.explanation .note{background:rgba(77,208,225,0.1);border-left:3px solid var(--cyan);padding:10px;margin:10px 0;font-size:12px;color:var(--text)}
-
-@media(max-width:600px){body{padding:12px;padding-bottom:80px}.panel{padding:16px}.tuple{grid-template-columns:repeat(2,1fr)}.tuple>div:nth-child(n+3){display:none}.clock-face{max-width:300px}}
+header{position:relative}.lg{position:absolute;right:0;top:0;background:var(--p2);border:1px solid var(--bd);color:var(--tx);padding:6px 12px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer}
+nav{overflow-x:auto;scrollbar-width:none}nav button{flex:0 0 auto;padding:10px 14px}
+.cards{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin:12px 0}
+.card{background:var(--p2);border-radius:10px;padding:10px 2px;text-align:center;border-top:3px solid var(--gold)}.card.cc{border-color:var(--cy)}.card.ct{border-color:var(--pk)}
+.card b{display:block;font-size:20px;font-weight:300;font-variant-numeric:tabular-nums}.card small{font-size:8px;letter-spacing:1px;text-transform:uppercase;color:var(--mu)}
+.sum{display:flex;justify-content:space-between;gap:10px;padding:6px 0;border-bottom:1px solid var(--bd);font-size:13px}.sum span{color:var(--mu)}.sum b{text-align:right;color:var(--gold);font-weight:500}
+details{background:var(--p2);border-radius:10px;margin-top:10px;padding:10px 14px}summary{cursor:pointer;color:var(--gold);font-size:12px}
+.cg{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin:10px 0}.dn{text-align:center;font-size:10px;color:var(--mu);text-transform:uppercase}
+.cd{background:rgba(255,255,255,.04);border-radius:6px;padding:8px 0 4px;text-align:center;font-size:13px;cursor:pointer;border:1px solid transparent;position:relative}.cd small{display:block;font-size:8px;opacity:.8}.cd.e{background:none;cursor:default}.cd.td{border-color:var(--pk)}.cd.sl{background:var(--gold);color:var(--bg)}.cd.ev::after{content:"";position:absolute;top:3px;right:4px;width:5px;height:5px;border-radius:50%;background:var(--cy)}
+ul{list-style:none}li{background:var(--p2);padding:10px;border-radius:8px;margin-bottom:6px;display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:13px}li b,.nh b{color:var(--pk);cursor:pointer}.mu{color:var(--mu)}
+.nt{background:var(--p2);border-radius:12px;padding:12px;margin-bottom:10px}.nh{display:flex;justify-content:space-between;color:var(--gold);font-size:13px}.nt .mu{font-size:10px;font-family:monospace}.tx{white-space:pre-wrap;margin:6px 0;font-size:14px}
+.ph{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:6px}.ph img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:8px;cursor:zoom-in}
+#lbw{display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:50;align-items:center;justify-content:center;padding:12px}#lbw.on{display:flex}#lbw img{max-width:100%;max-height:100%;border-radius:8px}
+textarea{width:100%;background:var(--p2);border:1px solid var(--bd);color:var(--tx);padding:10px;border-radius:8px;font:14px inherit;font-family:inherit;margin:8px 0}
+.stat{font-size:12px;min-height:18px;color:var(--cy);margin-top:6px}.stat.err{color:var(--pk)}
+.stb{height:6px;background:var(--p2);border-radius:3px;overflow:hidden;margin:6px 0}.stb div{height:100%;width:0;background:linear-gradient(90deg,var(--cy),var(--gold))}
+.vi{border-left:4px solid var(--gold)}.vs{font-family:monospace;word-break:break-all;color:var(--gold)}.vb{display:flex;gap:4px}
+.pic{display:block;text-align:center;border:1px dashed var(--bd);border-radius:8px;padding:10px;cursor:pointer;font-size:13px;margin-bottom:8px}.pic input{display:none}
+html[lang=nl] .en,html[lang=en] .nl{display:none}
+.ex h3{color:var(--gold);font-size:14px;margin:18px 0 6px;padding-bottom:4px;border-bottom:1px solid var(--bd)}.ex h3:first-of-type{margin-top:4px}
+.ex p,.ex li{font-size:13px;line-height:1.7;color:var(--mu)}.ex ul{padding-left:20px;margin:6px 0}.ex li{display:list-item;background:none;padding:0;margin:0 0 4px;justify-content:flex-start}
+.ex b{color:var(--tx)}.ex code{color:var(--gold);font-family:monospace;background:rgba(255,255,255,.06);padding:1px 5px;border-radius:4px;font-size:12px}
+.note{background:rgba(77,208,225,.1);border-left:3px solid var(--cy);padding:10px;margin:12px 0;font-size:12px;color:var(--tx);border-radius:0 8px 8px 0}
+.note.w{background:rgba(255,111,145,.1);border-color:var(--pk)}
+.ex a{color:var(--cy)}.lk{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}.lk a{background:var(--p2);border:1px solid var(--bd);padding:8px 12px;border-radius:8px;text-decoration:none;font-size:12px}
+.ex tr.fl td{color:var(--gold);font-weight:700}
 </style>
 </head>
 <body>
 <div class="wrap">
-<button class="lang-btn" id="lang-toggle">EN</button>
-<header>
-  <h1>iGo<b>Spiral</b></h1>
-  <p id="txt-subtitle">de klok als wiskundig object</p>
-</header>
-<nav class="tabs">
-  <button data-tab="spiraal" class="active" id="tab-btn-spiraal">Spiraal</button>
-  <button data-tab="klok" id="tab-btn-klok">Klok</button>
-  <button data-tab="bijectie" id="tab-btn-bijectie">Bijectie</button>
-  <button data-tab="agenda" id="tab-btn-agenda">Agenda</button>
-  <button data-tab="kluis" id="tab-btn-kluis">Kluis</button>
-  <button data-tab="extra" id="tab-btn-extra">Extra</button>
-  <button data-tab="handleiding" id="tab-btn-handleiding">Gids</button>
-  <button data-tab="licentie" id="tab-btn-licentie">Licentie</button>
-  <button data-tab="archief" id="tab-btn-archief">Archief</button>
-  <button data-tab="over" id="tab-btn-over">Over</button>
-</nav>
+<header><button class="lg" id="lg">EN</button><h1>iGo<b>Spiral</b></h1><p id="sub"></p></header>
+<nav><button class="on" data-t="sp">.</button><button data-t="kl">.</button><button data-t="bj">.</button><button data-t="ag">.</button><button data-t="nt">.</button><button data-t="kv">.</button><button data-t="sy">.</button><button data-t="hd">.</button><button data-t="mr">.</button></nav>
 
-<!-- Paneel 1: Spiraal -->
-<section class="tab-content active" data-tab="spiraal">
-  <div class="panel-header">p ≡ 1 (mod q)</div>
-  <div class="panel">
-    <h2>De Geharmoniseerde Tijdspiraal (70 jaar)</h2>
-    <div class="spiral-controls">
-      <input type="date" id="birthdate">
-      <button class="btn primary small" id="btn-calc-age">Bereken</button>
-      <button class="btn small" id="btn-reset-date" style="background:var(--panel);border-color:var(--muted)">↺ Reset naar Nu</button>
-      <button class="btn small" id="spiral-toggle">⏸</button>
-    </div>
-    <div class="text-top" id="text-top-info"></div>
-    <canvas id="spiral-canvas"></canvas>
-    <div class="text-bottom" id="pearl-info"></div>
-    <div class="progress-track"><div class="progress-fill" id="life-progress" style="width:0%"></div></div>
-  </div>
-  <div class="panel-footer">6 × 19 + 28 × 9 = 114 + 252 = 366</div>
-</section>
-
-<!-- Paneel 2: Klok -->
-<section class="tab-content" data-tab="klok">
-  <div class="panel-header">p ≡ 1 (mod q)</div>
-  <div class="panel">
-    <h2>De Tandwielen van de Tijd</h2>
-    <div class="clock-wrap">
-      <svg class="clock-face" viewBox="0 0 300 300">
-        <defs><radialGradient id="bgGrad" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#141a3a"/><stop offset="100%" stop-color="#0a0e27"/></radialGradient></defs>
-        <circle cx="150" cy="150" r="145" fill="url(#bgGrad)" stroke="#232a55" stroke-width="2"/>
-        <!-- Gears -->
-        <circle cx="150" cy="150" r="130" fill="none" stroke="rgba(244,197,66,0.15)" stroke-width="15" stroke-dasharray="10 10"/>
-        <circle cx="150" cy="150" r="108" fill="none" stroke="rgba(77,208,225,0.15)" stroke-width="12" stroke-dasharray="8 8"/>
-        <circle cx="150" cy="150" r="86" fill="none" stroke="rgba(255,111,145,0.15)" stroke-width="10" stroke-dasharray="6 6"/>
-        <circle cx="150" cy="150" r="64" fill="none" stroke="rgba(179,136,255,0.15)" stroke-width="8" stroke-dasharray="4 4"/>
-        
-        <g id="clock-ticks"></g>
-        <g id="clock-numbers"></g>
-        <line id="hour-hand" x1="150" y1="150" x2="150" y2="85" stroke="#f4c542" stroke-width="6" stroke-linecap="round"/>
-        <line id="minute-hand" x1="150" y1="150" x2="150" y2="55" stroke="#e8e8f0" stroke-width="4" stroke-linecap="round"/>
-        <line id="second-hand" x1="150" y1="150" x2="150" y2="40" stroke="#4dd0e1" stroke-width="2" stroke-linecap="round"/>
-        <circle cx="150" cy="150" r="8" fill="#f4c542"/>
-        <circle cx="150" cy="150" r="4" fill="#0a0e27"/>
-      </svg>
-      <div class="clock-info">
-        <div class="metric">
-          <div class="metric-label">Huidige Uur (1–24)</div>
-          <div class="metric-value" id="hour-pos">1</div>
-          <div class="period-badge" id="period-badge"><span class="dot"></span><span id="period-name">Nacht</span></div>
-        </div>
-        <div class="metric">
-          <div class="metric-label">Paper-m (mod 12) · De Carry</div>
-          <div class="metric-value cyan" id="paper-m">0</div>
-          <div class="metric-sub" id="paper-m-sub">0 rondjes van 12 uur</div>
-        </div>
-        <div class="text-bottom" style="font-size:11px;text-align:left" id="clock-extra"></div>
-        <div class="tuple" id="tuple"></div>
-      </div>
-    </div>
-    <!-- Tabel Tandwielen -->
-    <h3 style="margin-top:24px;color:var(--gold);font-size:12px">Overzicht Tandwielen</h3>
-    <table class="gears">
-      <thead><tr><th>Cyclus</th><th>Modulus (q)</th><th>Sprong (p)</th><th>Betekenis</th></tr></thead>
-      <tbody>
-        <tr><td>Uren</td><td>12</td><td>25</td><td>25 ≡ 1 (mod 12). Na 12 uur begin je weer bij 1, maar de sprong is 25. Twee rondjes = 1 etmaal (carry).</td></tr>
-        <tr><td>Dagen</td><td>7</td><td>15</td><td>15 ≡ 1 (mod 7). Na 7 dagen begin je weer bij 1. Twee weken = 15 dagen (carry).</td></tr>
-        <tr><td>Uren (klein)</td><td>6</td><td>13</td><td>13 ≡ 1 (mod 6). Na 6 uur begin je weer bij 1. Vier blokken = 1 etmaal (carry).</td></tr>
-        <tr><td>Maanden</td><td>12</td><td>25</td><td>25 ≡ 1 (mod 12). Na 12 maanden begin je bij 1 van het volgende jaar.</td></tr>
-      </tbody>
-    </table>
-  </div>
-  <div class="panel-footer">6 × 19 + 28 × 9 = 114 + 252 = 366</div>
-</section>
-
-<!-- Paneel 3: Bijectie -->
-<section class="tab-content" data-tab="bijectie">
-  <div class="panel-header">p ≡ 1 (mod q)</div>
-  <div class="panel">
-    <h2>Bijectie · De Vertaler</h2>
-    <div class="bij-container">
-      <div class="bij-label">Milliseconden (N) → Klok Tuple</div>
-      <input type="text" id="bij-n-input" class="bij-input" value="100000000">
-      <button class="btn primary" id="bij-btn-n-to-t" style="width:100%">Bereken</button>
-      <div id="bij-out-1" class="bij-out"></div>
-    </div>
-    <div class="bij-container pink">
-      <div class="bij-label">Klok Tuple → Milliseconden (N)</div>
-      <div class="tuple-inputs" id="bij-tuple-inputs"></div>
-      <button class="btn primary" id="bij-btn-t-to-n" style="width:100%;border-color:var(--pink);color:var(--pink)">Bereken N</button>
-      <div id="bij-out-2" class="bij-out"></div>
-    </div>
-    <details><summary>Gewichten per positie</summary><div class="body"><div class="bij-out" id="bij-weights" style="display:block"></div></div></details>
-    <details><summary>Carry-keten</summary><div class="body"><input type="text" id="bij-carry-n" value="100000000"><button class="btn primary small" id="bij-carry-go">Bereken</button><div class="bij-out" id="bij-carry-out"></div></div></details>
-  </div>
-  <div class="panel-footer">6 × 19 + 28 × 9 = 114 + 252 = 366</div>
-</section>
-
-<!-- Paneel 4: Agenda -->
-<section class="tab-content" data-tab="agenda">
-  <div class="panel-header">p ≡ 1 (mod q)</div>
-  <div class="panel">
-    <h2>Agenda</h2>
-    <div class="cal-header">
-      <button class="btn small" id="cal-prev">←</button>
-      <h3 id="cal-month-year">—</h3>
-      <button class="btn small" id="cal-next">→</button>
-    </div>
-    <div class="cal-grid" id="cal-grid"></div>
-    <div class="events-section">
-      <h3 id="cal-selected-date">—</h3>
-      <ul class="event-list" id="event-list" style="list-style:none;padding:0"></ul>
-      <div style="display:flex;gap:8px"><input type="text" id="event-input" placeholder="Nieuwe afspraak..."><button class="btn primary" id="event-add">+</button></div>
-    </div>
-  </div>
-  <div class="panel-footer">6 × 19 + 28 × 9 = 114 + 252 = 366</div>
-</section>
-
-<!-- Paneel 5: Kluis -->
-<section class="tab-content" data-tab="kluis">
-  <div class="panel-header">p ≡ 1 (mod q)</div>
-  <div class="panel" id="v-lock-panel">
-    <h2>MRS AUTH PQC</h2>
-    <div style="font-size:11px;margin-bottom:12px" id="v-state"></div>
-    <input type="password" id="v-pass" autocomplete="off" placeholder="">
-    <div style="display:flex;gap:8px"><button class="btn primary" id="v-unlock" style="flex:1"></button><button class="btn" id="v-lockbtn">🔒</button></div>
-    <div style="font-size:12px;margin-top:8px;color:var(--green)" id="v-msg"></div>
-  </div>
-  <div class="panel">
-    <h2>Geheime sleutel / Wachtwoord</h2>
-    <input type="text" id="vault-name" placeholder="Naam (bijv. E-mail)">
-    <input type="text" id="vault-pass" placeholder="Wachtwoord of Sleutel">
-    <button class="btn primary" id="save-vault" style="width:100%">Veilig opslaan</button>
-  </div>
-  <div class="panel">
-    <h2>Opgeslagen items</h2>
-    <div id="vault-list"></div>
-  </div>
-  <div class="panel-footer">6 × 19 + 28 × 9 = 114 + 252 = 366</div>
-</section>
-
-<!-- Paneel 6: Extra -->
-<section class="tab-content" data-tab="extra">
-  <div class="panel-header">p ≡ 1 (mod q)</div>
-  <div class="panel">
-    <h2>Stopwatch</h2>
-    <div class="sw-time" id="sw-time">00:00:00.00</div>
-    <div class="row center">
-      <button class="btn primary" id="sw-start">Start</button><button class="btn" id="sw-stop">Stop</button><button class="btn" id="sw-lap">Ronde</button><button class="btn danger" id="sw-reset">Reset</button>
-    </div>
-    <div id="sw-laps" style="max-height:150px;overflow-y:auto;margin-top:12px;font-size:13px;font-family:monospace"></div>
-  </div>
-  <div class="panel">
-    <h2>Back-up & Herstel</h2>
-    <div class="row">
-      <button class="btn primary" id="btn-export" style="flex:1">⬇ Export</button>
-      <button class="btn" id="btn-import" style="flex:1">⬆ Import</button>
-    </div>
-    <input type="file" id="import-file" accept=".json" style="display:none">
-    <button class="btn danger" id="clear-all" style="width:100%;margin-top:10px">🗑 Wis alles</button>
-    <div id="backup-status" style="font-size:12px;text-align:center;margin-top:10px;color:var(--green)"></div>
-  </div>
-  <div class="panel-footer">6 × 19 + 28 × 9 = 114 + 252 = 366</div>
-</section>
-
-<!-- Paneel 7: Handleiding -->
-<section class="tab-content" data-tab="handleiding">
-  <div class="panel-header">p ≡ 1 (mod q)</div>
-  <div class="panel explanation">
-    <h2>Gebruiksaanwijzing</h2>
-    <p>Welkom bij iGoSpiral. Deze app brengt de tijd terug tot haar wiskundige essentie. Hier is hoe je de panels gebruikt:</p>
-    <ul>
-      <li><b>Spiraal:</b> Voer je geboortedatum in om je persoonlijke 70-jarige cyclus te zien. Zonder datum toont de spiraal de wereldwijde cyclus sinds Jaar 1. De bol reist over de ringen.</li>
-      <li><b>Klok:</b> Toont de echte tijd met wijzers, maar de getallen (tuple) volgen het 360-dagen model. De tandwielen en tabel leggen de congruenties uit.</li>
-      <li><b>Bijectie:</b> Converteer N (milliseconden) naar een tuple en terug. Elke tuplepositie is 1-based.</li>
-      <li><b>Agenda:</b> Plan afspraken. Elke dag toont de maanstand van het model.</li>
-      <li><b>Kluis:</b> Versleutelde opslag voor wachtwoorden met MRS-AUTH PQC.</li>
-      <li><b>Extra:</b> Stopwatch, back-up en herstel.</li>
-      <li><b>Archief:</b> Diepgaande uitleg over de cycli en verbindingen.</li>
-    </ul>
-    <p>Gebruik de knoppen om te navigeren. De app werkt offline en slaat alles lokaal op.</p>
-  </div>
-  <div class="panel-footer">6 × 19 + 28 × 9 = 114 + 252 = 366</div>
-</section>
-
-<!-- Paneel 8: Licentie -->
-<section class="tab-content" data-tab="licentie">
-  <div class="panel-header">p ≡ 1 (mod q)</div>
-  <div class="panel explanation">
-    <h2>Licentie</h2>
-    <p>Deze applicatie is beschikbaar onder de <b>GNU General Public License v3.0 (GPL-3.0)</b>.</p>
-    <p>Je bent vrij om de software te gebruiken, te wijzigen en te verspreiden, mits je dezelfde licentie behoudt en de broncode deelt.</p>
-    <p>De wiskundige modellen (MRS-AUTH, 19A+9B, 2520-cyclus) zijn ontwikkeld door de auteur en vallen onder dezelfde licentie.</p>
-    <p>Voor meer informatie, zie de volledige licentietekst op <a href="https://www.gnu.org/licenses/gpl-3.0.nl.html" target="_blank" style="color:var(--cyan)">GNU.org</a>.</p>
-  </div>
-  <div class="panel-footer">6 × 19 + 28 × 9 = 114 + 252 = 366</div>
-</section>
-
-<!-- Paneel 9: Archief -->
-<section class="tab-content" data-tab="archief">
-  <div class="panel-header">p ≡ 1 (mod q)</div>
-  <div class="panel explanation">
-    <h2>Archief · De Wiskunde van de Tijd</h2>
-    
-    <h3>1. De 2520-dagen cyclus</h3>
-    <p>Een week heeft 7 dagen, een jaar 360 dagen. Om beiden perfect te synchroniseren, is de kleinste gemene veelvoud <b>2520 dagen</b> (7 × 360). Dit is de fundamentele cyclus waarbinnen week en maand weer samenvallen. In de 7000-jaar cyclus zijn er 10 van deze 2520-dagen blokken.</p>
-    <div class="note">2,520 is het kleinste getal dat deelbaar is door alle getallen van 1 tot en met 10. De 7 is de enige die het jaarlijkse ritme (360) doorbreekt en dwingt tot een langere cyclus.</div>
-
-    <h3>2. Schrikkeljaren en de rest</h3>
-    <p>Een gewoon jaar heeft 365 dagen, een schrikkeljaar 366. De formule <code>6 × 19 + 28 × 9 = 114 + 252 = 366</code> laat zien hoe het schrikkeljaar is opgebouwd uit de getallen 19 en 9 (basis van de MRS-AUTH bijectie). De rest (modulo) is cruciaal: na 4 jaar is er een rest van 1, wat tot uiting komt in de carry van de tijdrekening.</p>
-    <p>In de 360-dagen kalender is het schrikkeljaar <code>366 = 360 + 6</code>. En <code>6 = 7 - 1</code>. De formule <code>q + 1 = p</code> keert op elk niveau terug.</p>
-
-    <h3>3. De tandwielen (gears)</h3>
-    <p>Elke tijdseenheid is een tandwiel met modulus <code>q</code> en sprong <code>p = 2q + 1</code>. De congruentie <code>p ≡ 1 (mod q)</code> garandeert dat na een volledige cyclus de positie weer 1 is. Zo grijpen uren, dagen, weken en jaren in elkaar, zoals in een mechanisch uurwerk.</p>
-    <table class="gears" style="margin-top:10px">
-      <thead><tr><th>Eenheid</th><th>Modulus (q)</th><th>Sprong (p)</th><th>Formule</th></tr></thead>
-      <tbody>
-        <tr><td>Uur</td><td>12</td><td>25</td><td>25 ≡ 1 (mod 12)</td></tr>
-        <tr><td>Dag</td><td>7</td><td>15</td><td>15 ≡ 1 (mod 7)</td></tr>
-        <tr><td>Dig. wortel</td><td>9</td><td>19</td><td>19 ≡ 1 (mod 9)</td></tr>
-        <tr><td>Minuut</td><td>60</td><td>121</td><td>121 ≡ 1 (mod 60)</td></tr>
-        <tr><td>Maand</td><td>30</td><td>61</td><td>61 ≡ 1 (mod 30)</td></tr>
-      </tbody>
-    </table>
-
-    <h3>4. Ijkpunten en connecties</h3>
-    <p>Het ijkpunt voor de wereldwijde cyclus is <b>Jaar 1</b> (het begin van de jaartelling). De app rekent sindsdien, inclusief schrikkeljaren. Voor persoonlijke spiralen is het ijkpunt de geboortedatum.</p>
-    <p>De week (mod 7) is modulair verbonden met de rest van de keten. De maand is <code>2 × 15 = 30</code> en <code>30 ≡ 2 (mod 7)</code>. Het jaar is <code>360 ≡ 3 (mod 7)</code>. Zo is de hele keten verbonden met de week, ook al past de week niet perfect in de maand.</p>
-
-    <h3>5. De 7000-jaar cyclus</h3>
-    <p>De kalender (360.000 dagen voor 1000 jaar) en de week (7 dagen) komen samen na <code>lcm(360.000, 7) = 2.520.000 dagen = 7.000 jaar</code>. Dit is de sluiting van de grote cyclus. De 700-jarige cyclus (waar de spiraal op is gebaseerd) is een tiende daarvan en toont dezelfde structuur op een kleiner schaalniveau.</p>
-  </div>
-  <div class="panel-footer">6 × 19 + 28 × 9 = 114 + 252 = 366</div>
-</section>
-
-<!-- Paneel 10: Over -->
-<section class="tab-content" data-tab="over">
-  <div class="panel-header">p ≡ 1 (mod q)</div>
-  <div class="panel explanation">
-    <h2>Over iGoSpiral</h2>
-    <p>iGoSpiral is een experimentele web-app die de klok, de kalender en de wiskunde samenbrengt in één geheel. Het is een eerbetoon aan de schoonheid van getallen en hun cycli.</p>
-    <p><b>Ontwikkeld door:</b> Bilal el Issaoui</p>
-    <p><b>Contact:</b> <a href="mailto:elissa_oui@outlook.com" style="color:var(--cyan)">elissa_oui@outlook.com</a></p>
-    <p><b>Versie:</b> 1.0 (definitief)</p>
-    <p>Deze app is met zorg gebouwd en gebruikt moderne webtechnologieën zoals IndexedDB, WebCrypto, en SVG.</p>
-  </div>
-  <div class="panel-footer">6 × 19 + 28 × 9 = 114 + 252 = 366</div>
-</section>
-
-<footer>
-  <div style="color:var(--gold);font-weight:500;font-size:13px;letter-spacing:2px">iGoSpiral</div>
-  <div style="margin-top:6px">Contact: <a href="mailto:elissa_oui@outlook.com" style="color:var(--cyan);text-decoration:none">elissa_oui@outlook.com</a></div>
-</footer>
+<!-- SPIRAAL PANEEL -->
+<section id="sp" class="on"><div class="panel">
+<div class="formula">p ≡ 1 (mod q)</div>
+<div class="bar">
+  <input type="date" id="birthdate" style="flex:1; margin-bottom:0;">
+  <button class="btn" id="btn-calc-age">Bereken</button>
+  <button class="btn" id="btn-reset-date" style="border-color:var(--pk);color:var(--pk)">↺ Wis</button>
+  <button class="btn" id="pz">⏸</button>
 </div>
+<div class="info" id="top"></div>
+<canvas id="cv"></canvas>
+<div class="info" id="bot"></div>
+<div class="track"><div id="pg"></div></div>
+</div></section>
 
-<!-- MODAL VOOR NOTITIES -->
-<div class="modal" id="stamp-modal">
-  <div class="modal-card">
-    <button class="modal-close" id="stamp-close" style="position:absolute;top:12px;right:12px;background:transparent;border:none;color:var(--muted);font-size:20px;cursor:pointer">✕</button>
-    <div id="stamp-content"></div>
-  </div>
+<!-- KLOK PANEEL -->
+<section id="kl"><div class="panel">
+<div class="formula">25 ≡ 1 (mod 12) · 24 · 12 · 6</div>
+<div class="cw">
+<svg class="clock" viewBox="0 0 200 200"><circle cx="100" cy="100" r="96" fill="#0d1230" stroke="#232a55"/><g id="gears"></g><g id="ticks"></g><g id="nums"></g>
+<line id="hh" x1="100" y1="100" x2="100" y2="55" stroke="#f4c542" stroke-width="4.5" stroke-linecap="round"/>
+<line id="mh" x1="100" y1="100" x2="100" y2="32" stroke="#e8e8f0" stroke-width="3" stroke-linecap="round"/>
+<line id="sh" x1="100" y1="112" x2="100" y2="26" stroke="#4dd0e1" stroke-width="1.5" stroke-linecap="round"/>
+<circle cx="100" cy="100" r="4.5" fill="#f4c542"/><circle cx="100" cy="100" r="2" fill="#0a0e27"/></svg>
+<div class="ci">
+<div class="m"><small id="l-hp"></small><span id="hp">1</span> <span class="badge" id="pb"></span></div>
+<!-- AANGEPAST: Paper-m weg, nu Live Tijd en Datum -->
+<div class="m"><small>Live Tijd (N)</small><span id="live-n" style="font-size:18px;color:var(--cy)">0</span></div>
+<div class="m"><small>Datum</small><span id="live-date" style="font-size:16px;color:var(--gold)">-</span></div>
+<div id="cx"></div>
+</div></div></div></section>
+
+<!-- BIJECTIE PANEEL -->
+<section id="bj"><div class="panel">
+<div class="formula">N ↔ (d, u, m, s, ms)</div>
+<h2 id="l-b1"></h2>
+<div class="bar"><input id="n" inputmode="numeric"><button class="btn" id="nw"></button></div>
+<input id="dt" type="datetime-local" step="1">
+<div id="o1"></div>
+</div><div class="panel"><h2 id="l-b2"></h2><div class="grid" id="ti"></div><button class="btn pr" id="go2" style="width:100%"></button><div class="eq" id="o2"></div></div></section>
+
+<!-- AGENDA PANEEL -->
+<section id="ag"><div class="panel"><div class="formula">t = d + 1</div>
+<div class="bar"><button class="btn" id="ap">←</button><h2 id="agm" style="flex:1;text-align:center;margin:0;color:var(--gold)"></h2><button class="btn" id="an">→</button></div>
+<div class="cg" id="agg"></div><h2 id="ags"></h2><ul id="agl"></ul>
+<div class="bar"><input id="ae"><button class="btn pr" id="aa">+</button></div></div></section>
+
+<!-- NOTITIES PANEEL -->
+<section id="nt"><div class="panel"><h2 id="l-nt0"></h2><div class="stb"><div id="stb"></div></div><div class="info" id="stt"></div></div>
+<div class="panel"><h2 id="l-nt1"></h2><input id="nd" type="datetime-local" step="1"><textarea id="nx" rows="4"></textarea>
+<label class="pic"><span id="l-nf"></span><input id="nf" type="file" accept="image/*" multiple></label>
+<button class="btn pr" id="ns" style="width:100%"></button><div class="stat" id="nst"></div></div>
+<div class="panel"><h2 id="l-nt2"></h2><div id="nl"></div></div></section>
+
+<!-- KLUIS PANEEL -->
+<section id="kv"><div class="panel"><div class="formula">MRS-AUTH · 19A+9B</div><div class="info" id="vst"></div>
+<input type="password" id="vp" autocomplete="off"><div class="bar"><button class="btn pr" id="vu" style="flex:1"></button><button class="btn" id="vl">🔒</button></div><div class="stat" id="vm"></div></div>
+<div class="panel" id="vadd"><h2 id="l-kv2"></h2><input id="vn" style="margin-bottom:8px"><input id="vw" style="margin-bottom:8px"><div class="bar"><button class="btn" id="vg"></button><button class="btn pr" id="vs" style="flex:1"></button></div></div>
+<div class="panel"><h2 id="l-kv3"></h2><div id="vlist"></div></div>
+<div class="panel ex"><div class="nl"><h3>Toekomstig werk</h3><ul><li>De echte MRS-AUTH-PQC-bibliotheek (Rust, gecompileerd naar WebAssembly) in de Kluis laten draaien: ML-KEM-1024, Clock KDF en AES-256-GCM.</li><li>Items versleutelen met de publieke sleutel, zodat alleen de geheime sleutel met het hoofdwachtwoord beschermd hoeft te worden.</li><li>Back-up (export en import) van kluis, notities en foto's.</li><li>De deniability-laag met alternatieve getuigen.</li></ul><div class="note">Tot dan gebruikt de Kluis de vereenvoudigde browser-variant uit het tabblad MRS.</div></div><div class="en"><h3>Future work</h3><ul><li>Run the real MRS-AUTH-PQC library (Rust, compiled to WebAssembly) in the Vault: ML-KEM-1024, Clock KDF and AES-256-GCM.</li><li>Encrypt items with the public key, so only the secret key needs to be protected by the master passphrase.</li><li>Backup (export and import) of vault, notes and photos.</li><li>The deniability layer with alternative witnesses.</li></ul><div class="note">Until then the Vault uses the simplified browser variant described in the MRS tab.</div></div></div></section>
+
+<!-- SYSTEEM PANEEL -->
+<section id="sy"><div class="panel ex">
+<div class="formula">p ≡ 1 (mod q)</div>
+<div class="nl">
+<h3>Wat is iGoSpiral?</h3>
+<p>iGoSpiral maakt van tijd een wiskundig object. Elk moment is <b>één geheel getal N</b> (milliseconden sinds 1 januari 1970, lokale tijd). Dat getal heeft precies één klok-tuple, en uit die tuple volgt N weer terug, zonder verlies. Dat is de <b>bijectie</b>.</p>
+<h3>De kernformule</h3>
+<p><code>p ≡ 1 (mod q)</code>: na een volledige cyclus kom je weer op positie 1, maar één niveau hoger. De verhouding <code>m = (p−1)/q</code> bepaalt hoeveel rondes dat duurt.</p>
+<ul><li>Klok: <code>25 ≡ 1 (mod 12)</code>, m = 2. Een dag is twee rondes van 12 (dag en nacht), samen 24 uur.</li><li>Week: <code>15 ≡ 1 (mod 7)</code>, m = 2.</li><li>Getallen: <code>19 ≡ 1 (mod 9)</code>, m = 2. Zie het tabblad MRS.</li></ul>
+<h3>De posities</h3>
+<p>Alle posities beginnen bij 1. Van klein naar groot: ms (1000), seconde (60), minuut (60), uur (24), dag (30), maand (12), jaar (10), decennium (10), eeuw (10), millennium (onbegrensd). Er geldt <code>N = Σ (positie − 1) · gewicht</code>.</p>
+<h3>Waarom 2520?</h3>
+<p>2520 is het kleinste getal dat deelbaar is door 1 tot en met 10. Het is ook het kleinste gemene veelvoud van 7 (week) en 360 (jaar van 12 × 30 dagen): na 2520 dagen = 7 jaar vallen week en jaar weer samen.</p>
 </div>
-<input type="file" id="stamp-photo-input" accept="image/*" style="display:none">
+<div class="en">
+<h3>What is iGoSpiral?</h3>
+<p>iGoSpiral turns time into a mathematical object. Every moment is <b>one integer N</b> (milliseconds since 1 January 1970, local time). That number has exactly one clock tuple, and N can be recovered from the tuple without loss. That is the <b>bijection</b>.</p>
+<h3>The core formula</h3>
+<p><code>p ≡ 1 (mod q)</code>: after a full cycle you are back at position 1, one level higher. The ratio <code>m = (p−1)/q</code> sets how many rounds that takes.</p>
+<ul><li>Clock: <code>25 ≡ 1 (mod 12)</code>, m = 2. A day is two rounds of 12 (day and night), 24 hours in total.</li><li>Week: <code>15 ≡ 1 (mod 7)</code>, m = 2.</li><li>Numbers: <code>19 ≡ 1 (mod 9)</code>, m = 2. See the MRS tab.</li></ul>
+<h3>The positions</h3>
+<p>All positions start at 1. Small to large: ms (1000), second (60), minute (60), hour (24), day (30), month (12), year (10), decade (10), century (10), millennium (unbounded). It holds that <code>N = Σ (position − 1) · weight</code>.</p>
+<h3>Why 2520?</h3>
+<p>2520 is the smallest number divisible by every number from 1 to 10. It is also the least common multiple of 7 (week) and 360 (a year of 12 × 30 days): after 2520 days = 7 years, week and year coincide again.</p>
+</div>
+</div></section>
+
+<!-- HANDLEIDING PANEEL -->
+<section id="hd"><div class="panel ex">
+<div class="nl">
+<h3>Gebruiksaanwijzing</h3>
+<ul><li><b>Spiraal:</b> Voer je geboortedatum in en klik op 'Bereken'. De spiraal toont je persoonlijke leven. Klik op 'Wis' om de wereldtijd-weergave te herstellen. De parel is nu, de gouden lijn is het verstreken deel van dit jaar.</li><li><b>Klok:</b> kijk naar de wijzers en de tandwielen. Eronder staan de live N (milliseconden) en de datum.</li><li><b>Bijectie:</b> typ N, kies een datum, of tik op Nu. De kaarten tonen de tuple. Open "Rekenstappen" voor de berekening.</li><li><b>Agenda:</b> tik op een dag, typ een afspraak en tik op +.</li><li><b>Notities:</b> kies datum en tijd, schrijf een tekst en voeg foto's toe.</li><li><b>Kluis:</b> de eerste keer kies je een hoofdwachtwoord van minstens 10 tekens. Daarna: Ontgrendel.</li></ul>
+<div class="note w"><b>Let op:</b> alles staat alleen in de browser van dit apparaat. Wis je de browsergegevens, dan zijn notities, foto's en kluis weg.</div>
+</div>
+<div class="en">
+<h3>User manual</h3>
+<ul><li><b>Spiral:</b> Enter your birthdate and click 'Calculate'. The spiral shows your personal life. Click 'Clear' to restore the world-time view.</li><li><b>Clock:</b> watch the hands and the gears. Below are the live N (milliseconds) and the date.</li><li><b>Bijection:</b> type N, pick a date, or tap Now. The cards show the tuple.</li><li><b>Calendar:</b> tap a day, type an appointment and tap +.</li><li><b>Notes:</b> pick a date and time, write text and add photos.</li><li><b>Vault:</b> the first time, choose a master passphrase of at least 10 characters.</li></ul>
+<div class="note w"><b>Note:</b> everything is stored only in this device's browser.</div>
+</div>
+</div></section>
+
+<!-- MRS PANEEL -->
+<section id="mr"><div class="panel ex">
+<div class="formula">N = 19A + 9B · 19 ≡ 1 (mod 9) · 25 ≡ 1 (mod 12)</div>
+<div class="nl">
+<h3>MRS-AUTH-PQC</h3>
+<p>Een post-quantum authenticatieraamwerk voor twee problemen tegelijk: <b>vertrouwelijkheid</b> tegen een quantum-tegenstander, via ML-KEM-1024 (FIPS 203), en <b>dwangbestendigheid</b> tegen een fysieke tegenstander, via het (19, 9) Diophantische systeem.</p>
+<div class="note"><b>In deze app:</b> de Kluis gebruikt een vereenvoudigde browser-variant: PBKDF2 (600.000 rondes) → N → <code>a = dr(N)</code>, <code>B = (N−19a)/9</code> → SHA-256 → AES-256-GCM. Dus géén ML-KEM, niet de Rust-bibliotheek en geen deniability-laag.</div>
+</div>
+<h3 id="md-h"></h3>
+<div class="bar"><input id="md-n" inputmode="numeric" placeholder="N ≥ 1"></div>
+<div id="md-o"></div>
+</div></section>
+<div id="lbw"><img id="lbi" alt=""></div>
+</div>
 
 <script>
-/* ============================================================
-   DEEL A: KERN DATA, WISKUNDE & SPIRAAL
-   ============================================================ */
-let currentLang = "nl";
-const UNITS = ["millennium","eeuw","decennium","jaar","maand","dag","uur","minuut","seconde","ms"];
-const BASES = {ms:1000n,seconde:60n,minuut:60n,uur:24n,dag:30n,maand:12n,jaar:10n,decennium:10n,eeuw:10n,millennium:null};
-const SMALL_TO_LARGE = [...UNITS].reverse();
-const WEIGHTS = {};
-{let w=1n;for(const u of SMALL_TO_LARGE){WEIGHTS[u]=w;const b=BASES[u];if(b!==null)w*=b;}}
+const $=id=>document.getElementById(id);
+const NS="http://www.w3.org/2000/svg";
+let tab="sp",mode="auto";
 
-const $ = id => document.getElementById(id);
+document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>{
+ tab=b.dataset.t;
+ document.querySelectorAll("nav button").forEach(x=>x.classList.toggle("on",x===b));
+ document.querySelectorAll("section").forEach(s=>s.classList.toggle("on",s.id===tab));
+ if(tab==="sp")setTimeout(()=>sp.resize(),30);
+});
+
+/* ---------- Spiraal (Geboortedatum / Wereldtijd) ---------- */
+let birthDate = null;
 const IGO_BIRTH_KEY = "igospiral_birth";
 
-function unitPos(value,q){const v=BigInt(value),base=BigInt(q);if(v<1n)throw new Error("value ≥ 1");return{position:Number(((v-1n)%base)+1n),m:(v-1n)/base};}
-function N_to_Tuple(N){let rest=BigInt(N);const out=[];for(const u of SMALL_TO_LARGE){const b=BASES[u];if(b===null)out.push(Number(rest+1n));else{const{position,m}=unitPos(rest+1n,b);out.push(position);rest=m;}}return out.reverse();}
-function Tuple_to_N(arr){let N=0n,w=1n;for(let i=0;i<UNITS.length;i++){const u=SMALL_TO_LARGE[i];const pos=BigInt(arr[UNITS.length-1-i]);const b=BASES[u];if(pos<1n||(b!==null&&pos>b))throw new RangeError(`${u} buiten bereik`);N+=(pos-1n)*w;if(b!==null)w*=b;}return N;}
-
-function digitalRoot(N){const s=BigInt(N).toString();let sum=0;for(const c of s)sum+=parseInt(c,10);return sum<10?sum:digitalRoot(sum);}
-function formatDuration(ms){ms=BigInt(ms);const d=ms/86400000n,h=(ms%86400000n)/3600000n,m=(ms%3600000n)/60000n,s=(ms%60000n)/1000n;return`${d}d ${h}u ${m}m ${s}s`;}
-const stampStart=(unit,N)=>(BigInt(N)/WEIGHTS[unit])*WEIGHTS[unit];
-
 function getTimeSinceYearOne() {
-    const now = new Date();
-    const y1 = new Date(); y1.setFullYear(1, 0, 1); y1.setHours(0, 0, 0, 0);
-    let years = now.getFullYear() - 1;
-    let temp = new Date(y1); temp.setFullYear(y1.getFullYear() + years);
+    const now = new Date(); const y1 = new Date(); y1.setFullYear(1, 0, 1); y1.setHours(0, 0, 0, 0);
+    let years = now.getFullYear() - 1; let temp = new Date(y1); temp.setFullYear(y1.getFullYear() + years);
     while (temp > now) { years--; temp.setFullYear(y1.getFullYear() + years); }
-    let months = 0;
-    while (true) { let nextTemp = new Date(temp); nextTemp.setMonth(nextTemp.getMonth() + 1); if (nextTemp > now) break; temp = nextTemp; months++; }
-    let days = 0;
-    while (true) { let nextTemp = new Date(temp); nextTemp.setDate(nextTemp.getDate() + 1); if (nextTemp > now) break; temp = nextTemp; days++; }
-    let diff = now - temp;
-    let hours = Math.floor(diff / 3600000); diff %= 3600000;
-    let minutes = Math.floor(diff / 60000); diff %= 60000;
-    let seconds = Math.floor(diff / 1000);
+    let months = 0; while (true) { let nextTemp = new Date(temp); nextTemp.setMonth(nextTemp.getMonth() + 1); if (nextTemp > now) break; temp = nextTemp; months++; }
+    let days = 0; while (true) { let nextTemp = new Date(temp); nextTemp.setDate(nextTemp.getDate() + 1); if (nextTemp > now) break; temp = nextTemp; days++; }
+    let diff = now - temp; let hours = Math.floor(diff / 3600000); diff %= 3600000; let minutes = Math.floor(diff / 60000); diff %= 60000; let seconds = Math.floor(diff / 1000);
     return { years, months, days, hours, minutes, seconds };
 }
 
-class Spiral {
-  constructor(canvas) {
-    this.c = canvas; this.ctx = canvas.getContext("2d"); this.dpr = window.devicePixelRatio || 1;
-    this.rotation = 0.5; this.tilt = 1.0; this.autoRotate = true; this.birth = null;
-    this.level = 1; this.shown = 1; this.f = 0; this.h = 1; this._raf = null;
-    this.stars = Array.from({length:200}, () => ({x:Math.random(),y:Math.random(),r:.3+Math.random()*1.2,p:Math.random()*6.3,s:.4+Math.random()*1.2}));
-    this.resize(); this.setupEvents(); this.loop();
-  }
-  resize(){const r=this.c.getBoundingClientRect();if(r.width===0)return;this.c.width=r.width*this.dpr;this.c.height=r.height*this.dpr;this.ctx.setTransform(this.dpr,0,0,this.dpr,0,0);}
-  setupEvents(){let d=false,lx=0,ly=0;this.c.addEventListener("pointerdown",e=>{d=true;lx=e.clientX;ly=e.clientY;});window.addEventListener("pointermove",e=>{if(!d)return;this.rotation+=(e.clientX-lx)*0.01;this.tilt=Math.max(0.45,Math.min(1.35,this.tilt+(e.clientY-ly)*0.005));lx=e.clientX;ly=e.clientY;});window.addEventListener("pointerup",()=>d=false);window.addEventListener("resize",()=>this.resize());}
-  setBirth(date){this.birth=date;this.shown=this.level;}
-  pt(a,lvl,rs=1){const w=this.c.width/this.dpr,h=this.c.height/this.dpr,u=Math.min(w,h),z=this.zoom||1;const R=u*0.34*rs*z,gap=u*0.085*z,X=Math.cos(a)*R,Z=Math.sin(a)*R,Y=(lvl-this.shown)*gap;const ca=Math.cos(this.rotation),sa=Math.sin(this.rotation),x1=X*ca+Z*sa,z1=-X*sa+Z*ca;const ct=Math.cos(this.tilt),st=Math.sin(this.tilt),y2=Y*ct+z1*st,z2=z1*ct-Y*st,D=u*1.6,s=D/(D+z2);return{x:w/2+x1*s,y:h/2+0.05*h-y2*s,z:z2,s,R:u*0.34*z};}
-  arc(lvl,a0,a1,rgb,alpha,width,glow=0){const ctx=this.ctx,n=Math.max(2,Math.ceil(Math.abs(a1-a0)/(Math.PI*2)*120));let prev=this.pt(a0,lvl);ctx.lineCap="round";for(let i=1;i<=n;i++){const p=this.pt(a0+(a1-a0)*i/n,lvl);const k=Math.max(0.2,Math.min(1,0.6-p.z/(p.R*2.2)));ctx.beginPath();ctx.moveTo(prev.x,prev.y);ctx.lineTo(p.x,p.y);ctx.strokeStyle=`rgba(${rgb},${alpha*k})`;ctx.lineWidth=width*(0.6+0.4*k);ctx.shadowColor=glow?`rgba(${rgb},0.8)`:"transparent";ctx.shadowBlur=glow;ctx.stroke();prev=p;}ctx.shadowBlur=0;}
-  helix(t0,t1,rgb,alpha,width){const ctx=this.ctx,A0=-Math.PI/2,steps=Math.max(2,Math.ceil(Math.abs(t1-t0)*90));let prev=this.pt(A0+Math.PI*2*t0,t0);for(let i=1;i<=steps;i++){const tt=t0+(t1-t0)*i/steps,p=this.pt(A0+Math.PI*2*tt,tt);const k=Math.max(0.2,Math.min(1,0.6-p.z/(p.R*2.2)));ctx.beginPath();ctx.moveTo(prev.x,prev.y);ctx.lineTo(p.x,p.y);ctx.strokeStyle=`rgba(${rgb},${alpha*k})`;ctx.lineWidth=width;ctx.stroke();prev=p;}}
-  pearl(p,time){const ctx=this.ctx,r=Math.max(10,p.R*0.085)*p.s,hue=(time/40)%360;ctx.save();ctx.translate(p.x,p.y+r*0.9);ctx.scale(1,0.35);const sh=ctx.createRadialGradient(0,0,0,0,0,r*1.3);sh.addColorStop(0,"rgba(0,0,0,0.6)");sh.addColorStop(1,"rgba(0,0,0,0)");ctx.fillStyle=sh;ctx.beginPath();ctx.arc(0,0,r*1.3,0,7);ctx.fill();ctx.restore();const body=ctx.createRadialGradient(p.x-r*0.38,p.y-r*0.42,r*0.1,p.x,p.y,r);body.addColorStop(0,"#ffffff");body.addColorStop(0.28,"#fbf4e2");body.addColorStop(0.62,"#e4d4b2");body.addColorStop(0.86,"#b6a3cf");body.addColorStop(1,"#6a7aa6");ctx.beginPath();ctx.arc(p.x,p.y,r,0,7);ctx.fillStyle=body;ctx.fill();const irid=ctx.createLinearGradient(p.x-r,p.y-r,p.x+r,p.y+r);irid.addColorStop(0,`hsla(${hue},90%,75%,0)`);irid.addColorStop(0.5,`hsla(${hue},90%,75%,0.28)`);irid.addColorStop(1,`hsla(${(hue+120)%360},90%,75%,0)`);ctx.fillStyle=irid;ctx.beginPath();ctx.arc(p.x,p.y,r,0,7);ctx.fill();ctx.save();ctx.translate(p.x-r*0.36,p.y-r*0.42);ctx.rotate(-0.6);ctx.scale(1,0.6);ctx.beginPath();ctx.arc(0,0,r*0.3,0,7);ctx.fillStyle=`rgba(255,255,255,0.95)`;ctx.fill();ctx.restore();}
-  update(){
-    const now = Date.now();
-    if(this.birth){
-      const nowD = new Date(now);
-      let y = nowD.getFullYear() - this.birth.getFullYear();
-      if(new Date(this.birth).setFullYear(this.birth.getFullYear()+y) > nowD) y--;
-      const last = new Date(this.birth); last.setFullYear(this.birth.getFullYear()+y);
-      const next = new Date(this.birth); next.setFullYear(this.birth.getFullYear()+y+1);
-      const f = Math.min(0.999999, Math.max(0,(now-last.getTime())/(next.getTime()-last.getTime())));
-      this.level = y + 1; this.f = f; this.h = Math.floor(f*24)+1;
-    } else {
-      const te = getTimeSinceYearOne();
-      this.level = (te.years % 70) + 1;
-      this.f = (te.months/12)+(te.days/365.2425)+(te.hours/8765.82)+(te.minutes/525949.2)+(te.seconds/31556952);
-      this.h = Math.floor(this.f*24)+1;
-    }
-    const c = this.level + this.f;
-    this.shown += (c - this.shown) * 0.03;
-    if(Math.abs(c-this.shown)<0.001) this.shown = c;
-    this.updateInfo();
-  }
-  updateInfo(){
-    const topEl = $("text-top-info"), botEl = $("pearl-info"), bar = $("life-progress");
-    if(!this.birth){
-      if(bar) bar.style.width = (this.shown/70*100).toFixed(1)+"%";
-      const te = getTimeSinceYearOne();
-      const target = (Math.floor(te.years/70)+1)*70;
-      const cycle = Math.floor(te.years/70)+1;
-      if(topEl){
-        topEl.innerHTML = `<b>Wereldwijde Cyclus ${cycle}</b> (1-based) · Doel: Niveau ${target}<br>
-        Verstreken sinds jaar 1: <b>${te.years}</b> jaar, ${te.months} mnd, ${te.days} dgn, ${te.hours} uur, ${te.minutes} min, ${te.seconds} sec.`;
-      }
-      if(botEl){
-        botEl.innerHTML = `Huidige positie: <b>Niveau ${this.level} / 70</b><br>
-        (Nog ${target-this.level} jaar tot de volgende cyclus-sluiting)`;
-      }
-      return;
-    }
-    if(!botEl) return;
-    const pct = Math.min(100, this.level + this.f);
-    botEl.innerHTML = `Leeftijd <b>${this.level-1}</b> jaar · spiraalpositie <b>${this.h}</b>/24<br>Dat is <b>${pct.toFixed(2)}%</b> van een 70-jarige cyclus.`;
-    if(bar) bar.style.width = pct+"%";
-  }
-  draw(){
-    const w=this.c.width/this.dpr,hh=this.c.height/this.dpr,ctx=this.ctx;ctx.clearRect(0,0,w,hh);
-    const bg=ctx.createRadialGradient(w/2,hh/2,0,w/2,hh/2,Math.max(w,hh));bg.addColorStop(0,"rgba(26,33,80,0.8)");bg.addColorStop(1,"rgba(10,14,39,1)");ctx.fillStyle=bg;ctx.fillRect(0,0,w,hh);
-    const tm=performance.now()/1000;this.stars.forEach(s=>{const a=0.2+0.5*Math.abs(Math.sin(tm*s.s+s.p));ctx.beginPath();ctx.arc(s.x*w,s.y*hh,s.r,0,7);ctx.fillStyle=`rgba(200,210,255,${a*0.6})`;ctx.fill();});
-    const L=this.level,from=Math.max(1,Math.floor(this.shown)-4),to=Math.min(70,Math.ceil(this.shown)+5),A0=-Math.PI/2,cont=L+this.f;
-    if(this.shown>0)this.helix(Math.max(1,this.shown-4),this.shown,"244,197,66",0.4,1.4);this.helix(Math.max(this.shown,1),Math.min(71,this.shown+5),"154,163,199",0.16,1);
-    for(let lvl=from;lvl<=to;lvl++){const d=Math.abs(lvl-this.shown),fade=Math.max(0.12,1-d/6);if(lvl===L)continue;const rgb=lvl<this.shown?"77,208,225":"154,163,199";this.arc(lvl,A0,A0+Math.PI*2,rgb,0.55*fade,lvl<this.shown?1.6:1);}
-    if(this.birth){this.arc(L,A0,A0+Math.PI*2,"154,163,199",0.35,1.6);if(this.f>0.002)this.helix(L,L+this.f,"244,197,66",0.95,3.0);}
-    ctx.textAlign="left";for(let lvl=from;lvl<=to;lvl++){const q=this.pt(0,lvl,1.07);ctx.fillStyle=lvl===L?"#f4c542":"rgba(154,163,199,0.5)";ctx.font=(lvl===L?"bold 11px":"9px")+" -apple-system, sans-serif";ctx.fillText("Niveau "+lvl,q.x+4,q.y);}
-    const pp=this.pt(A0+Math.PI*2*cont,cont);ctx.beginPath();ctx.moveTo(this.pt(A0,cont).x,this.pt(A0,cont).y);ctx.lineTo(pp.x,pp.y);ctx.strokeStyle="rgba(244,197,66,0.15)";ctx.lineWidth=1.5;ctx.stroke();this.pearl(pp,performance.now());
-    if(this.autoRotate)this.rotation-=0.0008;
-  }
-  loop(){if(!document.hidden){try{this.update();this.draw();}catch(e){}}this._raf=requestAnimationFrame(()=>this.loop());}
+function state(d){
+ if (birthDate) {
+   const nowD = d; let y = nowD.getFullYear() - birthDate.getFullYear(); 
+   if(new Date(birthDate).setFullYear(birthDate.getFullYear()+y) > nowD) y--;
+   const last = new Date(birthDate); last.setFullYear(birthDate.getFullYear()+y); 
+   const next = new Date(birthDate); next.setFullYear(birthDate.getFullYear()+y+1);
+   const f = Math.min(0.999999, Math.max(0,(nowD-last.getTime())/(next.getTime()-last.getTime())));
+   return { Y: birthDate.getFullYear() + y, f: f, len: 70, target: 70, level: (y % 70) + 1 };
+ } else {
+   const te = getTimeSinceYearOne();
+   const Y = te.years + 1;
+   const a = new Date(Y,0,1), b = new Date(Y+1,0,1);
+   const f = (d - a) / (b - a);
+   return { Y: Y, f: f, len: 70, target: Math.ceil(Y/70)*70, level: ((Y-1) % 70) + 1 };
+ }
 }
 
-const lifeSpiral = new Spiral($("spiral-canvas"));
-function applyBirth(val){if(!val)return;const d=new Date(val+"T00:00:00");if(isNaN(d.getTime()))return;localStorage.setItem(IGO_BIRTH_KEY,val);lifeSpiral.setBirth(d);}
-$("btn-calc-age").onclick=()=>applyBirth($("birthdate").value);
-$("btn-reset-date").onclick=()=>{localStorage.removeItem(IGO_BIRTH_KEY);$("birthdate").value="";lifeSpiral.birth=null;lifeSpiral.updateInfo();};
-const savedBirth=localStorage.getItem(IGO_BIRTH_KEY);if(savedBirth){$("birthdate").value=savedBirth;applyBirth(savedBirth);}
-$("spiral-toggle").onclick=(e)=>{lifeSpiral.autoRotate=!lifeSpiral.autoRotate;e.target.textContent=lifeSpiral.autoRotate?"⏸":"▶";};
-
-/* ============================================================
-   DEEL B: KLOK & BIJECTIE
-   ============================================================ */
-const svgNS="http://www.w3.org/2000/svg";
-const clockTicks=$("clock-ticks"), clockNumbers=$("clock-numbers");
-for(let i=0;i<12;i++){
-  const a=(i/12)*Math.PI*2-Math.PI/2;
-  const ln=document.createElementNS(svgNS,"line");ln.setAttribute("x1",150+Math.cos(a)*120);ln.setAttribute("y1",150+Math.sin(a)*120);ln.setAttribute("x2",150+Math.cos(a)*135);ln.setAttribute("y2",150+Math.sin(a)*135);ln.setAttribute("stroke",i===0?"#f4c542":"#2a3160");ln.setAttribute("stroke-width",i===0?3:1.5);clockTicks.appendChild(ln);
-  const txt=document.createElementNS(svgNS,"text");txt.setAttribute("x",150+Math.cos(a)*105);txt.setAttribute("y",150+Math.sin(a)*105+5);txt.setAttribute("text-anchor","middle");txt.setAttribute("font-size",14);txt.setAttribute("fill","#fbf4e2");txt.textContent=i===0?12:i;clockNumbers.appendChild(txt);
-}
-
-const tupleEl=$("tuple");
-for(const u of UNITS){const d=document.createElement("div");d.dataset.unit=u;d.innerHTML=`<div class="val" data-u="${u}">1</div><div class="lbl">${u}</div>`;d.onclick=()=>{if(typeof openStamp==="function")openStamp(u,BigInt(Date.now()));};tupleEl.appendChild(d);}
-
-function updateClock(){
-  const realNow=new Date();
-  const realHour=realNow.getHours(),realMinute=realNow.getMinutes(),realSecond=realNow.getSeconds()+realNow.getMilliseconds()/1000;
-  
-  $("hour-hand").setAttribute("transform",`rotate(${(realHour%12)*30+realMinute*0.5} 150 150)`);
-  $("minute-hand").setAttribute("transform",`rotate(${realMinute*6+realSecond*0.1} 150 150)`);
-  $("second-hand").setAttribute("transform",`rotate(${realSecond*6} 150 150)`);
-  
-  const N=BigInt(Date.now());
-  const tup=N_to_Tuple(N);
-  const hour=tup[6];
-  $("hour-pos").textContent=hour;
-  
-  const p = (hour>=1&&hour<=6)||(hour>=19&&hour<=24) ? "Nacht" : "Dag";
-  const color = p==="Nacht"?"#5c6bc0":"#f4c542";
-  $("period-badge").style.color=color;
-  $("period-badge").querySelector(".dot").style.background=color;
-  $("period-name").textContent=`${p==="Nacht"?"🌙":"☀️"} ${p}`;
-  
-  const pm=Math.floor((hour-1)/12);
-  $("paper-m").textContent=pm;
-  $("paper-m-sub").textContent=pm===0?"0 rondjes van 12 uur (carry)":`${pm} rondjes van 12 uur (carry)`;
-  
-  tupleEl.querySelectorAll(".val").forEach(el=>{el.textContent=tup[UNITS.indexOf(el.dataset.u)];});
-  
-  const cycle = Math.floor(realHour / 12);
-  const pos = (realHour % 12) + 1;
-  $("clock-extra").innerHTML = `Echte tijd: <b>${realHour}:${String(realMinute).padStart(2,'0')}</b>.<br>Dit is <b>${cycle} carry(s)</b> + positie <b>${pos}</b>.<br>De wiskunde: 25 ≡ 1 (mod 12). 24 uur = 1 dag (carry).`;
-}
-setInterval(updateClock, 1000); updateClock();
-
-const tupleInputsEl = $("bij-tuple-inputs");
-for(const u of UNITS){const div=document.createElement("div");div.innerHTML=`<label>${u}</label><input type="number" id="bij-t-${u}" value="1" min="1">`;tupleInputsEl.appendChild(div);}
-
-$("bij-btn-n-to-t").onclick=()=>{
-  const out=$("bij-out-1");out.style.display="block";
-  try{
-    const N=BigInt($("bij-n-input").value.trim()); const tup=N_to_Tuple(N);
-    const rows=[["N",N.toString()+" ms",""],["Wortel",digitalRoot(N),"cyan"],...UNITS.map((u,i)=>[u,tup[i],"cyan"]),["Controle",Tuple_to_N(tup).toString()===N.toString()?"✓":"✗","pink"]];
-    out.innerHTML=rows.map(([k,v,cls])=>`<div class="row"><span class="bij-key">${k}</span><span class="bij-val ${cls}">${v}</span></div>`).join("");
-    tup.forEach((v,i)=>{const e=$(`bij-t-${UNITS[i]}`);if(e)e.value=v;});
-  }catch(e){out.innerHTML=`<div class="row"><span class="bij-key">fout</span><span class="bij-val pink">${e.message}</span></div>`;}
-};
-$("bij-btn-t-to-n").onclick=()=>{
-  const out=$("bij-out-2");out.style.display="block";
-  try{
-    const arr=UNITS.map(u=>{const v=parseInt($(`bij-t-${u}`).value,10);if(isNaN(v)||v<1)throw new Error(u+" ≥ 1");return v;});
-    const N=Tuple_to_N(arr);
-    out.innerHTML=`<div class="row"><span class="bij-key">N</span><span class="bij-val">${N} ms</span></div><div class="row"><span class="bij-key">Duur</span><span class="bij-val cyan">${formatDuration(N)}</span></div>`;
-  }catch(e){out.innerHTML=`<div class="row"><span class="bij-key">fout</span><span class="bij-val pink">${e.message}</span></div>`;}
-};
-$("bij-weights").innerHTML=UNITS.map(u=>`<div class="row"><span class="bij-key">${u}</span><span class="bij-val">${WEIGHTS[u]} ms</span></div>`).join("");
-</script>
-
-<script>
-/* ============================================================
-   DEEL C: AGENDA, KLUIS & EXTRA
-   ============================================================ */
-const MONTHS_NL=["januari","februari","maart","april","mei","juni","juli","augustus","september","oktober","november","december"];
-const DAYS_NL=["ma","di","wo","do","vr","za","zo"];
-const dateKey=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
-
-let calView=new Date(); let calSelected=new Date(); let eventsCache={};
-
-async function loadEventsCache(){ eventsCache={}; const all=await dbAll("events"); all.forEach(ev=>{if(!eventsCache[ev.date])eventsCache[ev.date]=[];eventsCache[ev.date].push(ev);}); }
-function renderCalendar(){
-  const y=calView.getFullYear(),m=calView.getMonth();
-  $("cal-month-year").textContent=`${MONTHS_NL[m]} ${y}`;
-  const grid=$("cal-grid"); grid.innerHTML=DAYS_NL.map(d=>`<div class="cal-day-name">${d}</div>`).join("");
-  const offset=(new Date(y,m,1).getDay()+6)%7; const days=new Date(y,m+1,0).getDate();
-  for(let i=0;i<offset;i++)grid.insertAdjacentHTML("beforeend",`<div></div>`);
-  for(let d=1;d<=days;d++){
-    const key=dateKey(new Date(y,m,d));
-    const isToday = key === dateKey(new Date());
-    const hasEv = eventsCache[key] && eventsCache[key].length;
-    grid.insertAdjacentHTML("beforeend",`<div class="cal-day${key===dateKey(calSelected)?" selected":""}${isToday?" today":""}${hasEv?" has-events":""}" data-key="${key}">${d}</div>`);
+class Spiral{
+ constructor(c){
+  this.c=c;this.x=c.getContext("2d");this.rot=.5;this.tilt=1;this.shown=null;this.w=300;this.h=300;
+  this.stars=Array.from({length:130},()=>({x:Math.random(),y:Math.random(),r:.3+Math.random()*1.1,p:Math.random()*6.3,s:.4+Math.random()*1.2}));
+  this.resize();
+ }
+ resize(){
+  const r=this.c.getBoundingClientRect();if(!r.width)return;
+  const d=Math.min(devicePixelRatio||1,2);
+  this.w=r.width;this.h=r.height;this.c.width=r.width*d;this.c.height=r.height*d;this.x.setTransform(d,0,0,d,0,0);
+ }
+ pt(a,l){
+  const u=Math.min(this.w,this.h),R=u*.34,g=u*.085;
+  const X=Math.cos(a)*R,Z=Math.sin(a)*R,Y=(l-this.shown)*g;
+  const ca=Math.cos(this.rot),sa=Math.sin(this.rot),x1=X*ca+Z*sa,z1=-X*sa+Z*ca;
+  const ct=Math.cos(this.tilt),st=Math.sin(this.tilt),y2=Y*ct+z1*st,z2=z1*ct-Y*st;
+  const D=u*1.6,s=D/(D+z2);
+  return{x:this.w/2+x1*s,y:this.h*.55-y2*s,z:z2,s,R};
+ }
+ line(f,t0,t1,n,rgb,al,w){
+  const x=this.x;let p=f(t0);x.lineCap="round";
+  for(let i=1;i<=n;i++){
+   const q=f(t0+(t1-t0)*i/n),k=Math.max(.2,Math.min(1,.6-q.z/(q.R*2.2)));
+   x.beginPath();x.moveTo(p.x,p.y);x.lineTo(q.x,q.y);
+   x.strokeStyle=`rgba(${rgb},${al*k})`;x.lineWidth=w*(.6+.4*k);x.stroke();p=q;
   }
-  grid.querySelectorAll("[data-key]").forEach(el=>el.onclick=()=>{const[yy,mm,dd]=el.dataset.key.split("-").map(Number);calSelected=new Date(yy,mm-1,dd);renderCalendar();});
-  renderEvents();
-}
-function renderEvents(){
-  const key=dateKey(calSelected); const list=eventsCache[key]||[];
-  $("cal-selected-date").textContent=calSelected.toLocaleDateString("nl-NL",{weekday:"long",day:"numeric",month:"long"});
-  const el=$("event-list");
-  el.innerHTML=list.length?list.map(ev=>`<li class="event-item"><span>${ev.text}</span><span style="color:var(--pink);cursor:pointer" class="del" data-id="${ev.id}">✕</span></li>`).join(""):`<li style="color:var(--muted);padding:8px;text-align:center">—</li>`;
-  el.querySelectorAll(".del").forEach(x=>x.onclick=async()=>{await dbDel("events",x.dataset.id);await loadEventsCache();renderCalendar();});
-}
-$("cal-prev").onclick=()=>{calView.setMonth(calView.getMonth()-1);renderCalendar();};
-$("cal-next").onclick=()=>{calView.setMonth(calView.getMonth()+1);renderCalendar();};
-$("event-add").onclick=async()=>{const inp=$("event-input"),txt=inp.value.trim();if(!txt)return;await dbPut("events",{id:Date.now().toString(),date:dateKey(calSelected),text:txt});inp.value="";await loadEventsCache();renderCalendar();};
-
-/* MRS-AUTH & KLUIS */
-const mrs_dr = (n) => n <= 0 ? 0 : (1 + ((n - 1) % 9));
-const mrs_a0 = (N) => mrs_dr(N);
-const mrs_B0 = (N) => Math.floor((N - 19 * mrs_a0(N)) / 9);
-window.registerMRS = {
-  name: "MRS-AUTH PQC (19A+9B)",
-  deriveKey: async (pass, salt) => {
-    const enc = new TextEncoder();
-    const keyMaterial = await crypto.subtle.importKey("raw", enc.encode(pass), "PBKDF2", false, ["deriveBits"]);
-    const bits = await crypto.subtle.deriveBits({name: "PBKDF2", salt, iterations: 100000, hash: "SHA-256"}, keyMaterial, 256);
-    const hex = Array.from(new Uint8Array(bits)).map(b => b.toString(16).padStart(2, '0')).join('');
-    const N = BigInt('0x' + hex); const A = mrs_a0(N); const B = mrs_B0(N);
-    const finalK = await crypto.subtle.importKey("raw", enc.encode(pass + A + B), "PBKDF2", false, ["deriveKey"]);
-    return crypto.subtle.deriveKey({name: "PBKDF2", salt, iterations: 1, hash: "SHA-256"}, finalK, {name: "AES-GCM", length: 256}, false, ["encrypt", "decrypt"]);
-  },
-  encrypt: async (key, u8) => {
-    const iv = crypto.getRandomValues(new Uint8Array(12));
-    const ct = await crypto.subtle.encrypt({name: "AES-GCM", iv}, key, u8);
-    const b64 = u => { let s=""; for(let i=0;i<u.length;i+=32768)s+=String.fromCharCode.apply(null,u.subarray(i,i+32768)); return btoa(s); };
-    return { iv: b64(iv), ct: b64(new Uint8Array(ct)) };
-  },
-  decrypt: async (key, {iv, ct}) => {
-    const ub = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
-    return new Uint8Array(await crypto.subtle.decrypt({name: "AES-GCM", iv: ub(iv)}, key, ub(ct)));
+ }
+ draw(tm,st){
+  const x=this.x,w=this.w,h=this.h,A0=-Math.PI/2,TP=Math.PI*2;
+  const cont=st.level+st.f;
+  if(this.shown===null)this.shown=cont;
+  this.shown+=(cont-this.shown)*.08;
+  x.clearRect(0,0,w,h);
+  const g=x.createRadialGradient(w/2,h/2,0,w/2,h/2,Math.max(w,h));
+  g.addColorStop(0,"rgba(26,33,80,.85)");g.addColorStop(1,"rgba(6,8,26,1)");
+  x.fillStyle=g;x.fillRect(0,0,w,h);
+  const s=tm/1000;
+  for(const t of this.stars){x.beginPath();x.arc(t.x*w,t.y*h,t.r,0,7);x.fillStyle=`rgba(200,210,255,${(.2+.5*Math.abs(Math.sin(s*t.s+t.p)))*.6})`;x.fill();}
+  const from=Math.max(1,Math.floor(this.shown)-4),to=Math.min(st.len,Math.ceil(this.shown)+5);
+  const yr=l=>st.Y-st.level+l;
+  this.line(t=>this.pt(A0+TP*t,t),Math.max(1,this.shown-4),this.shown,Math.ceil(4*80),"244,197,66",.4,1.4);
+  this.line(t=>this.pt(A0+TP*t,t),this.shown,Math.min(st.len+1,this.shown+5),400,"154,163,199",.16,1);
+  for(let l=from;l<=to;l++){
+   if(l===st.level)continue;
+   const fade=Math.max(.12,1-Math.abs(l-this.shown)/6),past=l<this.shown;
+   this.line(a=>this.pt(a,l),A0,A0+TP,64,past?"77,208,225":"154,163,199",.55*fade,past?1.6:1);
   }
-};
+  this.line(a=>this.pt(a,st.level),A0,A0+TP,64,"154,163,199",.35,1.6);
+  if(st.f>.002)this.line(t=>this.pt(A0+TP*t,t),st.level,st.level+st.f,Math.max(4,Math.ceil(st.f*120)),"244,197,66",.95,3);
+  x.textAlign="left";
+  for(let l=from;l<=to;l++){
+   const q=this.pt(0,l);
+   x.fillStyle=l===st.level?"#f4c542":"rgba(154,163,199,.55)";
+   x.font=(l===st.level?"bold 11px":"9px")+" -apple-system,sans-serif";
+   x.fillText(yr(l),q.x+q.R*.08+4,q.y);
+  }
+  const p=this.pt(A0+TP*cont,cont),r=Math.max(10,p.R*.085)*p.s,hue=(tm/40)%360;
+  x.save();x.translate(p.x,p.y+r*.9);x.scale(1,.35);
+  const sh=x.createRadialGradient(0,0,0,0,0,r*1.3);sh.addColorStop(0,"rgba(0,0,0,.6)");sh.addColorStop(1,"rgba(0,0,0,0)");
+  x.fillStyle=sh;x.beginPath();x.arc(0,0,r*1.3,0,7);x.fill();x.restore();
+  const b=x.createRadialGradient(p.x-r*.38,p.y-r*.42,r*.1,p.x,p.y,r);
+  b.addColorStop(0,"#fff");b.addColorStop(.3,"#fbf4e2");b.addColorStop(.62,"#e4d4b2");b.addColorStop(.86,"#b6a3cf");b.addColorStop(1,"#6a7aa6");
+  x.beginPath();x.arc(p.x,p.y,r,0,7);x.fillStyle=b;x.fill();
+  const ir=x.createLinearGradient(p.x-r,p.y-r,p.x+r,p.y+r);
+  ir.addColorStop(0,`hsla(${hue},90%,75%,0)`);ir.addColorStop(.5,`hsla(${hue},90%,75%,.28)`);ir.addColorStop(1,`hsla(${(hue+120)%360},90%,75%,0)`);
+  x.fillStyle=ir;x.beginPath();x.arc(p.x,p.y,r,0,7);x.fill();
+  x.beginPath();x.arc(p.x-r*.36,p.y-r*.4,r*.2,0,7);x.fillStyle="rgba(255,255,255,.9)";x.fill();
+ }
+}
+const sp=new Spiral($("cv"));
+let spin=true;
+$("pz").onclick=e=>{spin=!spin;e.target.textContent=spin?"⏸":"▶";};
+window.addEventListener("resize",()=>{clearTimeout(sp._t);sp._t=setTimeout(()=>sp.resize(),150);});
 
-const VM="igospiral_vault_meta"; let vKey=null, vT=null;
-const SUITE={name:"AES-256-GCM · PBKDF2-SHA256 · 600k",adapter:null};
-window.registerMRS=a=>{SUITE.adapter=a;SUITE.name=a.name||"MRS-AUTH";vState();};
-const b64=u=>{let s="";for(let i=0;i<u.length;i+=32768)s+=String.fromCharCode.apply(null,u.subarray(i,i+32768));return btoa(s);};
-const ub=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
-const kdf=async(pw,salt)=>{if(SUITE.adapter)return SUITE.adapter.deriveKey(pw,salt); const m=await crypto.subtle.importKey("raw",new TextEncoder().encode(pw),"PBKDF2",false,["deriveKey"]); return crypto.subtle.deriveKey({name:"PBKDF2",salt,iterations:600000,hash:"SHA-256"},m,{name:"AES-GCM",length:256},false,["encrypt","decrypt"]);};
-const enc=async o=>{const u=new TextEncoder().encode(JSON.stringify(o)); if(SUITE.adapter)return SUITE.adapter.encrypt(vKey,u); const iv=crypto.getRandomValues(new Uint8Array(12));return{iv:b64(iv),ct:b64(new Uint8Array(await crypto.subtle.encrypt({name:"AES-GCM",iv},vKey,u)))};};
-const dec=async r=>JSON.parse(new TextDecoder().decode(SUITE.adapter?await SUITE.adapter.decrypt(vKey,r):await crypto.subtle.decrypt({name:"AES-GCM",iv:ub(r.iv)},vKey,ub(r.ct))));
-
-const vState=()=>{ $("v-state").innerHTML=`Cipher: <b>${SUITE.name}</b> · Adapter: <b>${SUITE.adapter?"actief":"niet gekoppeld"}</b> · ${vKey?"🔓":"🔒"}`; $("v-pass").placeholder=localStorage.getItem(VM)?"Hoofdwachtwoord":"Kies een hoofdwachtwoord (min. 10 tekens)"; $("v-unlock").textContent=localStorage.getItem(VM)?"Ontgrendel":"Maak kluis"; };
-const vmsg=(m,e)=>{$("v-msg").textContent=m;$("v-msg").style.color=e?"var(--pink)":"var(--green)";};
-const lock=()=>{vKey=null;clearTimeout(vT);loadVault();};
-$("v-lockbtn").onclick=lock;
-$("v-unlock").onclick=async()=>{
-  const pw=$("v-pass").value; if(!pw)return; vmsg("…");
-  try{const meta=JSON.parse(localStorage.getItem(VM)||"null");
-    if(!meta){if(pw.length<10)return vmsg("Minimaal 10 tekens.",1); const salt=crypto.getRandomValues(new Uint8Array(16));vKey=await kdf(pw,salt);localStorage.setItem(VM,JSON.stringify({v:1,salt:b64(salt),check:await enc({c:"mrs"}),suite:SUITE.name}));}
-    else{vKey=await kdf(pw,ub(meta.salt));try{if((await dec(meta.check)).c!=="mrs")throw 0;}catch{vKey=null;return vmsg("Onjuist wachtwoord.",1);}}
-    $("v-pass").value="";vmsg("");loadVault();
-  }catch(e){vKey=null;vmsg(e.message,1);}
-};
-$("save-vault").onclick=async()=>{
-  if(!vKey)return vmsg("Ontgrendel eerst de kluis.",1);
-  const name=$("vault-name").value.trim(),pass=$("vault-pass").value.trim();if(!name||!pass)return;
-  await dbPut("vault",{id:Date.now().toString(),...await enc({name,pass})});
-  $("vault-name").value="";$("vault-pass").value="";loadVault();
-};
-async function loadVault(){
-  vState(); const el=$("vault-list"); if(!el)return;
-  if(!vKey){el.innerHTML=`<div style="color:var(--muted);font-size:12px;padding:8px">🔒 De kluis is vergrendeld.</div>`;return;}
-  const raw=await dbAll("vault"),list=[];
-  for(const r of raw){try{list.push({id:r.id,...(r.ct?await dec(r):{name:r.name,pass:r.pass})});}catch{}}
-  el.innerHTML=list.length?list.reverse().map(v=>`<div class="vault-item"><div><div style="font-weight:600;color:var(--gold)">${v.name}</div><div style="font-family:monospace;font-size:13px;margin-top:4px" data-id="${v.id}">••••••••</div></div><div style="display:flex;gap:4px"><button class="btn small" data-show="${v.id}">Toon</button><button class="btn small danger" data-del="${v.id}">✕</button></div></div>`).join(""):`<div style="color:var(--muted);font-size:12px;padding:8px">—</div>`;
-  el.querySelectorAll("[data-show]").forEach(b=>b.onclick=()=>{const s=el.querySelector(`[data-id="${b.dataset.show}"]`),it=list.find(v=>v.id===b.dataset.show);if(s.textContent==="••••••••"){s.textContent=it.pass;b.textContent="Verberg";}else{s.textContent="••••••••";b.textContent="Toon";}});
-  el.querySelectorAll("[data-del]").forEach(b=>b.onclick=async()=>{if(!confirm("Verwijderen?"))return;await dbDel("vault",b.dataset.del);loadVault();});
+function updateSpiralText(st,d){
+ const datum=d.toLocaleDateString(T("nl-NL","en-GB"),{weekday:"long",day:"numeric",month:"long",year:"numeric"});
+ if (birthDate) {
+   const age = st.Y - birthDate.getFullYear();
+   const rest = Math.max(0, 70 - age);
+   $("top").innerHTML=`Geboortedatum: <b>${birthDate.toLocaleDateString()}</b><br>Leeftijd: <b>${age}</b> jaar`;
+   $("bot").innerHTML=`Niveau <b>${st.level} / 70</b><br><i>(Nog ${rest} jaar tot de volgende 70-cyclus)</i>`;
+   $("pg").style.width=((st.level-1+st.f)/70*100).toFixed(2)+"%";
+ } else {
+   const rest=Math.max(0,Math.ceil((new Date(st.target+1,0,1)-d)/864e5));
+   $("top").innerHTML=`Vandaag: <b>${datum}</b><br>Wereldtijd sinds jaar 1: <b>${st.Y}</b> jaar · Doel: <b>${st.target}</b>`;
+   $("bot").innerHTML=`Niveau <b>${st.level} / 70</b> (Jaar ${st.Y})<br><i>(Nog ${rest} dagen tot het volgende niveau)</i>`;
+   $("pg").style.width=((st.level-1+st.f)/70*100).toFixed(2)+"%";
+ }
 }
 
-/* STOPWATCH & BACKUP */
-let swStart=0,swElapsed=0,swRunning=false,swLaps=[],swTimer;
-const swNow=()=>swRunning?performance.now()-swStart:swElapsed;
-const swFmt=ms=>{const h=Math.floor(ms/3600000),m=Math.floor((ms%3600000)/60000),s=Math.floor((ms%60000)/1000),cs=Math.floor((ms%1000)/10);return`${String(h).padStart(2,"0")}:${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}.${String(cs).padStart(2,"0")}`;};
-function updateSW(){$("sw-time").textContent=swFmt(swNow());}
-$("sw-start").onclick=()=>{if(swRunning)return;swStart=performance.now()-swElapsed;swRunning=true;swTimer=setInterval(updateSW,30);};
-$("sw-stop").onclick=()=>{if(!swRunning)return;swElapsed=performance.now()-swStart;swRunning=false;clearInterval(swTimer);updateSW();};
-$("sw-reset").onclick=()=>{swRunning=false;swElapsed=0;swStart=0;swLaps=[];clearInterval(swTimer);updateSW();$("sw-laps").innerHTML="";};
-$("sw-lap").onclick=()=>{const n=swNow(),prev=swLaps.length?swLaps[swLaps.length-1]:0;swLaps.push(n);const div=document.createElement("div");div.style.cssText="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border)";div.innerHTML=`<span>Ronde ${swLaps.length}</span><span>${swFmt(n-prev)}</span>`;$("sw-laps").prepend(div);};
-</script>
+function applyBirth(val){
+ if(!val)return;
+ const d=new Date(val+"T00:00:00");
+ if(isNaN(d.getTime()))return;
+ birthDate = d;
+ localStorage.setItem(IGO_BIRTH_KEY,val);
+}
+function resetBirth(){
+ birthDate = null;
+ localStorage.removeItem(IGO_BIRTH_KEY);
+ $("birthdate").value = "";
+}
+$("btn-calc-age").onclick=()=>{const v=$("birthdate").value;if(v)applyBirth(v);};
+$("btn-reset-date").onclick=resetBirth;
+const savedBirth=localStorage.getItem(IGO_BIRTH_KEY);
+if(savedBirth){$("birthdate").value=savedBirth;applyBirth(savedBirth);}
 
-<script>
-/* ============================================================
-   DEEL D: MODALS & DATABASE INIT
-   ============================================================ */
-let db=null;
-window.dbReady=new Promise(res=>{
-  try{
-    const req=indexedDB.open("igospiral_db",1);
-    req.onupgradeneeded=e=>{const d=e.target.result;["moments","photos","vault","events"].forEach(s=>{if(!d.objectStoreNames.contains(s))d.createObjectStore(s,{keyPath:"id"});});};
-    req.onsuccess=e=>{db=e.target.result;window.db=db;res();};
-    req.onerror=()=>res();
-  }catch(e){res();}
+/* ---------- Klok met tandwielen ---------- */
+function gearD(n,rp,m){
+ const ro=rp+.9*m,ri=rp-1.1*m,t=Math.PI*2/n;let d="";
+ for(let i=0;i<n;i++){
+  const a=i*t;
+  for(const[o,r]of[[-.26,ri],[-.13,ro],[.13,ro],[.26,ri]]){
+   const A=a+o*t;d+=(d?"L":"M")+(r*Math.cos(A)).toFixed(2)+" "+(r*Math.sin(A)).toFixed(2);
+  }
+ }
+ return d+"Z";
+}
+const MOD=3.4,TH1=-40*Math.PI/180,TH2=50*Math.PI/180;
+const G=[{n:24,c:[100,100],col:"#f4c542"}];
+G.push({n:12,c:[100+Math.cos(TH1)*(24+12)*MOD/2*1.0+0,100+Math.sin(TH1)*(24+12)*MOD/2],col:"#4dd0e1"});
+G.push({n:6,c:[G[1].c[0]+Math.cos(TH2)*(12+6)*MOD/2,G[1].c[1]+Math.sin(TH2)*(12+6)*MOD/2],col:"#ff6f91"});
+G.forEach(g=>{
+ const e=document.createElementNS(NS,"g");
+ e.innerHTML=`<path d="${gearD(g.n,g.n*MOD/2,MOD)}" fill="${g.col}" fill-opacity=".10" stroke="${g.col}" stroke-opacity=".55" stroke-width=".8"/><circle r="${g.n*MOD/2*.32}" fill="none" stroke="${g.col}" stroke-opacity=".35" stroke-width=".8"/><text y="2.5" text-anchor="middle" font-size="7" fill="${g.col}" fill-opacity=".8">${g.n}</text>`;
+ g.el=e;$("gears").appendChild(e);
 });
-const dbGet=(s,k)=>new Promise(r=>{if(!db)return r(undefined);const q=db.transaction(s).objectStore(s).get(k);q.onsuccess=()=>r(q.result);q.onerror=()=>r(undefined);});
-const dbAll=s=>new Promise(r=>{if(!db)return r([]);const q=db.transaction(s).objectStore(s).getAll();q.onsuccess=()=>r(q.result);q.onerror=()=>r([]);});
-const dbPut=(s,v)=>new Promise(r=>{if(!db)return r();const tx=db.transaction(s,"readwrite");tx.objectStore(s).put(v);tx.oncomplete=r;tx.onerror=r;});
-const dbDel=(s,k)=>new Promise(r=>{if(!db)return r();const tx=db.transaction(s,"readwrite");tx.objectStore(s).delete(k);tx.oncomplete=r;tx.onerror=r;});
-const dbClear=s=>new Promise(r=>{if(!db)return r();const tx=db.transaction(s,"readwrite");tx.objectStore(s).clear();tx.oncomplete=r;tx.onerror=r;});
-
-const stampModal=$("stamp-modal"), stampContent=$("stamp-content"), stampPhotoInput=$("stamp-photo-input");
-$("stamp-close").onclick=()=>stampModal.classList.remove("active");
-stampModal.onclick=e=>{if(e.target.id==="stamp-modal")stampModal.classList.remove("active");};
-
-async function openStamp(unit,N){
-  const start=stampStart(unit,N); const id=`${unit}:${start}`;
-  let rec=await dbGet("moments",id); if(!rec)rec={id,unit,n:start.toString(),notes:[],photos:[],created:Date.now()};
-  const tup=N_to_Tuple(start); const tupleTxt=UNITS.map((u,i)=>`${u} ${tup[i]}`).join(" · ");
-  const paint=()=>{
-    stampContent.innerHTML=`
-      <h3>Moment · ${unit}</h3>
-      <div style="font-family:monospace;font-size:11px;color:var(--gold);margin-bottom:6px">${tupleTxt}</div>
-      <div style="font-size:11px;color:var(--muted);margin-bottom:12px">N = ${start} ms</div>
-      ${rec.notes.map((n,i)=>`<div style="background:var(--panel-2);border-radius:10px;padding:10px;margin-bottom:8px;position:relative"><span style="color:var(--pink);cursor:pointer;float:right" data-n="${i}">✕</span>${n.text}<small style="display:block;color:var(--muted);font-size:10px;margin-top:4px">${new Date(n.t).toLocaleString()}</small></div>`).join("")}
-      <textarea id="stamp-text" rows="3" placeholder="Schrijf je notitie..."></textarea>
-      <div class="row"><button class="btn primary" id="stamp-save" style="flex:1">Opslaan</button><button class="btn" id="stamp-photo" style="flex:1">📷 Foto</button></div>`;
-    stampContent.querySelector("#stamp-save").onclick=async()=>{const txt=stampContent.querySelector("#stamp-text").value.trim();if(!txt)return;rec.notes.push({t:Date.now(),text:txt});await persistStamp(rec);paint();};
-    stampContent.querySelector("#stamp-photo").onclick=()=>stampPhotoInput.click();
-    stampContent.querySelectorAll("[data-n]").forEach(x=>x.onclick=async()=>{if(!confirm("Verwijderen?"))return;rec.notes.splice(+x.dataset.n,1);await persistStamp(rec);paint();});
-  };
-  stampPhotoInput.onchange=async e=>{const f=e.target.files[0];if(!f)return;const resized=await resizeImage(f,1200,0.82);const reader=new FileReader();reader.onload=async ev=>{rec.photos.push({t:Date.now(),dataUrl:ev.target.result});await persistStamp(rec);paint();};reader.readAsDataURL(resized);stampPhotoInput.value="";};
-  paint(); stampModal.classList.add("active");
+for(let i=0;i<12;i++){
+ const a=i/12*Math.PI*2-Math.PI/2,l=document.createElementNS(NS,"line");
+ l.setAttribute("x1",100+Math.cos(a)*84);l.setAttribute("y1",100+Math.sin(a)*84);l.setAttribute("x2",100+Math.cos(a)*92);l.setAttribute("y2",100+Math.sin(a)*92);
+ l.setAttribute("stroke",i?"#2a3160":"#f4c542");l.setAttribute("stroke-width",i?1.5:3);$("ticks").appendChild(l);
+ const t=document.createElementNS(NS,"text");
+ t.setAttribute("x",100+Math.cos(a)*74);t.setAttribute("y",100+Math.sin(a)*74+3.5);t.setAttribute("text-anchor","middle");t.setAttribute("font-size",10);t.setAttribute("fill","#fbf4e2");t.textContent=i||12;$("nums").appendChild(t);
 }
-async function persistStamp(rec){
-  if(!rec.notes.length&&!rec.photos.length)await dbDel("moments",rec.id); else await dbPut("moments",rec);
-}
-async function resizeImage(file,maxSide=1200,quality=0.82){
-  const bmp=await createImageBitmap(file); const scale=Math.min(1,maxSide/Math.max(bmp.width,bmp.height));
-  const w=Math.round(bmp.width*scale),h=Math.round(bmp.height*scale); const c=document.createElement("canvas");
-  c.width=w;c.height=h;c.getContext("2d").drawImage(bmp,0,0,w,h);
-  return new Promise(r=>c.toBlob(r,"image/jpeg",quality));
+const offMs=()=>-new Date().getTimezoneOffset()*6e4;
+const WD=["ma","di","wo","do","vr","za","zo"];
+function clock(){
+ const d=new Date(),h=d.getHours(),mi=d.getMinutes(),s=d.getSeconds()+d.getMilliseconds()/1e3;
+ const ha=(h%12)*30+mi*.5+s/120,ma=mi*6+s*.1,sa=s*6;
+ $("hh").setAttribute("transform",`rotate(${ha} 100 100)`);$("mh").setAttribute("transform",`rotate(${ma} 100 100)`);$("sh").setAttribute("transform",`rotate(${sa} 100 100)`);
+ const pA=((h+mi/60+s/3600)/24)*Math.PI*2;
+ const pB=TH1+Math.PI-Math.PI/12-(pA-TH1)*24/12;
+ const pC=TH2+Math.PI-Math.PI/6-(pB-TH2)*12/6;
+ [pA,pB,pC].forEach((p,i)=>G[i].el.setAttribute("transform",`translate(${G[i].c[0]} ${G[i].c[1]}) rotate(${p*180/Math.PI})`));
+ const day=h>=6&&h<18;
+ $("hp").textContent=h+1;
+ $("pb").textContent=day?T("☀️ Dag","☀️ Day"):T("🌙 Nacht","🌙 Night");$("pb").style.color=day?"#f4c542":"#5c6bc0";
+ 
+ const N=BigInt(Math.floor(d.getTime()+offMs())),days=N/86400000n;
+ $("live-n").textContent = N.toString();
+ $("live-date").textContent = d.toLocaleDateString(T("nl-NL","en-GB"), { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+ $("cx").innerHTML=`${T("weekdag","weekday")} <b style="color:#f4c542">${(L==="nl"?WD:WDE)[Number((days+3n)%7n)]}</b> · ${T("dag","day")} <b style="color:#f4c542">${Number(days%2520n)+1}</b>/2520`;
 }
 
-function setupTabs(){
-  document.querySelectorAll("nav.tabs button").forEach(btn=>{
-    btn.onclick=()=>{
-      document.querySelectorAll("nav.tabs button").forEach(b=>b.classList.remove("active"));
-      document.querySelectorAll(".tab-content").forEach(c=>c.classList.remove("active"));
-      btn.classList.add("active"); document.querySelector(`.tab-content[data-tab="${btn.dataset.tab}"]`).classList.add("active");
-      if(btn.dataset.tab==="spiraal"&&lifeSpiral)setTimeout(()=>lifeSpiral.resize(),50);
-    };
-  });
+/* ---------- i18n ---------- */
+let L="nl";try{L=localStorage.getItem("igo_l")||"nl"}catch{}
+const T=(n,e)=>L==="nl"?n:e;
+const WDE=["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
+const esc=x=>String(x).replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
+const I=[["#sub","de klok als wiskundig object","the clock as a mathematical object"],
+["nav [data-t=sp]","Spiraal","Spiral"],["nav [data-t=kl]","Klok","Clock"],["nav [data-t=bj]","Bijectie","Bijection"],["nav [data-t=ag]","Agenda","Calendar"],["nav [data-t=nt]","Notities","Notes"],["nav [data-t=kv]","Kluis","Vault"],["nav [data-t=sy]","Systeem","System"],["nav [data-t=hd]","Handleiding","Manual"],["nav [data-t=mr]","MRS","MRS"],
+["#l-hp","Uur (1–24)","Hour (1–24)"],["#l-b1","Milliseconden (N) ↔ datum ↔ klok-tuple","Milliseconds (N) ↔ date ↔ clock tuple"],["#l-b2","Klok-tuple → N","Clock tuple → N"],["#go2","Bereken N","Calculate N"],["#nw","Nu","Now"],
+["#l-nt0","Opslag","Storage"],["#l-nt1","Nieuwe notitie","New note"],["#l-nf","📷 Foto's toevoegen (originele kwaliteit)","📷 Add photos (original quality)"],["#ns","Opslaan","Save"],["#l-nt2","Opgeslagen momenten","Saved moments"],
+["#l-kv2","Nieuw item","New item"],["#vg","🎲 Sterk wachtwoord","🎲 Strong password"],["#vs","Veilig opslaan","Save securely"],["#l-kv3","Opgeslagen items","Saved items"]];
+const PH=[["#nx","Schrijf je notitie…","Write your note…"],["#ae","Nieuwe afspraak…","New appointment…"],["#vn","Naam (bijv. E-mail)","Name (e.g. Email)"],["#vw","Wachtwoord of sleutel","Password or key"]];
+function applyLang(){
+ document.documentElement.lang=L;$("lg").textContent=T("EN","NL");
+ I.forEach(([q,n,e])=>{const el=document.querySelector(q);if(el)el.textContent=T(n,e)});
+ PH.forEach(([q,n,e])=>{$(q.slice(1)).placeholder=T(n,e)});
+ updateSpiralText(state(new Date()),new Date());renderBij();renderAg();renderNt();renderKv();stInfo();mrsDemo();
 }
-function setLanguage(lang){currentLang=lang;$("lang-toggle").textContent=lang==="nl"?"EN":"NL";}
-$("lang-toggle").onclick=()=>setLanguage(currentLang==="nl"?"en":"nl");
+$("lg").onclick=()=>{L=L==="nl"?"en":"nl";try{localStorage.setItem("igo_l",L)}catch{}applyLang();};
 
-$("btn-export").onclick=async()=>{
-  const payload={version:1,birth:localStorage.getItem(IGO_BIRTH_KEY)||null,events:await dbAll("events"),vault:await dbAll("vault"),moments:await dbAll("moments")};
-  const blob=new Blob([JSON.stringify(payload,null,2)],{type:"application/json"}); const a=document.createElement("a");
-  a.href=URL.createObjectURL(blob);a.download=`igospiral-backup.json`;a.click();URL.revokeObjectURL(a.href);
-  $("backup-status").textContent="Geëxporteerd!";
+/* ---------- Opslag (IndexedDB) ---------- */
+let db;const dbp=new Promise(r=>{try{const q=indexedDB.open("igo2",1);q.onupgradeneeded=e=>["moments","events","vault","meta"].forEach(x=>e.target.result.createObjectStore(x,{keyPath:"id"}));q.onsuccess=e=>{db=e.target.result;r()};q.onerror=q.onblocked=()=>r()}catch{r()}});
+const tx=(s,m,f)=>new Promise(r=>{if(!db)return r();try{const t=db.transaction(s,m),o=f(t.objectStore(s));t.oncomplete=()=>r(o&&o.result);t.onerror=t.onabort=()=>r()}catch{r()}});
+const dbAll=s=>tx(s,"readonly",o=>o.getAll()).then(v=>v||[]);
+const dbPut=(s,v)=>tx(s,"readwrite",o=>o.put(v));
+const dbDel=(s,k)=>tx(s,"readwrite",o=>o.delete(k));
+const dbGet=(s,k)=>tx(s,"readonly",o=>o.get(k));
+const nOf=ms=>BigInt(Math.round(ms-new Date(ms).getTimezoneOffset()*6e4));
+const fromN=N=>{const ms=Number(N);return new Date(ms+new Date(ms).getTimezoneOffset()*6e4)};
+const pad=n=>String(n).padStart(2,"0");
+const lv=d=>`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+async function stInfo(){let h;try{const p=navigator.storage.persisted?await navigator.storage.persisted():false,e=await navigator.storage.estimate(),u=e.usage/1048576,q=e.quota/1048576;
+ h=`${T("Gebruikt","Used")} <b>${u.toFixed(1)} MB</b> / ${q>1024?(q/1024).toFixed(1)+" GB":q.toFixed(0)+" MB"} · ${p?T("🔒 permanent: de browser wist dit niet vanzelf","🔒 persistent: the browser won't clear this"):T("⚠️ niet permanent (tik op Opslaan om aan te vragen)","⚠️ not persistent (tap Save to request it)")}`;$("stb").style.width=Math.min(100,u/q*100)+"%"}catch{h=T("Opslaaginfo niet beschikbaar","Storage info unavailable")}
+ $("stt").innerHTML=h+(db?"":`<br><span style="color:#ff6f91">${T("Database niet beschikbaar in deze browser","Database unavailable in this browser")}</span>`)}
+async function persist(){try{if(navigator.storage&&navigator.storage.persist)await navigator.storage.persist()}catch{}stInfo()}
+
+/* ---------- Bijectie ---------- */
+const UNITS=["millennium","eeuw","decennium","jaar","maand","dag","uur","minuut","seconde","ms"];
+const BASE={ms:1000n,seconde:60n,minuut:60n,uur:24n,dag:30n,maand:12n,jaar:10n,decennium:10n,eeuw:10n,millennium:null};
+const UE={millennium:"millennium",eeuw:"century",decennium:"decade",jaar:"year",maand:"month",dag:"day",uur:"hour",minuut:"minute",seconde:"second",ms:"ms"};
+const ul=u=>L==="nl"?u:UE[u];
+const SL=[...UNITS].reverse(),W={};
+{let w=1n;for(const u of SL){W[u]=w;if(BASE[u])w*=BASE[u]}}
+function toTuple(N){let r=BigInt(N);const o=[];for(const u of SL){const b=BASE[u];if(b===null)o.push(r+1n);else{o.push(r%b+1n);r/=b}}return o.reverse()}
+function toN(a){let N=0n;UNITS.forEach((u,i)=>{const p=BigInt(a[i]),b=BASE[u];if(p<1n||(b&&p>b))throw new Error(`${ul(u)}: 1–${b||"∞"}`);N+=(p-1n)*W[u]});return N}
+$("ti").innerHTML=UNITS.map(u=>`<div><label>${u}</label><input type="number" id="t-${u}" value="1" min="1"></div>`).join("");
+function renderBij(fromDt){
+ const o=$("o1");let N;
+ try{N=BigInt($("n").value.trim()||"0");if(N<0n)throw new Error("N ≥ 0")}catch(e){o.innerHTML=`<div class="eq" style="color:#ff6f91">${esc(e.message)}</div>`;return}
+ const tp=toTuple(N),days=N/86400000n,dr=N===0n?0n:1n+(N-1n)%9n;
+ const cards=`<div class="cards">${UNITS.map((u,i)=>`<div class="card ${i<4?"":i<6?"cc":"ct"}"><b>${tp[i]}</b><small>${ul(u)}</small></div>`).join("")}</div>`;
+ let when="—";
+ if(N<8000000000000000n){const d=fromN(N);when=d.toLocaleString(T("nl-NL","en-GB"));if(!fromDt)$("dt").value=lv(d)}
+ const S=(a,b)=>`<div class="sum"><span>${a}</span><b>${b}</b></div>`;
+ let rest=N;const rows=UNITS.map((u,i)=>{const q=rest/W[u];rest-=q*W[u];return`<tr><td>${ul(u)}</td><td>${W[u]}</td><td>${q}</td><td class="g">${tp[i]}</td></tr>`}).join("");
+ const back=UNITS.reduce((a,u,i)=>a+(tp[i]-1n)*W[u],0n);
+ o.innerHTML=cards+S(T("Datum","Date"),when)+S(T("Weekdag","Weekday"),(L==="nl"?WD:WDE)[Number((days+3n)%7n)])+S(T("Dag in 2520-cyclus","Day in 2520 cycle"),`${days%2520n+1n} / 2520`)+S(T("Digitale wortel","Digital root"),dr)+S(T("Duur","Duration"),`${days}d ${(N%86400000n)/3600000n}h ${(N%3600000n)/60000n}m ${(N%60000n)/1000n}s`)+
+ `<details><summary>${T("Rekenstappen (positie = quotiënt + 1)","Steps (position = quotient + 1)")}</summary><table><tr><th>${T("eenheid","unit")}</th><th>${T("gewicht ms","weight ms")}</th><th>${T("deel","part")}</th><th>${T("positie","pos")}</th></tr>${rows}</table><div class="eq">${T("terug","back")}: ${back} ${back===N?"✓":"✗"}</div></details>`;
+ tp.forEach((v,i)=>{$("t-"+UNITS[i]).value=v});
+}
+$("n").oninput=()=>renderBij();
+$("dt").onchange=()=>{const v=$("dt").value;if(!v)return;const N=nOf(new Date(v).getTime());$("n").value=N<0n?"0":N.toString();renderBij(true)};
+$("nw").onclick=()=>{$("n").value=nOf(Date.now()).toString();renderBij()};
+$("go2").onclick=()=>{try{const N=toN(UNITS.map(u=>$("t-"+u).value));$("n").value=N.toString();renderBij();$("o2").textContent=`N = ${N} ms ↑`;$("n").scrollIntoView({behavior:"smooth",block:"center"})}catch(e){$("o2").textContent=e.message}};
+$("n").value=nOf(Date.now()).toString();
+
+/* ---------- Agenda ---------- */
+let ag=new Date(),sel=new Date(),evs={};
+const dk=d=>`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+const EMO=["🌑","🌒","🌓","🌔","🌕","🌖","🌗","🌘"];
+async function loadEv(){evs={};(await dbAll("events")).forEach(e=>(evs[e.date]=evs[e.date]||[]).push(e))}
+function renderAg(){
+ const y=ag.getFullYear(),m=ag.getMonth(),loc=T("nl-NL","en-GB"),names=L==="nl"?WD:WDE;
+ $("agm").textContent=new Date(y,m,1).toLocaleDateString(loc,{month:"long",year:"numeric"});
+ let h=names.map(n=>`<div class="dn">${n}</div>`).join("");
+ const off=(new Date(y,m,1).getDay()+6)%7,dim=new Date(y,m+1,0).getDate(),td=dk(new Date());
+ for(let i=0;i<off;i++)h+=`<div class="cd e"></div>`;
+ for(let d=1;d<=dim;d++){const dt=new Date(y,m,d,12),k=dk(dt),p=toTuple(nOf(dt.getTime()))[5];
+  h+=`<div class="cd${k===td?" td":""}${k===dk(sel)?" sl":""}${evs[k]?" ev":""}" data-k="${k}">${d}<small>${EMO[Math.round(Number(p-1n)/30*8)%8]}${p}</small></div>`}
+ $("agg").innerHTML=h;
+ $("agg").querySelectorAll("[data-k]").forEach(el=>el.onclick=()=>{const[a,b,c]=el.dataset.k.split("-").map(Number);sel=new Date(a,b-1,c);renderAg()});
+ const k=dk(sel),p=toTuple(nOf(new Date(sel.getFullYear(),sel.getMonth(),sel.getDate(),12).getTime()))[5];
+ $("ags").textContent=`${sel.toLocaleDateString(loc,{weekday:"long",day:"numeric",month:"long"})} · ${T("modeldag","model day")} ${p}/30`;
+ $("agl").innerHTML=(evs[k]||[]).map(e=>`<li><span>${esc(e.text)}</span><b data-d="${e.id}">✕</b></li>`).join("")||`<li class="mu">—</li>`;
+ $("agl").querySelectorAll("[data-d]").forEach(x=>x.onclick=async()=>{await dbDel("events",x.dataset.d);await loadEv();renderAg()});
+}
+$("ap").onclick=()=>{ag=new Date(ag.getFullYear(),ag.getMonth()-1,1);renderAg()};
+$("an").onclick=()=>{ag=new Date(ag.getFullYear(),ag.getMonth()+1,1);renderAg()};
+$("aa").onclick=async()=>{const t=$("ae").value.trim();if(!t)return;await dbPut("events",{id:String(Date.now()),date:dk(sel),text:t});$("ae").value="";await loadEv();renderAg()};
+$("ae").onkeydown=e=>{if(e.key==="Enter")$("aa").click()};
+
+/* ---------- Notities & foto's ---------- */
+const urls=[];
+async function renderNt(){
+ urls.splice(0).forEach(u=>URL.revokeObjectURL(u));
+ const list=(await dbAll("moments")).sort((a,b)=>BigInt(b.n)>BigInt(a.n)?1:-1),loc=T("nl-NL","en-GB");
+ $("nl").innerHTML=list.map(r=>{const tp=toTuple(BigInt(r.n));
+  return`<div class="nt"><div class="nh"><span>${fromN(BigInt(r.n)).toLocaleString(loc)}</span><b data-x="${r.id}">✕</b></div><div class="mu">${tp[3]} · ${tp[4]}/${tp[5]} · ${tp[6]}h · N ${r.n}</div>${r.text?`<div class="tx">${esc(r.text)}</div>`:""}<div class="ph">${(r.photos||[]).map(p=>{const u=URL.createObjectURL(p.blob);urls.push(u);return`<img src="${u}" alt="">`}).join("")}</div></div>`}).join("")||`<div class="mu" style="text-align:center">—</div>`;
+ $("nl").querySelectorAll("img").forEach(im=>im.onclick=()=>{$("lbi").src=im.src;$("lbw").classList.add("on")});
+ $("nl").querySelectorAll("[data-x]").forEach(x=>x.onclick=async()=>{if(!confirm(T("Verwijderen?","Delete?")))return;await dbDel("moments",x.dataset.x);renderNt();stInfo()});
+}
+$("lbw").onclick=()=>$("lbw").classList.remove("on");
+$("nf").onchange=()=>{const c=$("nf").files.length;$("l-nf").textContent=c?`📷 ${c} ${T("foto's gekozen","photos selected")}`:T("📷 Foto's toevoegen (originele kwaliteit)","📷 Add photos (original quality)")};
+$("ns").onclick=async()=>{
+ const text=$("nx").value.trim(),files=[...$("nf").files],v=$("nd").value,m=$("nst");
+ if(!text&&!files.length)return;
+ await persist();
+ const N=v?nOf(new Date(v).getTime()):nOf(Date.now()),rec={id:String(Date.now())+Math.random().toString(36).slice(2,6),n:(N<0n?0n:N).toString(),text,photos:files.map(f=>({name:f.name,type:f.type,blob:f}))};
+ await dbPut("moments",rec);
+ if(await dbGet("moments",rec.id)){$("nx").value="";$("nf").value="";$("nf").onchange();$("nd").value=lv(new Date());m.className="stat";m.textContent=T("✓ Opgeslagen","✓ Saved")}
+ else{m.className="stat err";m.textContent=T("Opslaan mislukt (opslag vol of niet beschikbaar)","Saving failed (storage full or unavailable)")}
+ renderNt();stInfo();
 };
-$("btn-import").onclick=()=>$("import-file").click();
-$("import-file").onchange=async e=>{
-  const f=e.target.files[0];if(!f)return;
-  try{
-    const data=JSON.parse(await f.text());
-    for(const s of["moments","vault","events"]){await dbClear(s);for(const item of(data[s]||[]))await dbPut(s,item);}
-    if(data.birth){localStorage.setItem(IGO_BIRTH_KEY,data.birth);$("birthdate").value=data.birth;applyBirth(data.birth);}
-    renderCalendar();$("backup-status").textContent="Hersteld!";
-  }catch(err){$("backup-status").textContent="Fout: "+err.message;}
-};
+$("nd").value=lv(new Date());
 
-(async()=>{
-  await window.dbReady;
-  setupTabs();
-  await loadEventsCache(); renderCalendar();
-  setLanguage("nl");
-})();
+/* ---------- Kluis: MRS-AUTH (19A+9B) → AES-256-GCM ---------- */
+let vk=null,vt,vinfo=null;
+const b64=u=>{let s="";for(let i=0;i<u.length;i+=32768)s+=String.fromCharCode.apply(null,u.subarray(i,i+32768));return btoa(s)};
+const ub=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
+async function mrs(pw,salt){
+ const en=new TextEncoder(),km=await crypto.subtle.importKey("raw",en.encode(pw),"PBKDF2",false,["deriveBits"]);
+ const bits=new Uint8Array(await crypto.subtle.deriveBits({name:"PBKDF2",salt,iterations:600000,hash:"SHA-256"},km,512));
+ const N=BigInt("0x"+[...bits.slice(0,32)].map(b=>b.toString(16).padStart(2,"0")).join(""));
+ const a=N===0n?0n:1n+(N-1n)%9n,B=(N-19n*a)/9n,ok=19n*a+9n*B===N;
+ const raw=await crypto.subtle.digest("SHA-256",new Uint8Array([...bits.slice(32),...en.encode(a+":"+B)]));
+ return{key:await crypto.subtle.importKey("raw",raw,"AES-GCM",false,["encrypt","decrypt"]),a,ok};
+}
+const aes=async o=>{const iv=crypto.getRandomValues(new Uint8Array(12));return{iv:b64(iv),ct:b64(new Uint8Array(await crypto.subtle.encrypt({name:"AES-GCM",iv},vk,new TextEncoder().encode(JSON.stringify(o)))))}};
+const dea=async r=>JSON.parse(new TextDecoder().decode(await crypto.subtle.decrypt({name:"AES-GCM",iv:ub(r.iv)},vk,ub(r.ct))));
+const vmsg=(t,e)=>{$("vm").textContent=t;$("vm").className="stat"+(e?" err":"")};
+function vlock(){vk=null;vinfo=null;clearTimeout(vt);renderKv()}
+const vbump=()=>{clearTimeout(vt);if(vk)vt=setTimeout(vlock,3e5)};
+$("vl").onclick=vlock;
+$("vu").onclick=async()=>{
+ const pw=$("vp").value;if(!pw)return;vmsg("…");
+ try{let meta=await dbGet("meta","vault");
+  if(!meta){if(pw.length<10)return vmsg(T("Minimaal 10 tekens.","At least 10 characters."),1);
+   const salt=crypto.getRandomValues(new Uint8Array(16)),r=await mrs(pw,salt);vk=r.key;vinfo=r;
+   meta={id:"vault",salt:b64(salt),check:await aes({c:"mrs"})};await dbPut("meta",meta)}
+  else{const r=await mrs(pw,ub(meta.salt));vk=r.key;vinfo=r;try{if((await dea(meta.check)).c!=="mrs")throw 0}catch{vk=null;vinfo=null;return vmsg(T("Onjuist wachtwoord.","Wrong passphrase."),1)}}
+  $("vp").value="";vmsg("");vbump();renderKv();
+ }catch(e){vk=null;vmsg(e.message,1)}
+};
+$("vp").onkeydown=e=>{if(e.key==="Enter")$("vu").click()};
+$("vg").onclick=()=>{const cs="abcdefghijkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789!@#$%&*?";$("vw").value=[...crypto.getRandomValues(new Uint32Array(24))].map(x=>cs[x%cs.length]).join("")};
+$("vs").onclick=async()=>{if(!vk)return;const name=$("vn").value.trim(),pass=$("vw").value.trim();if(!name||!pass)return;
+ await dbPut("vault",{id:String(Date.now()),...await aes({name,pass})});$("vn").value="";$("vw").value="";vbump();renderKv()};
+async function renderKv(){
+ const first=!(await dbGet("meta","vault"));
+ $("vst").innerHTML=`${T("Sleutelschema","Key schedule")}: <b>PBKDF2-SHA256 600k → MRS-AUTH (N = 19·a + 9·B) → AES-256-GCM</b><br>${vk?`🔓 19·${vinfo.a} + 9·B = N ${vinfo.ok?"✓":"✗"}`:"🔒"}`;
+ $("vp").placeholder=first?T("Kies een hoofdwachtwoord (min. 10 tekens)","Choose a master passphrase (min. 10 chars)"):T("Hoofdwachtwoord","Master passphrase");
+ $("vu").textContent=first?T("Maak kluis","Create vault"):T("Ontgrendel","Unlock");
+ $("vadd").style.display=vk?"":"none";
+ const el=$("vlist");
+ if(!vk){el.innerHTML=`<div class="mu">🔒 ${T("De kluis is vergrendeld.","The vault is locked.")}</div>`;return}
+ const list=[];for(const r of await dbAll("vault")){try{list.push({id:r.id,...await dea(r)})}catch{}}
+ el.innerHTML=list.reverse().map(v=>`<li class="vi"><div style="min-width:0"><b style="color:var(--gold)">${esc(v.name)}</b><div class="vs" data-s="${v.id}">••••••••</div></div><div class="vb"><button class="btn" data-sh="${v.id}">👁</button><button class="btn" data-cp="${v.id}">⧉</button><button class="btn" data-dl="${v.id}">✕</button></div></li>`).join("")||`<div class="mu">—</div>`;
+ el.querySelectorAll("[data-sh]").forEach(b=>b.onclick=()=>{vbump();const s=el.querySelector(`[data-s="${b.dataset.sh}"]`),it=list.find(v=>v.id===b.dataset.sh);s.textContent=s.dataset.o==="1"?"••••••••":it.pass;s.dataset.o=s.dataset.o==="1"?"0":"1"});
+ el.querySelectorAll("[data-cp]").forEach(b=>b.onclick=()=>{vbump();navigator.clipboard.writeText(list.find(v=>v.id===b.dataset.cp).pass).catch(()=>{});setTimeout(()=>navigator.clipboard.writeText(" ").catch(()=>{}),2e4)});
+ el.querySelectorAll("[data-dl]").forEach(b=>b.onclick=async()=>{if(!confirm(T("Verwijderen?","Delete?")))return;await dbDel("vault",b.dataset.dl);renderKv()});
+}
+document.addEventListener("visibilitychange",()=>{if(document.hidden&&vk)setTimeout(()=>{if(document.hidden)vlock()},6e4)});
+
+function mrsDemo(){
+ $("md-h").textContent=T("Probeer het: N = 19A + 9B","Try it: N = 19A + 9B");
+ const o=$("md-o");let N;
+ try{N=BigInt($("md-n").value.trim());if(N<1n)throw 0}catch{o.innerHTML=$("md-n").value.trim()?`<div class="eq" style="color:#ff6f91">${T("Voer een geheel getal ≥ 1 in.","Enter an integer ≥ 1.")}</div>`:"";return}
+ const dr=x=>1n+(x-1n)%9n,a=dr(N),b=(N-19n*a)/9n;
+ if(b<0n){o.innerHTML=`<div class="eq">dr = A₀ = ${a} · B₀ = ${b}<br>${T("Geen representatie met A ≥ 1 (de grens is 162).","No representation with A ≥ 1 (the bound is 162).")}</div>`;return}
+ const R=b/19n+1n,tri=dr(2n*a),lim=R<14n?Number(R):14;let rows="";
+ for(let k=0;k<lim;k++){const A=a+9n*BigInt(k),B=b-19n*BigInt(k),ok=B>0n&&dr(B)===tri;rows+=`<tr class="${ok?"fl":""}"><td>${k}</td><td>${A}</td><td>${B}</td><td>${19n*A+9n*B===N?"✓":"✗"}</td><td>${dr(A)}</td><td>${B>0n?dr(B):"–"}</td><td>${ok?"⧊":""}</td></tr>`}
+ o.innerHTML=`<div class="sum"><span>A₀ = dr(N)</span><b>${a}</b></div><div class="sum"><span>B₀</span><b>${b}</b></div><div class="sum"><span>R(N)</span><b>${R}</b></div><table><tr><th>k</th><th>A</th><th>B</th><th>19A+9B</th><th>dr(A)</th><th>dr(B)</th><th>⧊</th></tr>${rows}</table>${R>14n?`<div class="eq">… ${R-14n} ${T("meer","more")}</div>`:""}<div class="eq">⧊ = dr(B) = dr(2·dr N) = ${tri}</div>`;
+}
+$("md-n").oninput=mrsDemo;
+
+dbp.then(async()=>{await loadEv();applyLang()});
+applyLang();
+
+/* ---------- Eén animatielus ---------- */
+let last=performance.now(),acc=0;
+function frame(ts){
+ const dt=Math.min(64,ts-last);last=ts;
+ if(!document.hidden){
+  if(tab==="sp"){
+   if(spin)sp.rot-=dt*.00005;
+   const d=new Date(),st=state(d);
+   sp.draw(ts,st);
+   acc+=dt;if(acc>500){acc=0;updateSpiralText(st,d);}
+  }else if(tab==="kl")clock();
+ }
+ requestAnimationFrame(frame);
+}
+updateSpiralText(state(new Date()),new Date());
+requestAnimationFrame(frame);
 </script>
 </body>
 </html>
