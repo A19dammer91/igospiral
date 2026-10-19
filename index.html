@@ -76,22 +76,15 @@ html[lang=nl] .en,html[lang=en] .nl{display:none}
 <header><button class="lg" id="lg">EN</button><h1>iGo<b>Spiral</b></h1><p id="sub"></p></header>
 <nav><button class="on" data-t="sp">.</button><button data-t="kl">.</button><button data-t="bj">.</button><button data-t="ag">.</button><button data-t="nt">.</button><button data-t="kv">.</button><button data-t="sy">.</button><button data-t="hd">.</button><button data-t="mr">.</button></nav>
 
-<!-- SPIRAAL PANEEL -->
 <section id="sp" class="on"><div class="panel">
-<div class="formula">p ≡ 1 (mod q)</div>
-<div class="bar">
-  <input type="date" id="birthdate" style="flex:1; margin-bottom:0;">
-  <button class="btn" id="btn-calc-age">Bereken</button>
-  <button class="btn" id="btn-reset-date" style="border-color:var(--pk);color:var(--pk)">↺ Wis</button>
-  <button class="btn" id="pz">⏸</button>
-</div>
+<div class="formula">p ≡ 1 (mod q) · 70 | 700</div>
+<div class="bar"><select id="mode"><option value="auto">Doel: dichtstbijzijnde (auto)</option><option value="70">70-jarige cyclus</option><option value="700">700-jarige cyclus</option></select><button class="btn" id="pz">⏸</button></div>
 <div class="info" id="top"></div>
 <canvas id="cv"></canvas>
 <div class="info" id="bot"></div>
 <div class="track"><div id="pg"></div></div>
 </div></section>
 
-<!-- KLOK PANEEL -->
 <section id="kl"><div class="panel">
 <div class="formula">25 ≡ 1 (mod 12) · 24 · 12 · 6</div>
 <div class="cw">
@@ -102,13 +95,10 @@ html[lang=nl] .en,html[lang=en] .nl{display:none}
 <circle cx="100" cy="100" r="4.5" fill="#f4c542"/><circle cx="100" cy="100" r="2" fill="#0a0e27"/></svg>
 <div class="ci">
 <div class="m"><small id="l-hp"></small><span id="hp">1</span> <span class="badge" id="pb"></span></div>
-<!-- AANGEPAST: Paper-m weg, nu Live Tijd en Datum -->
-<div class="m"><small>Live Tijd (N)</small><span id="live-n" style="font-size:18px;color:var(--cy)">0</span></div>
-<div class="m"><small>Datum</small><span id="live-date" style="font-size:16px;color:var(--gold)">-</span></div>
+<div class="m"><small>Paper-m (mod 12)</small><span id="pm" style="color:var(--cy)">0</span></div>
 <div id="cx"></div>
 </div></div></div></section>
 
-<!-- BIJECTIE PANEEL -->
 <section id="bj"><div class="panel">
 <div class="formula">N ↔ (d, u, m, s, ms)</div>
 <h2 id="l-b1"></h2>
@@ -117,27 +107,22 @@ html[lang=nl] .en,html[lang=en] .nl{display:none}
 <div id="o1"></div>
 </div><div class="panel"><h2 id="l-b2"></h2><div class="grid" id="ti"></div><button class="btn pr" id="go2" style="width:100%"></button><div class="eq" id="o2"></div></div></section>
 
-<!-- AGENDA PANEEL -->
 <section id="ag"><div class="panel"><div class="formula">t = d + 1</div>
 <div class="bar"><button class="btn" id="ap">←</button><h2 id="agm" style="flex:1;text-align:center;margin:0;color:var(--gold)"></h2><button class="btn" id="an">→</button></div>
 <div class="cg" id="agg"></div><h2 id="ags"></h2><ul id="agl"></ul>
 <div class="bar"><input id="ae"><button class="btn pr" id="aa">+</button></div></div></section>
 
-<!-- NOTITIES PANEEL -->
 <section id="nt"><div class="panel"><h2 id="l-nt0"></h2><div class="stb"><div id="stb"></div></div><div class="info" id="stt"></div></div>
 <div class="panel"><h2 id="l-nt1"></h2><input id="nd" type="datetime-local" step="1"><textarea id="nx" rows="4"></textarea>
 <label class="pic"><span id="l-nf"></span><input id="nf" type="file" accept="image/*" multiple></label>
 <button class="btn pr" id="ns" style="width:100%"></button><div class="stat" id="nst"></div></div>
 <div class="panel"><h2 id="l-nt2"></h2><div id="nl"></div></div></section>
 
-<!-- KLUIS PANEEL -->
 <section id="kv"><div class="panel"><div class="formula">MRS-AUTH · 19A+9B</div><div class="info" id="vst"></div>
 <input type="password" id="vp" autocomplete="off"><div class="bar"><button class="btn pr" id="vu" style="flex:1"></button><button class="btn" id="vl">🔒</button></div><div class="stat" id="vm"></div></div>
 <div class="panel" id="vadd"><h2 id="l-kv2"></h2><input id="vn" style="margin-bottom:8px"><input id="vw" style="margin-bottom:8px"><div class="bar"><button class="btn" id="vg"></button><button class="btn pr" id="vs" style="flex:1"></button></div></div>
 <div class="panel"><h2 id="l-kv3"></h2><div id="vlist"></div></div>
-<div class="panel ex"><div class="nl"><h3>Toekomstig werk</h3><ul><li>De echte MRS-AUTH-PQC-bibliotheek (Rust, gecompileerd naar WebAssembly) in de Kluis laten draaien: ML-KEM-1024, Clock KDF en AES-256-GCM.</li><li>Items versleutelen met de publieke sleutel, zodat alleen de geheime sleutel met het hoofdwachtwoord beschermd hoeft te worden.</li><li>Back-up (export en import) van kluis, notities en foto's.</li><li>De deniability-laag met alternatieve getuigen.</li></ul><div class="note">Tot dan gebruikt de Kluis de vereenvoudigde browser-variant uit het tabblad MRS.</div></div><div class="en"><h3>Future work</h3><ul><li>Run the real MRS-AUTH-PQC library (Rust, compiled to WebAssembly) in the Vault: ML-KEM-1024, Clock KDF and AES-256-GCM.</li><li>Encrypt items with the public key, so only the secret key needs to be protected by the master passphrase.</li><li>Backup (export and import) of vault, notes and photos.</li><li>The deniability layer with alternative witnesses.</li></ul><div class="note">Until then the Vault uses the simplified browser variant described in the MRS tab.</div></div></div></section>
-
-<!-- SYSTEEM PANEEL -->
+<div class="panel ex"><div class="nl"><h3>Toekomstig werk</h3><ul><li>De echte MRS-AUTH-PQC-bibliotheek (Rust, gecompileerd naar WebAssembly) in de Kluis laten draaien: ML-KEM-1024, Clock KDF en AES-256-GCM. De wrapper is geschreven; bouwen en koppelen volgen.</li><li>Items versleutelen met de publieke sleutel, zodat alleen de geheime sleutel met het hoofdwachtwoord beschermd hoeft te worden.</li><li>Back-up (export en import) van kluis, notities en foto's.</li><li>De deniability-laag met alternatieve getuigen.</li></ul><div class="note">Tot dan gebruikt de Kluis de vereenvoudigde browser-variant uit het tabblad MRS.</div></div><div class="en"><h3>Future work</h3><ul><li>Run the real MRS-AUTH-PQC library (Rust, compiled to WebAssembly) in the Vault: ML-KEM-1024, Clock KDF and AES-256-GCM. The wrapper is written; building and linking follow.</li><li>Encrypt items with the public key, so only the secret key needs to be protected by the master passphrase.</li><li>Backup (export and import) of vault, notes and photos.</li><li>The deniability layer with alternative witnesses.</li></ul><div class="note">Until then the Vault uses the simplified browser variant described in the MRS tab.</div></div></div></section>
 <section id="sy"><div class="panel ex">
 <div class="formula">p ≡ 1 (mod q)</div>
 <div class="nl">
@@ -148,8 +133,10 @@ html[lang=nl] .en,html[lang=en] .nl{display:none}
 <ul><li>Klok: <code>25 ≡ 1 (mod 12)</code>, m = 2. Een dag is twee rondes van 12 (dag en nacht), samen 24 uur.</li><li>Week: <code>15 ≡ 1 (mod 7)</code>, m = 2.</li><li>Getallen: <code>19 ≡ 1 (mod 9)</code>, m = 2. Zie het tabblad MRS.</li></ul>
 <h3>De posities</h3>
 <p>Alle posities beginnen bij 1. Van klein naar groot: ms (1000), seconde (60), minuut (60), uur (24), dag (30), maand (12), jaar (10), decennium (10), eeuw (10), millennium (onbegrensd). Er geldt <code>N = Σ (positie − 1) · gewicht</code>.</p>
+<h3>De onderdelen</h3>
+<ul><li><b>Spiraal:</b> jaren als niveaus in 3D, in een cyclus van 70 of 700 jaar. Het dichtstbijzijnde doel wordt gekozen.</li><li><b>Klok:</b> analoge klok met drie ingrijpende tandwielen (24, 12 en 6 tanden).</li><li><b>Bijectie:</b> N, datum en tuple in elkaar omrekenen, met de rekenstappen.</li><li><b>Agenda, Notities, Kluis:</b> afspraken, notities met foto's en een versleutelde kluis, alles op dit apparaat.</li></ul>
 <h3>Waarom 2520?</h3>
-<p>2520 is het kleinste getal dat deelbaar is door 1 tot en met 10. Het is ook het kleinste gemene veelvoud van 7 (week) en 360 (jaar van 12 × 30 dagen): na 2520 dagen = 7 jaar vallen week en jaar weer samen.</p>
+<p>2520 is het kleinste getal dat deelbaar is door 1 tot en met 10. Het is ook het kleinste gemene veelvoud van 7 (week) en 360 (jaar van 12 × 30 dagen): na 2520 dagen = 7 jaar vallen week en jaar weer samen. De app toont daarom steeds de dag in de 2520-cyclus.</p>
 </div>
 <div class="en">
 <h3>What is iGoSpiral?</h3>
@@ -159,36 +146,59 @@ html[lang=nl] .en,html[lang=en] .nl{display:none}
 <ul><li>Clock: <code>25 ≡ 1 (mod 12)</code>, m = 2. A day is two rounds of 12 (day and night), 24 hours in total.</li><li>Week: <code>15 ≡ 1 (mod 7)</code>, m = 2.</li><li>Numbers: <code>19 ≡ 1 (mod 9)</code>, m = 2. See the MRS tab.</li></ul>
 <h3>The positions</h3>
 <p>All positions start at 1. Small to large: ms (1000), second (60), minute (60), hour (24), day (30), month (12), year (10), decade (10), century (10), millennium (unbounded). It holds that <code>N = Σ (position − 1) · weight</code>.</p>
+<h3>The parts</h3>
+<ul><li><b>Spiral:</b> years as levels in 3D, in a cycle of 70 or 700 years. The nearest target is chosen.</li><li><b>Clock:</b> analog clock with three meshing gears (24, 12 and 6 teeth).</li><li><b>Bijection:</b> convert between N, date and tuple, with the calculation steps.</li><li><b>Calendar, Notes, Vault:</b> appointments, notes with photos and an encrypted vault, all on this device.</li></ul>
 <h3>Why 2520?</h3>
-<p>2520 is the smallest number divisible by every number from 1 to 10. It is also the least common multiple of 7 (week) and 360 (a year of 12 × 30 days): after 2520 days = 7 years, week and year coincide again.</p>
+<p>2520 is the smallest number divisible by every number from 1 to 10. It is also the least common multiple of 7 (week) and 360 (a year of 12 × 30 days): after 2520 days = 7 years, week and year coincide again. The app therefore always shows the day within the 2520 cycle.</p>
 </div>
+<div class="formula" style="margin:14px 0 0">6 × 19 + 28 × 9 = 114 + 252 = 366</div>
 </div></section>
 
-<!-- HANDLEIDING PANEEL -->
 <section id="hd"><div class="panel ex">
 <div class="nl">
 <h3>Gebruiksaanwijzing</h3>
-<ul><li><b>Spiraal:</b> Voer je geboortedatum in en klik op 'Bereken'. De spiraal toont je persoonlijke leven. Klik op 'Wis' om de wereldtijd-weergave te herstellen. De parel is nu, de gouden lijn is het verstreken deel van dit jaar.</li><li><b>Klok:</b> kijk naar de wijzers en de tandwielen. Eronder staan de live N (milliseconden) en de datum.</li><li><b>Bijectie:</b> typ N, kies een datum, of tik op Nu. De kaarten tonen de tuple. Open "Rekenstappen" voor de berekening.</li><li><b>Agenda:</b> tik op een dag, typ een afspraak en tik op +.</li><li><b>Notities:</b> kies datum en tijd, schrijf een tekst en voeg foto's toe.</li><li><b>Kluis:</b> de eerste keer kies je een hoofdwachtwoord van minstens 10 tekens. Daarna: Ontgrendel.</li></ul>
-<div class="note w"><b>Let op:</b> alles staat alleen in de browser van dit apparaat. Wis je de browsergegevens, dan zijn notities, foto's en kluis weg.</div>
+<ul><li><b>Spiraal:</b> draait vanzelf, aanraken is niet nodig en kan niets verstoren. Kies met het menu automatisch, 70 of 700 jaar. ⏸ zet de draaiing stil. De parel is nu, de gouden lijn is het verstreken deel van dit jaar, het roze jaartal is het doel.</li><li><b>Klok:</b> kijk naar de wijzers en de tandwielen. Eronder staan het uur (1–24), dag/nacht, de dag in de 2520-cyclus en N.</li><li><b>Bijectie:</b> typ N, kies een datum, of tik op Nu. De kaarten tonen de tuple. Open "Rekenstappen" voor de berekening. Vul onderaan een tuple in en tik op Bereken N om terug te rekenen.</li><li><b>Agenda:</b> tik op een dag, typ een afspraak en tik op +. Een stipje betekent dat er iets staat. Het maansymbool met cijfer is de modeldag (1–30).</li><li><b>Notities:</b> kies datum en tijd, schrijf een tekst en voeg foto's toe. Tik op Opslaan. Tik op een foto om hem groot te zien, ✕ verwijdert het moment.</li><li><b>Kluis:</b> de eerste keer kies je een hoofdwachtwoord van minstens 10 tekens en tik je op Maak kluis. Daarna: Ontgrendel. 👁 toont, ⧉ kopieert (het klembord wordt na 20 seconden gewist), ✕ verwijdert. De kluis vergrendelt na 5 minuten.</li><li><b>Taal:</b> de knop NL/EN rechtsboven.</li></ul>
+<div class="note w"><b>Let op:</b> alles staat alleen in de browser van dit apparaat. Wis je de browsergegevens, dan zijn notities, foto's en kluis weg. Een vergeten hoofdwachtwoord is niet te herstellen. Een back-upfunctie is er nog niet.</div>
 </div>
 <div class="en">
 <h3>User manual</h3>
-<ul><li><b>Spiral:</b> Enter your birthdate and click 'Calculate'. The spiral shows your personal life. Click 'Clear' to restore the world-time view.</li><li><b>Clock:</b> watch the hands and the gears. Below are the live N (milliseconds) and the date.</li><li><b>Bijection:</b> type N, pick a date, or tap Now. The cards show the tuple.</li><li><b>Calendar:</b> tap a day, type an appointment and tap +.</li><li><b>Notes:</b> pick a date and time, write text and add photos.</li><li><b>Vault:</b> the first time, choose a master passphrase of at least 10 characters.</li></ul>
-<div class="note w"><b>Note:</b> everything is stored only in this device's browser.</div>
+<ul><li><b>Spiral:</b> it turns by itself; touching it is unnecessary and cannot disturb it. Use the menu to choose automatic, 70 or 700 years. ⏸ stops the rotation. The pearl is now, the gold line is the elapsed part of this year, the pink year is the target.</li><li><b>Clock:</b> watch the hands and the gears. Below are the hour (1–24), day/night, the day in the 2520 cycle and N.</li><li><b>Bijection:</b> type N, pick a date, or tap Now. The cards show the tuple. Open "Steps" for the calculation. Fill in a tuple at the bottom and tap Calculate N to convert back.</li><li><b>Calendar:</b> tap a day, type an appointment and tap +. A dot means something is stored. The moon symbol with a number is the model day (1–30).</li><li><b>Notes:</b> pick a date and time, write text and add photos. Tap Save. Tap a photo to view it large; ✕ deletes the moment.</li><li><b>Vault:</b> the first time, choose a master passphrase of at least 10 characters and tap Create vault. After that: Unlock. 👁 shows, ⧉ copies (the clipboard is wiped after 20 seconds), ✕ deletes. The vault locks after 5 minutes.</li><li><b>Language:</b> the NL/EN button at the top right.</li></ul>
+<div class="note w"><b>Note:</b> everything is stored only in this device's browser. If you clear browser data, notes, photos and vault are gone. A forgotten master passphrase cannot be recovered. There is no backup function yet.</div>
 </div>
 </div></section>
 
-<!-- MRS PANEEL -->
 <section id="mr"><div class="panel ex">
 <div class="formula">N = 19A + 9B · 19 ≡ 1 (mod 9) · 25 ≡ 1 (mod 12)</div>
 <div class="nl">
 <h3>MRS-AUTH-PQC</h3>
-<p>Een post-quantum authenticatieraamwerk voor twee problemen tegelijk: <b>vertrouwelijkheid</b> tegen een quantum-tegenstander, via ML-KEM-1024 (FIPS 203), en <b>dwangbestendigheid</b> tegen een fysieke tegenstander, via het (19, 9) Diophantische systeem.</p>
+<p>Een post-quantum authenticatieraamwerk (v2.0.0) voor twee problemen tegelijk: <b>vertrouwelijkheid</b> tegen een quantum-tegenstander, via ML-KEM-1024 (FIPS 203), en <b>dwangbestendigheid</b> tegen een fysieke tegenstander, via het (19, 9) Diophantische systeem. Een gedwongen gebruiker kan een geldige, niet te onderscheiden alternatieve getuige overhandigen.</p>
+<h3>De dubbele cyclus</h3>
+<p>Elk getal N is op meerdere manieren te schrijven als <code>19A + 9B</code>. Omdat <code>19 ≡ 1 (mod 9)</code> liggen ze op twee in elkaar grijpende cycli met <code>m = (19−1)/9 = 2</code>.</p>
+<ul><li>Anker: <code>A₀ = dr(N) = 1 + ((N−1) mod 9)</code>, altijd ≥ 1 (Positive Anchor Convention).</li><li>Basis: <code>B₀ = (N − 19·A₀)/9</code></li><li>Aantal: <code>R(N) = ⌊B₀/19⌋ + 1</code></li><li>Ladder: <code>A_k = A₀ + 9k</code>, <code>B_k = B₀ − 19k</code></li><li>Het grootste getal zonder representatie is <b>162</b> (klassiek 143).</li></ul>
+<h3>De Clock KDF</h3>
+<p>De sessiesleutel komt uit de structuur zelf, niet uit een externe KDF: gedeeld geheim → seed → N → klok-tuple (D, H, M, S, Ms) → R(N) → k → (A_k, B_k) → SHA-256 → sleutel. Dit voegt geen entropie toe; het geeft de bestaande entropie een controleerbare structuur.</p>
+<h3>Bewijzen en status</h3>
+<p>Deniability: de kans dat een tegenstander de echte getuige herkent is exact <b>1/2</b>, machinaal gecontroleerd met EasyCrypt. De repository meldt 14 bewijsbestanden, 231 lemma's, 21 axioma's en 0 admits, plus 108 Rust-tests.</p>
+<div class="note"><b>EasyCrypt bewezen:</b> het wiskundige model is machinaal bewezen met EasyCrypt (14 bestanden, 231 lemma's, 0 admits). De Rust-implementatie wordt gecontroleerd met 108 tests. Licentie: AGPL-3.0, commerciële licentie beschikbaar.</div>
 <div class="note"><b>In deze app:</b> de Kluis gebruikt een vereenvoudigde browser-variant: PBKDF2 (600.000 rondes) → N → <code>a = dr(N)</code>, <code>B = (N−19a)/9</code> → SHA-256 → AES-256-GCM. Dus géén ML-KEM, niet de Rust-bibliotheek en geen deniability-laag.</div>
+</div>
+<div class="en">
+<h3>MRS-AUTH-PQC</h3>
+<p>A post-quantum authentication framework (v2.0.0) for two problems at once: <b>confidentiality</b> against a quantum adversary, via ML-KEM-1024 (FIPS 203), and <b>coercion resistance</b> against a physical adversary, via the (19, 9) Diophantine system. A coerced user can hand over a valid, indistinguishable alternative witness.</p>
+<h3>The double cycle</h3>
+<p>Every number N can be written as <code>19A + 9B</code> in several ways. Because <code>19 ≡ 1 (mod 9)</code> they lie on two interlocking cycles with <code>m = (19−1)/9 = 2</code>.</p>
+<ul><li>Anchor: <code>A₀ = dr(N) = 1 + ((N−1) mod 9)</code>, always ≥ 1 (Positive Anchor Convention).</li><li>Base: <code>B₀ = (N − 19·A₀)/9</code></li><li>Count: <code>R(N) = ⌊B₀/19⌋ + 1</code></li><li>Ladder: <code>A_k = A₀ + 9k</code>, <code>B_k = B₀ − 19k</code></li><li>The largest number without a representation is <b>162</b> (classically 143).</li></ul>
+<h3>The Clock KDF</h3>
+<p>The session key comes from the structure itself, not from an external KDF: shared secret → seed → N → clock tuple (D, H, M, S, Ms) → R(N) → k → (A_k, B_k) → SHA-256 → key. It adds no entropy; it gives the existing entropy an auditable structure.</p>
+<h3>Proofs and status</h3>
+<p>Deniability: the probability that an adversary recognises the real witness is exactly <b>1/2</b>, machine-checked with EasyCrypt. The repository reports 14 proof files, 231 lemmas, 21 axioms and 0 admits, plus 108 Rust tests.</p>
+<div class="note"><b>Proven in EasyCrypt:</b> the mathematical model is machine-proven with EasyCrypt (14 files, 231 lemmas, 0 admits). The Rust implementation is checked by 108 tests. License: AGPL-3.0, commercial license available.</div>
+<div class="note"><b>In this app:</b> the Vault uses a simplified browser variant: PBKDF2 (600,000 rounds) → N → <code>a = dr(N)</code>, <code>B = (N−19a)/9</code> → SHA-256 → AES-256-GCM. So no ML-KEM, not the Rust library and no deniability layer.</div>
 </div>
 <h3 id="md-h"></h3>
 <div class="bar"><input id="md-n" inputmode="numeric" placeholder="N ≥ 1"></div>
 <div id="md-o"></div>
+<div class="lk"><a href="https://github.com/A19dammer91/MRS-AUTH-PQC" target="_blank" rel="noopener">GitHub</a><a href="https://github.com/A19dammer91/MRS-AUTH-PQC/blob/main/README.md" target="_blank" rel="noopener">README</a><a href="https://doi.org/10.5281/zenodo.19474707" target="_blank" rel="noopener">DOI · 19-9</a><a href="https://doi.org/10.5281/zenodo.23077746" target="_blank" rel="noopener">DOI · RDSI</a></div>
 </div></section>
 <div id="lbw"><img id="lbi" alt=""></div>
 </div>
@@ -196,6 +206,7 @@ html[lang=nl] .en,html[lang=en] .nl{display:none}
 <script>
 const $=id=>document.getElementById(id);
 const NS="http://www.w3.org/2000/svg";
+const MAAND=["januari","februari","maart","april","mei","juni","juli","augustus","september","oktober","november","december"];
 let tab="sp",mode="auto";
 
 document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>{
@@ -204,38 +215,17 @@ document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>{
  document.querySelectorAll("section").forEach(s=>s.classList.toggle("on",s.id===tab));
  if(tab==="sp")setTimeout(()=>sp.resize(),30);
 });
+$("mode").onchange=e=>{mode=e.target.value;};
 
-/* ---------- Spiraal (Geboortedatum / Wereldtijd) ---------- */
-let birthDate = null;
-const IGO_BIRTH_KEY = "igospiral_birth";
-
-function getTimeSinceYearOne() {
-    const now = new Date(); const y1 = new Date(); y1.setFullYear(1, 0, 1); y1.setHours(0, 0, 0, 0);
-    let years = now.getFullYear() - 1; let temp = new Date(y1); temp.setFullYear(y1.getFullYear() + years);
-    while (temp > now) { years--; temp.setFullYear(y1.getFullYear() + years); }
-    let months = 0; while (true) { let nextTemp = new Date(temp); nextTemp.setMonth(nextTemp.getMonth() + 1); if (nextTemp > now) break; temp = nextTemp; months++; }
-    let days = 0; while (true) { let nextTemp = new Date(temp); nextTemp.setDate(nextTemp.getDate() + 1); if (nextTemp > now) break; temp = nextTemp; days++; }
-    let diff = now - temp; let hours = Math.floor(diff / 3600000); diff %= 3600000; let minutes = Math.floor(diff / 60000); diff %= 60000; let seconds = Math.floor(diff / 1000);
-    return { years, months, days, hours, minutes, seconds };
-}
-
+/* ---------- Cyclus-logica: echte datum ---------- */
 function state(d){
- if (birthDate) {
-   const nowD = d; let y = nowD.getFullYear() - birthDate.getFullYear(); 
-   if(new Date(birthDate).setFullYear(birthDate.getFullYear()+y) > nowD) y--;
-   const last = new Date(birthDate); last.setFullYear(birthDate.getFullYear()+y); 
-   const next = new Date(birthDate); next.setFullYear(birthDate.getFullYear()+y+1);
-   const f = Math.min(0.999999, Math.max(0,(nowD-last.getTime())/(next.getTime()-last.getTime())));
-   return { Y: birthDate.getFullYear() + y, f: f, len: 70, target: 70, level: (y % 70) + 1 };
- } else {
-   const te = getTimeSinceYearOne();
-   const Y = te.years + 1;
-   const a = new Date(Y,0,1), b = new Date(Y+1,0,1);
-   const f = (d - a) / (b - a);
-   return { Y: Y, f: f, len: 70, target: Math.ceil(Y/70)*70, level: ((Y-1) % 70) + 1 };
- }
+ const Y=d.getFullYear(),a=new Date(Y,0,1),b=new Date(Y+1,0,1),f=(d-a)/(b-a);
+ const nx=L=>Math.ceil(Y/L)*L;
+ const len=mode==="auto"?(nx(70)<=nx(700)?70:700):+mode;
+ return{Y,f,len,target:nx(len),t70:nx(70),t700:nx(700),level:((Y-1)%len)+1};
 }
 
+/* ---------- 3D-spiraal: draait vanzelf, niet aanraakbaar ---------- */
 class Spiral{
  constructor(c){
   this.c=c;this.x=c.getContext("2d");this.rot=.5;this.tilt=1;this.shown=null;this.w=300;this.h=300;
@@ -287,11 +277,12 @@ class Spiral{
   if(st.f>.002)this.line(t=>this.pt(A0+TP*t,t),st.level,st.level+st.f,Math.max(4,Math.ceil(st.f*120)),"244,197,66",.95,3);
   x.textAlign="left";
   for(let l=from;l<=to;l++){
-   const q=this.pt(0,l);
-   x.fillStyle=l===st.level?"#f4c542":"rgba(154,163,199,.55)";
-   x.font=(l===st.level?"bold 11px":"9px")+" -apple-system,sans-serif";
-   x.fillText(yr(l),q.x+q.R*.08+4,q.y);
+   const q=this.pt(0,l),isT=yr(l)===st.target;
+   x.fillStyle=l===st.level?"#f4c542":isT?"#ff6f91":"rgba(154,163,199,.55)";
+   x.font=(l===st.level||isT?"bold 11px":"9px")+" -apple-system,sans-serif";
+   x.fillText(yr(l)+(isT?" ◎ "+T("doel","target"):""),q.x+q.R*.08+4,q.y);
   }
+  /* parel */
   const p=this.pt(A0+TP*cont,cont),r=Math.max(10,p.R*.085)*p.s,hue=(tm/40)%360;
   x.save();x.translate(p.x,p.y+r*.9);x.scale(1,.35);
   const sh=x.createRadialGradient(0,0,0,0,0,r*1.3);sh.addColorStop(0,"rgba(0,0,0,.6)");sh.addColorStop(1,"rgba(0,0,0,0)");
@@ -312,36 +303,11 @@ window.addEventListener("resize",()=>{clearTimeout(sp._t);sp._t=setTimeout(()=>s
 
 function updateSpiralText(st,d){
  const datum=d.toLocaleDateString(T("nl-NL","en-GB"),{weekday:"long",day:"numeric",month:"long",year:"numeric"});
- if (birthDate) {
-   const age = st.Y - birthDate.getFullYear();
-   const rest = Math.max(0, 70 - age);
-   $("top").innerHTML=`Geboortedatum: <b>${birthDate.toLocaleDateString()}</b><br>Leeftijd: <b>${age}</b> jaar`;
-   $("bot").innerHTML=`Niveau <b>${st.level} / 70</b><br><i>(Nog ${rest} jaar tot de volgende 70-cyclus)</i>`;
-   $("pg").style.width=((st.level-1+st.f)/70*100).toFixed(2)+"%";
- } else {
-   const rest=Math.max(0,Math.ceil((new Date(st.target+1,0,1)-d)/864e5));
-   $("top").innerHTML=`Vandaag: <b>${datum}</b><br>Wereldtijd sinds jaar 1: <b>${st.Y}</b> jaar · Doel: <b>${st.target}</b>`;
-   $("bot").innerHTML=`Niveau <b>${st.level} / 70</b> (Jaar ${st.Y})<br><i>(Nog ${rest} dagen tot het volgende niveau)</i>`;
-   $("pg").style.width=((st.level-1+st.f)/70*100).toFixed(2)+"%";
- }
+ const rest=Math.max(0,Math.ceil((new Date(st.target+1,0,1)-d)/864e5));
+ $("top").innerHTML=`${T("Vandaag","Today")}: <b>${datum}</b><br>${T("Cyclus van","Cycle of")} <b>${st.len}</b> ${T("jaar","years")} · ${T("doel","target")} <b>${st.target}</b> · ${T("nog","in")} <b>${rest}</b> ${T("dagen","days")}`;
+ $("bot").innerHTML=`${T("Niveau","Level")} <b>${st.level} / ${st.len}</b> (${T("jaar","year")} ${st.Y})<br><i>${T("70-cyclus: doel","70-cycle: target")} ${st.t70} (${T("nog","in")} ${st.t70-st.Y} ${T("jr","yr")})</i> · <i>${T("700-cyclus: doel","700-cycle: target")} ${st.t700} (${T("nog","in")} ${st.t700-st.Y} ${T("jr","yr")})</i>`;
+ $("pg").style.width=((st.level-1+st.f)/st.len*100).toFixed(2)+"%";
 }
-
-function applyBirth(val){
- if(!val)return;
- const d=new Date(val+"T00:00:00");
- if(isNaN(d.getTime()))return;
- birthDate = d;
- localStorage.setItem(IGO_BIRTH_KEY,val);
-}
-function resetBirth(){
- birthDate = null;
- localStorage.removeItem(IGO_BIRTH_KEY);
- $("birthdate").value = "";
-}
-$("btn-calc-age").onclick=()=>{const v=$("birthdate").value;if(v)applyBirth(v);};
-$("btn-reset-date").onclick=resetBirth;
-const savedBirth=localStorage.getItem(IGO_BIRTH_KEY);
-if(savedBirth){$("birthdate").value=savedBirth;applyBirth(savedBirth);}
 
 /* ---------- Klok met tandwielen ---------- */
 function gearD(n,rp,m){
@@ -376,6 +342,7 @@ function clock(){
  const d=new Date(),h=d.getHours(),mi=d.getMinutes(),s=d.getSeconds()+d.getMilliseconds()/1e3;
  const ha=(h%12)*30+mi*.5+s/120,ma=mi*6+s*.1,sa=s*6;
  $("hh").setAttribute("transform",`rotate(${ha} 100 100)`);$("mh").setAttribute("transform",`rotate(${ma} 100 100)`);$("sh").setAttribute("transform",`rotate(${sa} 100 100)`);
+ /* tandwielen: A volgt de dag (24 u), B en C grijpen in elkaar */
  const pA=((h+mi/60+s/3600)/24)*Math.PI*2;
  const pB=TH1+Math.PI-Math.PI/12-(pA-TH1)*24/12;
  const pC=TH2+Math.PI-Math.PI/6-(pB-TH2)*12/6;
@@ -383,11 +350,9 @@ function clock(){
  const day=h>=6&&h<18;
  $("hp").textContent=h+1;
  $("pb").textContent=day?T("☀️ Dag","☀️ Day"):T("🌙 Nacht","🌙 Night");$("pb").style.color=day?"#f4c542":"#5c6bc0";
- 
+ $("pm").textContent=Math.floor(h/12);
  const N=BigInt(Math.floor(d.getTime()+offMs())),days=N/86400000n;
- $("live-n").textContent = N.toString();
- $("live-date").textContent = d.toLocaleDateString(T("nl-NL","en-GB"), { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
- $("cx").innerHTML=`${T("weekdag","weekday")} <b style="color:#f4c542">${(L==="nl"?WD:WDE)[Number((days+3n)%7n)]}</b> · ${T("dag","day")} <b style="color:#f4c542">${Number(days%2520n)+1}</b>/2520`;
+ $("cx").innerHTML=`${T("weekdag","weekday")} <b style="color:#f4c542">${(L==="nl"?WD:WDE)[Number((days+3n)%7n)]}</b> · ${T("dag","day")} <b style="color:#f4c542">${Number(days%2520n)+1}</b>/2520 · ${T("cyclus","cycle")} <b style="color:#f4c542">${days/2520n+1n}</b><br>N <b style="color:#4dd0e1">${N}</b>`;
 }
 
 /* ---------- i18n ---------- */
@@ -397,6 +362,7 @@ const WDE=["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
 const esc=x=>String(x).replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
 const I=[["#sub","de klok als wiskundig object","the clock as a mathematical object"],
 ["nav [data-t=sp]","Spiraal","Spiral"],["nav [data-t=kl]","Klok","Clock"],["nav [data-t=bj]","Bijectie","Bijection"],["nav [data-t=ag]","Agenda","Calendar"],["nav [data-t=nt]","Notities","Notes"],["nav [data-t=kv]","Kluis","Vault"],["nav [data-t=sy]","Systeem","System"],["nav [data-t=hd]","Handleiding","Manual"],["nav [data-t=mr]","MRS","MRS"],
+["#mode option:nth-child(1)","Doel: dichtstbijzijnde (auto)","Target: nearest (auto)"],["#mode option:nth-child(2)","70-jarige cyclus","70-year cycle"],["#mode option:nth-child(3)","700-jarige cyclus","700-year cycle"],
 ["#l-hp","Uur (1–24)","Hour (1–24)"],["#l-b1","Milliseconden (N) ↔ datum ↔ klok-tuple","Milliseconds (N) ↔ date ↔ clock tuple"],["#l-b2","Klok-tuple → N","Clock tuple → N"],["#go2","Bereken N","Calculate N"],["#nw","Nu","Now"],
 ["#l-nt0","Opslag","Storage"],["#l-nt1","Nieuwe notitie","New note"],["#l-nf","📷 Foto's toevoegen (originele kwaliteit)","📷 Add photos (original quality)"],["#ns","Opslaan","Save"],["#l-nt2","Opgeslagen momenten","Saved moments"],
 ["#l-kv2","Nieuw item","New item"],["#vg","🎲 Sterk wachtwoord","🎲 Strong password"],["#vs","Veilig opslaan","Save securely"],["#l-kv3","Opgeslagen items","Saved items"]];
@@ -445,7 +411,7 @@ function renderBij(fromDt){
  const S=(a,b)=>`<div class="sum"><span>${a}</span><b>${b}</b></div>`;
  let rest=N;const rows=UNITS.map((u,i)=>{const q=rest/W[u];rest-=q*W[u];return`<tr><td>${ul(u)}</td><td>${W[u]}</td><td>${q}</td><td class="g">${tp[i]}</td></tr>`}).join("");
  const back=UNITS.reduce((a,u,i)=>a+(tp[i]-1n)*W[u],0n);
- o.innerHTML=cards+S(T("Datum","Date"),when)+S(T("Weekdag","Weekday"),(L==="nl"?WD:WDE)[Number((days+3n)%7n)])+S(T("Dag in 2520-cyclus","Day in 2520 cycle"),`${days%2520n+1n} / 2520`)+S(T("Digitale wortel","Digital root"),dr)+S(T("Duur","Duration"),`${days}d ${(N%86400000n)/3600000n}h ${(N%3600000n)/60000n}m ${(N%60000n)/1000n}s`)+
+ o.innerHTML=cards+S(T("Datum","Date"),when)+S(T("Weekdag","Weekday"),(L==="nl"?WD:WDE)[Number((days+3n)%7n)])+S(T("Dag in 2520-cyclus","Day in 2520 cycle"),`${days%2520n+1n} / 2520 (${T("cyclus","cycle")} ${days/2520n+1n})`)+S(T("Digitale wortel","Digital root"),dr)+S(T("Duur","Duration"),`${days}d ${(N%86400000n)/3600000n}h ${(N%3600000n)/60000n}m ${(N%60000n)/1000n}s`)+
  `<details><summary>${T("Rekenstappen (positie = quotiënt + 1)","Steps (position = quotient + 1)")}</summary><table><tr><th>${T("eenheid","unit")}</th><th>${T("gewicht ms","weight ms")}</th><th>${T("deel","part")}</th><th>${T("positie","pos")}</th></tr>${rows}</table><div class="eq">${T("terug","back")}: ${back} ${back===N?"✓":"✗"}</div></details>`;
  tp.forEach((v,i)=>{$("t-"+UNITS[i]).value=v});
 }
