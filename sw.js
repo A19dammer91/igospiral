@@ -1,12 +1,18 @@
-const CACHE = "igospiral-v2";
+const CACHE = "igospiral-v3";
 const ASSETS = [
   "./",
   "./index.html",
-  "./manifest.json"
+  "./manifest.json",
+  "./icon-192.png",
+  "./icon-512.png"
 ];
 
 self.addEventListener("install", (e) => {
-  e.waitUntil(caches.open(CACHE).then((c) => c.addAll(ASSETS)));
+  e.waitUntil(
+    caches.open(CACHE).then((c) => {
+      return c.addAll(ASSETS);
+    })
+  );
   self.skipWaiting();
 });
 
@@ -23,13 +29,31 @@ self.addEventListener("activate", (e) => {
 
 self.addEventListener("fetch", (e) => {
   if (e.request.method !== "GET") return;
+  
+  // Sla verzoeken naar browser-extensies over
+  if (!e.request.url.startsWith('http')) return;
+
   e.respondWith(
-    fetch(e.request)
-      .then((response) => {
+    Promise.race([
+      fetch(e.request).then((response) => {
+        // Sla de nieuwste versie op in de cache
         const clone = response.clone();
         caches.open(CACHE).then((cache) => cache.put(e.request, clone));
         return response;
-      })
-      .catch(() => caches.match(e.request))
+      }),
+      new Promise((_, reject) =>
+        setTimeout(() => reject(new Error("timeout")), 3000)
+      )
+    ])
+    .catch(() => {
+      return caches.match(e.request).then((cachedResponse) => {
+        if (cachedResponse) return cachedResponse;
+        
+        // Als de pagina niet in de cache staat en de browser vraagt om een navigatie
+        if (e.request.mode === 'navigate') {
+          return caches.match('./index.html');
+        }
+      });
+    })
   );
 });
