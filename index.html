@@ -294,10 +294,33 @@ function renderBij(fromDt){
  try{const v=$("n").value.trim();if(!/^\d+$/.test(v))throw new Error(T("Voer een geheel getal ≥ 0 in.","Enter an integer ≥ 0."));N=BigInt(v)}catch(e){o.innerHTML=`<div class="eq" style="color:#ff6f91">${esc(e.message)}</div>`;return}
  const tp=toTuple(N),days=N/86400000n,dr=N===0n?0n:1n+(N-1n)%9n,S=(a,b)=>`<div class="sum"><span>${a}</span><b>${b}</b></div>`;
  let when="—";if(N<8000000000000000n){const d=fromZ(N);when=d.toLocaleString(T("nl-NL","en-GB"));if(!fromDt)$("dt").value=lv(d)}
- let rest=N;const rows=UNITS.map((u,i)=>{const q=rest/W[u];rest-=q*W[u];return`<tr><td>${ul(u)}</td><td>${W[u]}</td><td>${q}</td><td class="g">${tp[i]}</td></tr>`}).join("");
- const back=UNITS.reduce((a,u,i)=>a+(tp[i]-1n)*W[u],0n);
- o.innerHTML=realBlock(N)+`<h2>${T("Model (1-based)","Model (1-based)")}</h2><div class="cards">${UNITS.map((u,i)=>`<div class="card ${i<4?"":i<6?"cc":"ct"}"><b>${tp[i]}</b><small>${ul(u)}</small></div>`).join("")}</div>`+S(T("Datum","Date"),when)+S(T("Weekdag","Weekday"),wd()[Number((days+5n)%7n)])+S(T("Dag in 2520-cyclus","Day in 2520 cycle"),`${days%2520n+1n} / 2520 (${T("cyclus","cycle")} ${days/2520n+1n})`)+S(T("Digitale wortel","Digital root"),dr)+S(T("Duur","Duration"),`${days}d ${(N%86400000n)/3600000n}h ${(N%3600000n)/60000n}m ${(N%60000n)/1000n}s`)+
- `<details style="margin-top:10px"><summary>${T("Rekenstappen","Steps")}</summary><div><table><tr><th>${T("eenheid","unit")}</th><th>${T("gewicht ms","weight ms")}</th><th>${T("deel","part")}</th><th>${T("positie","pos")}</th></tr>${rows}</table><div class="eq">${T("terug","back")}: ${back} ${back===N?"✓":"✗"}</div></div></details>`;
+ 
+ // De echte datum ophalen (voor de synchronisatie)
+ const realDate = fromZ(N);
+ const realYear = realDate.getFullYear();
+ const realMonth = realDate.getMonth() + 1;
+ const realDay = realDate.getDate();
+ 
+ // Berekening voor het Model (1-based) gebaseerd op de echte datum
+ const modelMillennium = Math.floor(realYear / 1000) + 1;
+ const modelEeuw = Math.floor((realYear % 1000) / 100) + 1;
+ const modelDecennium = Math.floor((realYear % 100) / 10) + 1;
+ const modelJaar = (realYear % 10) + 1;
+ const modelMaand = realMonth; 
+ const modelDag = realDay; 
+ 
+ const modelTuple = [modelMillennium, modelEeuw, modelDecennium, modelJaar, modelMaand, modelDag, realDate.getHours()+1, realDate.getMinutes()+1, realDate.getSeconds()+1, realDate.getMilliseconds()+1];
+
+ o.innerHTML = realBlock(N) + 
+ `<h2>${T("Model (1-based) gesynchroniseerd","Model (1-based) synchronized")}</h2>
+ <div class="cards">${UNITS.map((u,i)=>`<div class="card ${i<4?"":i<6?"cc":"ct"}"><b>${modelTuple[i]}</b><small>${ul(u)}</small></div>`).join("")}</div>` +
+ S(T("Datum","Date"),when) + 
+ S(T("Weekdag","Weekday"),wd()[Number((days+5n)%7n)]) + 
+ S(T("Dag in 2520-cyclus","Day in 2520 cycle"),`${days%2520n+1n} / 2520 (${T("cyclus","cycle")} ${days/2520n+1n})`) + 
+ S(T("Digitale wortel","Digital root"),dr) + 
+ S(T("Duur","Duration"),`${days}d ${(N%86400000n)/3600000n}h ${(N%3600000n)/60000n}m ${(N%60000n)/1000n}s`) +
+ `<details style="margin-top:10px"><summary>${T("Rekenstappen","Steps")}</summary><div><table><tr><th>${T("eenheid","unit")}</th><th>${T("gewicht ms","weight ms")}</th><th>${T("deel","part")}</th><th>${T("positie","pos")}</th></tr>${UNITS.map((u,i)=>{const q=BigInt(modelTuple[i]-1);return `<tr><td>${ul(u)}</td><td>${W[u]}</td><td>${q}</td><td class="g">${modelTuple[i]}</td></tr>`}).join("")}</table></div></details>`;
+ 
  tp.forEach((v,i)=>{$("t-"+UNITS[i]).value=v});
 }
 let _nb;$("n").oninput=()=>{clearTimeout(_nb);_nb=setTimeout(renderBij,150)};
