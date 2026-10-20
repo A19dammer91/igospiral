@@ -4,7 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0a0e27">
+<meta name="description" content="iGoSpiral: The clock as a mathematical object. Every round, one level higher.">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>iGoSpiral</title>
+<link rel="manifest" href="manifest.json">
 <style>
 :root{--bg:#0a0e27;--p:#141a3a;--p2:#1e2650;--bd:#232a55;--gold:#f4c542;--cy:#4dd0e1;--pk:#ff6f91;--tx:#e8e8f0;--mu:#9aa3c7}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
@@ -15,15 +19,15 @@ header{text-align:center;margin-bottom:14px}
 h1{font-weight:300;letter-spacing:4px;font-size:22px}h1 b{color:var(--gold);font-weight:500}
 header p{color:var(--mu);font-size:11px;letter-spacing:2px;margin-top:4px}
 nav{display:flex;gap:4px;background:var(--p);border:1px solid var(--bd);border-radius:12px;padding:4px;margin-bottom:14px}
-nav button{flex:1;background:none;border:0;color:var(--mu);padding:10px;border-radius:8px;font:500 13px inherit;font-family:inherit;cursor:pointer}
+nav button{flex:1;background:none;border:0;color:var(--mu);padding:10px;border-radius:8px;font:500 13px inherit;font-family:inherit;cursor:pointer;min-height:44px;}
 nav button.on{background:var(--p2);color:var(--gold);font-weight:600}
 section{display:none}section.on{display:block}
 .panel{background:var(--p);border:1px solid var(--bd);border-radius:16px;padding:18px;margin-bottom:14px}
 .formula{text-align:center;font-family:monospace;color:var(--gold);font-size:14px;margin-bottom:14px;background:rgba(244,197,66,.1);padding:8px;border-radius:8px;border:1px solid rgba(244,197,66,.3)}
 .bar{display:flex;gap:8px;align-items:center;margin-bottom:10px;flex-wrap:wrap}
-select,input{background:var(--p2);border:1px solid var(--bd);color:var(--tx);padding:10px;border-radius:8px;font:14px inherit;font-family:inherit;width:100%}
+select,input{background:var(--p2);border:1px solid var(--bd);color:var(--tx);padding:10px;border-radius:8px;font:14px inherit;font-family:inherit;width:100%;min-height:44px;}
 .bar select{width:auto;flex:1}
-.btn{background:var(--p2);border:1px solid var(--bd);color:var(--tx);padding:10px 14px;border-radius:8px;font-size:13px;font-family:inherit;cursor:pointer}
+.btn{background:var(--p2);border:1px solid var(--bd);color:var(--tx);padding:10px 14px;border-radius:8px;font-size:13px;font-family:inherit;cursor:pointer;min-height:44px;}
 .btn.pr{background:var(--gold);color:var(--bg);border-color:var(--gold);font-weight:600}
 #cv{width:100%;height:min(62vh,560px);display:block;border-radius:12px;pointer-events:none;touch-action:auto}
 .info{font-size:12px;color:var(--mu);text-align:center;line-height:1.6;margin:10px 0}
@@ -43,16 +47,16 @@ td,th{padding:5px 4px;border-bottom:1px solid var(--bd);text-align:right}th{colo
 .grid label{font-size:9px;color:var(--mu);text-transform:uppercase}.grid input{padding:6px;text-align:center;font-family:monospace}
 h2{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--mu);margin:14px 0 8px;font-weight:500}
 
-header{position:relative}.lg{position:absolute;right:0;top:0;background:var(--p2);border:1px solid var(--bd);color:var(--tx);padding:6px 12px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer}
+header{position:relative}.lg{position:absolute;right:0;top:0;background:var(--p2);border:1px solid var(--bd);color:var(--tx);padding:6px 12px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;min-height:44px;}
 nav{overflow-x:auto;scrollbar-width:none}nav button{flex:0 0 auto;padding:10px 14px}
 .cards{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin:12px 0}
 .card{background:var(--p2);border-radius:10px;padding:10px 2px;text-align:center;border-top:3px solid var(--gold)}.card.cc{border-color:var(--cy)}.card.ct{border-color:var(--pk)}
 .card b{display:block;font-size:20px;font-weight:300;font-variant-numeric:tabular-nums}.card small{font-size:8px;letter-spacing:1px;text-transform:uppercase;color:var(--mu)}
 .sum{display:flex;justify-content:space-between;gap:10px;padding:6px 0;border-bottom:1px solid var(--bd);font-size:13px}.sum span{color:var(--mu)}.sum b{text-align:right;color:var(--gold);font-weight:500}
-details{background:var(--p2);border-radius:10px;margin-top:10px;padding:10px 14px}summary{cursor:pointer;color:var(--gold);font-size:12px}
+details{background:var(--p2);border-radius:10px;margin-top:10px;padding:10px 14px}summary{cursor:pointer;color:var(--gold);font-size:12px;min-height:44px;display:flex;align-items:center;}
 .cg{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin:10px 0}.dn{text-align:center;font-size:10px;color:var(--mu);text-transform:uppercase}
-.cd{background:rgba(255,255,255,.04);border-radius:6px;padding:8px 0 4px;text-align:center;font-size:13px;cursor:pointer;border:1px solid transparent;position:relative}.cd small{display:block;font-size:8px;opacity:.8}.cd.e{background:none;cursor:default}.cd.td{border-color:var(--pk)}.cd.sl{background:var(--gold);color:var(--bg)}.cd.ev::after{content:"";position:absolute;top:3px;right:4px;width:5px;height:5px;border-radius:50%;background:var(--cy)}
-ul{list-style:none}li{background:var(--p2);padding:10px;border-radius:8px;margin-bottom:6px;display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:13px}li b,.nh b{color:var(--pk);cursor:pointer}.mu{color:var(--mu)}
+.cd{background:rgba(255,255,255,.04);border-radius:6px;padding:8px 0 4px;text-align:center;font-size:13px;cursor:pointer;border:1px solid transparent;position:relative;min-height:44px;}.cd small{display:block;font-size:8px;opacity:.8}.cd.e{background:none;cursor:default}.cd.td{border-color:var(--pk)}.cd.sl{background:var(--gold);color:var(--bg)}.cd.ev::after{content:"";position:absolute;top:3px;right:4px;width:5px;height:5px;border-radius:50%;background:var(--cy)}
+ul{list-style:none}li{background:var(--p2);padding:10px;border-radius:8px;margin-bottom:6px;display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:13px}li b,.nh b{color:var(--pk);cursor:pointer;padding:8px;}.mu{color:var(--mu)}
 .nt{background:var(--p2);border-radius:12px;padding:12px;margin-bottom:10px}.nh{display:flex;justify-content:space-between;color:var(--gold);font-size:13px}.nt .mu{font-size:10px;font-family:monospace}.tx{white-space:pre-wrap;margin:6px 0;font-size:14px}
 .ph{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:6px}.ph img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:8px;cursor:zoom-in}
 #lbw{display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:50;align-items:center;justify-content:center;padding:12px}#lbw.on{display:flex}#lbw img{max-width:100%;max-height:100%;border-radius:8px}
@@ -60,7 +64,7 @@ textarea{width:100%;background:var(--p2);border:1px solid var(--bd);color:var(--
 .stat{font-size:12px;min-height:18px;color:var(--cy);margin-top:6px}.stat.err{color:var(--pk)}
 .stb{height:6px;background:var(--p2);border-radius:3px;overflow:hidden;margin:6px 0}.stb div{height:100%;width:0;background:linear-gradient(90deg,var(--cy),var(--gold))}
 .vi{border-left:4px solid var(--gold)}.vs{font-family:monospace;word-break:break-all;color:var(--gold)}.vb{display:flex;gap:4px}
-.pic{display:block;text-align:center;border:1px dashed var(--bd);border-radius:8px;padding:10px;cursor:pointer;font-size:13px;margin-bottom:8px}.pic input{display:none}
+.pic{display:block;text-align:center;border:1px dashed var(--bd);border-radius:8px;padding:10px;cursor:pointer;font-size:13px;margin-bottom:8px;min-height:44px;}.pic input{display:none}
 html[lang=nl] .en,html[lang=en] .nl{display:none}
 .ex h3{color:var(--gold);font-size:14px;margin:18px 0 6px;padding-bottom:4px;border-bottom:1px solid var(--bd)}.ex h3:first-of-type{margin-top:4px}
 .ex p,.ex li{font-size:13px;line-height:1.7;color:var(--mu)}.ex ul{padding-left:20px;margin:6px 0}.ex li{display:list-item;background:none;padding:0;margin:0 0 4px;justify-content:flex-start}
@@ -72,35 +76,35 @@ html[lang=nl] .en,html[lang=en] .nl{display:none}
 </head>
 <body>
 <div class="wrap">
-<header><button class="lg" id="lg">EN</button><h1>iGo<b>Spiral</b></h1><p id="sub"></p></header>
-<nav><button class="on" data-t="sp">.</button><button data-t="kl">.</button><button data-t="bj">.</button><button data-t="ag">.</button><button data-t="nt">.</button><button data-t="kv">.</button><button data-t="sy">.</button><button data-t="hd">.</button><button data-t="mr">.</button></nav>
+<header><button class="lg" id="lg" aria-label="Toggle language">EN</button><h1>iGo<b>Spiral</b></h1><p id="sub"></p></header>
+<nav aria-label="Main navigation"><button class="on" data-t="sp" aria-label="Spiral">.</button><button data-t="kl" aria-label="Clock">.</button><button data-t="bj" aria-label="Bijection">.</button><button data-t="ag" aria-label="Calendar">.</button><button data-t="nt" aria-label="Notes">.</button><button data-t="kv" aria-label="Vault">.</button><button data-t="sy" aria-label="System">.</button><button data-t="hd" aria-label="Manual">.</button><button data-t="mr" aria-label="MRS">.</button></nav>
 
 <section id="sp" class="on"><div class="panel">
 <div class="formula">p ≡ 1 (mod q)</div>
 <div class="bar">
-  <select id="mode">
+  <select id="mode" aria-label="Cycle mode">
     <option value="life">Mijn leven (70 jaar)</option>
     <option value="world">Wereldtijd (Kalender)</option>
   </select>
 </div>
 <div class="bar" id="birth-bar" style="display:none">
-  <input type="date" id="birthdate" style="flex:1; margin-bottom:0;">
+  <input type="date" id="birthdate" style="flex:1; margin-bottom:0;" aria-label="Birthdate">
   <button class="btn" id="btn-calc-age">Bereken</button>
-  <button class="btn" id="btn-reset-date" style="border-color:var(--pk);color:var(--pk)">↺ Wis</button>
+  <button class="btn" id="btn-reset-date" style="border-color:var(--pk);color:var(--pk)" aria-label="Clear birthdate">↺ Wis</button>
 </div>
 <div class="bar" id="spiral-controls">
-  <button class="btn" id="pz">⏸</button>
+  <button class="btn" id="pz" aria-label="Pause animation">⏸</button>
 </div>
 <div class="info" id="top"></div>
-<canvas id="cv"></canvas>
+<canvas id="cv" aria-label="3D Spiral visualization"></canvas>
 <div class="info" id="bot"></div>
-<div class="track"><div id="pg"></div></div>
+<div class="track" aria-hidden="true"><div id="pg"></div></div>
 </div></section>
 
 <section id="kl"><div class="panel">
 <div class="formula">25 ≡ 1 (mod 12) · 24 · 12 · 6</div>
 <div class="cw">
-<svg class="clock" viewBox="0 0 200 200"><circle cx="100" cy="100" r="96" fill="#0d1230" stroke="#232a55"/><g id="gears"></g><g id="ticks"></g><g id="nums"></g>
+<svg class="clock" viewBox="0 0 200 200" role="img" aria-label="Analog clock with gears"><circle cx="100" cy="100" r="96" fill="#0d1230" stroke="#232a55"/><g id="gears"></g><g id="ticks"></g><g id="nums"></g>
 <line id="hh" x1="100" y1="100" x2="100" y2="55" stroke="#f4c542" stroke-width="4.5" stroke-linecap="round"/>
 <line id="mh" x1="100" y1="100" x2="100" y2="32" stroke="#e8e8f0" stroke-width="3" stroke-linecap="round"/>
 <line id="sh" x1="100" y1="112" x2="100" y2="26" stroke="#4dd0e1" stroke-width="1.5" stroke-linecap="round"/>
@@ -114,25 +118,25 @@ html[lang=nl] .en,html[lang=en] .nl{display:none}
 <section id="bj"><div class="panel">
 <div class="formula">N ↔ (d, u, m, s, ms)</div>
 <h2 id="l-b1"></h2>
-<div class="bar"><input id="n" inputmode="numeric"><button class="btn" id="nw"></button></div>
-<input id="dt" type="datetime-local" step="1">
+<div class="bar"><input id="n" inputmode="numeric" aria-label="Milliseconds"><button class="btn" id="nw">Nu</button></div>
+<input id="dt" type="datetime-local" step="1" aria-label="Select date and time">
 <div id="o1"></div>
-</div><div class="panel"><h2 id="l-b2"></h2><div class="grid" id="ti"></div><button class="btn pr" id="go2" style="width:100%"></button><div class="eq" id="o2"></div></div></section>
+</div><div class="panel"><h2 id="l-b2"></h2><div class="grid" id="ti"></div><button class="btn pr" id="go2" style="width:100%">Bereken N</button><div class="eq" id="o2"></div></div></section>
 
 <section id="ag"><div class="panel"><div class="formula">t = d + 1</div>
-<div class="bar"><button class="btn" id="ap">←</button><h2 id="agm" style="flex:1;text-align:center;margin:0;color:var(--gold)"></h2><button class="btn" id="an">→</button></div>
+<div class="bar"><button class="btn" id="ap" aria-label="Previous month">←</button><h2 id="agm" style="flex:1;text-align:center;margin:0;color:var(--gold)"></h2><button class="btn" id="an" aria-label="Next month">→</button></div>
 <div class="cg" id="agg"></div><h2 id="ags"></h2><ul id="agl"></ul>
-<div class="bar"><input id="ae"><button class="btn pr" id="aa">+</button></div></div></section>
+<div class="bar"><input id="ae" aria-label="New appointment"><button class="btn pr" id="aa" aria-label="Add appointment">+</button></div></div></section>
 
-<section id="nt"><div class="panel"><h2 id="l-nt0"></h2><div class="stb"><div id="stb"></div></div><div class="info" id="stt"></div></div>
-<div class="panel"><h2 id="l-nt1"></h2><input id="nd" type="datetime-local" step="1"><textarea id="nx" rows="4"></textarea>
-<label class="pic"><span id="l-nf"></span><input id="nf" type="file" accept="image/*" multiple></label>
-<button class="btn pr" id="ns" style="width:100%"></button><div class="stat" id="nst"></div></div>
+<section id="nt"><div class="panel"><h2 id="l-nt0"></h2><div class="stb" aria-hidden="true"><div id="stb"></div></div><div class="info" id="stt"></div></div>
+<div class="panel"><h2 id="l-nt1"></h2><input id="nd" type="datetime-local" step="1" aria-label="Moment date and time"><textarea id="nx" rows="4" aria-label="Note text"></textarea>
+<label class="pic"><span id="l-nf"></span><input id="nf" type="file" accept="image/*" multiple aria-label="Add photos"></label>
+<button class="btn pr" id="ns" style="width:100%">Opslaan</button><div class="stat" id="nst" aria-live="polite"></div></div>
 <div class="panel"><h2 id="l-nt2"></h2><div id="nl"></div></div></section>
 
 <section id="kv"><div class="panel"><div class="formula">MRS-AUTH · 19A+9B</div><div class="info" id="vst"></div>
-<input type="password" id="vp" autocomplete="off"><div class="bar"><button class="btn pr" id="vu" style="flex:1"></button><button class="btn" id="vl">🔒</button></div><div class="stat" id="vm"></div></div>
-<div class="panel" id="vadd"><h2 id="l-kv2"></h2><input id="vn" style="margin-bottom:8px"><input id="vw" style="margin-bottom:8px"><div class="bar"><button class="btn" id="vg"></button><button class="btn pr" id="vs" style="flex:1"></button></div></div>
+<input type="password" id="vp" autocomplete="off" aria-label="Master passphrase"><div class="bar"><button class="btn pr" id="vu" style="flex:1">Ontgrendel</button><button class="btn" id="vl" aria-label="Lock vault">🔒</button></div><div class="stat" id="vm" aria-live="polite"></div></div>
+<div class="panel" id="vadd"><h2 id="l-kv2"></h2><input id="vn" style="margin-bottom:8px" aria-label="Item name"><input id="vw" style="margin-bottom:8px" aria-label="Item password"><div class="bar"><button class="btn" id="vg" aria-label="Generate password">🎲</button><button class="btn pr" id="vs" style="flex:1">Opslaan</button></div></div>
 <div class="panel"><h2 id="l-kv3"></h2><div id="vlist"></div></div>
 </section>
 
@@ -199,10 +203,9 @@ html[lang=nl] .en,html[lang=en] .nl{display:none}
 <h3>Toekomstig werk (Future Work)</h3>
 <p>De volledige MRS-AUTH-PQC-implementatie (de Rust-bibliotheek gecompileerd naar WebAssembly) is de volgende stap. Dit omvat ML-KEM-1024, de echte Clock KDF en de volledige deniability-laag. Tot die tijd gebruikt de Kluis een vereenvoudigde browser-variant.</p>
 
-<!-- Interactieve MRS demo heeft nu meer ruimte -->
 <div style="margin-top:24px; background:var(--p2); padding:16px; border-radius:12px; border:1px solid var(--bd);">
   <h3 id="md-h" style="margin-top:0; border:none;"></h3>
-  <div class="bar" style="margin-bottom:16px;"><input id="md-n" inputmode="numeric" placeholder="N ≥ 1" style="font-size:16px; padding:12px;"></div>
+  <div class="bar" style="margin-bottom:16px;"><input id="md-n" inputmode="numeric" placeholder="N ≥ 1" style="font-size:16px; padding:12px;" aria-label="MRS N input"></div>
   <div id="md-o" style="font-size:13px;"></div>
 </div>
 
@@ -218,13 +221,13 @@ html[lang=nl] .en,html[lang=en] .nl{display:none}
 
 <div style="margin-top:24px; background:var(--p2); padding:16px; border-radius:12px; border:1px solid var(--bd);">
   <h3 id="md-h-en" style="margin-top:0; border:none;"></h3>
-  <div class="bar" style="margin-bottom:16px;"><input id="md-n-en" inputmode="numeric" placeholder="N ≥ 1" style="font-size:16px; padding:12px;"></div>
+  <div class="bar" style="margin-bottom:16px;"><input id="md-n-en" inputmode="numeric" placeholder="N ≥ 1" style="font-size:16px; padding:12px;" aria-label="MRS N input EN"></div>
   <div id="md-o-en" style="font-size:13px;"></div>
 </div>
 
 </div>
 </div></section>
-<div id="lbw"><img id="lbi" alt=""></div>
+<div id="lbw" role="dialog" aria-modal="true"><img id="lbi" alt="Zoomed photo" tabindex="0"></div>
 </div>
 
 <script>
@@ -405,7 +408,6 @@ function clock(){
  const d=new Date(),h=d.getHours(),mi=d.getMinutes(),s=d.getSeconds()+d.getMilliseconds()/1e3;
  const ha=(h%12)*30+mi*.5+s/120,ma=mi*6+s*.1,sa=s*6;
  $("hh").setAttribute("transform",`rotate(${ha} 100 100)`);$("mh").setAttribute("transform",`rotate(${ma} 100 100)`);$("sh").setAttribute("transform",`rotate(${sa} 100 100)`);
- /* tandwielen: A volgt de dag (24 u), B en C grijpen in elkaar */
  const pA=((h+mi/60+s/3600)/24)*Math.PI*2;
  const pB=TH1+Math.PI-Math.PI/12-(pA-TH1)*24/12;
  const pC=TH2+Math.PI-Math.PI/6-(pB-TH2)*12/6;
@@ -714,6 +716,15 @@ function frame(ts){
 }
 updateSpiralText(state(new Date()),new Date());
 requestAnimationFrame(frame);
+
+/* ---------- PWA Service Worker ---------- */
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js')
+      .then(reg => console.log('SW registered:', reg.scope))
+      .catch(err => console.log('SW registration failed:', err));
+  });
+}
 </script>
 </body>
 </html>
