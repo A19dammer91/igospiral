@@ -158,12 +158,20 @@ html[lang=nl] .en,html[lang=en] .nl{display:none}
 <div class="nl">
 <h3>Gebruiksaanwijzing</h3>
 <ul><li><b>Spiraal:</b> draait vanzelf, aanraken is niet nodig en kan niets verstoren. Kies met het menu automatisch, 70 of 700 jaar. ⏸ zet de draaiing stil. De parel is nu, de gouden lijn is het verstreken deel van dit jaar, het roze jaartal is het doel.</li><li><b>Klok:</b> kijk naar de wijzers en de tandwielen. Eronder staan het uur (1–24), dag/nacht, de dag in de 2520-cyclus en N.</li><li><b>Bijectie:</b> typ N, kies een datum, of tik op Nu. De kaarten tonen de tuple. Open "Rekenstappen" voor de berekening. Vul onderaan een tuple in en tik op Bereken N om terug te rekenen.</li><li><b>Agenda:</b> tik op een dag, typ een afspraak en tik op +. Een stipje betekent dat er iets staat. Het maansymbool met cijfer is de modeldag (1–30).</li><li><b>Notities:</b> kies datum en tijd, schrijf een tekst en voeg foto's toe. Tik op Opslaan. Tik op een foto om hem groot te zien, ✕ verwijdert het moment.</li><li><b>Kluis:</b> de eerste keer kies je een hoofdwachtwoord van minstens 10 tekens en tik je op Maak kluis. Daarna: Ontgrendel. 👁 toont, ⧉ kopieert (het klembord wordt na 20 seconden gewist), ✕ verwijdert. De kluis vergrendelt na 5 minuten.</li><li><b>Taal:</b> de knop NL/EN rechtsboven.</li></ul>
-<div class="note w"><b>Let op:</b> alles staat alleen in de browser van dit apparaat. Wis je de browsergegevens, dan zijn notities, foto's en kluis weg. Een vergeten hoofdwachtwoord is niet te herstellen. Een back-upfunctie is er nog niet.</div>
+<div class="note">
+  <b>De Kalender Wiskunde</b><br>
+  De kern van deze app is de ontdekking dat de kalender een perfecte wiskundige orde heeft. De formule <code>p ≡ 1 (mod q)</code> toont aan dat elke cyclus (uren, dagen, jaren) eindigt op positie 1, maar op een hoger niveau.<br><br>
+  De week (7) en het jaar (360) hebben geen gemeenschappelijke delers. Pas na <b>2520 dagen</b> (7 × 360) vallen de week en de kalender weer exact samen. Dit is de fundamentele bouwsteen van de tijd. De app rekent hiermee, van de kleinste milliseconde tot de grote 700-jaar cyclus.
+</div>
 </div>
 <div class="en">
 <h3>User manual</h3>
 <ul><li><b>Spiral:</b> it turns by itself; touching it is unnecessary and cannot disturb it. Use the menu to choose automatic, 70 or 700 years. ⏸ stops the rotation. The pearl is now, the gold line is the elapsed part of this year, the pink year is the target.</li><li><b>Clock:</b> watch the hands and the gears. Below are the hour (1–24), day/night, the day in the 2520 cycle and N.</li><li><b>Bijection:</b> type N, pick a date, or tap Now. The cards show the tuple. Open "Steps" for the calculation. Fill in a tuple at the bottom and tap Calculate N to convert back.</li><li><b>Calendar:</b> tap a day, type an appointment and tap +. A dot means something is stored. The moon symbol with a number is the model day (1–30).</li><li><b>Notes:</b> pick a date and time, write text and add photos. Tap Save. Tap a photo to view it large; ✕ deletes the moment.</li><li><b>Vault:</b> the first time, choose a master passphrase of at least 10 characters and tap Create vault. After that: Unlock. 👁 shows, ⧉ copies (the clipboard is wiped after 20 seconds), ✕ deletes. The vault locks after 5 minutes.</li><li><b>Language:</b> the NL/EN button at the top right.</li></ul>
-<div class="note w"><b>Note:</b> everything is stored only in this device's browser. If you clear browser data, notes, photos and vault are gone. A forgotten master passphrase cannot be recovered. There is no backup function yet.</div>
+<div class="note">
+  <b>The Calendar Mathematics</b><br>
+  The core of this app is the discovery that the calendar has a perfect mathematical order. The formula <code>p ≡ 1 (mod q)</code> shows that every cycle (hours, days, years) ends at position 1, but on a higher level.<br><br>
+  The week (7) and the year (360) have no common divisors. Only after <b>2520 days</b> (7 × 360) do the week and the calendar fall exactly together again. This is the fundamental building block of time. The app calculates with this, from the smallest millisecond to the large 700-year cycle.
+</div>
 </div>
 </div></section>
 
@@ -446,7 +454,7 @@ $("an").onclick=()=>{ag=new Date(ag.getFullYear(),ag.getMonth()+1,1);renderAg()}
 $("aa").onclick=async()=>{const t=$("ae").value.trim();if(!t)return;await dbPut("events",{id:String(Date.now()),date:dk(sel),text:t});$("ae").value="";await loadEv();renderAg()};
 $("ae").onkeydown=e=>{if(e.key==="Enter")$("aa").click()};
 
-/* ---------- OPFS BESTANDSOPSLAG (NIEUW) ---------- */
+/* ---------- OPFS BESTANDSOPSLAG ---------- */
 async function vraagToestemming() {
   if (navigator.storage && navigator.storage.persist) {
     const isPersistent = await navigator.storage.persist();
