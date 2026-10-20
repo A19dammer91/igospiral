@@ -98,7 +98,7 @@ html[lang=nl] .en,html[lang=en] .nl{display:none}
 <div id="o1"></div>
 </div><div class="panel"><h2 id="l-b2"></h2><div class="grid" id="ti"></div><button class="btn pr" id="go2" type="button" style="width:100%"></button><div class="eq" id="o2"></div></div></section>
 
-<section id="dg"><div class="panel"><div class="formula">t = d + 1 · Schrikkeljaar cyclus</div>
+<section id="dg"><div class="panel"><div class="formula">1461 ≡ 1 (mod 365) · m = 4</div>
 <div class="bar"><button class="btn" id="ap" type="button" aria-label="‹">←</button><h2 id="agm" style="flex:1;text-align:center;margin:0;color:var(--gold)"></h2><button class="btn" id="an" type="button" aria-label="›">→</button></div>
 <div class="cg" id="agg"></div></div>
 <div class="panel"><h2 id="ags"></h2><div id="dl"></div></div>
@@ -123,6 +123,10 @@ html[lang=nl] .en,html[lang=en] .nl{display:none}
 <div class="stb"><div id="stb"></div></div><div class="info" id="stt"></div>
 <div class="bar"><button class="btn" id="bx" type="button" style="flex:1"></button><button class="btn" id="bi" type="button" style="flex:1"></button></div><input type="file" id="bif" accept=".json" style="display:none">
 <button class="btn dg" id="bw" type="button" style="width:100%"></button><div class="stat" id="bst"></div>
+<div style="margin-top:16px;font-size:11px;color:var(--mu);line-height:1.5;text-align:center;border-top:1px solid var(--bd);padding-top:12px">
+  <span class="nl">Wij respecteren de Gregoriaanse kalender en nemen deze als leidende standaard voor de tijdmeting.</span>
+  <span class="en">We respect the Gregorian calendar and adopt it as the leading standard for time measurement.</span>
+</div>
 <p class="mu" style="font-size:11px;color:var(--mu);margin-top:8px">iGoSpiral · v6</p></div></details>
 <details><summary id="s-sys"></summary><div>
 <div class="formula">p ≡ 1 (mod q)</div>
@@ -134,7 +138,7 @@ html[lang=nl] .en,html[lang=en] .nl{display:none}
 <ul><li>Klok: <code>25 ≡ 1 (mod 12)</code>, m = 2. Een dag is twee rondes van 12 (dag en nacht), samen 24 uur.</li><li>Week: <code>15 ≡ 1 (mod 7)</code>, m = 2.</li><li>Getallen: <code>19 ≡ 1 (mod 9)</code>, m = 2. Zie het tabblad MRS.</li></ul>
 <h3>De posities</h3>
 <p>Alle posities beginnen bij 1. Van klein naar groot: ms (1000), seconde (60), minuut (60), uur (24), dag (30), maand (12), jaar (10), decennium (10), eeuw (10), millennium (onbegrensd). Er geldt <code>N = Σ (positie − 1) · gewicht</code>.</p>
-<div class="note"><b>Model en echte kalender:</b> het model telt een jaar als 360 dagen (12 × 30), de echte kalender het echte jaar. In Bijectie staan ze naast elkaar. Voor 2026 geeft de echte kalender millennium 3, eeuw 1, decennium 3 en jaar 7.</div>
+<div class="note"><b>Model en echte kalender:</b> het model telt een jaar als 360 dagen (12 × 30), de echte kalender het echte jaar. In Bijectie staan ze naast elkaar. Voor 2026 geeft de echte kalender millennium 2, eeuw 0, decennium 2 en jaar 6.</div>
 <h3>De onderdelen</h3>
 <ul><li><b>Spiraal:</b> kies je eigen leven (70 jaar) of de wereldtijd.</li><li><b>Klok:</b> analoge klok met drie ingrijpende tandwielen (24, 12 en 6 tanden).</li><li><b>Bijectie:</b> N, datum en tuple in elkaar omrekenen, met de rekenstappen.</li><li><b>Agenda, Notities, Kluis:</b> afspraken, notities met foto's en een versleutelde kluis, alles op dit apparaat.</li></ul>
 <h3>Waarom 2520?</h3>
@@ -148,7 +152,7 @@ html[lang=nl] .en,html[lang=en] .nl{display:none}
 <ul><li>Clock: <code>25 ≡ 1 (mod 12)</code>, m = 2. A day is two rounds of 12 (day and night), 24 hours in total.</li><li>Week: <code>15 ≡ 1 (mod 7)</code>, m = 2.</li><li>Numbers: <code>19 ≡ 1 (mod 9)</code>, m = 2. See the MRS tab.</li></ul>
 <h3>The positions</h3>
 <p>All positions start at 1. Small to large: ms (1000), second (60), minute (60), hour (24), day (30), month (12), year (10), decade (10), century (10), millennium (unbounded). It holds that <code>N = Σ (position − 1) · weight</code>.</p>
-<div class="note"><b>Model and real calendar:</b> the model counts a year as 360 days (12 × 30), the real calendar the real year. They are shown side by side in Bijection. For 2026 the real calendar gives millennium 3, century 1, decade 3 and year 7.</div>
+<div class="note"><b>Model and real calendar:</b> the model counts a year as 360 days (12 × 30), the real calendar the real year. They are shown side by side in Bijection. For 2026 the real calendar gives millennium 2, century 0, decade 2 and year 6.</div>
 <h3>The parts</h3>
 <ul><li><b>Spiral:</b> choose your own life (70 years) or world time.</li><li><b>Clock:</b> analog clock with three meshing gears (24, 12 and 6 teeth).</li><li><b>Bijection:</b> convert between N, date and tuple, with the calculation steps.</li><li><b>Calendar, Notes, Vault:</b> appointments, notes with photos and an encrypted vault, all on this device.</li></ul>
 <h3>Why 2520?</h3>
@@ -289,7 +293,7 @@ function renderBij(fromDt){
  let when="—";if(N<8000000000000000n){const d=fromZ(N);when=d.toLocaleString(T("nl-NL","en-GB"));if(!fromDt)$("dt").value=lv(d)}
  let rest=N;const rows=UNITS.map((u,i)=>{const q=rest/W[u];rest-=q*W[u];return`<tr><td>${ul(u)}</td><td>${W[u]}</td><td>${q}</td><td class="g">${tp[i]}</td></tr>`}).join("");
  const back=UNITS.reduce((a,u,i)=>a+(tp[i]-1n)*W[u],0n);
- o.innerHTML=realBlock(N)+`<h2>${T("Model (360 dagen) vanaf jaar 0","Model (360 days) from year 0")}</h2><div class="cards">${UNITS.map((u,i)=>`<div class="card ${i<4?"":i<6?"cc":"ct"}"><b>${tp[i]}</b><small>${ul(u)}</small></div>`).join("")}</div>`+S(T("Datum","Date"),when)+S(T("Weekdag","Weekday"),wd()[Number((days+5n)%7n)])+S(T("Dag in 2520-cyclus","Day in 2520 cycle"),`${days%2520n+1n} / 2520 (${T("cyclus","cycle")} ${days/2520n+1n})`)+S(T("Digitale wortel","Digital root"),dr)+S(T("Duur","Duration"),`${days}d ${(N%86400000n)/3600000n}h ${(N%3600000n)/60000n}m ${(N%60000n)/1000n}s`)+
+ o.innerHTML=realBlock(N)+`<h2>${T("Model (1-based)","Model (1-based)")}</h2><div class="cards">${UNITS.map((u,i)=>`<div class="card ${i<4?"":i<6?"cc":"ct"}"><b>${tp[i]}</b><small>${ul(u)}</small></div>`).join("")}</div>`+S(T("Datum","Date"),when)+S(T("Weekdag","Weekday"),wd()[Number((days+5n)%7n)])+S(T("Dag in 2520-cyclus","Day in 2520 cycle"),`${days%2520n+1n} / 2520 (${T("cyclus","cycle")} ${days/2520n+1n})`)+S(T("Digitale wortel","Digital root"),dr)+S(T("Duur","Duration"),`${days}d ${(N%86400000n)/3600000n}h ${(N%3600000n)/60000n}m ${(N%60000n)/1000n}s`)+
  `<details style="margin-top:10px"><summary>${T("Rekenstappen","Steps")}</summary><div><table><tr><th>${T("eenheid","unit")}</th><th>${T("gewicht ms","weight ms")}</th><th>${T("deel","part")}</th><th>${T("positie","pos")}</th></tr>${rows}</table><div class="eq">${T("terug","back")}: ${back} ${back===N?"✓":"✗"}</div></div></details>`;
  tp.forEach((v,i)=>{$("t-"+UNITS[i]).value=v});
 }
