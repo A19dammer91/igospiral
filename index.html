@@ -139,11 +139,11 @@ html[lang=nl] .en,html[lang=en] .nl{display:none}
 <ul><li>Klok: <code>25 ≡ 1 (mod 12)</code>, m = 2. Een dag is twee rondes van 12 (dag en nacht), samen 24 uur.</li><li>Week: <code>15 ≡ 1 (mod 7)</code>, m = 2.</li><li>Getallen: <code>19 ≡ 1 (mod 9)</code>, m = 2. Zie het tabblad MRS.</li></ul>
 <h3>De posities</h3>
 <p>Alle posities beginnen bij 1. Van klein naar groot: ms (1000), seconde (60), minuut (60), uur (24), dag (30), maand (12), jaar (10), decennium (10), eeuw (10), millennium (onbegrensd). Er geldt <code>N = Σ (positie − 1) · gewicht</code>.</p>
-<div class="note"><b>Model en echte kalender:</b> het model telt een jaar als 360 dagen (12 × 30), de echte kalender het echte jaar. In Bijectie staan ze naast elkaar. Voor 2026 geeft de echte kalender millennium 2, eeuw 0, decennium 2 en jaar 6.</div>
+<div class="note"><b>Model en echte kalender:</b> Het model rekent met een 1-based positie. De echte kalender toont de 0-based waarde. Voor 2026 geeft de echte kalender millennium 2, eeuw 0, decennium 2 en jaar 6.</div>
 <h3>De onderdelen</h3>
 <ul><li><b>Spiraal:</b> kies je eigen leven (70 jaar) of de wereldtijd.</li><li><b>Klok:</b> analoge klok met drie ingrijpende tandwielen (24, 12 en 6 tanden).</li><li><b>Bijectie:</b> N, datum en tuple in elkaar omrekenen, met de rekenstappen.</li><li><b>Agenda, Notities, Kluis:</b> afspraken, notities met foto's en een versleutelde kluis, alles op dit apparaat.</li></ul>
 <h3>Waarom 2520?</h3>
-<p>2520 is het kleinste getal dat deelbaar is door 1 tot en met 10. Het is ook het kleinste gemene veelvoud van 7 (week) en 360 (jaar van 12 × 30 dagen): na 2520 dagen = 7 jaar vallen week en jaar weer samen. De app toont daarom steeds de dag in de 2520-cyclus.</p>
+<p>2520 is het kleinste getal dat deelbaar is door 1 tot en met 10. Het is ook het kleinste gemene veelvoud van 7 (week) en 360 (modeljaar). De app toont daarom steeds de dag in de 2520-cyclus.</p>
 </div>
 <div class="en">
 <h3>What is iGoSpiral?</h3>
@@ -153,11 +153,11 @@ html[lang=nl] .en,html[lang=en] .nl{display:none}
 <ul><li>Clock: <code>25 ≡ 1 (mod 12)</code>, m = 2. A day is two rounds of 12 (day and night), 24 hours in total.</li><li>Week: <code>15 ≡ 1 (mod 7)</code>, m = 2.</li><li>Numbers: <code>19 ≡ 1 (mod 9)</code>, m = 2. See the MRS tab.</li></ul>
 <h3>The positions</h3>
 <p>All positions start at 1. Small to large: ms (1000), second (60), minute (60), hour (24), day (30), month (12), year (10), decade (10), century (10), millennium (unbounded). It holds that <code>N = Σ (position − 1) · weight</code>.</p>
-<div class="note"><b>Model and real calendar:</b> the model counts a year as 360 days (12 × 30), the real calendar the real year. They are shown side by side in Bijection. For 2026 the real calendar gives millennium 2, century 0, decade 2 and year 6.</div>
+<div class="note"><b>Model and real calendar:</b> The model uses a 1-based position. The real calendar shows the 0-based value. For 2026 the real calendar gives millennium 2, century 0, decade 2 and year 6.</div>
 <h3>The parts</h3>
 <ul><li><b>Spiral:</b> choose your own life (70 years) or world time.</li><li><b>Clock:</b> analog clock with three meshing gears (24, 12 and 6 teeth).</li><li><b>Bijection:</b> convert between N, date and tuple, with the calculation steps.</li><li><b>Calendar, Notes, Vault:</b> appointments, notes with photos and an encrypted vault, all on this device.</li></ul>
 <h3>Why 2520?</h3>
-<p>2520 is the smallest number divisible by every number from 1 to 10. It is also the least common multiple of 7 (week) and 360 (a year of 12 × 30 days): after 2520 days = 7 years, week and year coincide again. The app therefore always shows the day within the 2520 cycle.</p>
+<p>2520 is the smallest number divisible by every number from 1 to 10. It is also the least common multiple of 7 (week) and 360 (model year). The app therefore always shows the day within the 2520 cycle.</p>
 </div>
 <div class="formula" style="margin:14px 0 0">6 × 19 + 28 × 9 = 114 + 252 = 366</div>
 </div></details>
@@ -281,11 +281,11 @@ function toTuple(N){let r=BigInt(N);const o=[];for(const u of SL){const b=BASE[u
 function toN(a){let N=0n;UNITS.forEach((u,i)=>{const b=BASE[u];if(!/^\d+$/.test(String(a[i]).trim()))throw new Error(`${ul(u)}: 1–${b||"∞"}`);const p=BigInt(a[i]);if(p<1n||(b&&p>b))throw new Error(`${ul(u)}: 1–${b||"∞"}`);N+=(p-1n)*W[u]});return N}
 $("ti").innerHTML=UNITS.map(u=>`<div><label>${u}</label><input type="number" id="t-${u}" value="1" min="1" inputmode="numeric"></div>`).join("");
 function realBlock(N){
- let h=`<h2>${T("Echte kalender (1-based)","Real calendar (1-based)")}</h2>`;
+ let h=`<h2>${T("Echte kalender (0-based)","Real calendar (0-based)")}</h2>`;
  if(N<8000000000000000n){
-  const d=fromZ(N),g=f=>UTC?d["getUTC"+f]():d["get"+f](),Y=g("FullYear")-1;
-  const v=[Math.floor(Y/1000)+1,Math.floor(Y/100)%10+1,Math.floor(Y/10)%10+1,Y%10+1,g("Month")+1,g("Date"),g("Hours")+1,g("Minutes")+1,g("Seconds")+1,g("Milliseconds")+1];
-  h+=`<div class="cards">${UNITS.map((u,i)=>`<div class="card ${i<4?"":i<6?"cc":"ct"}"><b>${v[i]}</b><small>${ul(u)}</small></div>`).join("")}</div><div class="eq">${T("Echt jaar","Real year")} ${Y+1} · ${T("millennium","millennium")} ${v[0]}</div>`;
+  const d=fromZ(N),g=f=>UTC?d["getUTC"+f]():d["get"+f](),Y=g("FullYear");
+  const v=[Math.floor(Y/1000),Math.floor(Y/100)%10,Math.floor(Y/10)%10,Y%10,g("Month")+1,g("Date"),g("Hours")+1,g("Minutes")+1,g("Seconds")+1,g("Milliseconds")+1];
+  h+=`<div class="cards">${UNITS.map((u,i)=>`<div class="card ${i<4?"":i<6?"cc":"ct"}"><b>${v[i]}</b><small>${ul(u)}</small></div>`).join("")}</div><div class="eq">${T("Echt jaar","Real year")} ${Y} · ${T("millennium","millennium")} ${v[0]}</div>`;
  }else h+=`<div class="eq">—</div>`;
  return h;
 }
