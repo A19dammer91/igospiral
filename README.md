@@ -30,6 +30,22 @@ Any attempt to alter the parameters of this software does not circumvent the the
 The software is architecturally built to calculate `p` for _any_ valid `q` under this specific mathematical framework. 
 The mathematical structure **p ≡ 1 (mod q)** and its application to time measurement are the original intellectual property of the author, Bilal el Issaoui.
 
+## Deep Dive: The Leap Year
+
+How does the model handle the real calendar? 
+We respect the Gregorian calendar as the leading standard. 
+
+- A normal year has **365 days**.
+- The first leap year is calculated using the double cycle (m=2): 
+  `2 × 365 + 1 = 731`. 
+  This means `731 ≡ 1 (mod 365)`.
+- For the full 4-year leap cycle (4 levels), the formula is: 
+  `4 × (2 × 365) + 1 = 2921`. 
+  This means `2921 ≡ 1 (mod 365)` with m=4.
+
+The app calculates this automatically. 
+It uses the real leap years to stay perfectly synchronized with the real time.
+
 ## Deep Dive: Why 2,520?
 
 You will see the number **2,520** everywhere in this application. 
@@ -38,14 +54,14 @@ Why is this number so important?
 2,520 is the **Least Common Multiple (LCM)** of all numbers from 1 to 10. 
 It is the smallest number that can be divided by 1, 2, 3, 4, 5, 6, 7, 8, 9, and 10 without leaving a remainder.
 
-In the context of the calendar, a standard 360-day year is divisible by 1, 2, 3, 4, 5, 6, 8, 9, and 10. 
+In the context of the calendar, a standard year is divisible by 1, 2, 3, 4, 5, 6, 8, 9, and 10. 
 **Only the 7 is missing.**
 
 When you add the 7-day week to the calendar, you get:
 `360 days × 7 days = 2,520 days`
 
 Because 7 is a prime number that does not divide evenly into 360, the 7-day week is the _only_ cycle length between 1 and 10 that forces the calendar to extend its cycle to find synchronization. 
-2,520 is the exact point where the 360-day calendar and the 7-day week meet again perfectly.
+2,520 is the exact point where the 360-day model and the 7-day week meet again perfectly. (In the real Gregorian calendar, the synchronization of the week and the solar year is even more complex, but the mathematical model remains the same).
 
 ## Deep Dive: The 7,000-Year Closure
 
@@ -67,11 +83,11 @@ Other millennium markers like 1,000, 3,000, 6,000, or 9,000 years do not close, 
 ## Features
 
 - **Exact Bijection:** A flawless, round-trip conversion between any integer `N` (milliseconds) and its 10-part clock tuple (millennium to milliseconds) using native `BigInt` to prevent precision loss.
-- **Interactive 3D Spiral:** A live-rendered life-spiral. Enter a birthdate to see the Pearl of Time travel exactly to your current position in a 100-year cycle.
+- **Interactive 3D Spiral:** A live-rendered life-spiral. Enter a birthdate to see the Pearl of Time travel exactly to your current position in a 70-year life cycle, or view the world time.
 - **Timestamp Attachment:** Tap any unit in the Live Clock (e.g., a specific second or day) to attach a note or a photo to that exact mathematical moment.
 - **Time Periods:** Visual color-coding for Night, Dawn, Morning, Afternoon, Dusk, and Evening, mapped directly to the mathematical hours.
 - **Local-First Storage:** Photos, notes, and timestamps are saved locally using OPFS (Origin Private File System) and IndexedDB. No accounts, no tracking, 100% private.
-- **Calendar & Drift:** Visualizes the 360-day model year alongside the Gregorian calendar, showing the precise drift against the 7-day week over the 2,520-day cycle.
+- **Calendar & Drift:** Visualizes the real Gregorian calendar and maps the mathematical cycles (including the 2921 leap cycle) directly onto it.
 - **Offline Capable:** Fully installable PWA. Once loaded, it works without an internet connection. Includes a built-in backup/export feature to save your personal data.
 
 ## The Paper
