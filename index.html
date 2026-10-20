@@ -91,7 +91,7 @@ html[lang=nl] .en,html[lang=en] .nl{display:none}
 </div></section>
 
 <section id="bj"><div class="panel">
-<div class="formula">N ↔ (d, u, m, s, ms)</div>
+<div class="formula">1461 ≡ 1 (mod 365) · m = 4</div>
 <h2 id="l-b1"></h2>
 <div class="bar"><input id="n" inputmode="numeric" style="flex:1;width:auto"><button class="btn" id="nw" type="button"></button></div>
 <input id="dt" type="datetime-local" step="1">
@@ -274,11 +274,11 @@ function toTuple(N){let r=BigInt(N);const o=[];for(const u of SL){const b=BASE[u
 function toN(a){let N=0n;UNITS.forEach((u,i)=>{const p=BigInt(a[i]),b=BASE[u];if(p<1n||(b&&p>b))throw new Error(`${ul(u)}: 1–${b||"∞"}`);N+=(p-1n)*W[u]});return N}
 $("ti").innerHTML=UNITS.map(u=>`<div><label>${u}</label><input type="number" id="t-${u}" value="1" min="1" inputmode="numeric"></div>`).join("");
 function realBlock(N){
- let h=`<h2>${T("Echte kalender (vanaf jaar 0)","Real calendar (from year 0)")}</h2>`;
+ let h=`<h2>${T("Echte kalender (1-based)","Real calendar (1-based)")}</h2>`;
  if(N<8000000000000000n){
-  const d=fromZ(N),g=f=>UTC?d["getUTC"+f]():d["get"+f](),Y=g("FullYear");
+  const d=fromZ(N),g=f=>UTC?d["getUTC"+f]():d["get"+f](),Y=g("FullYear")-1;
   const v=[Math.floor(Y/1000)+1,Math.floor(Y/100)%10+1,Math.floor(Y/10)%10+1,Y%10+1,g("Month")+1,g("Date"),g("Hours")+1,g("Minutes")+1,g("Seconds")+1,g("Milliseconds")+1];
-  h+=`<div class="cards">${UNITS.map((u,i)=>`<div class="card ${i<4?"":i<6?"cc":"ct"}"><b>${v[i]}</b><small>${ul(u)}</small></div>`).join("")}</div><div class="eq">${T("Echt jaar","Real year")} ${Y} · ${T("millennium","millennium")} ${v[0]}</div>`;
+  h+=`<div class="cards">${UNITS.map((u,i)=>`<div class="card ${i<4?"":i<6?"cc":"ct"}"><b>${v[i]}</b><small>${ul(u)}</small></div>`).join("")}</div><div class="eq">${T("Echt jaar","Real year")} ${Y+1} · ${T("millennium","millennium")} ${v[0]}</div>`;
  }else h+=`<div class="eq">—</div>`;
  return h;
 }
