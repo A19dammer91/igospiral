@@ -66,7 +66,6 @@ html[lang=nl] .en,html[lang=en] .nl{display:none}
 .ex p,.ex li{font-size:13px;line-height:1.7;color:var(--mu)}.ex ul{padding-left:20px;margin:6px 0}.ex li{display:list-item;background:none;padding:0;margin:0 0 4px;justify-content:flex-start}
 .ex b{color:var(--tx)}.ex code{color:var(--gold);font-family:monospace;background:rgba(255,255,255,.06);padding:1px 5px;border-radius:4px;font-size:12px}
 .note{background:rgba(77,208,225,.1);border-left:3px solid var(--cy);padding:10px;margin:12px 0;font-size:12px;color:var(--tx);border-radius:0 8px 8px 0}
-.note.w{background:rgba(255,111,145,.1);border-color:var(--pk)}
 .ex a{color:var(--cy)}.lk{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}.lk a{background:var(--p2);border:1px solid var(--bd);padding:8px 12px;border-radius:8px;text-decoration:none;font-size:12px}
 .ex tr.fl td{color:var(--gold);font-weight:700}
 </style>
@@ -193,34 +192,37 @@ html[lang=nl] .en,html[lang=en] .nl{display:none}
 <div class="formula">N = 19A + 9B · 19 ≡ 1 (mod 9) · 25 ≡ 1 (mod 12)</div>
 <div class="nl">
 <h3>MRS-AUTH-PQC</h3>
-<p>Een post-quantum authenticatieraamwerk (v2.0.0) voor twee problemen tegelijk: <b>vertrouwelijkheid</b> tegen een quantum-tegenstander, via ML-KEM-1024 (FIPS 203), en <b>dwangbestendigheid</b> tegen een fysieke tegenstander, via het (19, 9) Diophantische systeem. Een gedwongen gebruiker kan een geldige, niet te onderscheiden alternatieve getuige overhandigen.</p>
+<p>Een post-quantum authenticatieraamwerk (v2.0.0) voor twee problemen tegelijk: <b>vertrouwelijkheid</b> tegen een quantum-tegenstander, via ML-KEM-1024 (FIPS 203), en <b>dwangbestendigheid</b> tegen een fysieke tegenstander, via het (19, 9) Diophantische systeem.</p>
 <h3>De dubbele cyclus</h3>
 <p>Elk getal N is op meerdere manieren te schrijven als <code>19A + 9B</code>. Omdat <code>19 ≡ 1 (mod 9)</code> liggen ze op twee in elkaar grijpende cycli met <code>m = (19−1)/9 = 2</code>.</p>
-<ul><li>Anker: <code>A₀ = dr(N) = 1 + ((N−1) mod 9)</code>, altijd ≥ 1 (Positive Anchor Convention).</li><li>Basis: <code>B₀ = (N − 19·A₀)/9</code></li><li>Aantal: <code>R(N) = ⌊B₀/19⌋ + 1</code></li><li>Ladder: <code>A_k = A₀ + 9k</code>, <code>B_k = B₀ − 19k</code></li><li>Het grootste getal zonder representatie is <b>162</b> (klassiek 143).</li></ul>
-<h3>De Clock KDF</h3>
-<p>De sessiesleutel komt uit de structuur zelf, niet uit een externe KDF: gedeeld geheim → seed → N → klok-tuple (D, H, M, S, Ms) → R(N) → k → (A_k, B_k) → SHA-256 → sleutel. Dit voegt geen entropie toe; het geeft de bestaande entropie een controleerbare structuur.</p>
-<h3>Bewijzen en status</h3>
-<p>Deniability: de kans dat een tegenstander de echte getuige herkent is exact <b>1/2</b>, machinaal gecontroleerd met EasyCrypt. De repository meldt 14 bewijsbestanden, 231 lemma's, 21 axioma's en 0 admits, plus 108 Rust-tests.</p>
-<div class="note"><b>EasyCrypt bewezen:</b> het wiskundige model is machinaal bewezen met EasyCrypt (14 bestanden, 231 lemma's, 0 admits). De Rust-implementatie wordt gecontroleerd met 108 tests. Licentie: AGPL-3.0, commerciële licentie beschikbaar.</div>
-<div class="note"><b>In deze app:</b> de Kluis gebruikt een vereenvoudigde browser-variant: PBKDF2 (600.000 rondes) → N → <code>a = dr(N)</code>, <code>B = (N−19a)/9</code> → SHA-256 → AES-256-GCM. Dus géén ML-KEM, niet de Rust-bibliotheek en geen deniability-laag.</div>
+<ul><li>Anker: <code>A₀ = dr(N) = 1 + ((N−1) mod 9)</code>, altijd ≥ 1.</li><li>Basis: <code>B₀ = (N − 19·A₀)/9</code></li><li>Aantal: <code>R(N) = ⌊B₀/19⌋ + 1</code></li><li>Ladder: <code>A_k = A₀ + 9k</code>, <code>B_k = B₀ − 19k</code></li><li>Het grootste getal zonder representatie is <b>162</b>.</li></ul>
+<h3>Toekomstig werk (Future Work)</h3>
+<p>De volledige MRS-AUTH-PQC-implementatie (de Rust-bibliotheek gecompileerd naar WebAssembly) is de volgende stap. Dit omvat ML-KEM-1024, de echte Clock KDF en de volledige deniability-laag. Tot die tijd gebruikt de Kluis een vereenvoudigde browser-variant.</p>
+
+<!-- Interactieve MRS demo heeft nu meer ruimte -->
+<div style="margin-top:24px; background:var(--p2); padding:16px; border-radius:12px; border:1px solid var(--bd);">
+  <h3 id="md-h" style="margin-top:0; border:none;"></h3>
+  <div class="bar" style="margin-bottom:16px;"><input id="md-n" inputmode="numeric" placeholder="N ≥ 1" style="font-size:16px; padding:12px;"></div>
+  <div id="md-o" style="font-size:13px;"></div>
+</div>
+
 </div>
 <div class="en">
 <h3>MRS-AUTH-PQC</h3>
-<p>A post-quantum authentication framework (v2.0.0) for two problems at once: <b>confidentiality</b> against a quantum adversary, via ML-KEM-1024 (FIPS 203), and <b>coercion resistance</b> against a physical adversary, via the (19, 9) Diophantine system. A coerced user can hand over a valid, indistinguishable alternative witness.</p>
+<p>A post-quantum authentication framework (v2.0.0) for two problems at once: <b>confidentiality</b> against a quantum adversary, via ML-KEM-1024 (FIPS 203), and <b>coercion resistance</b> against a physical adversary, via the (19, 9) Diophantine system.</p>
 <h3>The double cycle</h3>
 <p>Every number N can be written as <code>19A + 9B</code> in several ways. Because <code>19 ≡ 1 (mod 9)</code> they lie on two interlocking cycles with <code>m = (19−1)/9 = 2</code>.</p>
-<ul><li>Anchor: <code>A₀ = dr(N) = 1 + ((N−1) mod 9)</code>, always ≥ 1 (Positive Anchor Convention).</li><li>Base: <code>B₀ = (N − 19·A₀)/9</code></li><li>Count: <code>R(N) = ⌊B₀/19⌋ + 1</code></li><li>Ladder: <code>A_k = A₀ + 9k</code>, <code>B_k = B₀ − 19k</code></li><li>The largest number without a representation is <b>162</b> (classically 143).</li></ul>
-<h3>The Clock KDF</h3>
-<p>The session key comes from the structure itself, not from an external KDF: shared secret → seed → N → clock tuple (D, H, M, S, Ms) → R(N) → k → (A_k, B_k) → SHA-256 → key. It adds no entropy; it gives the existing entropy an auditable structure.</p>
-<h3>Proofs and status</h3>
-<p>Deniability: the probability that an adversary recognises the real witness is exactly <b>1/2</b>, machine-checked with EasyCrypt. The repository reports 14 proof files, 231 lemmas, 21 axioms and 0 admits, plus 108 Rust tests.</p>
-<div class="note"><b>Proven in EasyCrypt:</b> the mathematical model is machine-proven with EasyCrypt (14 files, 231 lemmas, 0 admits). The Rust implementation is checked by 108 tests. License: AGPL-3.0, commercial license available.</div>
-<div class="note"><b>In this app:</b> the Vault uses a simplified browser variant: PBKDF2 (600,000 rounds) → N → <code>a = dr(N)</code>, <code>B = (N−19a)/9</code> → SHA-256 → AES-256-GCM. So no ML-KEM, not the Rust library and no deniability layer.</div>
+<ul><li>Anchor: <code>A₀ = dr(N) = 1 + ((N−1) mod 9)</code>, always ≥ 1.</li><li>Base: <code>B₀ = (N − 19·A₀)/9</code></li><li>Count: <code>R(N) = ⌊B₀/19⌋ + 1</code></li><li>Ladder: <code>A_k = A₀ + 9k</code>, <code>B_k = B₀ − 19k</code></li><li>The largest number without a representation is <b>162</b>.</li></ul>
+<h3>Future Work</h3>
+<p>The full MRS-AUTH-PQC implementation (the Rust library compiled to WebAssembly) is the next step. This includes ML-KEM-1024, the real Clock KDF and the complete deniability layer. Until then, the Vault uses a simplified browser variant.</p>
+
+<div style="margin-top:24px; background:var(--p2); padding:16px; border-radius:12px; border:1px solid var(--bd);">
+  <h3 id="md-h-en" style="margin-top:0; border:none;"></h3>
+  <div class="bar" style="margin-bottom:16px;"><input id="md-n-en" inputmode="numeric" placeholder="N ≥ 1" style="font-size:16px; padding:12px;"></div>
+  <div id="md-o-en" style="font-size:13px;"></div>
 </div>
-<h3 id="md-h"></h3>
-<div class="bar"><input id="md-n" inputmode="numeric" placeholder="N ≥ 1"></div>
-<div id="md-o"></div>
-<div class="lk"><a href="https://github.com/A19dammer91/MRS-AUTH-PQC" target="_blank" rel="noopener">GitHub</a><a href="https://github.com/A19dammer91/MRS-AUTH-PQC/blob/main/README.md" target="_blank" rel="noopener">README</a><a href="https://doi.org/10.5281/zenodo.19474707" target="_blank" rel="noopener">DOI · 19-9</a><a href="https://doi.org/10.5281/zenodo.23077746" target="_blank" rel="noopener">DOI · RDSI</a></div>
+
+</div>
 </div></section>
 <div id="lbw"><img id="lbi" alt=""></div>
 </div>
@@ -319,7 +321,6 @@ class Spiral{
    x.font=(l===st.level||isT?"bold 11px":"9px")+" -apple-system,sans-serif";
    x.fillText(yr(l)+(isT?" ◎ "+T("doel","target"):""),q.x+q.R*.08+4,q.y);
   }
-  /* parel */
   const p=this.pt(A0+TP*cont,cont),r=Math.max(10,p.R*.085)*p.s,hue=(tm/40)%360;
   x.save();x.translate(p.x,p.y+r*.9);x.scale(1,.35);
   const sh=x.createRadialGradient(0,0,0,0,0,r*1.3);sh.addColorStop(0,"rgba(0,0,0,.6)");sh.addColorStop(1,"rgba(0,0,0,0)");
@@ -413,7 +414,6 @@ function clock(){
  $("hp").textContent=h+1;
  $("pb").textContent=day?T("☀️ Dag","☀️ Day"):T("🌙 Nacht","🌙 Night");$("pb").style.color=day?"#f4c542":"#5c6bc0";
  
- // Tandwiel-uitleg in plaats van Paper-m
  $("l-gears").textContent = T("De Tandwielen", "The Gears");
  $("gear-text").innerHTML = T("24-uurs (geel) drijft de 12-uurs (blauw) aan, die op zijn beurt de 6-uurs (roze) aandrijft.", "24-hour (yellow) drives the 12-hour (blue), which in turn drives the 6-hour (pink).");
 
@@ -437,7 +437,7 @@ function applyLang(){
  document.documentElement.lang=L;$("lg").textContent=T("EN","NL");
  I.forEach(([q,n,e])=>{const el=document.querySelector(q);if(el)el.textContent=T(n,e)});
  PH.forEach(([q,n,e])=>{$(q.slice(1)).placeholder=T(n,e)});
- updateSpiralText(state(new Date()),new Date());renderBij();renderAg();renderNt();renderKv();stInfo();mrsDemo();
+ updateSpiralText(state(new Date()),new Date());renderBij();renderAg();renderNt();renderKv();stInfo();mrsDemo();mrsDemoEn();
 }
 $("lg").onclick=()=>{L=L==="nl"?"en":"nl";try{localStorage.setItem("igo_l",L)}catch{}applyLang();};
 
@@ -670,6 +670,7 @@ async function renderKv(){
 }
 document.addEventListener("visibilitychange",()=>{if(document.hidden&&vk)setTimeout(()=>{if(document.hidden)vlock()},6e4)});
 
+/* ---------- MRS Demo (Nu met meer ruimte) ---------- */
 function mrsDemo(){
  $("md-h").textContent=T("Probeer het: N = 19A + 9B","Try it: N = 19A + 9B");
  const o=$("md-o");let N;
@@ -681,6 +682,18 @@ function mrsDemo(){
  o.innerHTML=`<div class="sum"><span>A₀ = dr(N)</span><b>${a}</b></div><div class="sum"><span>B₀</span><b>${b}</b></div><div class="sum"><span>R(N)</span><b>${R}</b></div><table><tr><th>k</th><th>A</th><th>B</th><th>19A+9B</th><th>dr(A)</th><th>dr(B)</th><th>⧊</th></tr>${rows}</table>${R>14n?`<div class="eq">… ${R-14n} ${T("meer","more")}</div>`:""}<div class="eq">⧊ = dr(B) = dr(2·dr N) = ${tri}</div>`;
 }
 $("md-n").oninput=mrsDemo;
+
+function mrsDemoEn(){
+ $("md-h-en").textContent="Try it: N = 19A + 9B";
+ const o=$("md-o-en");let N;
+ try{N=BigInt($("md-n-en").value.trim());if(N<1n)throw 0}catch{o.innerHTML=$("md-n-en").value.trim()?"<div class='eq' style='color:#ff6f91'>Enter an integer ≥ 1.</div>":"";return}
+ const dr=x=>1n+(x-1n)%9n,a=dr(N),b=(N-19n*a)/9n;
+ if(b<0n){o.innerHTML=`<div class="eq">dr = A₀ = ${a} · B₀ = ${b}<br>No representation with A ≥ 1 (the bound is 162).</div>`;return}
+ const R=b/19n+1n,tri=dr(2n*a),lim=R<14n?Number(R):14;let rows="";
+ for(let k=0;k<lim;k++){const A=a+9n*BigInt(k),B=b-19n*BigInt(k),ok=B>0n&&dr(B)===tri;rows+=`<tr class="${ok?"fl":""}"><td>${k}</td><td>${A}</td><td>${B}</td><td>${19n*A+9n*B===N?"✓":"✗"}</td><td>${dr(A)}</td><td>${B>0n?dr(B):"–"}</td><td>${ok?"⧊":""}</td></tr>`}
+ o.innerHTML=`<div class="sum"><span>A₀ = dr(N)</span><b>${a}</b></div><div class="sum"><span>B₀</span><b>${b}</b></div><div class="sum"><span>R(N)</span><b>${R}</b></div><table><tr><th>k</th><th>A</th><th>B</th><th>19A+9B</th><th>dr(A)</th><th>dr(B)</th><th>⧊</th></tr>${rows}</table>${R>14n?`<div class="eq">… ${R-14n} more</div>`:""}<div class="eq">⧊ = dr(B) = dr(2·dr N) = ${tri}</div>`;
+}
+$("md-n-en").oninput=mrsDemoEn;
 
 dbp.then(async()=>{await loadEv();applyLang()});
 applyLang();
