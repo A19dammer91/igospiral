@@ -108,7 +108,6 @@ html[lang=nl] .en,html[lang=en] .nl{display:none}
 <circle cx="100" cy="100" r="4.5" fill="#f4c542"/><circle cx="100" cy="100" r="2" fill="#0a0e27"/></svg>
 <div class="ci">
 <div class="m"><small id="l-hp"></small><span id="hp">1</span> <span class="badge" id="pb"></span></div>
-<!-- Nieuwe nuttige info in plaats van Paper-m -->
 <div class="m"><small id="l-gears"></small><span style="font-size:12px;color:var(--cy);line-height:1.4" id="gear-text"></span></div>
 <div id="cx"></div>
 </div></div></div></section>
@@ -136,7 +135,8 @@ html[lang=nl] .en,html[lang=en] .nl{display:none}
 <input type="password" id="vp" autocomplete="off"><div class="bar"><button class="btn pr" id="vu" style="flex:1"></button><button class="btn" id="vl">🔒</button></div><div class="stat" id="vm"></div></div>
 <div class="panel" id="vadd"><h2 id="l-kv2"></h2><input id="vn" style="margin-bottom:8px"><input id="vw" style="margin-bottom:8px"><div class="bar"><button class="btn" id="vg"></button><button class="btn pr" id="vs" style="flex:1"></button></div></div>
 <div class="panel"><h2 id="l-kv3"></h2><div id="vlist"></div></div>
-<div class="panel ex"><div class="nl"><h3>Toekomstig werk</h3><ul><li>De echte MRS-AUTH-PQC-bibliotheek (Rust, gecompileerd naar WebAssembly) in de Kluis laten draaien: ML-KEM-1024, Clock KDF en AES-256-GCM. De wrapper is geschreven; bouwen en koppelen volgen.</li><li>Items versleutelen met de publieke sleutel, zodat alleen de geheime sleutel met het hoofdwachtwoord beschermd hoeft te worden.</li><li>Back-up (export en import) van kluis, notities en foto's.</li><li>De deniability-laag met alternatieve getuigen.</li></ul><div class="note">Tot dan gebruikt de Kluis de vereenvoudigde browser-variant uit het tabblad MRS.</div></div><div class="en"><h3>Future work</h3><ul><li>Run the real MRS-AUTH-PQC library (Rust, compiled to WebAssembly) in the Vault: ML-KEM-1024, Clock KDF and AES-256-GCM. The wrapper is written; building and linking follow.</li><li>Encrypt items with the public key, so only the secret key needs to be protected by the master passphrase.</li><li>Backup (export and import) of vault, notes and photos.</li><li>The deniability layer with alternative witnesses.</li></ul><div class="note">Until then the Vault uses the simplified browser variant described in the MRS tab.</div></div></div></section>
+</section>
+
 <section id="sy"><div class="panel ex">
 <div class="formula">p ≡ 1 (mod q)</div>
 <div class="nl">
@@ -413,7 +413,7 @@ function clock(){
  $("hp").textContent=h+1;
  $("pb").textContent=day?T("☀️ Dag","☀️ Day"):T("🌙 Nacht","🌙 Night");$("pb").style.color=day?"#f4c542":"#5c6bc0";
  
- // Nieuwe tandwiel-uitleg in plaats van Paper-m
+ // Tandwiel-uitleg in plaats van Paper-m
  $("l-gears").textContent = T("De Tandwielen", "The Gears");
  $("gear-text").innerHTML = T("24-uurs (geel) drijft de 12-uurs (blauw) aan, die op zijn beurt de 6-uurs (roze) aandrijft.", "24-hour (yellow) drives the 12-hour (blue), which in turn drives the 6-hour (pink).");
 
