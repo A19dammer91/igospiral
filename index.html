@@ -446,26 +446,112 @@ $("an").onclick=()=>{ag=new Date(ag.getFullYear(),ag.getMonth()+1,1);renderAg()}
 $("aa").onclick=async()=>{const t=$("ae").value.trim();if(!t)return;await dbPut("events",{id:String(Date.now()),date:dk(sel),text:t});$("ae").value="";await loadEv();renderAg()};
 $("ae").onkeydown=e=>{if(e.key==="Enter")$("aa").click()};
 
+/* ---------- OPFS BESTANDSOPSLAG (NIEUW) ---------- */
+async function vraagToestemming() {
+  if (navigator.storage && navigator.storage.persist) {
+    const isPersistent = await navigator.storage.persist();
+    if (!isPersistent) console.warn("Geen permanente opslag toegekend door browser.");
+    return isPersistent;
+  }
+  return false;
+}
+
+async function getOpfsRoot() {
+  return await navigator.storage.getDirectory();
+}
+
+async function slaFotoOpInOpfs(file) {
+  const root = await getOpfsRoot();
+  const fotoMap = await root.getDirectoryHandle('igospiral_fotos', { create: true });
+  const bestandsNaam = `foto_${Date.now()}_${Math.random().toString(36).slice(2,6)}.jpg`;
+  const fileHandle = await fotoMap.getFileHandle(bestandsNaam, { create: true });
+  const writable = await fileHandle.createWritable();
+  await writable.write(file);
+  await writable.close();
+  return bestandsNaam;
+}
+
+async function haalFotoOp(bestandsNaam) {
+  try {
+    const root = await getOpfsRoot();
+    const fotoMap = await root.getDirectoryHandle('igospiral_fotos');
+    const fileHandle = await fotoMap.getFileHandle(bestandsNaam);
+    const file = await fileHandle.getFile();
+    return URL.createObjectURL(file);
+  } catch (e) {
+    console.error("Foto niet gevonden in OPFS:", bestandsNaam);
+    return ""; 
+  }
+}
+
 /* ---------- Notities & foto's ---------- */
 const urls=[];
 async function renderNt(){
+ // Ruim oude tijdelijke URLs op om geheugen vrij te maken
  urls.splice(0).forEach(u=>URL.revokeObjectURL(u));
+ 
  const list=(await dbAll("moments")).sort((a,b)=>BigInt(b.n)>BigInt(a.n)?1:-1),loc=T("nl-NL","en-GB");
- $("nl").innerHTML=list.map(r=>{const tp=toTuple(BigInt(r.n));
-  return`<div class="nt"><div class="nh"><span>${fromN(BigInt(r.n)).toLocaleString(loc)}</span><b data-x="${r.id}">✕</b></div><div class="mu">${tp[3]} · ${tp[4]}/${tp[5]} · ${tp[6]}h · N ${r.n}</div>${r.text?`<div class="tx">${esc(r.text)}</div>`:""}<div class="ph">${(r.photos||[]).map(p=>{const u=URL.createObjectURL(p.blob);urls.push(u);return`<img src="${u}" alt="">`}).join("")}</div></div>`}).join("")||`<div class="mu" style="text-align:center">—</div>`;
+ 
+ let html = "";
+ for (const r of list) {
+   const tp = toTuple(BigInt(r.n));
+   // Haal de foto's op uit OPFS
+   let imgTags = "";
+   if (r.photos && r.photos.length) {
+     for (const name of r.photos) {
+       const url = await haalFotoOp(name);
+       if (url) {
+         urls.push(url);
+         imgTags += `<img src="${url}" alt="">`;
+       }
+     }
+   }
+   
+   html += `<div class="nt">
+     <div class="nh"><span>${fromN(BigInt(r.n)).toLocaleString(loc)}</span><b data-x="${r.id}">✕</b></div>
+     <div class="mu">${tp[3]} · ${tp[4]}/${tp[5]} · ${tp[6]}h · N ${r.n}</div>
+     ${r.text?`<div class="tx">${esc(r.text)}</div>`:""}
+     <div class="ph">${imgTags}</div>
+   </div>`;
+ }
+ 
+ $("nl").innerHTML = html || `<div class="mu" style="text-align:center">—</div>`;
+ 
  $("nl").querySelectorAll("img").forEach(im=>im.onclick=()=>{$("lbi").src=im.src;$("lbw").classList.add("on")});
  $("nl").querySelectorAll("[data-x]").forEach(x=>x.onclick=async()=>{if(!confirm(T("Verwijderen?","Delete?")))return;await dbDel("moments",x.dataset.x);renderNt();stInfo()});
 }
 $("lbw").onclick=()=>$("lbw").classList.remove("on");
 $("nf").onchange=()=>{const c=$("nf").files.length;$("l-nf").textContent=c?`📷 ${c} ${T("foto's gekozen","photos selected")}`:T("📷 Foto's toevoegen (originele kwaliteit)","📷 Add photos (original quality)")};
+
 $("ns").onclick=async()=>{
  const text=$("nx").value.trim(),files=[...$("nf").files],v=$("nd").value,m=$("nst");
  if(!text&&!files.length)return;
+ 
  await persist();
- const N=v?nOf(new Date(v).getTime()):nOf(Date.now()),rec={id:String(Date.now())+Math.random().toString(36).slice(2,6),n:(N<0n?0n:N).toString(),text,photos:files.map(f=>({name:f.name,type:f.type,blob:f}))};
+ await vraagToestemming(); // Vraag hier om permanente opslag!
+
+ // Sla de foto's op in OPFS en verzamel alleen de bestandsnamen
+ const photoNames = [];
+ for (const file of files) {
+   const name = await slaFotoOpInOpfs(file);
+   photoNames.push(name);
+ }
+
+ const N=v?nOf(new Date(v).getTime()):nOf(Date.now());
+ const rec={
+   id:String(Date.now())+Math.random().toString(36).slice(2,6),
+   n:(N<0n?0n:N).toString(),
+   text,
+   photos: photoNames // Alleen de namen, niet de enorme blobs!
+ };
+ 
  await dbPut("moments",rec);
- if(await dbGet("moments",rec.id)){$("nx").value="";$("nf").value="";$("nf").onchange();$("nd").value=lv(new Date());m.className="stat";m.textContent=T("✓ Opgeslagen","✓ Saved")}
- else{m.className="stat err";m.textContent=T("Opslaan mislukt (opslag vol of niet beschikbaar)","Saving failed (storage full or unavailable)")}
+ if(await dbGet("moments",rec.id)){
+   $("nx").value="";$("nf").value="";$("nf").onchange();$("nd").value=lv(new Date());
+   m.className="stat";m.textContent=T("✓ Opgeslagen","✓ Saved");
+ } else {
+   m.className="stat err";m.textContent=T("Opslaan mislukt","Saving failed");
+ }
  renderNt();stInfo();
 };
 $("nd").value=lv(new Date());
