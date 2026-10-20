@@ -8,6 +8,19 @@ iGoSpiral is a local-first Progressive Web App (PWA) that visualizes the clock, 
 It is not a time-management tool. 
 It is an interactive proof of the hidden structure of time.
 
+## ⚙️ The Educational Gear Train
+
+To make the structural beauty of the clock tangible, the repository includes a dedicated, interactive educational visualization: the **Clock Gears**.
+
+👉 **[Launch the Clock Gears Visualization (HTML)](https://a19dammer91.github.io/igospiral/iGoSpiral_Clock_Gears.html)**
+
+This visual tool demonstrates how different units of time (from a millisecond to the 7000-year cycle) are linked through the universal formula **p ≡ 1 (mod q)**. 
+
+### What you will see:
+- **The Gear Train:** Eight perfectly meshing gears representing the units of time. Their sizes and rotational speeds are mathematically linked. You can see the "+1 jump" light up in gold every time a gear completes its rounds and moves to the next level.
+- **The Round Chain (Spiral):** An interactive panel where you can change the modulus (`q`) and the number of rounds (`m`). Watch how the sequence spirals upwards. Every level lands on position 1 again, visually proving that time is not a linear count, but a rising spiral.
+- **Bilingual:** Fully interactive in both English and Dutch (NL/EN toggle).
+
 ## The Core Theory
 
 The foundation of this application is the general form:
@@ -41,7 +54,7 @@ We respect the Gregorian calendar as the leading standard.
   This means `731 ≡ 1 (mod 365)`.
 - For the full 4-year leap cycle (4 levels), the formula is: 
   `4 × (2 × 365) + 1 = 2921`. 
-  This means `2921 ≡ 1 (mod 365)` with m=4.
+  This means `2921 ≡ 1 (mod 365)` with m=8.
 
 The app calculates this automatically. 
 It uses the real leap years to stay perfectly synchronized with the real time.
