@@ -4,152 +4,137 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0a0e27">
-<meta name="description" content="iGoSpiral: The clock as a mathematical object. Every round, one level higher.">
+<meta name="description" content="iGoSpiral: the clock as a mathematical object. Every round, one level higher.">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src 'self' blob: data:; worker-src 'self'; manifest-src 'self'; connect-src 'self'; base-uri 'none'; form-action 'none'">
 <title>iGoSpiral</title>
 <link rel="manifest" href="manifest.json">
 <style>
-:root{--bg:#0a0e27;--p:#141a3a;--p2:#1e2650;--bd:#232a55;--gold:#f4c542;--cy:#4dd0e1;--pk:#ff6f91;--tx:#e8e8f0;--mu:#9aa3c7}
+:root{--bg:#0a0e27;--p:#141a3a;--p2:#1e2650;--bd:#232a55;--gold:#f4c542;--cy:#4dd0e1;--pk:#ff6f91;--tx:#e8e8f0;--mu:#9aa3c7;--sb:env(safe-area-inset-bottom,0px)}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:radial-gradient(ellipse at top,#1a2150,var(--bg) 70%) fixed;color:var(--tx);min-height:100vh;padding:16px;padding-top:calc(16px + env(safe-area-inset-top,0px));padding-bottom:calc(40px + env(safe-area-inset-bottom,0px));font-size:15px;line-height:1.55}
-.wrap{max-width:900px;margin:0 auto}
-header{text-align:center;margin-bottom:14px}
-h1{font-weight:300;letter-spacing:4px;font-size:22px}h1 b{color:var(--gold);font-weight:500}
-header p{color:var(--mu);font-size:11px;letter-spacing:2px;margin-top:4px}
-nav{display:flex;gap:4px;background:var(--p);border:1px solid var(--bd);border-radius:12px;padding:4px;margin-bottom:14px}
-nav button{flex:1;background:none;border:0;color:var(--mu);padding:10px;border-radius:8px;font:500 13px inherit;font-family:inherit;cursor:pointer;min-height:44px;}
-nav button.on{background:var(--p2);color:var(--gold);font-weight:600}
-section{display:none}section.on{display:block}
-.panel{background:var(--p);border:1px solid var(--bd);border-radius:16px;padding:18px;margin-bottom:14px}
-.formula{text-align:center;font-family:monospace;color:var(--gold);font-size:14px;margin-bottom:14px;background:rgba(244,197,66,.1);padding:8px;border-radius:8px;border:1px solid rgba(244,197,66,.3)}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:radial-gradient(ellipse at top,#1a2150,var(--bg) 70%) fixed;color:var(--tx);min-height:100vh;min-height:100dvh;padding:calc(12px + env(safe-area-inset-top,0px)) 14px calc(84px + var(--sb));font-size:15px;line-height:1.55}
+.wrap{max-width:760px;margin:0 auto}
+header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+h1{font-weight:300;letter-spacing:4px;font-size:21px}h1 b{color:var(--gold);font-weight:500}
+header small{display:block;color:var(--mu);font-size:10px;letter-spacing:2px;margin-top:2px}
+.hb{display:flex;gap:6px}
+.ib{background:var(--p2);border:1px solid var(--bd);color:var(--tx);min-width:44px;min-height:44px;border-radius:12px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit}
+.ib.on{border-color:var(--gold);color:var(--gold)}
+nav{position:fixed;left:0;right:0;bottom:0;display:flex;background:rgba(14,18,48,.94);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:1px solid var(--bd);padding:6px 6px calc(6px + var(--sb));z-index:20}
+nav button{flex:1;background:none;border:0;color:var(--mu);padding:4px 0;min-height:48px;font:10px inherit;font-family:inherit;letter-spacing:.5px;cursor:pointer;border-radius:10px;display:flex;flex-direction:column;align-items:center;gap:2px}
+nav button i{font-style:normal;font-size:19px;line-height:1}nav button.on{color:var(--gold);background:rgba(244,197,66,.08)}
+section{display:none}section.on{display:block;animation:fi .25s}@keyframes fi{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+.panel{background:var(--p);border:1px solid var(--bd);border-radius:18px;padding:16px;margin-bottom:12px}
+.formula{text-align:center;font-family:ui-monospace,Menlo,monospace;color:var(--gold);font-size:13px;margin-bottom:12px;background:rgba(244,197,66,.08);padding:8px;border-radius:10px;border:1px solid rgba(244,197,66,.25)}
 .bar{display:flex;gap:8px;align-items:center;margin-bottom:10px;flex-wrap:wrap}
-select,input{background:var(--p2);border:1px solid var(--bd);color:var(--tx);padding:10px;border-radius:8px;font:14px inherit;font-family:inherit;width:100%;min-height:44px;}
-.bar select{width:auto;flex:1}
-.btn{background:var(--p2);border:1px solid var(--bd);color:var(--tx);padding:10px 14px;border-radius:8px;font-size:13px;font-family:inherit;cursor:pointer;min-height:44px;}
-.btn.pr{background:var(--gold);color:var(--bg);border-color:var(--gold);font-weight:600}
-#cv{width:100%;height:min(62vh,560px);display:block;border-radius:12px;pointer-events:none;touch-action:auto}
-.info{font-size:12px;color:var(--mu);text-align:center;line-height:1.6;margin:10px 0}
-.info b{color:var(--gold)}.info i{color:var(--cy);font-style:normal}
-.track{height:6px;background:var(--p2);border-radius:3px;overflow:hidden}
-#pg{height:100%;width:0;background:linear-gradient(90deg,var(--cy),var(--gold))}
-.cw{display:flex;gap:20px;align-items:center;justify-content:center;flex-wrap:wrap}
-svg.clock{width:100%;max-width:340px;height:auto}
-.ci{flex:1;min-width:210px;font-size:13px;color:var(--mu)}
-.m{margin-bottom:12px}.m small{display:block;font-size:9px;letter-spacing:2px;text-transform:uppercase}
-.m span{font-size:28px;font-weight:200;color:var(--gold);font-variant-numeric:tabular-nums}
-.badge{display:inline-block;padding:2px 10px;border-radius:20px;border:1px solid currentColor;font-size:11px}
-table{width:100%;border-collapse:collapse;font:12px monospace;margin-top:10px}
-td,th{padding:5px 4px;border-bottom:1px solid var(--bd);text-align:right}th{color:var(--mu);font-weight:400}td:first-child,th:first-child{text-align:left}td.g{color:var(--gold);font-weight:700}
-.eq{font:12px monospace;color:var(--cy);margin-top:8px;word-break:break-all}
-.grid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin:8px 0}
-.grid label{font-size:9px;color:var(--mu);text-transform:uppercase}.grid input{padding:6px;text-align:center;font-family:monospace}
-h2{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--mu);margin:14px 0 8px;font-weight:500}
-
-header{position:relative}.lg{position:absolute;right:0;top:0;background:var(--p2);border:1px solid var(--bd);color:var(--tx);padding:6px 12px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;min-height:44px;}
-nav{overflow-x:auto;scrollbar-width:none}nav button{flex:0 0 auto;padding:10px 14px}
-.cards{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin:12px 0}
-.card{background:var(--p2);border-radius:10px;padding:10px 2px;text-align:center;border-top:3px solid var(--gold)}.card.cc{border-color:var(--cy)}.card.ct{border-color:var(--pk)}
-.card b{display:block;font-size:20px;font-weight:300;font-variant-numeric:tabular-nums}.card small{font-size:8px;letter-spacing:1px;text-transform:uppercase;color:var(--mu)}
+select,input,textarea{background:var(--p2);border:1px solid var(--bd);color:var(--tx);padding:10px;border-radius:10px;font-size:16px;font-family:inherit;width:100%;min-height:44px}
+textarea{margin:6px 0}.bar select{width:auto;flex:1}input:focus,textarea:focus,select:focus{outline:2px solid var(--gold);outline-offset:1px}
+.btn{background:var(--p2);border:1px solid var(--bd);color:var(--tx);padding:10px 14px;border-radius:10px;font-size:14px;font-family:inherit;cursor:pointer;min-height:44px}
+.btn.pr{background:var(--gold);color:var(--bg);border-color:var(--gold);font-weight:600}.btn.dg{border-color:var(--pk);color:var(--pk)}
+#cv{width:100%;height:min(60vh,540px);display:block;border-radius:14px;pointer-events:none}
+.info{font-size:12px;color:var(--mu);text-align:center;line-height:1.7;margin:10px 0}.info b{color:var(--gold)}.info i{color:var(--cy);font-style:normal}
+.track{height:5px;background:var(--p2);border-radius:3px;overflow:hidden}#pg{height:100%;width:0;background:linear-gradient(90deg,var(--cy),var(--gold))}
+svg.clock{width:100%;max-width:360px;height:auto;display:block;margin:0 auto 12px}
 .sum{display:flex;justify-content:space-between;gap:10px;padding:6px 0;border-bottom:1px solid var(--bd);font-size:13px}.sum span{color:var(--mu)}.sum b{text-align:right;color:var(--gold);font-weight:500}
-details{background:var(--p2);border-radius:10px;margin-top:10px;padding:10px 14px}summary{cursor:pointer;color:var(--gold);font-size:12px;min-height:44px;display:flex;align-items:center;}
+.gfs{display:block;color:var(--gold);font:11px/1.8 ui-monospace,Menlo,monospace;margin:4px 0 8px}
+.badge{display:inline-block;padding:2px 10px;border-radius:20px;border:1px solid currentColor;font-size:11px;margin-left:6px}
+.big{font-size:30px;font-weight:200;color:var(--gold);font-variant-numeric:tabular-nums}
+table{width:100%;border-collapse:collapse;font:12px ui-monospace,Menlo,monospace;margin-top:10px}
+td,th{padding:5px 4px;border-bottom:1px solid var(--bd);text-align:right}th{color:var(--mu);font-weight:400}td:first-child,th:first-child{text-align:left}td.g{color:var(--gold);font-weight:700}
+.eq{font:12px ui-monospace,Menlo,monospace;color:var(--cy);margin-top:8px;word-break:break-all}
+.cards,.grid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin:10px 0}
+.card{background:var(--p2);border-radius:10px;padding:10px 2px;text-align:center;border-top:3px solid var(--gold)}.card.cc{border-color:var(--cy)}.card.ct{border-color:var(--pk)}
+.card b{display:block;font-size:19px;font-weight:300;font-variant-numeric:tabular-nums}.card small{font-size:8px;letter-spacing:1px;text-transform:uppercase;color:var(--mu)}
+.grid label{font-size:9px;color:var(--mu);text-transform:uppercase}.grid input{padding:6px;text-align:center;min-height:40px}
+h2{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--mu);margin:12px 0 8px;font-weight:500}
+details{background:var(--p2);border-radius:12px;margin-bottom:10px;padding:0 14px}summary{cursor:pointer;color:var(--gold);font-size:13px;min-height:48px;display:flex;align-items:center;font-weight:600}details[open] summary{border-bottom:1px solid var(--bd);margin-bottom:8px}details>div{padding-bottom:12px}
 .cg{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin:10px 0}.dn{text-align:center;font-size:10px;color:var(--mu);text-transform:uppercase}
-.cd{background:rgba(255,255,255,.04);border-radius:6px;padding:8px 0 4px;text-align:center;font-size:13px;cursor:pointer;border:1px solid transparent;position:relative;min-height:44px;}.cd small{display:block;font-size:8px;opacity:.8}.cd.e{background:none;cursor:default}.cd.td{border-color:var(--pk)}.cd.sl{background:var(--gold);color:var(--bg)}.cd.ev::after{content:"";position:absolute;top:3px;right:4px;width:5px;height:5px;border-radius:50%;background:var(--cy)}
-ul{list-style:none}li{background:var(--p2);padding:10px;border-radius:8px;margin-bottom:6px;display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:13px}li b,.nh b{color:var(--pk);cursor:pointer;padding:8px;}.mu{color:var(--mu)}
-.nt{background:var(--p2);border-radius:12px;padding:12px;margin-bottom:10px}.nh{display:flex;justify-content:space-between;color:var(--gold);font-size:13px}.nt .mu{font-size:10px;font-family:monospace}.tx{white-space:pre-wrap;margin:6px 0;font-size:14px}
-.ph{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:6px}.ph img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:8px;cursor:zoom-in}
-#lbw{display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:50;align-items:center;justify-content:center;padding:12px}#lbw.on{display:flex}#lbw img{max-width:100%;max-height:100%;border-radius:8px}
-textarea{width:100%;background:var(--p2);border:1px solid var(--bd);color:var(--tx);padding:10px;border-radius:8px;font:14px inherit;font-family:inherit;margin:8px 0}
+.cd{background:rgba(255,255,255,.04);border-radius:8px;padding:6px 0 3px;text-align:center;font-size:13px;cursor:pointer;border:1px solid transparent;position:relative;min-height:44px}.cd small{display:block;font-size:8px;opacity:.8}.cd.e{background:none;cursor:default}.cd.td{border-color:var(--pk)}.cd.sl{background:var(--gold);color:var(--bg)}.cd.ev::after{content:"";position:absolute;top:4px;right:5px;width:5px;height:5px;border-radius:50%;background:var(--cy)}
+.li{background:var(--p2);padding:10px;border-radius:10px;margin-bottom:6px;font-size:13px}.li .h{display:flex;justify-content:space-between;color:var(--gold);gap:8px}.li .x{color:var(--pk);cursor:pointer;padding:6px 10px;margin:-6px -10px}.li .mu{color:var(--mu);font-size:10px;font-family:ui-monospace,Menlo,monospace}.li .tx{white-space:pre-wrap;margin:6px 0;font-size:14px}
+.ph{display:grid;grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:6px}.ph img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:8px;cursor:zoom-in}
+#lbw{display:none;position:fixed;inset:0;background:rgba(0,0,0,.93);z-index:50;align-items:center;justify-content:center;padding:12px}#lbw.on{display:flex}#lbw img{max-width:100%;max-height:100%;border-radius:8px}
+.pic{display:block;text-align:center;border:1px dashed var(--bd);border-radius:10px;padding:10px;cursor:pointer;font-size:13px;margin:6px 0;min-height:44px}.pic input{display:none}
 .stat{font-size:12px;min-height:18px;color:var(--cy);margin-top:6px}.stat.err{color:var(--pk)}
-.stb{height:6px;background:var(--p2);border-radius:3px;overflow:hidden;margin:6px 0}.stb div{height:100%;width:0;background:linear-gradient(90deg,var(--cy),var(--gold))}
-.vi{border-left:4px solid var(--gold)}.vs{font-family:monospace;word-break:break-all;color:var(--gold)}.vb{display:flex;gap:4px}
-.pic{display:block;text-align:center;border:1px dashed var(--bd);border-radius:8px;padding:10px;cursor:pointer;font-size:13px;margin-bottom:8px;min-height:44px;}.pic input{display:none}
+.stb{height:5px;background:var(--bg);border-radius:3px;overflow:hidden;margin:6px 0}.stb div{height:100%;width:0;background:linear-gradient(90deg,var(--cy),var(--gold))}
+.vs{font-family:ui-monospace,Menlo,monospace;word-break:break-all;color:var(--gold)}.vb{display:flex;gap:4px}
 html[lang=nl] .en,html[lang=en] .nl{display:none}
+.ex p,.ex li{font-size:13px;line-height:1.7;color:var(--mu)}.ex ul{padding-left:20px;margin:6px 0}.ex b{color:var(--tx)}.ex code{color:var(--gold);font-family:ui-monospace,Menlo,monospace;background:rgba(255,255,255,.06);padding:1px 5px;border-radius:4px;font-size:12px}
+.note{background:rgba(77,208,225,.1);border-left:3px solid var(--cy);padding:10px;margin:10px 0;font-size:12px;color:var(--tx);border-radius:0 8px 8px 0}
+.ex a{color:var(--cy)}.ex tr.fl td{color:var(--gold);font-weight:700}
+.row2{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:8px 0;font-size:14px}.row2 input{width:auto;min-height:auto;height:22px;width:22px}
 .ex h3{color:var(--gold);font-size:14px;margin:18px 0 6px;padding-bottom:4px;border-bottom:1px solid var(--bd)}.ex h3:first-of-type{margin-top:4px}
-.ex p,.ex li{font-size:13px;line-height:1.7;color:var(--mu)}.ex ul{padding-left:20px;margin:6px 0}.ex li{display:list-item;background:none;padding:0;margin:0 0 4px;justify-content:flex-start}
-.ex b{color:var(--tx)}.ex code{color:var(--gold);font-family:monospace;background:rgba(255,255,255,.06);padding:1px 5px;border-radius:4px;font-size:12px}
-.note{background:rgba(77,208,225,.1);border-left:3px solid var(--cy);padding:10px;margin:12px 0;font-size:12px;color:var(--tx);border-radius:0 8px 8px 0}
-.ex a{color:var(--cy)}.lk{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}.lk a{background:var(--p2);border:1px solid var(--bd);padding:8px 12px;border-radius:8px;text-decoration:none;font-size:12px}
-.ex tr.fl td{color:var(--gold);font-weight:700}
+@media(prefers-reduced-motion:reduce){section.on{animation:none}}
 </style>
 </head>
 <body>
 <div class="wrap">
-<header><button class="lg" id="lg" aria-label="Toggle language">EN</button><h1>iGo<b>Spiral</b></h1><p id="sub"></p></header>
-<nav aria-label="Main navigation"><button class="on" data-t="sp" aria-label="Spiral">.</button><button data-t="kl" aria-label="Clock">.</button><button data-t="bj" aria-label="Bijection">.</button><button data-t="ag" aria-label="Calendar">.</button><button data-t="nt" aria-label="Notes">.</button><button data-t="kv" aria-label="Vault">.</button><button data-t="sy" aria-label="System">.</button><button data-t="hd" aria-label="Manual">.</button><button data-t="mr" aria-label="MRS">.</button></nav>
+<header><div><h1>iGo<b>Spiral</b></h1><small id="sub"></small></div><div class="hb"><button class="ib" id="lg" type="button">EN</button><button class="ib" id="gb" type="button" aria-label="Info">ⓘ</button></div></header>
 
 <section id="sp" class="on"><div class="panel">
 <div class="formula">p ≡ 1 (mod q)</div>
-<div class="bar">
-  <select id="mode" aria-label="Cycle mode">
-    <option value="life">Mijn leven (70 jaar)</option>
-    <option value="world">Wereldtijd (Kalender)</option>
-  </select>
-</div>
-<div class="bar" id="birth-bar" style="display:none">
-  <input type="date" id="birthdate" style="flex:1; margin-bottom:0;" aria-label="Birthdate">
-  <button class="btn" id="btn-calc-age">Bereken</button>
-  <button class="btn" id="btn-reset-date" style="border-color:var(--pk);color:var(--pk)" aria-label="Clear birthdate">↺ Wis</button>
-</div>
-<div class="bar" id="spiral-controls">
-  <button class="btn" id="pz" aria-label="Pause animation">⏸</button>
-</div>
+<div class="bar"><select id="mode"><option value="world"></option><option value="life"></option></select><button class="btn" id="pz" type="button" aria-label="Pause">⏸</button></div>
+<div class="bar" id="bb" style="display:none"><input type="date" id="bd" style="flex:1;width:auto"><button class="btn pr" id="bc" type="button"></button><button class="btn dg" id="br" type="button">↺</button></div>
 <div class="info" id="top"></div>
-<canvas id="cv" aria-label="3D Spiral visualization"></canvas>
+<canvas id="cv" role="img"></canvas>
 <div class="info" id="bot"></div>
-<div class="track" aria-hidden="true"><div id="pg"></div></div>
+<div class="track"><div id="pg"></div></div>
 </div></section>
 
 <section id="kl"><div class="panel">
 <div class="formula">25 ≡ 1 (mod 12) · 24 · 12 · 6</div>
-<div class="cw">
-<svg class="clock" viewBox="0 0 200 200" role="img" aria-label="Analog clock with gears"><circle cx="100" cy="100" r="96" fill="#0d1230" stroke="#232a55"/><g id="gears"></g><g id="ticks"></g><g id="nums"></g>
-<line id="hh" x1="100" y1="100" x2="100" y2="55" stroke="#f4c542" stroke-width="4.5" stroke-linecap="round"/>
-<line id="mh" x1="100" y1="100" x2="100" y2="32" stroke="#e8e8f0" stroke-width="3" stroke-linecap="round"/>
-<line id="sh" x1="100" y1="112" x2="100" y2="26" stroke="#4dd0e1" stroke-width="1.5" stroke-linecap="round"/>
-<circle cx="100" cy="100" r="4.5" fill="#f4c542"/><circle cx="100" cy="100" r="2" fill="#0a0e27"/></svg>
-<div class="ci">
-<div class="m"><small id="l-hp"></small><span id="hp">1</span> <span class="badge" id="pb"></span></div>
-<div class="m"><small id="l-gears"></small><span style="font-size:12px;color:var(--cy);line-height:1.4" id="gear-text"></span></div>
-<div id="cx"></div>
-</div></div></div></section>
+<svg class="clock" id="svg" viewBox="0 0 200 200" role="img"></svg>
+<div><span class="big" id="hp">1</span><span class="badge" id="pb"></span></div>
+<h2 id="l-gears" style="margin-top:14px"></h2><div class="info" id="gear-text" style="color:var(--cy);text-align:left"></div><code class="gfs">φA = 360° · t / 24u<br>φB = −(24/12) · φA = −2 · φA<br>φC = −(12/6) · φB = +4 · φA<br>24·1 = 12·2 = 6·4 = 24</code>
+<div id="gf"></div><div id="cx" style="margin-top:10px;font-size:13px;color:var(--mu)"></div>
+</div></section>
 
 <section id="bj"><div class="panel">
 <div class="formula">N ↔ (d, u, m, s, ms)</div>
 <h2 id="l-b1"></h2>
-<div class="bar"><input id="n" inputmode="numeric" aria-label="Milliseconds"><button class="btn" id="nw">Nu</button></div>
-<input id="dt" type="datetime-local" step="1" aria-label="Select date and time">
+<div class="bar"><input id="n" inputmode="numeric" style="flex:1;width:auto"><button class="btn" id="nw" type="button"></button></div>
+<input id="dt" type="datetime-local" step="1">
 <div id="o1"></div>
-</div><div class="panel"><h2 id="l-b2"></h2><div class="grid" id="ti"></div><button class="btn pr" id="go2" style="width:100%">Bereken N</button><div class="eq" id="o2"></div></div></section>
+</div><div class="panel"><h2 id="l-b2"></h2><div class="grid" id="ti"></div><button class="btn pr" id="go2" type="button" style="width:100%"></button><div class="eq" id="o2"></div></div></section>
 
-<section id="ag"><div class="panel"><div class="formula">t = d + 1</div>
-<div class="bar"><button class="btn" id="ap" aria-label="Previous month">←</button><h2 id="agm" style="flex:1;text-align:center;margin:0;color:var(--gold)"></h2><button class="btn" id="an" aria-label="Next month">→</button></div>
-<div class="cg" id="agg"></div><h2 id="ags"></h2><ul id="agl"></ul>
-<div class="bar"><input id="ae" aria-label="New appointment"><button class="btn pr" id="aa" aria-label="Add appointment">+</button></div></div></section>
-
-<section id="nt"><div class="panel"><h2 id="l-nt0"></h2><div class="stb" aria-hidden="true"><div id="stb"></div></div><div class="info" id="stt"></div></div>
-<div class="panel"><h2 id="l-nt1"></h2><input id="nd" type="datetime-local" step="1" aria-label="Moment date and time"><textarea id="nx" rows="4" aria-label="Note text"></textarea>
-<label class="pic"><span id="l-nf"></span><input id="nf" type="file" accept="image/*" multiple aria-label="Add photos"></label>
-<button class="btn pr" id="ns" style="width:100%">Opslaan</button><div class="stat" id="nst" aria-live="polite"></div></div>
-<div class="panel"><h2 id="l-nt2"></h2><div id="nl"></div></div></section>
+<section id="dg"><div class="panel"><div class="formula">t = d + 1 · Schrikkeljaar cyclus</div>
+<div class="bar"><button class="btn" id="ap" type="button" aria-label="‹">←</button><h2 id="agm" style="flex:1;text-align:center;margin:0;color:var(--gold)"></h2><button class="btn" id="an" type="button" aria-label="›">→</button></div>
+<div class="cg" id="agg"></div></div>
+<div class="panel"><h2 id="ags"></h2><div id="dl"></div></div>
+<div class="panel"><h2 id="l-new"></h2>
+<input id="nd" type="datetime-local" step="1"><textarea id="nx" rows="3"></textarea>
+<label class="pic"><span id="l-nf"></span><input id="nf" type="file" accept="image/*" multiple></label>
+<div class="bar"><button class="btn" id="ae" type="button" style="flex:1"></button><button class="btn pr" id="ns" type="button" style="flex:1"></button></div><div class="stat" id="nst" aria-live="polite"></div></div>
+<div class="panel"><h2 id="l-nt2"></h2><div id="nl"></div></div>
+<div class="panel"><h2 id="l-nt0"></h2><div class="stb"><div id="stb2"></div></div><div class="info" id="stt2"></div></div></section>
 
 <section id="kv"><div class="panel"><div class="formula">MRS-AUTH · 19A+9B</div><div class="info" id="vst"></div>
-<input type="password" id="vp" autocomplete="off" aria-label="Master passphrase"><div class="bar"><button class="btn pr" id="vu" style="flex:1">Ontgrendel</button><button class="btn" id="vl" aria-label="Lock vault">🔒</button></div><div class="stat" id="vm" aria-live="polite"></div></div>
-<div class="panel" id="vadd"><h2 id="l-kv2"></h2><input id="vn" style="margin-bottom:8px" aria-label="Item name"><input id="vw" style="margin-bottom:8px" aria-label="Item password"><div class="bar"><button class="btn" id="vg" aria-label="Generate password">🎲</button><button class="btn pr" id="vs" style="flex:1">Opslaan</button></div></div>
+<input type="password" id="vp" autocomplete="off"><div class="bar" style="margin-top:8px"><button class="btn pr" id="vu" type="button" style="flex:1"></button><button class="btn" id="vl" type="button" aria-label="Lock">🔒</button></div><div class="stat" id="vm" aria-live="polite"></div></div>
+<div class="panel" id="vadd"><h2 id="l-kv2"></h2><input id="vn" style="margin-bottom:8px"><input id="vw" style="margin-bottom:8px"><div class="bar"><button class="btn" id="vg" type="button"></button><button class="btn pr" id="vs" type="button" style="flex:1"></button></div></div>
 <div class="panel"><h2 id="l-kv3"></h2><div id="vlist"></div></div>
+<div class="panel ex"><div class="nl"><h3>Future work</h3><p>De volledige MRS-AUTH-PQC-implementatie (Rust/WASM) volgt later.</p></div><div class="en"><h3>Future work</h3><p>The full MRS-AUTH-PQC implementation (Rust/WASM) will follow later.</p></div></div>
 </section>
 
-<section id="sy"><div class="panel ex">
+<section id="in"><div class="panel ex">
+<details open><summary id="s-set"></summary><div>
+<div class="row2"><span id="l-lang"></span><button class="btn" id="lg2" type="button"></button></div>
+<div class="row2"><label for="utc" id="l-utc"></label><input type="checkbox" id="utc"></div>
+<div class="stb"><div id="stb"></div></div><div class="info" id="stt"></div>
+<div class="bar"><button class="btn" id="bx" type="button" style="flex:1"></button><button class="btn" id="bi" type="button" style="flex:1"></button></div><input type="file" id="bif" accept=".json" style="display:none">
+<button class="btn dg" id="bw" type="button" style="width:100%"></button><div class="stat" id="bst"></div>
+<p class="mu" style="font-size:11px;color:var(--mu);margin-top:8px">iGoSpiral · v6</p></div></details>
+<details><summary id="s-sys"></summary><div>
 <div class="formula">p ≡ 1 (mod q)</div>
 <div class="nl">
 <h3>Wat is iGoSpiral?</h3>
-<p>iGoSpiral maakt van tijd een wiskundig object. Elk moment is <b>één geheel getal N</b> (milliseconden sinds 1 januari 1970, lokale tijd). Dat getal heeft precies één klok-tuple, en uit die tuple volgt N weer terug, zonder verlies. Dat is de <b>bijectie</b>.</p>
+<p>iGoSpiral maakt van tijd een wiskundig object. Elk moment is <b>één geheel getal N</b> (milliseconden sinds 1 januari jaar 0, lokale tijd). Dat getal heeft precies één klok-tuple, en uit die tuple volgt N weer terug, zonder verlies. Dat is de <b>bijectie</b>.</p>
 <h3>De kernformule</h3>
 <p><code>p ≡ 1 (mod q)</code>: na een volledige cyclus kom je weer op positie 1, maar één niveau hoger. De verhouding <code>m = (p−1)/q</code> bepaalt hoeveel rondes dat duurt.</p>
 <ul><li>Klok: <code>25 ≡ 1 (mod 12)</code>, m = 2. Een dag is twee rondes van 12 (dag en nacht), samen 24 uur.</li><li>Week: <code>15 ≡ 1 (mod 7)</code>, m = 2.</li><li>Getallen: <code>19 ≡ 1 (mod 9)</code>, m = 2. Zie het tabblad MRS.</li></ul>
 <h3>De posities</h3>
 <p>Alle posities beginnen bij 1. Van klein naar groot: ms (1000), seconde (60), minuut (60), uur (24), dag (30), maand (12), jaar (10), decennium (10), eeuw (10), millennium (onbegrensd). Er geldt <code>N = Σ (positie − 1) · gewicht</code>.</p>
+<div class="note"><b>Model en echte kalender:</b> het model telt een jaar als 360 dagen (12 × 30), de echte kalender het echte jaar. In Bijectie staan ze naast elkaar. Voor 2026 geeft de echte kalender millennium 3, eeuw 1, decennium 3 en jaar 7.</div>
 <h3>De onderdelen</h3>
 <ul><li><b>Spiraal:</b> kies je eigen leven (70 jaar) of de wereldtijd.</li><li><b>Klok:</b> analoge klok met drie ingrijpende tandwielen (24, 12 en 6 tanden).</li><li><b>Bijectie:</b> N, datum en tuple in elkaar omrekenen, met de rekenstappen.</li><li><b>Agenda, Notities, Kluis:</b> afspraken, notities met foto's en een versleutelde kluis, alles op dit apparaat.</li></ul>
 <h3>Waarom 2520?</h3>
@@ -157,21 +142,22 @@ html[lang=nl] .en,html[lang=en] .nl{display:none}
 </div>
 <div class="en">
 <h3>What is iGoSpiral?</h3>
-<p>iGoSpiral turns time into a mathematical object. Every moment is <b>one integer N</b> (milliseconds since 1 January 1970, local time). That number has exactly one clock tuple, and N can be recovered from the tuple without loss. That is the <b>bijection</b>.</p>
+<p>iGoSpiral turns time into a mathematical object. Every moment is <b>one integer N</b> (milliseconds since 1 January year 0, local time). That number has exactly one clock tuple, and N can be recovered from the tuple without loss. That is the <b>bijection</b>.</p>
 <h3>The core formula</h3>
 <p><code>p ≡ 1 (mod q)</code>: after a full cycle you are back at position 1, one level higher. The ratio <code>m = (p−1)/q</code> sets how many rounds that takes.</p>
 <ul><li>Clock: <code>25 ≡ 1 (mod 12)</code>, m = 2. A day is two rounds of 12 (day and night), 24 hours in total.</li><li>Week: <code>15 ≡ 1 (mod 7)</code>, m = 2.</li><li>Numbers: <code>19 ≡ 1 (mod 9)</code>, m = 2. See the MRS tab.</li></ul>
 <h3>The positions</h3>
 <p>All positions start at 1. Small to large: ms (1000), second (60), minute (60), hour (24), day (30), month (12), year (10), decade (10), century (10), millennium (unbounded). It holds that <code>N = Σ (position − 1) · weight</code>.</p>
+<div class="note"><b>Model and real calendar:</b> the model counts a year as 360 days (12 × 30), the real calendar the real year. They are shown side by side in Bijection. For 2026 the real calendar gives millennium 3, century 1, decade 3 and year 7.</div>
 <h3>The parts</h3>
 <ul><li><b>Spiral:</b> choose your own life (70 years) or world time.</li><li><b>Clock:</b> analog clock with three meshing gears (24, 12 and 6 teeth).</li><li><b>Bijection:</b> convert between N, date and tuple, with the calculation steps.</li><li><b>Calendar, Notes, Vault:</b> appointments, notes with photos and an encrypted vault, all on this device.</li></ul>
 <h3>Why 2520?</h3>
 <p>2520 is the smallest number divisible by every number from 1 to 10. It is also the least common multiple of 7 (week) and 360 (a year of 12 × 30 days): after 2520 days = 7 years, week and year coincide again. The app therefore always shows the day within the 2520 cycle.</p>
 </div>
 <div class="formula" style="margin:14px 0 0">6 × 19 + 28 × 9 = 114 + 252 = 366</div>
-</div></section>
+</div></details>
 
-<section id="hd"><div class="panel ex">
+<details><summary id="s-man"></summary><div>
 <div class="nl">
 <h3>Gebruiksaanwijzing</h3>
 <ul><li><b>Spiraal:</b> Kies je eigen leven (70 jaar) of de wereldtijd. Klik op 'Wis' om de wereldtijd-weergave te herstellen. De parel is nu, de gouden lijn is het verstreken deel van dit jaar.</li><li><b>Klok:</b> kijk naar de wijzers en de tandwielen. Eronder staan de live N (milliseconden) en de datum.</li><li><b>Bijectie:</b> typ N, kies een datum, of tik op Nu. De kaarten tonen de tuple. Open "Rekenstappen" voor de berekening.</li><li><b>Agenda:</b> tik op een dag, typ een afspraak en tik op +.</li><li><b>Notities:</b> kies datum en tijd, schrijf een tekst en voeg foto's toe.</li><li><b>Kluis:</b> de eerste keer kies je een hoofdwachtwoord van minstens 10 tekens. Daarna: Ontgrendel.</li></ul>
@@ -190,9 +176,10 @@ html[lang=nl] .en,html[lang=en] .nl{display:none}
   The week (7) and the year (360) have no common divisors. Only after <b>2520 days</b> (7 × 360) do the week and the calendar fall exactly together again. This is the fundamental building block of time. The app calculates with this, from the smallest millisecond to the large 700-year cycle.
 </div>
 </div>
-</div></section>
+<div class="note"><span class="nl">Nieuw: de Agenda en de Notities zitten samen in het tabblad Dagboek. Maak regelmatig een back-up (Instellingen); foto's zitten nog niet in de back-up.</span><span class="en">New: Calendar and Notes are together in the Journal tab. Back up regularly (Settings); photos are not in the backup yet.</span></div>
+</div></details>
 
-<section id="mr"><div class="panel ex">
+<details><summary>MRS-AUTH-PQC</summary><div>
 <div class="formula">N = 19A + 9B · 19 ≡ 1 (mod 9) · 25 ≡ 1 (mod 12)</div>
 <div class="nl">
 <h3>MRS-AUTH-PQC</h3>
@@ -200,15 +187,6 @@ html[lang=nl] .en,html[lang=en] .nl{display:none}
 <h3>De dubbele cyclus</h3>
 <p>Elk getal N is op meerdere manieren te schrijven als <code>19A + 9B</code>. Omdat <code>19 ≡ 1 (mod 9)</code> liggen ze op twee in elkaar grijpende cycli met <code>m = (19−1)/9 = 2</code>.</p>
 <ul><li>Anker: <code>A₀ = dr(N) = 1 + ((N−1) mod 9)</code>, altijd ≥ 1.</li><li>Basis: <code>B₀ = (N − 19·A₀)/9</code></li><li>Aantal: <code>R(N) = ⌊B₀/19⌋ + 1</code></li><li>Ladder: <code>A_k = A₀ + 9k</code>, <code>B_k = B₀ − 19k</code></li><li>Het grootste getal zonder representatie is <b>162</b>.</li></ul>
-<h3>Toekomstig werk (Future Work)</h3>
-<p>De volledige MRS-AUTH-PQC-implementatie (de Rust-bibliotheek gecompileerd naar WebAssembly) is de volgende stap. Dit omvat ML-KEM-1024, de echte Clock KDF en de volledige deniability-laag. Tot die tijd gebruikt de Kluis een vereenvoudigde browser-variant.</p>
-
-<div style="margin-top:24px; background:var(--p2); padding:16px; border-radius:12px; border:1px solid var(--bd);">
-  <h3 id="md-h" style="margin-top:0; border:none;"></h3>
-  <div class="bar" style="margin-bottom:16px;"><input id="md-n" inputmode="numeric" placeholder="N ≥ 1" style="font-size:16px; padding:12px;" aria-label="MRS N input"></div>
-  <div id="md-o" style="font-size:13px;"></div>
-</div>
-
 </div>
 <div class="en">
 <h3>MRS-AUTH-PQC</h3>
@@ -216,415 +194,277 @@ html[lang=nl] .en,html[lang=en] .nl{display:none}
 <h3>The double cycle</h3>
 <p>Every number N can be written as <code>19A + 9B</code> in several ways. Because <code>19 ≡ 1 (mod 9)</code> they lie on two interlocking cycles with <code>m = (19−1)/9 = 2</code>.</p>
 <ul><li>Anchor: <code>A₀ = dr(N) = 1 + ((N−1) mod 9)</code>, always ≥ 1.</li><li>Base: <code>B₀ = (N − 19·A₀)/9</code></li><li>Count: <code>R(N) = ⌊B₀/19⌋ + 1</code></li><li>Ladder: <code>A_k = A₀ + 9k</code>, <code>B_k = B₀ − 19k</code></li><li>The largest number without a representation is <b>162</b>.</li></ul>
-<h3>Future Work</h3>
-<p>The full MRS-AUTH-PQC implementation (the Rust library compiled to WebAssembly) is the next step. This includes ML-KEM-1024, the real Clock KDF and the complete deniability layer. Until then, the Vault uses a simplified browser variant.</p>
-
-<div style="margin-top:24px; background:var(--p2); padding:16px; border-radius:12px; border:1px solid var(--bd);">
-  <h3 id="md-h-en" style="margin-top:0; border:none;"></h3>
-  <div class="bar" style="margin-bottom:16px;"><input id="md-n-en" inputmode="numeric" placeholder="N ≥ 1" style="font-size:16px; padding:12px;" aria-label="MRS N input EN"></div>
-  <div id="md-o-en" style="font-size:13px;"></div>
 </div>
+<div class="note nl"><b>EasyCrypt bewezen:</b> het wiskundige model is machinaal bewezen met EasyCrypt (14 bestanden, 231 lemma's, 0 admits). De Rust-implementatie wordt gecontroleerd met 108 tests.</div>
+<div class="note en"><b>Proven in EasyCrypt:</b> the mathematical model is machine-proven with EasyCrypt (14 files, 231 lemmas, 0 admits). The Rust implementation is checked by 108 tests.</div>
+<div style="margin-top:16px;background:var(--p);padding:14px;border-radius:12px;border:1px solid var(--bd)">
+<h3 id="md-h" style="margin-top:0;border:none"></h3>
+<input id="md-n" inputmode="numeric" placeholder="N ≥ 1" style="margin-bottom:12px"><div id="md-o" style="font-size:13px"></div></div>
+<p style="margin-top:12px"><a href="https://github.com/A19dammer91/MRS-AUTH-PQC" target="_blank" rel="noopener">GitHub</a></p>
+</div></details>
 
-</div>
 </div></section>
-<div id="lbw" role="dialog" aria-modal="true"><img id="lbi" alt="Zoomed photo" tabindex="0"></div>
 </div>
+<div id="lbw" role="dialog" aria-modal="true"><img id="lbi" alt=""></div>
+<nav id="nv" role="tablist"><button data-t="sp" role="tab" type="button"><i>🌀</i><span></span></button><button data-t="kl" role="tab" type="button"><i>🕰️</i><span></span></button><button data-t="bj" role="tab" type="button"><i>🔢</i><span></span></button><button data-t="dg" role="tab" type="button"><i>📔</i><span></span></button><button data-t="kv" role="tab" type="button"><i>🔐</i><span></span></button></nav>
 
 <script>
 const $=id=>document.getElementById(id);
-const NS="http://www.w3.org/2000/svg";
-const MAAND=["januari","februari","maart","april","mei","juni","juli","augustus","september","oktober","november","december"];
-let tab="sp",mode="life";
+const ls={get:k=>{try{return localStorage.getItem(k)}catch{return null}},set:(k,v)=>{try{localStorage.setItem(k,v)}catch{}},del:k=>{try{localStorage.removeItem(k)}catch{}}};
+let L=ls.get("igo_l")||"nl",UTC=ls.get("igo_utc")==="1",tab="sp",mode="world",birth=null;
+const T=(n,e)=>L==="nl"?n:e,NS="http://www.w3.org/2000/svg",BK="igospiral_birth";
+const WD=["ma","di","wo","do","vr","za","zo"],WDE=["Mon","Tue","Wed","Thu","Fri","Sat","Sun"],wd=()=>L==="nl"?WD:WDE;
+const esc=x=>String(x).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const pad=n=>String(n).padStart(2,"0");
+const off=ms=>UTC?0:-new Date(ms).getTimezoneOffset()*6e4;
+const nOf=ms=>BigInt(Math.round(ms+off(ms)));
+const fromN=N=>{const ms=Number(N);return new Date(ms-off(ms))};
+const EP=62167219200000n,nZ=ms=>nOf(ms)+EP,fromZ=N=>fromN(BigInt(N)-EP);
+const lv=d=>`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+const dk=d=>`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>{
- tab=b.dataset.t;
- document.querySelectorAll("nav button").forEach(x=>x.classList.toggle("on",x===b));
- document.querySelectorAll("section").forEach(s=>s.classList.toggle("on",s.id===tab));
- if(tab==="sp")setTimeout(()=>sp.resize(),30);
-});
-$("mode").onchange=e=>{
-  mode=e.target.value;
-  $("birth-bar").style.display = mode==="life" ? "flex" : "none";
-  if (mode==="world") $("birthdate").value = "";
-};
-
-/* ---------- Spiraal (Leven of Wereld) ---------- */
-let birthDate = null;
-const IGO_BIRTH_KEY = "igospiral_birth";
-
-function state(d){
- if (mode === "life" && birthDate) {
-   const nowD = d; let y = nowD.getFullYear() - birthDate.getFullYear(); 
-   if(new Date(birthDate).setFullYear(birthDate.getFullYear()+y) > nowD) y--;
-   const last = new Date(birthDate); last.setFullYear(birthDate.getFullYear()+y); 
-   const next = new Date(birthDate); next.setFullYear(birthDate.getFullYear()+y+1);
-   const f = Math.min(0.999999, Math.max(0,(nowD-last.getTime())/(next.getTime()-last.getTime())));
-   return { Y: birthDate.getFullYear() + y, f: f, len: 70, target: 70, level: (y % 70) + 1 };
- } else {
-   const Y = d.getFullYear();
-   const a = new Date(Y,0,1), b = new Date(Y+1,0,1);
-   const f = (d - a) / (b - a);
-   return { Y: Y, f: f, len: 70, target: Math.ceil(Y/70)*70, level: ((Y-1) % 70) + 1 };
- }
+/* ---------- Tabs ---------- */
+const TABS=["sp","kl","bj","dg","kv"];
+function show(id){
+ tab=id;
+ document.querySelectorAll("section").forEach(s=>s.classList.toggle("on",s.id===id));
+ document.querySelectorAll("#nv button").forEach(b=>{const o=b.dataset.t===id;b.classList.toggle("on",o);b.setAttribute("aria-selected",o)});
+ $("gb").classList.toggle("on",id==="in");
+ if(id==="sp")setTimeout(()=>sp.resize(),30);
+ if(id==="in")stInfo();
+ scrollTo(0,0);
 }
+document.querySelectorAll("#nv button").forEach(b=>b.onclick=()=>show(b.dataset.t));
+$("gb").onclick=()=>show(tab==="in"?"sp":"in");
 
-class Spiral{
- constructor(c){
-  this.c=c;this.x=c.getContext("2d");this.rot=.5;this.tilt=1;this.shown=null;this.w=300;this.h=300;
-  this.stars=Array.from({length:130},()=>({x:Math.random(),y:Math.random(),r:.3+Math.random()*1.1,p:Math.random()*6.3,s:.4+Math.random()*1.2}));
-  this.resize();
- }
- resize(){
-  const r=this.c.getBoundingClientRect();if(!r.width)return;
-  const d=Math.min(devicePixelRatio||1,2);
-  this.w=r.width;this.h=r.height;this.c.width=r.width*d;this.c.height=r.height*d;this.x.setTransform(d,0,0,d,0,0);
- }
- pt(a,l){
-  const u=Math.min(this.w,this.h),R=u*.34,g=u*.085;
-  const X=Math.cos(a)*R,Z=Math.sin(a)*R,Y=(l-this.shown)*g;
-  const ca=Math.cos(this.rot),sa=Math.sin(this.rot),x1=X*ca+Z*sa,z1=-X*sa+Z*ca;
-  const ct=Math.cos(this.tilt),st=Math.sin(this.tilt),y2=Y*ct+z1*st,z2=z1*ct-Y*st;
-  const D=u*1.6,s=D/(D+z2);
-  return{x:this.w/2+x1*s,y:this.h*.55-y2*s,z:z2,s,R};
- }
- line(f,t0,t1,n,rgb,al,w){
-  const x=this.x;let p=f(t0);x.lineCap="round";
-  for(let i=1;i<=n;i++){
-   const q=f(t0+(t1-t0)*i/n),k=Math.max(.2,Math.min(1,.6-q.z/(q.R*2.2)));
-   x.beginPath();x.moveTo(p.x,p.y);x.lineTo(q.x,q.y);
-   x.strokeStyle=`rgba(${rgb},${al*k})`;x.lineWidth=w*(.6+.4*k);x.stroke();p=q;
-  }
- }
- draw(tm,st){
-  const x=this.x,w=this.w,h=this.h,A0=-Math.PI/2,TP=Math.PI*2;
-  const cont=st.level+st.f;
-  if(this.shown===null)this.shown=cont;
-  this.shown+=(cont-this.shown)*.08;
-  x.clearRect(0,0,w,h);
-  const g=x.createRadialGradient(w/2,h/2,0,w/2,h/2,Math.max(w,h));
-  g.addColorStop(0,"rgba(26,33,80,.85)");g.addColorStop(1,"rgba(6,8,26,1)");
-  x.fillStyle=g;x.fillRect(0,0,w,h);
-  const s=tm/1000;
-  for(const t of this.stars){x.beginPath();x.arc(t.x*w,t.y*h,t.r,0,7);x.fillStyle=`rgba(200,210,255,${(.2+.5*Math.abs(Math.sin(s*t.s+t.p)))*.6})`;x.fill();}
-  const from=Math.max(1,Math.floor(this.shown)-4),to=Math.min(st.len,Math.ceil(this.shown)+5);
-  const yr=l=>st.Y-st.level+l;
-  this.line(t=>this.pt(A0+TP*t,t),Math.max(1,this.shown-4),this.shown,Math.ceil(4*80),"244,197,66",.4,1.4);
-  this.line(t=>this.pt(A0+TP*t,t),this.shown,Math.min(st.len+1,this.shown+5),400,"154,163,199",.16,1);
-  for(let l=from;l<=to;l++){
-   if(l===st.level)continue;
-   const fade=Math.max(.12,1-Math.abs(l-this.shown)/6),past=l<this.shown;
-   this.line(a=>this.pt(a,l),A0,A0+TP,64,past?"77,208,225":"154,163,199",.55*fade,past?1.6:1);
-  }
-  this.line(a=>this.pt(a,st.level),A0,A0+TP,64,"154,163,199",.35,1.6);
-  if(st.f>.002)this.line(t=>this.pt(A0+TP*t,t),st.level,st.level+st.f,Math.max(4,Math.ceil(st.f*120)),"244,197,66",.95,3);
-  x.textAlign="left";
-  for(let l=from;l<=to;l++){
-   const q=this.pt(0,l),isT=yr(l)===st.target;
-   x.fillStyle=l===st.level?"#f4c542":isT?"#ff6f91":"rgba(154,163,199,.55)";
-   x.font=(l===st.level||isT?"bold 11px":"9px")+" -apple-system,sans-serif";
-   x.fillText(yr(l)+(isT?" ◎ "+T("doel","target"):""),q.x+q.R*.08+4,q.y);
-  }
-  const p=this.pt(A0+TP*cont,cont),r=Math.max(10,p.R*.085)*p.s,hue=(tm/40)%360;
-  x.save();x.translate(p.x,p.y+r*.9);x.scale(1,.35);
-  const sh=x.createRadialGradient(0,0,0,0,0,r*1.3);sh.addColorStop(0,"rgba(0,0,0,.6)");sh.addColorStop(1,"rgba(0,0,0,0)");
-  x.fillStyle=sh;x.beginPath();x.arc(0,0,r*1.3,0,7);x.fill();x.restore();
-  const b=x.createRadialGradient(p.x-r*.38,p.y-r*.42,r*.1,p.x,p.y,r);
-  b.addColorStop(0,"#fff");b.addColorStop(.3,"#fbf4e2");b.addColorStop(.62,"#e4d4b2");b.addColorStop(.86,"#b6a3cf");b.addColorStop(1,"#6a7aa6");
-  x.beginPath();x.arc(p.x,p.y,r,0,7);x.fillStyle=b;x.fill();
-  const ir=x.createLinearGradient(p.x-r,p.y-r,p.x+r,p.y+r);
-  ir.addColorStop(0,`hsla(${hue},90%,75%,0)`);ir.addColorStop(.5,`hsla(${hue},90%,75%,.28)`);ir.addColorStop(1,`hsla(${(hue+120)%360},90%,75%,0)`);
-  x.fillStyle=ir;x.beginPath();x.arc(p.x,p.y,r,0,7);x.fill();
-  x.beginPath();x.arc(p.x-r*.36,p.y-r*.4,r*.2,0,7);x.fillStyle="rgba(255,255,255,.9)";x.fill();
- }
-}
-const sp=new Spiral($("cv"));
-let spin=true;
-$("pz").onclick=e=>{spin=!spin;e.target.textContent=spin?"⏸":"▶";};
-window.addEventListener("resize",()=>{clearTimeout(sp._t);sp._t=setTimeout(()=>sp.resize(),150);});
-
-function updateSpiralText(st,d){
- const datum=d.toLocaleDateString(T("nl-NL","en-GB"),{weekday:"long",day:"numeric",month:"long",year:"numeric"});
- if (mode === "life" && birthDate) {
-   const age = st.Y - birthDate.getFullYear();
-   const rest = Math.max(0, 70 - age);
-   $("top").innerHTML=`Geboortedatum: <b>${birthDate.toLocaleDateString()}</b><br>Leeftijd: <b>${age}</b> jaar`;
-   $("bot").innerHTML=`Niveau <b>${st.level} / 70</b><br><i>(Nog ${rest} jaar tot de volgende 70-cyclus)</i>`;
-   $("pg").style.width=((st.level-1+st.f)/70*100).toFixed(2)+"%";
- } else {
-   const rest=Math.max(0,Math.ceil((new Date(st.target+1,0,1)-d)/864e5));
-   $("top").innerHTML=`Vandaag: <b>${datum}</b><br>Wereldtijd sinds jaar 1: <b>${st.Y}</b> jaar · Doel: <b>${st.target}</b>`;
-   $("bot").innerHTML=`Niveau <b>${st.level} / 70</b> (Jaar ${st.Y})<br><i>(Nog ${rest} dagen tot het volgende niveau)</i>`;
-   $("pg").style.width=((st.level-1+st.f)/70*100).toFixed(2)+"%";
- }
-}
-
-function applyBirth(val){
- if(!val)return;
- const d=new Date(val+"T00:00:00");
- if(isNaN(d.getTime()))return;
- birthDate = d;
- localStorage.setItem(IGO_BIRTH_KEY,val);
-}
-function resetBirth(){
- birthDate = null;
- localStorage.removeItem(IGO_BIRTH_KEY);
- $("birthdate").value = "";
-}
-$("btn-calc-age").onclick=()=>{const v=$("birthdate").value;if(v)applyBirth(v);};
-$("btn-reset-date").onclick=resetBirth;
-const savedBirth=localStorage.getItem(IGO_BIRTH_KEY);
-if(savedBirth){$("birthdate").value=savedBirth;applyBirth(savedBirth);}
-
-/* ---------- Klok met tandwielen ---------- */
-function gearD(n,rp,m){
- const ro=rp+.9*m,ri=rp-1.1*m,t=Math.PI*2/n;let d="";
- for(let i=0;i<n;i++){
-  const a=i*t;
-  for(const[o,r]of[[-.26,ri],[-.13,ro],[.13,ro],[.26,ri]]){
-   const A=a+o*t;d+=(d?"L":"M")+(r*Math.cos(A)).toFixed(2)+" "+(r*Math.sin(A)).toFixed(2);
-  }
- }
- return d+"Z";
-}
-const MOD=3.4,TH1=-40*Math.PI/180,TH2=50*Math.PI/180;
-const G=[{n:24,c:[100,100],col:"#f4c542"}];
-G.push({n:12,c:[100+Math.cos(TH1)*(24+12)*MOD/2*1.0+0,100+Math.sin(TH1)*(24+12)*MOD/2],col:"#4dd0e1"});
-G.push({n:6,c:[G[1].c[0]+Math.cos(TH2)*(12+6)*MOD/2,G[1].c[1]+Math.sin(TH2)*(12+6)*MOD/2],col:"#ff6f91"});
-G.forEach(g=>{
- const e=document.createElementNS(NS,"g");
- e.innerHTML=`<path d="${gearD(g.n,g.n*MOD/2,MOD)}" fill="${g.col}" fill-opacity=".10" stroke="${g.col}" stroke-opacity=".55" stroke-width=".8"/><circle r="${g.n*MOD/2*.32}" fill="none" stroke="${g.col}" stroke-opacity=".35" stroke-width=".8"/><text y="2.5" text-anchor="middle" font-size="7" fill="${g.col}" fill-opacity=".8">${g.n}</text>`;
- g.el=e;$("gears").appendChild(e);
-});
-for(let i=0;i<12;i++){
- const a=i/12*Math.PI*2-Math.PI/2,l=document.createElementNS(NS,"line");
- l.setAttribute("x1",100+Math.cos(a)*84);l.setAttribute("y1",100+Math.sin(a)*84);l.setAttribute("x2",100+Math.cos(a)*92);l.setAttribute("y2",100+Math.sin(a)*92);
- l.setAttribute("stroke",i?"#2a3160":"#f4c542");l.setAttribute("stroke-width",i?1.5:3);$("ticks").appendChild(l);
- const t=document.createElementNS(NS,"text");
- t.setAttribute("x",100+Math.cos(a)*74);t.setAttribute("y",100+Math.sin(a)*74+3.5);t.setAttribute("text-anchor","middle");t.setAttribute("font-size",10);t.setAttribute("fill","#fbf4e2");t.textContent=i||12;$("nums").appendChild(t);
-}
-const offMs=()=>-new Date().getTimezoneOffset()*6e4;
-const WD=["ma","di","wo","do","vr","za","zo"];
-function clock(){
- const d=new Date(),h=d.getHours(),mi=d.getMinutes(),s=d.getSeconds()+d.getMilliseconds()/1e3;
- const ha=(h%12)*30+mi*.5+s/120,ma=mi*6+s*.1,sa=s*6;
- $("hh").setAttribute("transform",`rotate(${ha} 100 100)`);$("mh").setAttribute("transform",`rotate(${ma} 100 100)`);$("sh").setAttribute("transform",`rotate(${sa} 100 100)`);
- const pA=((h+mi/60+s/3600)/24)*Math.PI*2;
- const pB=TH1+Math.PI-Math.PI/12-(pA-TH1)*24/12;
- const pC=TH2+Math.PI-Math.PI/6-(pB-TH2)*12/6;
- [pA,pB,pC].forEach((p,i)=>G[i].el.setAttribute("transform",`translate(${G[i].c[0]} ${G[i].c[1]}) rotate(${p*180/Math.PI})`));
- const day=h>=6&&h<18;
- $("hp").textContent=h+1;
- $("pb").textContent=day?T("☀️ Dag","☀️ Day"):T("🌙 Nacht","🌙 Night");$("pb").style.color=day?"#f4c542":"#5c6bc0";
- 
- $("l-gears").textContent = T("De Tandwielen", "The Gears");
- $("gear-text").innerHTML = T("24-uurs (geel) drijft de 12-uurs (blauw) aan, die op zijn beurt de 6-uurs (roze) aandrijft.", "24-hour (yellow) drives the 12-hour (blue), which in turn drives the 6-hour (pink).");
-
- const N=BigInt(Math.floor(d.getTime()+offMs())),days=N/86400000n;
- $("cx").innerHTML=`${T("weekdag","weekday")} <b style="color:#f4c542">${(L==="nl"?WD:WDE)[Number((days+3n)%7n)]}</b> · ${T("dag","day")} <b style="color:#f4c542">${Number(days%2520n)+1}</b>/2520 · ${T("cyclus","cycle")} <b style="color:#f4c542">${days/2520n+1n}</b><br>N <b style="color:#4dd0e1">${N}</b>`;
-}
-
-/* ---------- i18n ---------- */
-let L="nl";try{L=localStorage.getItem("igo_l")||"nl"}catch{}
-const T=(n,e)=>L==="nl"?n:e;
-const WDE=["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
-const esc=x=>String(x).replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
-const I=[["#sub","de klok als wiskundig object","the clock as a mathematical object"],
-["nav [data-t=sp]","Spiraal","Spiral"],["nav [data-t=kl]","Klok","Clock"],["nav [data-t=bj]","Bijectie","Bijection"],["nav [data-t=ag]","Agenda","Calendar"],["nav [data-t=nt]","Notities","Notes"],["nav [data-t=kv]","Kluis","Vault"],["nav [data-t=sy]","Systeem","System"],["nav [data-t=hd]","Handleiding","Manual"],["nav [data-t=mr]","MRS","MRS"],
-["#mode option:nth-child(1)","Mijn leven (70 jaar)","My life (70 years)"],["#mode option:nth-child(2)","Wereldtijd (Kalender)","World time (Calendar)"],
-["#l-hp","Uur (1–24)","Hour (1–24)"],["#l-b1","Milliseconden (N) ↔ datum ↔ klok-tuple","Milliseconds (N) ↔ date ↔ clock tuple"],["#l-b2","Klok-tuple → N","Clock tuple → N"],["#go2","Bereken N","Calculate N"],["#nw","Nu","Now"],
-["#l-nt0","Opslag","Storage"],["#l-nt1","Nieuwe notitie","New note"],["#l-nf","📷 Foto's toevoegen (originele kwaliteit)","📷 Add photos (original quality)"],["#ns","Opslaan","Save"],["#l-nt2","Opgeslagen momenten","Saved moments"],
-["#l-kv2","Nieuw item","New item"],["#vg","🎲 Sterk wachtwoord","🎲 Strong password"],["#vs","Veilig opslaan","Save securely"],["#l-kv3","Opgeslagen items","Saved items"]];
-const PH=[["#nx","Schrijf je notitie…","Write your note…"],["#ae","Nieuwe afspraak…","New appointment…"],["#vn","Naam (bijv. E-mail)","Name (e.g. Email)"],["#vw","Wachtwoord of sleutel","Password or key"]];
-function applyLang(){
- document.documentElement.lang=L;$("lg").textContent=T("EN","NL");
- I.forEach(([q,n,e])=>{const el=document.querySelector(q);if(el)el.textContent=T(n,e)});
- PH.forEach(([q,n,e])=>{$(q.slice(1)).placeholder=T(n,e)});
- updateSpiralText(state(new Date()),new Date());renderBij();renderAg();renderNt();renderKv();stInfo();mrsDemo();mrsDemoEn();
-}
-$("lg").onclick=()=>{L=L==="nl"?"en":"nl";try{localStorage.setItem("igo_l",L)}catch{}applyLang();};
-
-/* ---------- Opslag (IndexedDB) ---------- */
+/* ---------- Opslag ---------- */
 let db;const dbp=new Promise(r=>{try{const q=indexedDB.open("igo2",1);q.onupgradeneeded=e=>["moments","events","vault","meta"].forEach(x=>e.target.result.createObjectStore(x,{keyPath:"id"}));q.onsuccess=e=>{db=e.target.result;r()};q.onerror=q.onblocked=()=>r()}catch{r()}});
 const tx=(s,m,f)=>new Promise(r=>{if(!db)return r();try{const t=db.transaction(s,m),o=f(t.objectStore(s));t.oncomplete=()=>r(o&&o.result);t.onerror=t.onabort=()=>r()}catch{r()}});
 const dbAll=s=>tx(s,"readonly",o=>o.getAll()).then(v=>v||[]);
 const dbPut=(s,v)=>tx(s,"readwrite",o=>o.put(v));
 const dbDel=(s,k)=>tx(s,"readwrite",o=>o.delete(k));
 const dbGet=(s,k)=>tx(s,"readonly",o=>o.get(k));
-const nOf=ms=>BigInt(Math.round(ms-new Date(ms).getTimezoneOffset()*6e4));
-const fromN=N=>{const ms=Number(N);return new Date(ms+new Date(ms).getTimezoneOffset()*6e4)};
-const pad=n=>String(n).padStart(2,"0");
-const lv=d=>`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+const dbClr=s=>tx(s,"readwrite",o=>o.clear());
+const OP="igospiral_fotos";
+async function opfsDir(c){return (await navigator.storage.getDirectory()).getDirectoryHandle(OP,{create:!!c})}
+async function savePhoto(f){
+ try{const d=await opfsDir(1),n=`foto_${Date.now()}_${Math.random().toString(36).slice(2,6)}`,h=await d.getFileHandle(n,{create:true}),w=await h.createWritable();await w.write(f);await w.close();return n}
+ catch{return{blob:f}}
+}
+async function photoURL(p){
+ try{
+  if(typeof p==="string")return URL.createObjectURL(await(await(await opfsDir()).getFileHandle(p)).getFile());
+  if(p&&p.blob)return URL.createObjectURL(p.blob);
+ }catch{}return"";
+}
+async function dropPhotos(r){for(const p of r.photos||[])if(typeof p==="string"){try{await(await opfsDir()).removeEntry(p)}catch{}}}
+async function persist(){try{if(navigator.storage&&navigator.storage.persist)await navigator.storage.persist()}catch{}}
 async function stInfo(){let h;try{const p=navigator.storage.persisted?await navigator.storage.persisted():false,e=await navigator.storage.estimate(),u=e.usage/1048576,q=e.quota/1048576;
- h=`${T("Gebruikt","Used")} <b>${u.toFixed(1)} MB</b> / ${q>1024?(q/1024).toFixed(1)+" GB":q.toFixed(0)+" MB"} · ${p?T("🔒 permanent: de browser wist dit niet vanzelf","🔒 persistent: the browser won't clear this"):T("⚠️ niet permanent (tik op Opslaan om aan te vragen)","⚠️ not persistent (tap Save to request it)")}`;$("stb").style.width=Math.min(100,u/q*100)+"%"}catch{h=T("Opslaaginfo niet beschikbaar","Storage info unavailable")}
- $("stt").innerHTML=h+(db?"":`<br><span style="color:#ff6f91">${T("Database niet beschikbaar in deze browser","Database unavailable in this browser")}</span>`)}
-async function persist(){try{if(navigator.storage&&navigator.storage.persist)await navigator.storage.persist()}catch{}stInfo()}
+ h=`${T("Gebruikt","Used")} <b>${u.toFixed(1)} MB</b> / ${q>1024?(q/1024).toFixed(1)+" GB":q.toFixed(0)+" MB"} · ${p?T("🔒 permanent","🔒 persistent"):T("⚠️ niet permanent","⚠️ not persistent")}`;$("stb").style.width=$("stb2").style.width=Math.min(100,u/q*100)+"%"}catch{h=T("Opslaginfo niet beschikbaar","Storage info unavailable")}
+ $("stt").innerHTML=$("stt2").innerHTML=h+(db?"":`<br><span style="color:#ff6f91">${T("Database niet beschikbaar","Database unavailable")}</span>`)}
 
 /* ---------- Bijectie ---------- */
 const UNITS=["millennium","eeuw","decennium","jaar","maand","dag","uur","minuut","seconde","ms"];
 const BASE={ms:1000n,seconde:60n,minuut:60n,uur:24n,dag:30n,maand:12n,jaar:10n,decennium:10n,eeuw:10n,millennium:null};
 const UE={millennium:"millennium",eeuw:"century",decennium:"decade",jaar:"year",maand:"month",dag:"day",uur:"hour",minuut:"minute",seconde:"second",ms:"ms"};
-const ul=u=>L==="nl"?u:UE[u];
-const SL=[...UNITS].reverse(),W={};
+const ul=u=>L==="nl"?u:UE[u],SL=[...UNITS].reverse(),W={};
 {let w=1n;for(const u of SL){W[u]=w;if(BASE[u])w*=BASE[u]}}
 function toTuple(N){let r=BigInt(N);const o=[];for(const u of SL){const b=BASE[u];if(b===null)o.push(r+1n);else{o.push(r%b+1n);r/=b}}return o.reverse()}
 function toN(a){let N=0n;UNITS.forEach((u,i)=>{const p=BigInt(a[i]),b=BASE[u];if(p<1n||(b&&p>b))throw new Error(`${ul(u)}: 1–${b||"∞"}`);N+=(p-1n)*W[u]});return N}
-$("ti").innerHTML=UNITS.map(u=>`<div><label>${u}</label><input type="number" id="t-${u}" value="1" min="1"></div>`).join("");
+$("ti").innerHTML=UNITS.map(u=>`<div><label>${u}</label><input type="number" id="t-${u}" value="1" min="1" inputmode="numeric"></div>`).join("");
+function realBlock(N){
+ let h=`<h2>${T("Echte kalender (vanaf jaar 0)","Real calendar (from year 0)")}</h2>`;
+ if(N<8000000000000000n){
+  const d=fromZ(N),g=f=>UTC?d["getUTC"+f]():d["get"+f](),Y=g("FullYear");
+  const v=[Math.floor(Y/1000)+1,Math.floor(Y/100)%10+1,Math.floor(Y/10)%10+1,Y%10+1,g("Month")+1,g("Date"),g("Hours")+1,g("Minutes")+1,g("Seconds")+1,g("Milliseconds")+1];
+  h+=`<div class="cards">${UNITS.map((u,i)=>`<div class="card ${i<4?"":i<6?"cc":"ct"}"><b>${v[i]}</b><small>${ul(u)}</small></div>`).join("")}</div><div class="eq">${T("Echt jaar","Real year")} ${Y} · ${T("millennium","millennium")} ${v[0]}</div>`;
+ }else h+=`<div class="eq">—</div>`;
+ return h;
+}
 function renderBij(fromDt){
  const o=$("o1");let N;
  try{N=BigInt($("n").value.trim()||"0");if(N<0n)throw new Error("N ≥ 0")}catch(e){o.innerHTML=`<div class="eq" style="color:#ff6f91">${esc(e.message)}</div>`;return}
- const tp=toTuple(N),days=N/86400000n,dr=N===0n?0n:1n+(N-1n)%9n;
- const cards=`<div class="cards">${UNITS.map((u,i)=>`<div class="card ${i<4?"":i<6?"cc":"ct"}"><b>${tp[i]}</b><small>${ul(u)}</small></div>`).join("")}</div>`;
- let when="—";
- if(N<8000000000000000n){const d=fromN(N);when=d.toLocaleString(T("nl-NL","en-GB"));if(!fromDt)$("dt").value=lv(d)}
- const S=(a,b)=>`<div class="sum"><span>${a}</span><b>${b}</b></div>`;
+ const tp=toTuple(N),days=N/86400000n,dr=N===0n?0n:1n+(N-1n)%9n,S=(a,b)=>`<div class="sum"><span>${a}</span><b>${b}</b></div>`;
+ let when="—";if(N<8000000000000000n){const d=fromZ(N);when=d.toLocaleString(T("nl-NL","en-GB"));if(!fromDt)$("dt").value=lv(d)}
  let rest=N;const rows=UNITS.map((u,i)=>{const q=rest/W[u];rest-=q*W[u];return`<tr><td>${ul(u)}</td><td>${W[u]}</td><td>${q}</td><td class="g">${tp[i]}</td></tr>`}).join("");
  const back=UNITS.reduce((a,u,i)=>a+(tp[i]-1n)*W[u],0n);
- o.innerHTML=cards+S(T("Datum","Date"),when)+S(T("Weekdag","Weekday"),(L==="nl"?WD:WDE)[Number((days+3n)%7n)])+S(T("Dag in 2520-cyclus","Day in 2520 cycle"),`${days%2520n+1n} / 2520 (${T("cyclus","cycle")} ${days/2520n+1n})`)+S(T("Digitale wortel","Digital root"),dr)+S(T("Duur","Duration"),`${days}d ${(N%86400000n)/3600000n}h ${(N%3600000n)/60000n}m ${(N%60000n)/1000n}s`)+
- `<details><summary>${T("Rekenstappen (positie = quotiënt + 1)","Steps (position = quotient + 1)")}</summary><table><tr><th>${T("eenheid","unit")}</th><th>${T("gewicht ms","weight ms")}</th><th>${T("deel","part")}</th><th>${T("positie","pos")}</th></tr>${rows}</table><div class="eq">${T("terug","back")}: ${back} ${back===N?"✓":"✗"}</div></details>`;
+ o.innerHTML=realBlock(N)+`<h2>${T("Model (360 dagen) vanaf jaar 0","Model (360 days) from year 0")}</h2><div class="cards">${UNITS.map((u,i)=>`<div class="card ${i<4?"":i<6?"cc":"ct"}"><b>${tp[i]}</b><small>${ul(u)}</small></div>`).join("")}</div>`+S(T("Datum","Date"),when)+S(T("Weekdag","Weekday"),wd()[Number((days+5n)%7n)])+S(T("Dag in 2520-cyclus","Day in 2520 cycle"),`${days%2520n+1n} / 2520 (${T("cyclus","cycle")} ${days/2520n+1n})`)+S(T("Digitale wortel","Digital root"),dr)+S(T("Duur","Duration"),`${days}d ${(N%86400000n)/3600000n}h ${(N%3600000n)/60000n}m ${(N%60000n)/1000n}s`)+
+ `<details style="margin-top:10px"><summary>${T("Rekenstappen","Steps")}</summary><div><table><tr><th>${T("eenheid","unit")}</th><th>${T("gewicht ms","weight ms")}</th><th>${T("deel","part")}</th><th>${T("positie","pos")}</th></tr>${rows}</table><div class="eq">${T("terug","back")}: ${back} ${back===N?"✓":"✗"}</div></div></details>`;
  tp.forEach((v,i)=>{$("t-"+UNITS[i]).value=v});
 }
 $("n").oninput=()=>renderBij();
-$("dt").onchange=()=>{const v=$("dt").value;if(!v)return;const N=nOf(new Date(v).getTime());$("n").value=N<0n?"0":N.toString();renderBij(true)};
-$("nw").onclick=()=>{$("n").value=nOf(Date.now()).toString();renderBij()};
-$("go2").onclick=()=>{try{const N=toN(UNITS.map(u=>$("t-"+u).value));$("n").value=N.toString();renderBij();$("o2").textContent=`N = ${N} ms ↑`;$("n").scrollIntoView({behavior:"smooth",block:"center"})}catch(e){$("o2").textContent=e.message}};
-$("n").value=nOf(Date.now()).toString();
+$("dt").onchange=()=>{const v=$("dt").value;if(!v)return;const N=nZ(new Date(v).getTime());$("n").value=N<0n?"0":N.toString();renderBij(true)};
+$("nw").onclick=()=>{$("n").value=nZ(Date.now()).toString();renderBij()};
+$("go2").onclick=()=>{try{const N=toN(UNITS.map(u=>$("t-"+u).value));$("n").value=N.toString();renderBij();$("o2").textContent=`N = ${N} ms ↑`;$("n").scrollIntoView({behavior:reduce?"auto":"smooth",block:"center"})}catch(e){$("o2").textContent=e.message}};
+$("n").value=nZ(Date.now()).toString();
 
-/* ---------- Agenda ---------- */
-let ag=new Date(),sel=new Date(),evs={};
-const dk=d=>`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
-const EMO=["🌑","🌒","🌓","🌔","🌕","🌖","🌗","🌘"];
-async function loadEv(){evs={};(await dbAll("events")).forEach(e=>(evs[e.date]=evs[e.date]||[]).push(e))}
-function renderAg(){
- const y=ag.getFullYear(),m=ag.getMonth(),loc=T("nl-NL","en-GB"),names=L==="nl"?WD:WDE;
- $("agm").textContent=new Date(y,m,1).toLocaleDateString(loc,{month:"long",year:"numeric"});
- let h=names.map(n=>`<div class="dn">${n}</div>`).join("");
- const off=(new Date(y,m,1).getDay()+6)%7,dim=new Date(y,m+1,0).getDate(),td=dk(new Date());
- for(let i=0;i<off;i++)h+=`<div class="cd e"></div>`;
- for(let d=1;d<=dim;d++){const dt=new Date(y,m,d,12),k=dk(dt),p=toTuple(nOf(dt.getTime()))[5];
-  h+=`<div class="cd${k===td?" td":""}${k===dk(sel)?" sl":""}${evs[k]?" ev":""}" data-k="${k}">${d}<small>${EMO[Math.round(Number(p-1n)/30*8)%8]}${p}</small></div>`}
+/* ---------- Spiraal ---------- */
+function state(d){
+ if(mode==="life"&&birth){
+  let y=d.getFullYear()-birth.getFullYear();const at=k=>{const x=new Date(birth);x.setFullYear(birth.getFullYear()+k);return x};
+  if(at(y)>d)y--;const a=at(y),b=at(y+1),f=Math.min(.999999,Math.max(0,(d-a)/(b-a)));
+  return{Y:birth.getFullYear()+y,f,len:70,level:y%70+1,target:birth.getFullYear()+70*(Math.floor(y/70)+1),end:b.getTime(),age:y};
+ }
+ const Y=d.getFullYear(),a=new Date(Y,0,1),b=new Date(Y+1,0,1);
+ return{Y,f:(d-a)/(b-a),len:70,level:(Y-1)%70+1,target:Math.ceil(Y/70)*70,end:b.getTime()};
+}
+class Spiral{
+ constructor(c){this.c=c;this.x=c.getContext("2d");this.rot=.5;this.tl=1;this.shown=null;this.w=300;this.h=300;
+  this.stars=Array.from({length:120},()=>({x:Math.random(),y:Math.random(),r:.3+Math.random()*1.1,p:Math.random()*6.3,s:.4+Math.random()*1.2}));this.resize()}
+ resize(){const r=this.c.getBoundingClientRect();if(!r.width)return;const d=Math.min(devicePixelRatio||1,3);this.w=r.width;this.h=r.height;this.c.width=r.width*d;this.c.height=r.height*d;this.x.setTransform(d,0,0,d,0,0)}
+ pt(a,l){const u=Math.min(this.w,this.h),R=u*.34,g=u*.085,X=Math.cos(a)*R,Z=Math.sin(a)*R,Y=(l-this.shown)*g,ca=Math.cos(this.rot),sa=Math.sin(this.rot),x1=X*ca+Z*sa,z1=-X*sa+Z*ca,ct=Math.cos(this.tl),st=Math.sin(this.tl),y2=Y*ct+z1*st,z2=z1*ct-Y*st,D=u*1.6,s=D/(D+z2);return{x:this.w/2+x1*s,y:this.h*.55-y2*s,z:z2,s,R}}
+ draw(tm,st){
+  const x=this.x,w=this.w,h=this.h,A0=-Math.PI/2,TP=Math.PI*2,cont=st.level+st.f,it=[];
+  if(this.shown===null)this.shown=cont;this.shown+=(cont-this.shown)*.08;this.tl=1+(reduce?0:.05*Math.sin(tm/7000));
+  x.globalCompositeOperation="source-over";x.clearRect(0,0,w,h);
+  const g=x.createRadialGradient(w/2,h/2,0,w/2,h/2,Math.max(w,h));g.addColorStop(0,"rgba(26,33,80,.9)");g.addColorStop(1,"rgba(5,7,24,1)");x.fillStyle=g;x.fillRect(0,0,w,h);
+  const s=tm/1000;for(const t of this.stars){x.beginPath();x.arc(t.x*w,t.y*h,t.r,0,7);x.fillStyle=`rgba(200,210,255,${(.2+.5*Math.abs(Math.sin(s*t.s+t.p)))*.6})`;x.fill()}
+  const seg=(f,t0,t1,n,rgb,al,wd)=>{let p=f(t0);for(let i=1;i<=n;i++){const q=f(t0+(t1-t0)*i/n);it.push({k:0,z:(p.z+q.z)/2,a:p,b:q,rgb,al:al*Math.max(.2,Math.min(1,.6-q.z/(q.R*2.2))),w:wd});p=q}};
+  const from=Math.max(1,Math.floor(this.shown)-4),to=Math.min(st.len,Math.ceil(this.shown)+5),yr=l=>st.Y-st.level+l,hx=t=>this.pt(A0+TP*t,t);
+  seg(hx,Math.max(1,this.shown-4),this.shown,300,"244,197,66",.45,1.5);seg(hx,this.shown,Math.min(st.len+1,this.shown+5),300,"154,163,199",.18,1);
+  for(let l=from;l<=to;l++){if(l===st.level)continue;const fd=Math.max(.12,1-Math.abs(l-this.shown)/6),pa=l<this.shown;seg(a=>this.pt(a,l),A0,A0+TP,56,pa?"77,208,225":"154,163,199",.6*fd,pa?1.7:1)}
+  seg(a=>this.pt(a,st.level),A0,A0+TP,56,"154,163,199",.4,1.8);
+  if(st.f>.002){seg(hx,st.level,st.level+st.f,Math.max(4,Math.ceil(st.f*120)),"244,197,66",.95,3.2);seg(hx,Math.max(st.level,cont-.12),cont,16,"255,244,200",.9,5)}
+  for(let i=0;i<12;i++){const p=this.pt(A0+TP*i/12,st.level);it.push({k:2,z:p.z,p})}
+  const pp=hx(cont);it.push({k:1,z:pp.z,p:pp});
+  it.sort((a,b)=>b.z-a.z);
+  x.lineCap="round";
+  for(const o of it){
+   if(o.k===0){x.globalCompositeOperation="lighter";x.beginPath();x.moveTo(o.a.x,o.a.y);x.lineTo(o.b.x,o.b.y);x.strokeStyle=`rgba(${o.rgb},${o.al})`;x.lineWidth=o.w;x.stroke()}
+   else if(o.k===2){x.globalCompositeOperation="source-over";x.beginPath();x.arc(o.p.x,o.p.y,2*o.p.s,0,7);x.fillStyle="rgba(244,197,66,.8)";x.fill()}
+   else{x.globalCompositeOperation="source-over";this.pearl(o.p,tm)}
+  }
+  x.globalCompositeOperation="source-over";x.textAlign="left";x.textBaseline="middle";
+  for(let l=from;l<=to;l++){
+   const q=this.pt(0,l),isT=yr(l)===st.target,cur=l===st.level,t=yr(l)+(isT?" ◎ "+T("doel","target"):"");
+   x.font=(cur||isT?"600 11px":"10px")+" -apple-system,sans-serif";const wd=x.measureText(t).width,px=q.x+q.R*.08+4;
+   x.fillStyle="rgba(8,11,34,.72)";x.beginPath();x.roundRect?x.roundRect(px-3,q.y-8,wd+6,16,5):x.rect(px-3,q.y-8,wd+6,16);x.fill();
+   x.fillStyle=cur?"#f4c542":isT?"#ff6f91":"rgba(170,178,215,.85)";x.fillText(t,px,q.y);
+  }
+ }
+ pearl(p,time){const x=this.x,r=Math.max(10,p.R*.085)*p.s,hue=(time/40)%360;
+  x.save();x.translate(p.x,p.y+r*.9);x.scale(1,.35);const sh=x.createRadialGradient(0,0,0,0,0,r*1.3);sh.addColorStop(0,"rgba(0,0,0,.6)");sh.addColorStop(1,"rgba(0,0,0,0)");x.fillStyle=sh;x.beginPath();x.arc(0,0,r*1.3,0,7);x.fill();x.restore();
+  const b=x.createRadialGradient(p.x-r*.38,p.y-r*.42,r*.1,p.x,p.y,r);b.addColorStop(0,"#fff");b.addColorStop(.3,"#fbf4e2");b.addColorStop(.62,"#e4d4b2");b.addColorStop(.86,"#b6a3cf");b.addColorStop(1,"#6a7aa6");
+  x.beginPath();x.arc(p.x,p.y,r,0,7);x.fillStyle=b;x.fill();
+  const ir=x.createLinearGradient(p.x-r,p.y-r,p.x+r,p.y+r);ir.addColorStop(0,`hsla(${hue},90%,75%,0)`);ir.addColorStop(.5,`hsla(${hue},90%,75%,.3)`);ir.addColorStop(1,`hsla(${(hue+120)%360},90%,75%,0)`);x.fillStyle=ir;x.beginPath();x.arc(p.x,p.y,r,0,7);x.fill();
+  x.beginPath();x.arc(p.x-r*.36,p.y-r*.4,r*.2,0,7);x.fillStyle="rgba(255,255,255,.9)";x.fill()}
+}
+const sp=new Spiral($("cv"));let spin=!reduce;$("pz").textContent=spin?"⏸":"▶";
+$("pz").onclick=()=>{spin=!spin;$("pz").textContent=spin?"⏸":"▶"};
+addEventListener("resize",()=>{clearTimeout(sp._t);sp._t=setTimeout(()=>sp.resize(),150)});
+function spText(st,d){
+ const lc=T("nl-NL","en-GB"),days=Math.max(0,Math.ceil((st.end-d)/864e5));
+ if(mode==="life"&&birth){
+  const rest=70*(Math.floor(st.age/70)+1)-st.age;
+  $("top").innerHTML=`${T("Geboortedatum","Birthdate")}: <b>${birth.toLocaleDateString(lc)}</b><br>${T("Leeftijd","Age")}: <b>${st.age}</b> ${T("jaar","years")}`;
+  $("bot").innerHTML=`${T("Niveau","Level")} <b>${st.level} / 70</b><br><i>(${T("Nog","Still")} ${rest} ${T("jaar tot de volgende 70-cyclus","years until the next 70-cycle")})</i>`;
+ }else{
+  $("top").innerHTML=`${T("Vandaag","Today")}: <b>${d.toLocaleDateString(lc,{weekday:"long",day:"numeric",month:"long",year:"numeric"})}</b><br>${T("Wereldtijd sinds jaar 1","World time since year 1")}: <b>${st.Y}</b> ${T("jaar","years")} · ${T("Doel","Target")}: <b>${st.target}</b>`;
+  $("bot").innerHTML=`${T("Niveau","Level")} <b>${st.level} / 70</b> (${T("Jaar","Year")} ${st.Y})<br><i>(${T("Nog","Still")} ${days} ${T("dagen tot het volgende niveau","days until the next level")})</i>`;
+ }
+ $("pg").style.width=((st.level-1+st.f)/70*100).toFixed(2)+"%";
+}
+$("mode").onchange=e=>{mode=e.target.value;$("bb").style.display=mode==="life"?"flex":"none";spText(state(new Date()),new Date())};
+$("bc").onclick=()=>{const v=$("bd").value,d=new Date(v+"T00:00:00");if(v&&!isNaN(d)){birth=d;ls.set(BK,v);spText(state(new Date()),new Date())}};
+$("br").onclick=()=>{birth=null;ls.del(BK);$("bd").value="";spText(state(new Date()),new Date())};
+{const v=ls.get(BK);if(v){const d=new Date(v+"T00:00:00");if(!isNaN(d)){birth=d;$("bd").value=v}}}
+
+/* ---------- Klok met tandwielen ---------- */
+const sv=$("svg"),el=(t,a,p)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);(p||sv).appendChild(e);return e};
+const defs=el("defs",{});
+defs.innerHTML=`<radialGradient id="fc" cx="50%" cy="40%" r="70%"><stop offset="0" stop-color="#16204a"/><stop offset="1" stop-color="#090d24"/></radialGradient><linearGradient id="gl" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".16"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>`+["#f4c542","#4dd0e1","#ff6f91"].map((c,i)=>`<linearGradient id="g${i}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${c}" stop-opacity=".42"/><stop offset=".5" stop-color="${c}" stop-opacity=".12"/><stop offset="1" stop-color="${c}" stop-opacity=".34"/></linearGradient>`).join("");
+el("circle",{cx:100,cy:100,r:98,fill:"#0c1130",stroke:"#2a3470","stroke-width":1.5});el("circle",{cx:100,cy:100,r:90,fill:"url(#fc)"});
+const arcP=(r,h0,h1)=>{const a=k=>(k/24)*Math.PI*2-Math.PI/2;return`M${100+r*Math.cos(a(h0))} ${100+r*Math.sin(a(h0))}A${r} ${r} 0 ${h1-h0>12?1:0} 1 ${100+r*Math.cos(a(h1))} ${100+r*Math.sin(a(h1))}`};
+el("path",{d:arcP(94,6,18),fill:"none",stroke:"#f4c542","stroke-opacity":.55,"stroke-width":3});el("path",{d:arcP(94,18,30),fill:"none",stroke:"#5c6bc0","stroke-opacity":.6,"stroke-width":3});
+const gearsG=el("g",{}),dm=null;
+function gearD(n,rp,m){const ro=rp+.9*m,ri=rp-1.1*m,t=Math.PI*2/n;let d="";for(let i=0;i<n;i++)for(const[o,r]of[[-.26,ri],[-.13,ro],[.13,ro],[.26,ri]]){const A=i*t+o*t;d+=(d?"L":"M")+(r*Math.cos(A)).toFixed(2)+" "+(r*Math.sin(A)).toFixed(2)}return d+"Z"}
+const MOD=3.4,TH1=-40*Math.PI/180,TH2=50*Math.PI/180,COL=["#f4c542","#4dd0e1","#ff6f91"];
+const G=[{n:24,c:[100,100]}];
+G.push({n:12,c:[100+Math.cos(TH1)*18*MOD,100+Math.sin(TH1)*18*MOD]});
+G.push({n:6,c:[G[1].c[0]+Math.cos(TH2)*9*MOD,G[1].c[1]+Math.sin(TH2)*9*MOD]});
+G.forEach((g,i)=>{const e=el("g",{},gearsG),rp=g.n*MOD/2,sp=g.n>12?6:g.n>6?4:3;
+ el("path",{d:gearD(g.n,rp,MOD),fill:`url(#g${i})`,stroke:COL[i],"stroke-opacity":.7,"stroke-width":.8},e);
+ el("circle",{r:rp*.72,fill:"none",stroke:COL[i],"stroke-opacity":.3,"stroke-width":.6},e);
+ for(let k=0;k<sp;k++){const a=k/sp*Math.PI*2;el("line",{x1:Math.cos(a)*rp*.22,y1:Math.sin(a)*rp*.22,x2:Math.cos(a)*rp*.72,y2:Math.sin(a)*rp*.72,stroke:COL[i],"stroke-opacity":.45,"stroke-width":1.2},e)}
+ el("circle",{r:rp*.2,fill:COL[i],"fill-opacity":.35,stroke:COL[i],"stroke-opacity":.7,"stroke-width":.8},e);
+ const t=el("text",{y:2.5,"text-anchor":"middle","font-size":6,fill:COL[i],"fill-opacity":.9},e);t.textContent=g.n;g.el=e});
+for(let i=0;i<60;i++){const a=i/60*Math.PI*2-Math.PI/2,q=i%5===0,r0=q?80:84;el("line",{x1:100+Math.cos(a)*r0,y1:100+Math.sin(a)*r0,x2:100+Math.cos(a)*88,y2:100+Math.sin(a)*88,stroke:i===0?"#f4c542":q?"#3a4590":"#232c63","stroke-width":i===0?2.6:q?1.6:.8})}
+for(let i=0;i<12;i++){const a=i/12*Math.PI*2-Math.PI/2,t=el("text",{x:100+Math.cos(a)*71,y:100+Math.sin(a)*71+3.5,"text-anchor":"middle","font-size":10,fill:"#fbf4e2","font-weight":500});t.textContent=i||12}
+const dmk=el("circle",{r:3.2,fill:"#fff",stroke:"#0a0e27","stroke-width":1});
+const hh=el("polygon",{points:"96.5,106 100,50 103.5,106",fill:"#f4c542"}),mh=el("polygon",{points:"98,108 100,28 102,108",fill:"#e8e8f0"}),sh=el("g",{});
+el("line",{x1:100,y1:114,x2:100,y2:22,stroke:"#4dd0e1","stroke-width":1.3,"stroke-linecap":"round"},sh);el("circle",{cx:100,cy:114,r:3,fill:"#4dd0e1"},sh);
+el("circle",{cx:100,cy:100,r:5,fill:"#f4c542"});el("circle",{cx:100,cy:100,r:2,fill:"#0a0e27"});
+el("ellipse",{cx:100,cy:58,rx:66,ry:40,fill:"url(#gl)"});
+let cacc=1e9;
+function clock(dt){
+ const d=new Date(),h=d.getHours(),mi=d.getMinutes(),s=d.getSeconds()+d.getMilliseconds()/1e3;
+ hh.setAttribute("transform",`rotate(${(h%12)*30+mi*.5+s/120} 100 100)`);mh.setAttribute("transform",`rotate(${mi*6+s*.1} 100 100)`);sh.setAttribute("transform",`rotate(${s*6} 100 100)`);
+ const f=(h+mi/60+s/3600)/24,pA=f*Math.PI*2,pB=TH1+Math.PI-Math.PI/12-(pA-TH1)*2,pC=TH2+Math.PI-Math.PI/6-(pB-TH2)*2;
+ [pA,pB,pC].forEach((p,i)=>G[i].el.setAttribute("transform",`translate(${G[i].c[0]} ${G[i].c[1]}) rotate(${p*180/Math.PI})`));
+ const ma=f*Math.PI*2-Math.PI/2;dmk.setAttribute("cx",100+94*Math.cos(ma));dmk.setAttribute("cy",100+94*Math.sin(ma));
+ cacc+=dt;if(cacc<250)return;cacc=0;
+ const day=h>=6&&h<18,r=(x,n)=>x.toFixed(n),row=(a,b)=>`<div class="sum"><span>${a}</span><b>${b}</b></div>`;
+ $("hp").textContent=h+1;$("pb").textContent=day?T("☀️ Dag","☀️ Day"):T("🌙 Nacht","🌙 Night");$("pb").style.color=day?"#f4c542":"#8e9bff";
+ $("gf").innerHTML=row(T("A · 24 tanden","A · 24 teeth"),`${r(f*360,1)}° · ${r(f,2)} ${T("ronde","lap")}`)+row(T("B · 12 tanden","B · 12 teeth"),`${r(f*2%1*360,1)}° · ${r(f*2,2)} ${T("rondes","laps")}`)+row(T("C · 6 tanden","C · 6 teeth"),`${r(f*4%1*360,1)}° · ${r(f*4,2)} ${T("rondes","laps")}`)+row(T("Tanden vandaag","Teeth today"),`${r(f*24,1)} / 24`)+row("m = (25−1)/12",`2 ${T("rondes van B per dag","B laps per day")}`);
+ const N=nZ(d.getTime()),days=N/86400000n;
+ $("cx").innerHTML=`${T("weekdag","weekday")} <b style="color:#f4c542">${wd()[Number((days+5n)%7n)]}</b> · ${T("dag","day")} <b style="color:#f4c542">${Number(days%2520n)+1}</b>/2520 · ${T("cyclus","cycle")} <b style="color:#f4c542">${days/2520n+1n}</b><br>N <b style="color:#4dd0e1">${N}</b>`;
+}
+
+/* ---------- Dagboek: agenda + notities + foto's ---------- */
+let ag=new Date(),sel=new Date(),evs={},mom={};const urls=[],EMO=["🌑","🌒","🌓","🌔","🌕","🌖","🌗","🌘"];
+async function loadDg(){evs={};mom={};(await dbAll("events")).forEach(e=>(evs[e.date]=evs[e.date]||[]).push(e));(await dbAll("moments")).forEach(m=>{const k=dk(fromN(BigInt(m.n)));(mom[k]=mom[k]||[]).push(m)})}
+async function renderDg(){
+ const y=ag.getFullYear(),m=ag.getMonth(),lc=T("nl-NL","en-GB");
+ $("agm").textContent=new Date(y,m,1).toLocaleDateString(lc,{month:"long",year:"numeric"});
+ let h=wd().map(n=>`<div class="dn">${n}</div>`).join("");
+ const o=(new Date(y,m,1).getDay()+6)%7,dim=new Date(y,m+1,0).getDate(),td=dk(new Date());
+ for(let i=0;i<o;i++)h+=`<div class="cd e"></div>`;
+ for(let d=1;d<=dim;d++){const dt=new Date(y,m,d,12),k=dk(dt),p=toTuple(nZ(dt.getTime()))[5];
+  h+=`<div class="cd${k===td?" td":""}${k===dk(sel)?" sl":""}${evs[k]||mom[k]?" ev":""}" data-k="${k}" role="button">${d}<small>${EMO[Math.round(Number(p-1n)/30*8)%8]}${p}</small></div>`}
  $("agg").innerHTML=h;
- $("agg").querySelectorAll("[data-k]").forEach(el=>el.onclick=()=>{const[a,b,c]=el.dataset.k.split("-").map(Number);sel=new Date(a,b-1,c);renderAg()});
- const k=dk(sel),p=toTuple(nOf(new Date(sel.getFullYear(),sel.getMonth(),sel.getDate(),12).getTime()))[5];
- $("ags").textContent=`${sel.toLocaleDateString(loc,{weekday:"long",day:"numeric",month:"long"})} · ${T("modeldag","model day")} ${p}/30`;
- $("agl").innerHTML=(evs[k]||[]).map(e=>`<li><span>${esc(e.text)}</span><b data-d="${e.id}">✕</b></li>`).join("")||`<li class="mu">—</li>`;
- $("agl").querySelectorAll("[data-d]").forEach(x=>x.onclick=async()=>{await dbDel("events",x.dataset.d);await loadEv();renderAg()});
-}
-$("ap").onclick=()=>{ag=new Date(ag.getFullYear(),ag.getMonth()-1,1);renderAg()};
-$("an").onclick=()=>{ag=new Date(ag.getFullYear(),ag.getMonth()+1,1);renderAg()};
-$("aa").onclick=async()=>{const t=$("ae").value.trim();if(!t)return;await dbPut("events",{id:String(Date.now()),date:dk(sel),text:t});$("ae").value="";await loadEv();renderAg()};
-$("ae").onkeydown=e=>{if(e.key==="Enter")$("aa").click()};
-
-/* ---------- OPFS BESTANDSOPSLAG ---------- */
-async function vraagToestemming() {
-  if (navigator.storage && navigator.storage.persist) {
-    const isPersistent = await navigator.storage.persist();
-    if (!isPersistent) console.warn("Geen permanente opslag toegekend door browser.");
-    return isPersistent;
-  }
-  return false;
-}
-
-async function getOpfsRoot() {
-  return await navigator.storage.getDirectory();
-}
-
-async function slaFotoOpInOpfs(file) {
-  const root = await getOpfsRoot();
-  const fotoMap = await root.getDirectoryHandle('igospiral_fotos', { create: true });
-  const bestandsNaam = `foto_${Date.now()}_${Math.random().toString(36).slice(2,6)}.jpg`;
-  const fileHandle = await fotoMap.getFileHandle(bestandsNaam, { create: true });
-  const writable = await fileHandle.createWritable();
-  await writable.write(file);
-  await writable.close();
-  return bestandsNaam;
-}
-
-async function haalFotoOp(bestandsNaam) {
-  try {
-    const root = await getOpfsRoot();
-    const fotoMap = await root.getDirectoryHandle('igospiral_fotos');
-    const fileHandle = await fotoMap.getFileHandle(bestandsNaam);
-    const file = await fileHandle.getFile();
-    return URL.createObjectURL(file);
-  } catch (e) {
-    console.error("Foto niet gevonden in OPFS:", bestandsNaam);
-    return ""; 
-  }
-}
-
-/* ---------- Notities & foto's ---------- */
-const urls=[];
-async function renderNt(){
- // Ruim oude tijdelijke URLs op om geheugen vrij te maken
+ $("agg").querySelectorAll("[data-k]").forEach(e=>e.onclick=()=>{const[a,b,c]=e.dataset.k.split("-").map(Number);sel=new Date(a,b-1,c);{const n=new Date();$("nd").value=lv(new Date(a,b-1,c,n.getHours(),n.getMinutes(),n.getSeconds()))}renderDg()});
+ const k=dk(sel),p=toTuple(nZ(new Date(sel.getFullYear(),sel.getMonth(),sel.getDate(),12).getTime()))[5];
+ $("ags").textContent=`${sel.toLocaleDateString(lc,{weekday:"long",day:"numeric",month:"long"})} · ${T("modeldag","model day")} ${p}/30`;
  urls.splice(0).forEach(u=>URL.revokeObjectURL(u));
- 
- const list=(await dbAll("moments")).sort((a,b)=>BigInt(b.n)>BigInt(a.n)?1:-1),loc=T("nl-NL","en-GB");
- 
- let html = "";
- for (const r of list) {
-   const tp = toTuple(BigInt(r.n));
-   // Haal de foto's op uit OPFS
-   let imgTags = "";
-   if (r.photos && r.photos.length) {
-     for (const name of r.photos) {
-       const url = await haalFotoOp(name);
-       if (url) {
-         urls.push(url);
-         imgTags += `<img src="${url}" alt="">`;
-       }
-     }
-   }
-   
-   html += `<div class="nt">
-     <div class="nh"><span>${fromN(BigInt(r.n)).toLocaleString(loc)}</span><b data-x="${r.id}">✕</b></div>
-     <div class="mu">${tp[3]} · ${tp[4]}/${tp[5]} · ${tp[6]}h · N ${r.n}</div>
-     ${r.text?`<div class="tx">${esc(r.text)}</div>`:""}
-     <div class="ph">${imgTags}</div>
-   </div>`;
- }
- 
- $("nl").innerHTML = html || `<div class="mu" style="text-align:center">—</div>`;
- 
- $("nl").querySelectorAll("img").forEach(im=>im.onclick=()=>{$("lbi").src=im.src;$("lbw").classList.add("on")});
- $("nl").querySelectorAll("[data-x]").forEach(x=>x.onclick=async()=>{if(!confirm(T("Verwijderen?","Delete?")))return;await dbDel("moments",x.dataset.x);renderNt();stInfo()});
+ let out="";
+ for(const e of evs[k]||[])out+=`<div class="li"><div class="h"><span>📅 ${esc(e.time||"")} ${esc(e.text)}</span><b class="x" data-e="${e.id}" role="button" aria-label="✕">✕</b></div></div>`;
+ for(const r of (mom[k]||[]).sort((a,b)=>BigInt(a.n)>BigInt(b.n)?1:-1)){
+  let im="";for(const ph of r.photos||[]){const u=await photoURL(ph);if(u){urls.push(u);im+=`<img src="${u}" alt="">`}}
+  out+=`<div class="li"><div class="h"><span>${fromN(BigInt(r.n)).toLocaleTimeString(lc,{hour:"2-digit",minute:"2-digit"})}</span><b class="x" data-m="${r.id}" role="button" aria-label="✕">✕</b></div>${r.text?`<div class="tx">${esc(r.text)}</div>`:""}${im?`<div class="ph">${im}</div>`:""}<div class="mu">N ${BigInt(r.n)+EP}</div></div>`}
+ $("dl").innerHTML=out||`<div class="info">—</div>`;
+ $("dl").querySelectorAll("img").forEach(im=>im.onclick=()=>{$("lbi").src=im.src;$("lbw").classList.add("on")});
+ $("dl").querySelectorAll("[data-e]").forEach(x=>x.onclick=async()=>{if(!confirm(T("Verwijderen?","Delete?")))return;await dbDel("events",x.dataset.e);await loadDg();renderDg()});
+ $("dl").querySelectorAll("[data-m]").forEach(x=>x.onclick=async()=>{if(!confirm(T("Verwijderen?","Delete?")))return;const r=await dbGet("moments",x.dataset.m);if(r)await dropPhotos(r);await dbDel("moments",x.dataset.m);await loadDg();renderDg()});
 }
+async function renderAllNt(){
+ const lc=T("nl-NL","en-GB"),list=(await dbAll("moments")).sort((a,b)=>BigInt(b.n)>BigInt(a.n)?1:-1);let h="";
+ for(const r of list){const tp=toTuple(BigInt(r.n)+EP);let im="";for(const ph of r.photos||[]){const u=await photoURL(ph);if(u){urls.push(u);im+=`<img src="${u}" alt="">`}}
+  h+=`<div class="li"><div class="h"><span>${fromN(BigInt(r.n)).toLocaleString(lc)}</span><b class="x" data-ax="${r.id}" role="button" aria-label="✕">✕</b></div><div class="mu">${tp[3]} · ${tp[4]}/${tp[5]} · ${tp[6]}h · N ${BigInt(r.n)+EP}</div>${r.text?`<div class="tx">${esc(r.text)}</div>`:""}${im?`<div class="ph">${im}</div>`:""}</div>`}
+ const c=$("nl");c.innerHTML=h||`<div class="info">—</div>`;
+ c.querySelectorAll("img").forEach(im=>im.onclick=()=>{$("lbi").src=im.src;$("lbw").classList.add("on")});
+ c.querySelectorAll("[data-ax]").forEach(x=>x.onclick=async()=>{if(!confirm(T("Verwijderen?","Delete?")))return;const r=await dbGet("moments",x.dataset.ax);if(r)await dropPhotos(r);await dbDel("moments",x.dataset.ax);await loadDg();renderDg();stInfo()});
+}
+{const _rd=renderDg;renderDg=async function(){await _rd();await renderAllNt()}}
+$("ap").onclick=()=>{ag=new Date(ag.getFullYear(),ag.getMonth()-1,1);renderDg()};
+$("an").onclick=()=>{ag=new Date(ag.getFullYear(),ag.getMonth()+1,1);renderDg()};
 $("lbw").onclick=()=>$("lbw").classList.remove("on");
+document.addEventListener("keydown",e=>{if(e.key==="Escape")$("lbw").classList.remove("on")});
 $("nf").onchange=()=>{const c=$("nf").files.length;$("l-nf").textContent=c?`📷 ${c} ${T("foto's gekozen","photos selected")}`:T("📷 Foto's toevoegen (originele kwaliteit)","📷 Add photos (original quality)")};
-
+const nst=(t,e)=>{$("nst").textContent=t;$("nst").className="stat"+(e?" err":"")};
+function tms(){const v=$("nd").value,t=v?new Date(v).getTime():Date.now();return isNaN(t)?Date.now():t}
+$("ae").onclick=async()=>{const t=$("nx").value.trim();if(!t)return;const dd=new Date(tms());await dbPut("events",{id:String(Date.now()),date:dk(dd),time:pad(dd.getHours())+":"+pad(dd.getMinutes()),text:t});sel=dd;ag=new Date(dd.getFullYear(),dd.getMonth(),1);$("nx").value="";nst(T("✓ Afspraak opgeslagen","✓ Appointment saved"));await loadDg();renderDg()};
 $("ns").onclick=async()=>{
- const text=$("nx").value.trim(),files=[...$("nf").files],v=$("nd").value,m=$("nst");
- if(!text&&!files.length)return;
- 
- await persist();
- await vraagToestemming(); // Vraag hier om permanente opslag!
-
- // Sla de foto's op in OPFS en verzamel alleen de bestandsnamen
- const photoNames = [];
- for (const file of files) {
-   const name = await slaFotoOpInOpfs(file);
-   photoNames.push(name);
- }
-
- const N=v?nOf(new Date(v).getTime()):nOf(Date.now());
- const rec={
-   id:String(Date.now())+Math.random().toString(36).slice(2,6),
-   n:(N<0n?0n:N).toString(),
-   text,
-   photos: photoNames // Alleen de namen, niet de enorme blobs!
- };
- 
+ const text=$("nx").value.trim(),files=[...$("nf").files];if(!text&&!files.length)return;
+ await persist();const photos=[];for(const f of files)photos.push(await savePhoto(f));
+ const N=nOf(tms()),rec={id:String(Date.now())+Math.random().toString(36).slice(2,6),n:(N<0n?0n:N).toString(),text,photos};
  await dbPut("moments",rec);
- if(await dbGet("moments",rec.id)){
-   $("nx").value="";$("nf").value="";$("nf").onchange();$("nd").value=lv(new Date());
-   m.className="stat";m.textContent=T("✓ Opgeslagen","✓ Saved");
- } else {
-   m.className="stat err";m.textContent=T("Opslaan mislukt","Saving failed");
- }
- renderNt();stInfo();
+ if(await dbGet("moments",rec.id)){sel=new Date(tms());ag=new Date(sel.getFullYear(),sel.getMonth(),1);$("nx").value="";$("nf").value="";$("nf").onchange();nst(T("✓ Opgeslagen","✓ Saved"))}else nst(T("Opslaan mislukt (opslag vol?)","Saving failed (storage full?)"),1);
+ await loadDg();renderDg();
 };
 $("nd").value=lv(new Date());
 
-/* ---------- Kluis: MRS-AUTH (19A+9B) → AES-256-GCM ---------- */
+/* ---------- Kluis ---------- */
 let vk=null,vt,vinfo=null;
 const b64=u=>{let s="";for(let i=0;i<u.length;i+=32768)s+=String.fromCharCode.apply(null,u.subarray(i,i+32768));return btoa(s)};
 const ub=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
@@ -646,85 +486,87 @@ $("vu").onclick=async()=>{
  const pw=$("vp").value;if(!pw)return;vmsg("…");
  try{let meta=await dbGet("meta","vault");
   if(!meta){if(pw.length<10)return vmsg(T("Minimaal 10 tekens.","At least 10 characters."),1);
-   const salt=crypto.getRandomValues(new Uint8Array(16)),r=await mrs(pw,salt);vk=r.key;vinfo=r;
-   meta={id:"vault",salt:b64(salt),check:await aes({c:"mrs"})};await dbPut("meta",meta)}
+   const salt=crypto.getRandomValues(new Uint8Array(16)),r=await mrs(pw,salt);vk=r.key;vinfo=r;meta={id:"vault",salt:b64(salt),check:await aes({c:"mrs"})};await dbPut("meta",meta)}
   else{const r=await mrs(pw,ub(meta.salt));vk=r.key;vinfo=r;try{if((await dea(meta.check)).c!=="mrs")throw 0}catch{vk=null;vinfo=null;return vmsg(T("Onjuist wachtwoord.","Wrong passphrase."),1)}}
   $("vp").value="";vmsg("");vbump();renderKv();
  }catch(e){vk=null;vmsg(e.message,1)}
 };
 $("vp").onkeydown=e=>{if(e.key==="Enter")$("vu").click()};
 $("vg").onclick=()=>{const cs="abcdefghijkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789!@#$%&*?";$("vw").value=[...crypto.getRandomValues(new Uint32Array(24))].map(x=>cs[x%cs.length]).join("")};
-$("vs").onclick=async()=>{if(!vk)return;const name=$("vn").value.trim(),pass=$("vw").value.trim();if(!name||!pass)return;
- await dbPut("vault",{id:String(Date.now()),...await aes({name,pass})});$("vn").value="";$("vw").value="";vbump();renderKv()};
+$("vs").onclick=async()=>{if(!vk)return;const name=$("vn").value.trim(),pass=$("vw").value.trim();if(!name||!pass)return;await dbPut("vault",{id:String(Date.now()),...await aes({name,pass})});$("vn").value="";$("vw").value="";vbump();renderKv()};
 async function renderKv(){
  const first=!(await dbGet("meta","vault"));
  $("vst").innerHTML=`${T("Sleutelschema","Key schedule")}: <b>PBKDF2-SHA256 600k → MRS-AUTH (N = 19·a + 9·B) → AES-256-GCM</b><br>${vk?`🔓 19·${vinfo.a} + 9·B = N ${vinfo.ok?"✓":"✗"}`:"🔒"}`;
  $("vp").placeholder=first?T("Kies een hoofdwachtwoord (min. 10 tekens)","Choose a master passphrase (min. 10 chars)"):T("Hoofdwachtwoord","Master passphrase");
- $("vu").textContent=first?T("Maak kluis","Create vault"):T("Ontgrendel","Unlock");
- $("vadd").style.display=vk?"":"none";
- const el=$("vlist");
- if(!vk){el.innerHTML=`<div class="mu">🔒 ${T("De kluis is vergrendeld.","The vault is locked.")}</div>`;return}
+ $("vu").textContent=first?T("Maak kluis","Create vault"):T("Ontgrendel","Unlock");$("vadd").style.display=vk?"":"none";
+ const e=$("vlist");if(!vk){e.innerHTML=`<div class="info">🔒 ${T("De kluis is vergrendeld.","The vault is locked.")}</div>`;return}
  const list=[];for(const r of await dbAll("vault")){try{list.push({id:r.id,...await dea(r)})}catch{}}
- el.innerHTML=list.reverse().map(v=>`<li class="vi"><div style="min-width:0"><b style="color:var(--gold)">${esc(v.name)}</b><div class="vs" data-s="${v.id}">••••••••</div></div><div class="vb"><button class="btn" data-sh="${v.id}">👁</button><button class="btn" data-cp="${v.id}">⧉</button><button class="btn" data-dl="${v.id}">✕</button></div></li>`).join("")||`<div class="mu">—</div>`;
- el.querySelectorAll("[data-sh]").forEach(b=>b.onclick=()=>{vbump();const s=el.querySelector(`[data-s="${b.dataset.sh}"]`),it=list.find(v=>v.id===b.dataset.sh);s.textContent=s.dataset.o==="1"?"••••••••":it.pass;s.dataset.o=s.dataset.o==="1"?"0":"1"});
- el.querySelectorAll("[data-cp]").forEach(b=>b.onclick=()=>{vbump();navigator.clipboard.writeText(list.find(v=>v.id===b.dataset.cp).pass).catch(()=>{});setTimeout(()=>navigator.clipboard.writeText(" ").catch(()=>{}),2e4)});
- el.querySelectorAll("[data-dl]").forEach(b=>b.onclick=async()=>{if(!confirm(T("Verwijderen?","Delete?")))return;await dbDel("vault",b.dataset.dl);renderKv()});
+ e.innerHTML=list.reverse().map(v=>`<div class="li"><div class="h"><b style="color:var(--gold)">${esc(v.name)}</b><span class="vb"><button class="btn" data-sh="${v.id}" type="button" aria-label="show">👁</button><button class="btn" data-cp="${v.id}" type="button" aria-label="copy">⧉</button><button class="btn dg" data-dl="${v.id}" type="button" aria-label="delete">✕</button></span></div><div class="vs" data-s="${v.id}">••••••••</div></div>`).join("")||`<div class="info">—</div>`;
+ e.querySelectorAll("[data-sh]").forEach(b=>b.onclick=()=>{vbump();const s=e.querySelector(`[data-s="${b.dataset.sh}"]`),it=list.find(v=>v.id===b.dataset.sh);s.textContent=s.dataset.o==="1"?"••••••••":it.pass;s.dataset.o=s.dataset.o==="1"?"0":"1"});
+ e.querySelectorAll("[data-cp]").forEach(b=>b.onclick=()=>{vbump();navigator.clipboard.writeText(list.find(v=>v.id===b.dataset.cp).pass).catch(()=>{});setTimeout(()=>navigator.clipboard.writeText(" ").catch(()=>{}),2e4)});
+ e.querySelectorAll("[data-dl]").forEach(b=>b.onclick=async()=>{if(!confirm(T("Verwijderen?","Delete?")))return;await dbDel("vault",b.dataset.dl);renderKv()});
 }
 document.addEventListener("visibilitychange",()=>{if(document.hidden&&vk)setTimeout(()=>{if(document.hidden)vlock()},6e4)});
 
-/* ---------- MRS Demo (Nu met meer ruimte) ---------- */
+/* ---------- Instellingen: back-up, wissen ---------- */
+const bst=(t,e)=>{$("bst").textContent=t;$("bst").className="stat"+(e?" err":"")};
+$("bx").onclick=async()=>{
+ const data={v:4,t:Date.now(),birth:ls.get(BK),events:await dbAll("events"),vault:await dbAll("vault"),meta:await dbAll("meta"),moments:(await dbAll("moments")).map(m=>({...m,photos:[]}))};
+ const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([JSON.stringify(data)],{type:"application/json"}));a.download=`igospiral-backup-${dk(new Date())}.json`;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1e3);bst(T("✓ Geëxporteerd (zonder foto's)","✓ Exported (without photos)"));
+};
+$("bi").onclick=()=>$("bif").click();
+$("bif").onchange=async e=>{const f=e.target.files[0];if(!f)return;
+ try{const d=JSON.parse(await f.text());for(const s of["events","vault","meta","moments"])for(const x of d[s]||[])await dbPut(s,x);if(d.birth)ls.set(BK,d.birth);await loadDg();renderDg();renderKv();bst(T("✓ Hersteld","✓ Restored"))}catch(x){bst("✗ "+x.message,1)}e.target.value=""};
+$("bw").onclick=async()=>{if(!confirm(T("ALLES wissen? Dit kan niet ongedaan worden gemaakt.","Erase EVERYTHING? This cannot be undone.")))return;
+ for(const s of["events","vault","meta","moments"])await dbClr(s);try{await(await navigator.storage.getDirectory()).removeEntry(OP,{recursive:true})}catch{}
+ ls.del(BK);birth=null;vlock();await loadDg();renderDg();stInfo();bst(T("✓ Alles gewist","✓ Everything erased"))};
+$("utc").checked=UTC;$("utc").onchange=()=>{UTC=$("utc").checked;ls.set("igo_utc",UTC?"1":"0");$("n").value=nZ(Date.now()).toString();applyLang()};
+
+/* ---------- MRS-demo ---------- */
 function mrsDemo(){
  $("md-h").textContent=T("Probeer het: N = 19A + 9B","Try it: N = 19A + 9B");
  const o=$("md-o");let N;
  try{N=BigInt($("md-n").value.trim());if(N<1n)throw 0}catch{o.innerHTML=$("md-n").value.trim()?`<div class="eq" style="color:#ff6f91">${T("Voer een geheel getal ≥ 1 in.","Enter an integer ≥ 1.")}</div>`:"";return}
  const dr=x=>1n+(x-1n)%9n,a=dr(N),b=(N-19n*a)/9n;
- if(b<0n){o.innerHTML=`<div class="eq">dr = A₀ = ${a} · B₀ = ${b}<br>${T("Geen representatie met A ≥ 1 (de grens is 162).","No representation with A ≥ 1 (the bound is 162).")}</div>`;return}
+ if(b<0n){o.innerHTML=`<div class="eq">A₀ = ${a} · B₀ = ${b}<br>${T("Geen representatie met A ≥ 1 (grens 162).","No representation with A ≥ 1 (bound 162).")}</div>`;return}
  const R=b/19n+1n,tri=dr(2n*a),lim=R<14n?Number(R):14;let rows="";
- for(let k=0;k<lim;k++){const A=a+9n*BigInt(k),B=b-19n*BigInt(k),ok=B>0n&&dr(B)===tri;rows+=`<tr class="${ok?"fl":""}"><td>${k}</td><td>${A}</td><td>${B}</td><td>${19n*A+9n*B===N?"✓":"✗"}</td><td>${dr(A)}</td><td>${B>0n?dr(B):"–"}</td><td>${ok?"⧊":""}</td></tr>`}
- o.innerHTML=`<div class="sum"><span>A₀ = dr(N)</span><b>${a}</b></div><div class="sum"><span>B₀</span><b>${b}</b></div><div class="sum"><span>R(N)</span><b>${R}</b></div><table><tr><th>k</th><th>A</th><th>B</th><th>19A+9B</th><th>dr(A)</th><th>dr(B)</th><th>⧊</th></tr>${rows}</table>${R>14n?`<div class="eq">… ${R-14n} ${T("meer","more")}</div>`:""}<div class="eq">⧊ = dr(B) = dr(2·dr N) = ${tri}</div>`;
+ for(let k=0;k<lim;k++){const A=a+9n*BigInt(k),B=b-19n*BigInt(k),ok=B>0n&&dr(B)===tri;rows+=`<tr class="${ok?"fl":""}"><td>${k}</td><td>${A}</td><td>${B}</td><td>${19n*A+9n*B===N?"✓":"✗"}</td><td>${ok?"⧊":""}</td></tr>`}
+ o.innerHTML=`<div class="sum"><span>A₀</span><b>${a}</b></div><div class="sum"><span>B₀</span><b>${b}</b></div><div class="sum"><span>R(N)</span><b>${R}</b></div><table><tr><th>k</th><th>A</th><th>B</th><th>19A+9B</th><th>⧊</th></tr>${rows}</table>${R>14n?`<div class="eq">… ${R-14n} ${T("meer","more")}</div>`:""}`;
 }
 $("md-n").oninput=mrsDemo;
 
-function mrsDemoEn(){
- $("md-h-en").textContent="Try it: N = 19A + 9B";
- const o=$("md-o-en");let N;
- try{N=BigInt($("md-n-en").value.trim());if(N<1n)throw 0}catch{o.innerHTML=$("md-n-en").value.trim()?"<div class='eq' style='color:#ff6f91'>Enter an integer ≥ 1.</div>":"";return}
- const dr=x=>1n+(x-1n)%9n,a=dr(N),b=(N-19n*a)/9n;
- if(b<0n){o.innerHTML=`<div class="eq">dr = A₀ = ${a} · B₀ = ${b}<br>No representation with A ≥ 1 (the bound is 162).</div>`;return}
- const R=b/19n+1n,tri=dr(2n*a),lim=R<14n?Number(R):14;let rows="";
- for(let k=0;k<lim;k++){const A=a+9n*BigInt(k),B=b-19n*BigInt(k),ok=B>0n&&dr(B)===tri;rows+=`<tr class="${ok?"fl":""}"><td>${k}</td><td>${A}</td><td>${B}</td><td>${19n*A+9n*B===N?"✓":"✗"}</td><td>${dr(A)}</td><td>${B>0n?dr(B):"–"}</td><td>${ok?"⧊":""}</td></tr>`}
- o.innerHTML=`<div class="sum"><span>A₀ = dr(N)</span><b>${a}</b></div><div class="sum"><span>B₀</span><b>${b}</b></div><div class="sum"><span>R(N)</span><b>${R}</b></div><table><tr><th>k</th><th>A</th><th>B</th><th>19A+9B</th><th>dr(A)</th><th>dr(B)</th><th>⧊</th></tr>${rows}</table>${R>14n?`<div class="eq">… ${R-14n} more</div>`:""}<div class="eq">⧊ = dr(B) = dr(2·dr N) = ${tri}</div>`;
+/* ---------- Taal ---------- */
+const I=[["#sub","de klok als wiskundig object","the clock as a mathematical object"],
+["#nv [data-t=sp] span","Spiraal","Spiral"],["#nv [data-t=kl] span","Klok","Clock"],["#nv [data-t=bj] span","Bijectie","Bijection"],["#nv [data-t=dg] span","Dagboek","Journal"],["#nv [data-t=kv] span","Kluis","Vault"],
+["#mode option:nth-child(1)","Wereldtijd (kalender)","World time (calendar)"],["#mode option:nth-child(2)","Mijn leven (70 jaar)","My life (70 years)"],["#bc","Bereken","Calculate"],
+["#l-b1","Milliseconden (N) ↔ datum ↔ klok-tuple","Milliseconds (N) ↔ date ↔ clock tuple"],["#l-b2","Klok-tuple → N","Clock tuple → N"],["#go2","Bereken N","Calculate N"],["#nw","Nu","Now"],
+["#l-new","Nieuwe notitie","New note"],["#l-nt0","Opslag","Storage"],["#l-nt2","Opgeslagen momenten","Saved moments"],["#l-gears","De Tandwielen","The Gears"],["#br","↺ Wis","↺ Clear"],["#l-nf","📷 Foto's toevoegen (originele kwaliteit)","📷 Add photos (original quality)"],["#ae","+ Afspraak","+ Appointment"],["#ns","Notitie opslaan","Save note"],
+["#l-kv2","Nieuw item","New item"],["#vg","🎲 Sterk wachtwoord","🎲 Strong password"],["#vs","Veilig opslaan","Save securely"],["#l-kv3","Opgeslagen items","Saved items"],
+["#s-set","Instellingen","Settings"],["#s-sys","Systeem","System"],["#s-man","Handleiding","Manual"],["#l-lang","Taal","Language"],["#l-utc","Tijd in UTC (sluitende bijectie)","Time in UTC (gap-free bijection)"],
+["#bx","⬇ Back-up","⬇ Backup"],["#bi","⬆ Herstel","⬆ Restore"],["#bw","🗑 Alles wissen","🗑 Erase everything"]];
+const PH=[["nx","Schrijf een notitie of afspraak…","Write a note or appointment…"],["vn","Naam (bijv. E-mail)","Name (e.g. Email)"],["vw","Wachtwoord of sleutel","Password or key"]];
+function applyLang(){
+ document.documentElement.lang=L;$("lg").textContent=T("EN","NL");$("lg2").textContent=T("English","Nederlands");
+ I.forEach(([q,n,e])=>{const x=document.querySelector(q);if(x)x.textContent=T(n,e)});PH.forEach(([i,n,e])=>{$(i).placeholder=T(n,e)});
+ $("gear-text").textContent=T("24-uurs (geel) drijft de 12-uurs (blauw) aan, die op zijn beurt de 6-uurs (roze) aandrijft.","24-hour (yellow) drives the 12-hour (blue), which in turn drives the 6-hour (pink).");
+ $("cv").setAttribute("aria-label",T("3D-spiraal","3D spiral"));$("svg").setAttribute("aria-label",T("Analoge klok met tandwielen","Analog clock with gears"));$("gb").setAttribute("aria-label",T("Info en instellingen","Info and settings"));
+ spText(state(new Date()),new Date());renderBij();renderDg();renderKv();mrsDemo();stInfo();cacc=1e9;
 }
-$("md-n-en").oninput=mrsDemoEn;
-
-dbp.then(async()=>{await loadEv();applyLang()});
-applyLang();
+$("lg").onclick=$("lg2").onclick=()=>{L=L==="nl"?"en":"nl";ls.set("igo_l",L);applyLang()};
 
 /* ---------- Eén animatielus ---------- */
 let last=performance.now(),acc=0;
 function frame(ts){
  const dt=Math.min(64,ts-last);last=ts;
  if(!document.hidden){
-  if(tab==="sp"){
-   if(spin)sp.rot-=dt*.00005;
-   const d=new Date(),st=state(d);
-   sp.draw(ts,st);
-   acc+=dt;if(acc>500){acc=0;updateSpiralText(st,d);}
-  }else if(tab==="kl")clock();
+  if(tab==="sp"){if(spin)sp.rot-=dt*.00005;const d=new Date(),st=state(d);sp.draw(ts,st);acc+=dt;if(acc>500){acc=0;spText(st,d)}}
+  else if(tab==="kl")clock(dt);
  }
  requestAnimationFrame(frame);
 }
-updateSpiralText(state(new Date()),new Date());
-requestAnimationFrame(frame);
-
-/* ---------- PWA Service Worker ---------- */
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('sw.js')
-      .then(reg => console.log('SW registered:', reg.scope))
-      .catch(err => console.log('SW registration failed:', err));
-  });
-}
+show("sp");applyLang();requestAnimationFrame(frame);
+dbp.then(async()=>{await loadDg();renderDg();renderKv()});
+if("serviceWorker"in navigator)addEventListener("load",()=>{navigator.serviceWorker.register("sw.js").catch(()=>{})});
 </script>
 </body>
 </html>
