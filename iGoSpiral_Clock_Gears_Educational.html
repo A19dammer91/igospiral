@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>iGoSpiral — Clock Gears</title>
+<style>
+:root{
+  color-scheme:dark;
+  --gold:#e8c36a;
+  --mut:#a39880;
+  --green:#8fd18f;
+  --orange:#ff9800;
+  --red:#f44336;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  padding:8px 8px 6px;
+  background:radial-gradient(circle at 50% 0,#2a2218,#14110d 65%);
+  color:#eadfc8;
+  font-family:Georgia,'Times New Roman',serif;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+h1{
+  margin:2px 0 0;
+  color:var(--gold);
+  font-size:1.2em;
+  text-align:center;
+  letter-spacing:0.5px;
+}
+.sub{
+  color:var(--mut);
+  font:italic .75em Georgia,serif;
+  margin-bottom:4px;
+  text-align:center;
+}
+.ctl{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  justify-content:center;
+  flex-wrap:wrap;
+  font:.75em system-ui,sans-serif;
+  margin-bottom:4px;
+}
+button{
+  background:#2f271b;
+  color:var(--gold);
+  border:1px solid var(--gold);
+  border-radius:7px;
+  padding:4px 11px;
+  font-size:1em;
+  cursor:pointer;
+  transition:background 0.2s;
+}
+button:hover{background:#3f3524}
+input[type=range]{width:90px}
+.panel{
+  flex:1;
+  min-height:0;
+  width:100%;
+  max-width:760px;
+  border:1px solid #4a3e2c;
+  border-radius:14px;
+  background:linear-gradient(180deg,#1c1710,#100d09);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  box-shadow:0 0 30px rgba(232,195,106,0.08);
+}
+svg{width:100%;height:100%;display:block}
+.note{
+  font:.68em system-ui,sans-serif;
+  color:var(--mut);
+  margin-top:6px;
+  text-align:center;
+  max-width:600px;
+}
+</style>
+</head>
+<body>
+<h1>iGoSpiral — Clock Gears</h1>
+<div class="sub">From 1 millisecond to the 7000-year cycle: one gear train</div>
+<div class="ctl">
+  <button id="pp">Pause</button>
+  <button id="rv">Reverse</button>
+  <label>Speed <input id="sp" type="range" min="0.25" max="3" step="0.25" value="1"></label>
+</div>
+<div class="panel"><svg id="s" preserveAspectRatio="xMidYMid meet"></svg></div>
+<div class="note">All gears mesh exactly · p = m·q + 1 ≡ 1 (mod q) · scale model: drawn number of teeth ≠ q</div>
+
+<script>
+// Data: [name, q, m, drawn teeth]
+const D = [
+  ["millisecond", 1000, 2, 48],
+  ["second", 60, 2, 60],
+  ["minute", 60, 2, 60],
+  ["hour (in sec.)", 3600, 2, 40],
+  ["day (in sec.)", 86400, 2, 54],
+  ["year", 365, 2, 45],
+  ["leap cycle", 365, 8, 60],
+  ["7000-year cycle", 2520000, 2, 72]
+];
+
+const col = {2: "#ff9800", 8: "#f44336"};
+const fmt = x => x.toLocaleString('en-US');
+const MOD = 1.2, A = 2.2, DD = 2.8, PI = Math.PI;
+
+// Build the gears
+const G = D.map(([t, q, m, n], i) => ({
+  id: i + 1,
+  t, q, m, n,
+  p: m * q + 1,
+  R: MOD * n,
+  s: 2 * PI / n,
+  c: col[m],
+  prev: 0,
+  fl: 0,
+  angle: 0,
+  step: 0
+}));
+
+// Position the gears in a chain
+const dirs = [0, PI/2, PI, PI/2, 0, PI/2, PI];
+G[0].x = 0;
+G[0].y = 0;
+for (let i = 1; i < G.length; i++) {
+  const a = dirs[i - 1];
+  const d = G[i - 1].R + G[i].R;
+  G[i].x = G[i - 1].x + d * Math.cos(a);
+  G[i].y = G[i - 1].y + d * Math.sin(a);
+}
+
+// Calculate the viewBox
+let x0 = 1e9, x1 = -1e9, y0 = 1e9, y1 = -1e9;
+G.forEach(g => {
+  const e = g.R + A + 6;
+  x0 = Math.min(x0, g.x - e);
+  x1 = Math.max(x1, g.x + e);
+  y0 = Math.min(y0, g.y - e);
+  y1 = Math.max(y1, g.y + e);
+});
+y0 -= 14;
+
+const svg = document.getElementById('s');
+svg.setAttribute('viewBox', `${x0.toFixed(0)} ${y0.toFixed(0)} ${(x1 - x0).toFixed(0)} ${(y1 - y0).toFixed(0)}`);
+
+// Draw a gear
+function body(g) {
+  const { n, R, s, c, id } = g;
+  const ro = R + A;
+  const ri = R - DD;
+  let d = '', b = '';
+
+  // Teeth
+  for (let k = 0; k < n; k++) {
+    [[-.27, ri], [-.13, ro], [.13, ro], [.27, ri]].forEach(([f, r], j) => {
+      const a = (k + f) * s;
+      d += (k + j ? 'L' : 'M') + (r * Math.cos(a)).toFixed(2) + ' ' + (r * Math.sin(a)).toFixed(2) + ' ';
+    });
+  }
+
+  // Holes
+  for (let i = 0; i < 8; i++) {
+    const t = i * PI / 4 + PI / 8;
+    b += `<circle cx="${(ri * .87 * Math.cos(t)).toFixed(1)}" cy="${(ri * .87 * Math.sin(t)).toFixed(1)}" r="1.8" fill="#0e0b08"/>`;
+  }
+
+  return `<defs>
+    <radialGradient id="gr${id}" cx=".35" cy=".3" r=".9">
+      <stop offset="0" stop-color="#fff" stop-opacity=".5"/>
+      <stop offset=".45" stop-color="${c}"/>
+      <stop offset="1" stop-color="#000" stop-opacity=".55"/>
+    </radialGradient>
+  </defs>
+  <g id="g${id}">
+    <path d="${d}Z" fill="url(#gr${id})" stroke="#0e0b08" stroke-width=".8"/>
+    ${b}
+    <circle cx="${R - 1}" cy="0" r="2.6" fill="#ffd700" stroke="#000" stroke-width=".5"/>
+  </g>
+  <circle id="d${id}" r="${ri * .74}" fill="#17120b" stroke="${c}" stroke-width="1.5"/>`;
+}
+
+// Build the SVG
+let h = '';
+G.forEach(g => {
+  const f = g.R * .19;
+  h += `<g transform="translate(${g.x.toFixed(1)} ${g.y.toFixed(1)})">${body(g)}
+  <g font-family="system-ui,sans-serif" text-anchor="middle" fill="#eadfc8">
+    <text y="${-f * 1.55}" font-size="${f * .8}" fill="${g.c}">${g.id}</text>
+    <text y="${-f * .45}" font-size="${f}" font-weight="bold" fill="#e8c36a">${g.t.length > 12 ? g.t.replace(' ', '\u2009') : g.t}</text>
+    <text y="${f * .75}" font-size="${f * .92}" font-family="ui-monospace,monospace" fill="#8fd18f">q=${fmt(g.q)}</text>
+    <text y="${f * 1.85}" font-size="${f * .82}" font-family="ui-monospace,monospace" fill="#8fd18f">p=${g.m > 1 ? g.m : ''}q+1=${fmt(g.p)}</text>
+    <text id="t${g.id}" y="${f * 3.0}" font-size="${f * .85}" fill="#a39880"></text>
+  </g></g>`;
+});
+h += `<text x="${G[0].x}" y="${y0 + 10}" text-anchor="middle" font-size="11" fill="#e8c36a" font-family="system-ui">▼ START at 1</text>`;
+svg.innerHTML = h;
+
+// Animation
+let speed = 1, paused = false, dir = 1, drive = 0, last = performance.now();
+
+document.getElementById('sp').oninput = e => speed = +e.target.value;
+const pb = document.getElementById('pp');
+pb.onclick = () => { paused = !paused; pb.textContent = paused ? 'Resume' : 'Pause'; };
+document.getElementById('rv').onclick = () => dir = -dir;
+
+function frame(now) {
+  const dt = (now - last) / 1000;
+  last = now;
+  if (!paused) drive += dir * dt * speed * 0.12 * 2 * PI;
+
+  let th = drive;
+  G.forEach((g, i) => {
+    if (i) {
+      const a = dirs[i - 1];
+      const ratio = G[i - 1].n / g.n;
+      th = a + PI - g.s / 2 - (g.s / G[i - 1].s) * (th - a);
+    }
+    document.getElementById('g' + g.id).setAttribute('transform', `rotate(${(th * 180 / PI).toFixed(2)})`);
+
+    const r = Math.abs(drive) / (2 * PI) * G[0].n / g.n;
+    const c = r % g.m;
+
+    if (c < g.prev && !paused && r > 0) {
+      g.fl = now + 800;
+      g.step = (g.step || 0) + 1;
+    }
+    g.prev = c;
+
+    const on = now < g.fl;
+    const tx = document.getElementById('t' + g.id);
+    tx.textContent = on ? '+1 jump!' : `round ${Math.floor(c) + 1} of ${g.m}`;
+    tx.setAttribute('fill', on ? '#ffd700' : '#a39880');
+
+    const d = document.getElementById('d' + g.id);
+    d.setAttribute('stroke', on ? '#ffd700' : g.c);
+    d.setAttribute('stroke-width', on ? 4 : 1.5);
+  });
+
+  requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+</script>
+</body>
+  </html>
