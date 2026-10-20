@@ -92,14 +92,14 @@ html[lang=nl] .en,html[lang=en] .nl{display:none}
 </div></section>
 
 <section id="bj"><div class="panel">
-<div class="formula">731 ≡ 1 (mod 365) · m = 2</div>
+<div class="formula">2921 = 2 × (4 × 365) + 1</div>
 <h2 id="l-b1"></h2>
 <div class="bar"><input id="n" inputmode="numeric" style="flex:1;width:auto"><button class="btn" id="nw" type="button"></button></div>
 <input id="dt" type="datetime-local" step="1">
 <div id="o1"></div>
 </div><div class="panel"><h2 id="l-b2"></h2><div class="grid" id="ti"></div><button class="btn pr" id="go2" type="button" style="width:100%"></button><div class="eq" id="o2"></div></div></section>
 
-<section id="dg"><div class="panel"><div class="formula">731 ≡ 1 (mod 365) · m = 2</div>
+<section id="dg"><div class="panel"><div class="formula">2921 = 2 × (4 × 365) + 1</div>
 <div class="bar"><button class="btn" id="ap" type="button" aria-label="‹">←</button><h2 id="agm" style="flex:1;text-align:center;margin:0;color:var(--gold)"></h2><button class="btn" id="an" type="button" aria-label="›">→</button></div>
 <div class="cg" id="agg"></div></div>
 <div class="panel"><h2 id="ags"></h2><div id="dl"></div></div>
@@ -139,7 +139,7 @@ html[lang=nl] .en,html[lang=en] .nl{display:none}
 <ul><li>Klok: <code>25 ≡ 1 (mod 12)</code>, m = 2. Een dag is twee rondes van 12 (dag en nacht), samen 24 uur.</li><li>Week: <code>15 ≡ 1 (mod 7)</code>, m = 2.</li><li>Getallen: <code>19 ≡ 1 (mod 9)</code>, m = 2. Zie het tabblad MRS.</li></ul>
 <h3>De posities</h3>
 <p>Alle posities beginnen bij 1. Van klein naar groot: ms (1000), seconde (60), minuut (60), uur (24), dag (30), maand (12), jaar (10), decennium (10), eeuw (10), millennium (onbegrensd). Er geldt <code>N = Σ (positie − 1) · gewicht</code>.</p>
-<div class="note"><b>Model en echte kalender:</b> Het model rekent met een 1-based positie. De echte kalender toont de 0-based waarde. Voor 2026 geeft de echte kalender millennium 2, eeuw 0, decennium 2 en jaar 6.</div>
+<div class="note"><b>Model en echte kalender:</b> Het model rekent met een 1-based positie (overal +1). De echte kalender toont de 0-based waarde. Voor 2026 geeft de echte kalender millennium 2, eeuw 0, decennium 2 en jaar 6.</div>
 <h3>De onderdelen</h3>
 <ul><li><b>Spiraal:</b> kies je eigen leven (70 jaar) of de wereldtijd.</li><li><b>Klok:</b> analoge klok met drie ingrijpende tandwielen (24, 12 en 6 tanden).</li><li><b>Bijectie:</b> N, datum en tuple in elkaar omrekenen, met de rekenstappen.</li><li><b>Agenda, Notities, Kluis:</b> afspraken, notities met foto's en een versleutelde kluis, alles op dit apparaat.</li></ul>
 <h3>Waarom 2520?</h3>
@@ -153,7 +153,7 @@ html[lang=nl] .en,html[lang=en] .nl{display:none}
 <ul><li>Clock: <code>25 ≡ 1 (mod 12)</code>, m = 2. A day is two rounds of 12 (day and night), 24 hours in total.</li><li>Week: <code>15 ≡ 1 (mod 7)</code>, m = 2.</li><li>Numbers: <code>19 ≡ 1 (mod 9)</code>, m = 2. See the MRS tab.</li></ul>
 <h3>The positions</h3>
 <p>All positions start at 1. Small to large: ms (1000), second (60), minute (60), hour (24), day (30), month (12), year (10), decade (10), century (10), millennium (unbounded). It holds that <code>N = Σ (position − 1) · weight</code>.</p>
-<div class="note"><b>Model and real calendar:</b> The model uses a 1-based position. The real calendar shows the 0-based value. For 2026 the real calendar gives millennium 2, century 0, decade 2 and year 6.</div>
+<div class="note"><b>Model and real calendar:</b> The model uses a 1-based position (everywhere +1). The real calendar shows the 0-based value. For 2026 the real calendar gives millennium 2, century 0, decade 2 and year 6.</div>
 <h3>The parts</h3>
 <ul><li><b>Spiral:</b> choose your own life (70 years) or world time.</li><li><b>Clock:</b> analog clock with three meshing gears (24, 12 and 6 teeth).</li><li><b>Bijection:</b> convert between N, date and tuple, with the calculation steps.</li><li><b>Calendar, Notes, Vault:</b> appointments, notes with photos and an encrypted vault, all on this device.</li></ul>
 <h3>Why 2520?</h3>
@@ -295,24 +295,16 @@ function renderBij(fromDt){
  const tp=toTuple(N),days=N/86400000n,dr=N===0n?0n:1n+(N-1n)%9n,S=(a,b)=>`<div class="sum"><span>${a}</span><b>${b}</b></div>`;
  let when="—";if(N<8000000000000000n){const d=fromZ(N);when=d.toLocaleString(T("nl-NL","en-GB"));if(!fromDt)$("dt").value=lv(d)}
  
- // De echte datum ophalen (voor de synchronisatie)
  const realDate = fromZ(N);
  const realYear = realDate.getFullYear();
  const realMonth = realDate.getMonth() + 1;
  const realDay = realDate.getDate();
  
- // Berekening voor het Model (1-based) gebaseerd op de echte datum
- const modelMillennium = Math.floor(realYear / 1000) + 1;
- const modelEeuw = Math.floor((realYear % 1000) / 100) + 1;
- const modelDecennium = Math.floor((realYear % 100) / 10) + 1;
- const modelJaar = (realYear % 10) + 1;
- const modelMaand = realMonth; 
- const modelDag = realDay; 
- 
- const modelTuple = [modelMillennium, modelEeuw, modelDecennium, modelJaar, modelMaand, modelDag, realDate.getHours()+1, realDate.getMinutes()+1, realDate.getSeconds()+1, realDate.getMilliseconds()+1];
+ // Zonder +1, zuivere tijdsaanduiding
+ const modelTuple = [Math.floor(realYear / 1000), Math.floor((realYear % 1000) / 100), Math.floor((realYear % 100) / 10), realYear % 10, realMonth, realDay, realDate.getHours() + 1, realDate.getMinutes() + 1, realDate.getSeconds() + 1, realDate.getMilliseconds() + 1];
 
  o.innerHTML = realBlock(N) + 
- `<h2>${T("Model (1-based) gesynchroniseerd","Model (1-based) synchronized")}</h2>
+ `<h2>${T("Model (tijdsaanduiding)","Model (time indication)")}</h2>
  <div class="cards">${UNITS.map((u,i)=>`<div class="card ${i<4?"":i<6?"cc":"ct"}"><b>${modelTuple[i]}</b><small>${ul(u)}</small></div>`).join("")}</div>` +
  S(T("Datum","Date"),when) + 
  S(T("Weekdag","Weekday"),wd()[Number((days+5n)%7n)]) + 
@@ -367,11 +359,14 @@ class Spiral{
    else{x.globalCompositeOperation="source-over";this.pearl(o.p,tm)}
   }
   x.globalCompositeOperation="source-over";x.textAlign="left";x.textBaseline="middle";
+  
+  // Vaste labels aan de zijkant
+  const labelX = this.w / 2 - (Math.min(this.w, this.h) * 0.34) - 20;
   for(let l=from;l<=to;l++){
    const q=this.pt(0,l),isT=yr(l)===st.target,cur=l===st.level,t=yr(l)+(isT?" ◎ "+T("doel","target"):"");
-   x.font=(cur||isT?"600 11px":"10px")+" -apple-system,sans-serif";const wd=x.measureText(t).width,px=q.x+q.R*.08+4;
-   x.fillStyle="rgba(8,11,34,.72)";x.beginPath();x.roundRect?x.roundRect(px-3,q.y-8,wd+6,16,5):x.rect(px-3,q.y-8,wd+6,16);x.fill();
-   x.shadowColor="rgba(0,0,0,.5)";x.shadowBlur=3;x.fillStyle=cur?"#f4c542":isT?"#ff6f91":"rgba(170,178,215,.85)";x.fillText(t,px,q.y);x.shadowBlur=0;
+   x.font=(cur||isT?"600 11px":"10px")+" -apple-system,sans-serif";const wd=x.measureText(t).width;
+   x.fillStyle="rgba(8,11,34,.72)";x.beginPath();x.roundRect?x.roundRect(labelX-3,q.y-8,wd+6,16,5):x.rect(labelX-3,q.y-8,wd+6,16);x.fill();
+   x.shadowColor="rgba(0,0,0,.5)";x.shadowBlur=3;x.fillStyle=cur?"#f4c542":isT?"#ff6f91":"rgba(170,178,215,.85)";x.fillText(t,labelX,q.y);x.shadowBlur=0;
   }
  }
  pearl(p,time){const x=this.x,r=Math.max(10,p.R*.085)*p.s,hue=(time/40)%360;
