@@ -17,7 +17,9 @@ To make the structural beauty of the clock tangible, the repository includes a d
 This visual tool demonstrates how different units of time (from a millisecond to the 7000-year cycle) are linked through the universal formula **p ≡ 1 (mod q)**. 
 
 ### What you will see:
-- **The Gear Train:** Eight perfectly meshing gears representing the units of time. Their sizes and rotational speeds are mathematically linked. You can see the "+1 jump" light up in gold every time a gear completes its rounds and moves to the next level.
+- **The Gear Train:** Ten perfectly meshing gears representing the units of time. Their sizes and rotational speeds are mathematically linked. You can see the "+1 jump" light up in gold every time a gear completes its rounds and moves to the next level.
+- **The Parallel Week:** The 7-day week is visualized as a parallel gear, showing how it runs out of sync with the calendar until the ultimate synchronization.
+- **The Ultimate Alignment:** Click the "⚡ Align at 7,000 years" button to witness the full synchronization. The gears lock into position, the screen flashes gold, and the system freezes to prove that time is a closed, perfect loop.
 - **The Round Chain (Spiral):** An interactive panel where you can change the modulus (`q`) and the number of rounds (`m`). Watch how the sequence spirals upwards. Every level lands on position 1 again, visually proving that time is not a linear count, but a rising spiral.
 - **Bilingual:** Fully interactive in both English and Dutch (NL/EN toggle).
 
@@ -43,10 +45,11 @@ Any attempt to alter the parameters of this software does not circumvent the the
 The software is architecturally built to calculate `p` for _any_ valid `q` under this specific mathematical framework. 
 The mathematical structure **p ≡ 1 (mod q)** and its application to time measurement are the original intellectual property of the author, Bilal el Issaoui.
 
-## Deep Dive: The Leap Year
+## Deep Dive: The Benchmark of History (The Leap Cycle)
 
-How does the model handle the real calendar? 
-We respect the Gregorian calendar as the leading standard. 
+One could object that a year does not last 360 days, but 365 (or 366 in a leap year). Yet this does not make the theory less true; it confirms it. The parameter `q` for the year is not a static number, but a variable. Whether you take 360, 361, 362, 363, 364 or 365 days, the mathematical structure remains intact.
+
+What makes this system unique is that it does not rely on the raw orbital period, but on the **leap cycle as the benchmark**. This is the only variable that has been constantly corrected throughout history. Humanity has always known: the year runs out of sync, and the leap year is the solution. Our 7,000-year cycle therefore synchronizes with that universal, historical correction. The leap year is not just an addition; it is the anchor on which the entire spiral rests.
 
 - A normal year has **365 days**.
 - The first leap year is calculated using the double cycle (m=2): 
