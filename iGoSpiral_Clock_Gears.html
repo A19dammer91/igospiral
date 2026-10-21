@@ -12,6 +12,7 @@
   --green:#8fd18f;
   --orange:#ff9800;
   --red:#f44336;
+  --cyan:#00bcd4;
   --bg-panel: linear-gradient(180deg,#1c1710,#100d09);
   --border: 1px solid #4a3e2c;
 }
@@ -37,6 +38,8 @@ button,select{background:#2f271b;color:var(--gold);border:1px solid var(--gold);
 button:hover{background:#3f3524;transform:translateY(-1px)}
 button.align-btn{background:var(--gold);color:#14110d;font-weight:bold;box-shadow:0 0 10px rgba(232,195,106,0.4)}
 button.align-btn:hover{background:#fff;color:#000}
+button.reset-btn{background:var(--red);color:#fff;border-color:var(--red);font-weight:bold;display:none}
+button.reset-btn.active{display:inline-block}
 select{padding:5px 8px}
 input[type=range]{width:100px;vertical-align:middle}
 
@@ -59,38 +62,35 @@ input[type=range]{width:100px;vertical-align:middle}
 }
 #s{width:100%;height:100%;display:block;z-index:1}
 
-/* The Flash overlay */
+/* Flash overlay */
 #flash {
   position: fixed;
   top: 0; left: 0; width: 100vw; height: 100vh;
-  background: radial-gradient(circle at center, rgba(232,195,106,0.9) 0%, rgba(232,195,106,0) 70%);
+  background: radial-gradient(circle at center, rgba(232,195,106,0.95) 0%, rgba(232,195,106,0) 75%);
   pointer-events: none;
   opacity: 0;
   z-index: 999;
-  transition: opacity 0.1s ease-in;
+  transition: opacity 0.15s ease-out;
 }
-#flash.active {
-  opacity: 1;
-}
+#flash.active { opacity: 1; }
+
 #flash-text {
   position: fixed;
   top: 50%; left: 50%;
   transform: translate(-50%, -50%);
   color: #14110d;
-  font-size: clamp(1.5rem, 5vw, 3rem);
+  font-size: clamp(1.5rem, 6vw, 3.5rem);
   font-weight: bold;
   text-align: center;
   font-family: system-ui, sans-serif;
   opacity: 0;
   z-index: 1000;
   pointer-events: none;
-  text-shadow: 0 2px 10px rgba(255,255,255,0.5);
-  transition: opacity 0.5s ease-in-out;
+  text-shadow: 0 2px 10px rgba(255,255,255,0.6);
+  transition: opacity 0.3s ease-out;
   line-height: 1.2;
 }
-#flash-text.active {
-  opacity: 1;
-}
+#flash-text.active { opacity: 1; }
 
 .info{
   width:100%;
@@ -107,10 +107,29 @@ input[type=range]{width:100px;vertical-align:middle}
 .csub{font:italic .85em Georgia,serif;color:var(--mut);margin-bottom:12px}
 .ctl2{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;font:.85em system-ui,sans-serif;color:var(--mut);margin-bottom:12px}
 #cs{width:100%;max-width:560px;height:auto;display:block;margin:0 auto}
-.formula{font:.9em ui-monospace,Menlo,monospace;color:var(--green);margin:12px 0;line-height:1.6}
+.formula{font:.9em ui-monospace,Menlo,monospace;color:var(--green);margin:12px 0;line-height:1.6;text-align:left}
 .formula b{color:var(--gold)}
 .note,.legend{font:.8em/1.6 system-ui,sans-serif;color:var(--mut);margin:12px auto 0;max-width:680px;text-align:left}
 .legend br{margin-bottom:8px}
+
+/* The new Explanation Box */
+.anchor-box {
+  background: rgba(0, 188, 212, 0.05);
+  border: 1px solid rgba(0, 188, 212, 0.3);
+  border-radius: 8px;
+  padding: 12px;
+  margin-top: 16px;
+  text-align: left;
+  font-family: system-ui, sans-serif;
+  font-size: 0.85em;
+  line-height: 1.6;
+}
+.anchor-box h3 {
+  color: var(--cyan);
+  margin: 0 0 8px 0;
+  font-size: 1.1em;
+}
+.anchor-box p { margin: 0 0 8px 0; }
 </style>
 </head>
 <body>
@@ -124,7 +143,8 @@ input[type=range]{width:100px;vertical-align:middle}
 <div class="ctl">
   <button id="pp">Pause</button>
   <button id="rv">Reverse</button>
-  <button id="align" class="align-btn">⚡ Align at 7,000 years</button>
+  <button id="align7000" class="align-btn">⚡ Align at 7,000 years</button>
+  <button id="reset" class="reset-btn">🔄 Reset</button>
   <button id="lg" aria-label="Language / Taal">NL</button>
   <label><span id="spl">Speed</span> <input id="sp" type="range" min="0.25" max="3" step="0.25" value="1"></label>
 </div>
@@ -150,22 +170,28 @@ input[type=range]{width:100px;vertical-align:middle}
   <div class="formula" id="formula"></div>
   <div class="legend" id="legend"></div>
   <div class="note" id="note"></div>
+  
+  <!-- New Theory Box -->
+  <div class="anchor-box" id="anchor-box">
+    <!-- Injected via JS -->
+  </div>
 </div>
 
 <script>
 // Texts per language
 const TX = {
   en: {
-    lang: 'en', loc: 'en-US', btn: 'NL', alignBtn: '⚡ Align at 7,000 years',
+    lang: 'en', loc: 'en-US', btn: 'NL', 
+    align7000: '⚡ Align at 7,000 years', reset: '🔄 Reset',
     title: 'iGoSpiral — Clock Gears',
     sub: 'From 1 millisecond to the 7000-year cycle: one gear train',
     pause: 'Pause', resume: 'Resume', reverse: 'Reverse', speed: 'Speed',
-    note: 'All gears mesh exactly · scale model: drawn number of teeth ≠ q',
-    legend: '<span style="color:#ffd700">●</span> gold dot = tooth 0 · <span style="color:#ff9800">■</span> orange = m=2 (actual form) · <span style="color:#f44336">■</span> red = m=8 (leap cycle) · the +1 jump follows after m full rounds',
-    legend2: 'Chain: every ring is one level (1…q, then q+1…2q, and so on). The gold link is p = m·q + 1: one level higher, on the same line as 1.',
-    aria: 'Gear train of eight meshing gears',
-    aria2: 'Round chain with levels: the same numbers 1 to q, one level higher each time',
-    start: '▼ START at 1', jump: '+1 jump!',
+    note: 'All gears mesh exactly · The week runs parallel to the calendar · +1 jump happens when all align',
+    legend: '<span style="color:#ffd700">●</span> gold dot = start position · <span style="color:#ff9800">■</span> orange = main calendar chain · <span style="color:#00bcd4">■</span> cyan = week (parallel cycle)',
+    legend2: 'At 7,000 years (2,520,000 days) the calendar and the 7-day week align perfectly. This is the absolute end of the cycle.',
+    aria: 'Gear train of eight meshing gears and one parallel week gear',
+    aria2: 'Round chain with levels',
+    start: '▼ START at 1', jump: '+1 jump!', syncText: 'SYNCHRONIZED',
     round: (c, m) => `round ${c} of ${m}`,
     lcm: 'lcm(360,000 ; 7) days',
     ct: 'The chain: p ≡ 1 (mod q)',
@@ -176,20 +202,23 @@ const TX = {
     jumpMsg: (p, q) => `<b>+1 jump</b> to the next level: p = ${p} ≡ 1 (mod ${q})`,
     p3t: 'Explanation',
     gen: 'The general form',
-    names: ['millisecond', 'second', 'minute', 'hour (in sec.)', 'day (in sec.)', 'year', 'leap cycle', '7000-year cycle'],
-    alignMsg: 'ALL GEARS ALIGN<br>7,000 YEARS'
+    names: ['millisecond', 'second', 'minute', 'hour', 'day', 'month', 'year', 'leap cycle', '7000-year cycle', 'week (parallel)'],
+    alignMsg: 'FULL SYNCHRONIZATION<br>7,000 YEARS',
+    anchorTitle: 'The Benchmark of History: The Leap Cycle',
+    anchorText: 'One could object that a year does not last 360 days, but 365 (or 366 in a leap year). Yet this does not make the theory less true; it confirms it. The parameter <code>q</code> for the year is not a static number, but a variable. Whether you take 360, 361, 362, 363, 364 or 365 days, the mathematical structure remains intact.<br><br>What makes our system unique is that it does not rely on the raw orbital period, but on the <b>leap cycle as the benchmark</b>. This is the only variable that has been constantly corrected throughout history. Humanity has always known: the year runs out of sync, and the leap year is the solution. Our 7,000-year cycle therefore synchronizes with that universal, historical correction. The leap year is not just an addition; it is the anchor on which the entire spiral rests.'
   },
   nl: {
-    lang: 'nl', loc: 'nl-NL', btn: 'EN', alignBtn: '⚡ Lijn uit op 7.000 jaar',
+    lang: 'nl', loc: 'nl-NL', btn: 'EN', 
+    align7000: '⚡ Lijn uit op 7.000 jaar', reset: '🔄 Reset',
     title: 'iGoSpiral — Klok Tandwielen',
     sub: 'Van 1 milliseconde tot de 7000-jaarcyclus: één tandwieltrein',
     pause: 'Pauze', resume: 'Verder', reverse: 'Keer om', speed: 'Snelheid',
-    note: 'Alle wielen grijpen exact in elkaar · schaalmodel: getekend aantal tanden ≠ q',
-    legend: '<span style="color:#ffd700">●</span> gouden stip = tand 0 · <span style="color:#ff9800">■</span> oranje = m=2 (werkelijke vorm) · <span style="color:#f44336">■</span> rood = m=8 (schrikkelcyclus) · de +1 sprong volgt na m volle rondes',
-    legend2: 'Ketting: elke ring is één niveau (1…q, daarna q+1…2q, enzovoort). De gouden schakel is p = m·q + 1: een niveau hoger, op dezelfde lijn als 1.',
-    aria: 'Tandwieltrein van acht in elkaar grijpende wielen',
-    aria2: 'Ronde ketting met niveaus: steeds dezelfde getallen 1 tot q, telkens een niveau hoger',
-    start: '▼ START bij 1', jump: '+1 sprong!',
+    note: 'Alle wielen grijpen in elkaar · De week loopt parallel · +1 sprong bij volledige uitlijning',
+    legend: '<span style="color:#ffd700">●</span> gouden stip = startpositie · <span style="color:#ff9800">■</span> oranje = kalenderketen · <span style="color:#00bcd4">■</span> cyaan = week (parallelle cyclus)',
+    legend2: 'Bij 7.000 jaar (2.520.000 dagen) vallen de kalender en de 7-daagse week exact samen. Dit is het absolute einde van de cyclus.',
+    aria: 'Tandwieltrein van acht in elkaar grijpende wielen en een parallel weekwiel',
+    aria2: 'Ronde ketting met niveaus',
+    start: '▼ START bij 1', jump: '+1 sprong!', syncText: 'GESYNCHRONISEERD',
     round: (c, m) => `ronde ${c} van ${m}`,
     lcm: 'kgv(360.000 ; 7) dagen',
     ct: 'De ketting: p ≡ 1 (mod q)',
@@ -200,8 +229,10 @@ const TX = {
     jumpMsg: (p, q) => `<b>+1 sprong</b> naar het volgende niveau: p = ${p} ≡ 1 (mod ${q})`,
     p3t: 'Uitleg',
     gen: 'De algemene vorm',
-    names: ['milliseconde', 'seconde', 'minuut', 'uur (in sec.)', 'dag (in sec.)', 'jaar', 'schrikkelcyclus', '7000-jaarcyclus'],
-    alignMsg: 'ALLE WIELEN LIJNEN UIT<br>7.000 JAAR'
+    names: ['milliseconde', 'seconde', 'minuut', 'uur', 'dag', 'maand', 'jaar', 'schrikkelcyclus', '7000-jaarcyclus', 'week (parallel)'],
+    alignMsg: 'VOLLEDIGE SYNCHRONISATIE<br>7.000 JAAR',
+    anchorTitle: 'Het ijkpunt van de geschiedenis: de schrikkelcyclus',
+    anchorText: 'Men zou kunnen tegenwerpen dat een jaar geen 360 dagen duurt, maar 365 (of 366 in een schrikkeljaar). Toch maakt dit de theorie niet minder waar; het bevestigt haar juist. De parameter <code>q</code> voor het jaar is geen statisch getal, maar een variabele. Of je nu 360, 361, 362, 363, 364 of 365 dagen neemt, de wiskundige structuur blijft overeind.<br><br>Wat ons systeem uniek maakt, is dat het niet vertrouwt op de ruwe omlooptijd, maar op de <b>schrikkelcyclus als ijkpunt</b>. Dit is de enige variabele die door de geschiedenis heen constant is gecorrigeerd. De mensheid heeft altijd geweten: het jaar loopt uit de pas, en de schrikkel is de oplossing. Onze 7000-jaarcyclus synchroniseert daarom met die universele, historische correctie. De schrikkel is niet zomaar een toevoeging; het is het anker waarop de hele spiraal rust.'
   }
 };
 let L = 'en';
@@ -213,55 +244,65 @@ try {
   if ((navigator.language || '').toLowerCase().startsWith('nl')) L = 'nl';
 }
 
-// Data: [q, m, drawn teeth]
+// Data: [q, m, drawn teeth, isWeek]
 const D = [
-  [1000, 2, 48],
-  [60, 2, 60],
-  [60, 2, 60],
-  [3600, 2, 40],
-  [86400, 2, 54],
-  [365, 2, 45],
-  [365, 8, 60],
-  [2520000, 2, 72]
+  [1000, 2, 30, false],  // millisecond (smallest)
+  [60, 2, 40, false],    // second
+  [60, 2, 45, false],    // minute
+  [3600, 2, 50, false],  // hour
+  [86400, 2, 55, false], // day
+  [30, 2, 58, false],    // month
+  [365, 2, 62, false],   // year
+  [365, 8, 66, false],   // leap cycle
+  [2520000, 2, 72, false], // 7000-year (largest)
+  [7, 2, 45, true]       // week (parallel)
 ];
 
-const col = {2: "#ff9800", 8: "#f44336"};
+const col = {2: "#ff9800", 8: "#f44336", week: "#00bcd4"};
 const fmt = x => x.toLocaleString(TX[L].loc);
 const MOD = 1.2, A = 2.2, DD = 2.8, PI = Math.PI;
 
 // Build the gears
-const G = D.map(([q, m, n], i) => ({
+const G = D.map(([q, m, n, isWeek], i) => ({
   id: i + 1,
-  q, m, n,
+  q, m, n, isWeek,
   p: m * q + 1,
   R: MOD * n,
   s: 2 * PI / n,
-  c: col[m],
+  c: isWeek ? col.week : col[m],
   prev: 0,
   fl: 0
 }));
 
 // Position the gears in a chain
-const dirs = [0, PI/2, PI, PI/2, 0, PI/2, PI];
+const dirs = [0, PI/2, PI, PI/2, 0, PI/2, PI, 0, PI/2];
 G[0].x = 0;
 G[0].y = 0;
-for (let i = 1; i < G.length; i++) {
+
+// Main chain positions
+for (let i = 1; i < G.length - 1; i++) {
   const a = dirs[i - 1];
   const d = G[i - 1].R + G[i].R;
   G[i].x = G[i - 1].x + d * Math.cos(a);
   G[i].y = G[i - 1].y + d * Math.sin(a);
 }
 
-// Extent of the gears (room under the last gear for the lcm note)
+// The Week gear
+const weekGear = G[G.length - 1];
+const monthGear = G[5]; 
+weekGear.x = monthGear.x;
+weekGear.y = monthGear.y - (monthGear.R + weekGear.R + 30); 
+
+// Extent of the gears
 let x0 = 1e9, x1 = -1e9, y0 = 1e9, y1 = -1e9;
 G.forEach((g, i) => {
   const e = g.R + A + 6;
   x0 = Math.min(x0, g.x - e);
   x1 = Math.max(x1, g.x + e);
   y0 = Math.min(y0, g.y - e);
-  y1 = Math.max(y1, g.y + e + (i === G.length - 1 ? 14 : 0));
+  y1 = Math.max(y1, g.y + e + (i === G.length - 2 ? 14 : 0));
 });
-y0 -= 14;
+y0 -= 30;
 
 const svg = document.getElementById('s');
 svg.setAttribute('viewBox', `${x0.toFixed(0)} ${y0.toFixed(0)} ${(x1 - x0).toFixed(0)} ${(y1 - y0).toFixed(0)}`);
@@ -273,7 +314,6 @@ function body(g) {
   const ri = R - DD;
   let d = '', b = '';
 
-  // Teeth
   for (let k = 0; k < n; k++) {
     [[-.27, ri], [-.13, ro], [.13, ro], [.27, ri]].forEach(([f, r], j) => {
       const a = (k + f) * s;
@@ -281,7 +321,6 @@ function body(g) {
     });
   }
 
-  // Holes
   for (let i = 0; i < 8; i++) {
     const t = i * PI / 4 + PI / 8;
     b += `<circle cx="${(ri * .87 * Math.cos(t)).toFixed(1)}" cy="${(ri * .87 * Math.sin(t)).toFixed(1)}" r="1.8" fill="#0e0b08"/>`;
@@ -302,14 +341,19 @@ function body(g) {
   <circle id="d${id}" r="${ri * .74}" fill="#17120b" stroke="${c}" stroke-width="1.5"/>`;
 }
 
-// Build the gear panel (also used when the language changes)
 function build() {
   const T = TX[L];
   let h = '';
+  
+  const mG = G[5];
+  const wG = G[G.length - 1];
+  h += `<line x1="${mG.x}" y1="${mG.y}" x2="${wG.x}" y2="${wG.y}" stroke="#00bcd4" stroke-dasharray="4 4" stroke-opacity="0.4" stroke-width="2"/>`;
+
   G.forEach((g, i) => {
     const f = g.R * .19;
     const name = T.names[i];
-    const last = i === G.length - 1;
+    const last = i === G.length - 2;
+    
     h += `<g transform="translate(${g.x.toFixed(1)} ${g.y.toFixed(1)})">${body(g)}
   <g font-family="system-ui,sans-serif" text-anchor="middle" fill="#eadfc8">
     <text y="${-f * 1.55}" font-size="${f * .8}" fill="${g.c}">${g.id}</text>
@@ -323,7 +367,6 @@ function build() {
   svg.innerHTML = h;
 }
 
-// ---- The round chain (ketting) with levels ----
 const cs = document.getElementById('cs');
 const R0 = 165;
 let CQ = 9, CM = 2, CH = null, chCur = -2, ctt = 0;
@@ -393,7 +436,7 @@ function setFormula() {
 }
 
 function updateChain(dt, T) {
-  if (!CH) return;
+  if (!CH || isLocked) return;
   const { q, m, mq, dr, pts } = CH, rate = 1.5, hold = 1.4, Tt = mq / rate + hold;
   if (!paused) ctt = (((ctt + dir * dt * speed) % Tt) + Tt) % Tt;
   const u = Math.min(ctt * rate, mq), jumped = ctt * rate >= mq;
@@ -421,6 +464,7 @@ function updateChain(dt, T) {
 // Animation state
 let speed = 1, paused = false, dir = 1, drive = 0, last = performance.now();
 let isAligning = false, alignTarget = 0, alignStartDrive = 0, alignStartTime = 0;
+let isLocked = false;
 
 const pb = document.getElementById('pp');
 function fillSelects() {
@@ -429,6 +473,7 @@ function fillSelects() {
   qs.innerHTML = qv.map((v, i) => `<option value="${v}"${v === CQ ? ' selected' : ''}>${T.qopts[i]}</option>`).join('');
   ms.innerHTML = [1, 2, 3, 4].map((v, i) => `<option value="${v}"${v === CM ? ' selected' : ''}>${T.mopts[i]}</option>`).join('');
 }
+
 function applyLang() {
   const T = TX[L];
   document.documentElement.lang = T.lang;
@@ -438,7 +483,8 @@ function applyLang() {
   document.getElementById('rv').textContent = T.reverse;
   document.getElementById('spl').textContent = T.speed;
   document.getElementById('lg').textContent = T.btn;
-  document.getElementById('align').textContent = T.alignBtn;
+  document.getElementById('align7000').textContent = T.align7000;
+  document.getElementById('reset').textContent = T.reset;
   document.getElementById('note').textContent = T.note;
   document.getElementById('legend').innerHTML = T.legend + '<br>' + T.legend2;
   document.getElementById('ct').textContent = T.ct;
@@ -447,14 +493,28 @@ function applyLang() {
   pb.textContent = paused ? T.resume : T.pause;
   svg.setAttribute('aria-label', T.aria);
   cs.setAttribute('aria-label', T.aria2);
+  
+  // Update the new anchor box
+  document.getElementById('anchor-box').innerHTML = `
+    <h3>${T.anchorTitle}</h3>
+    <p>${T.anchorText}</p>
+  `;
+
   fillSelects();
   build();
   buildChain();
 }
 
 document.getElementById('sp').oninput = e => speed = +e.target.value;
-pb.onclick = () => { paused = !paused; pb.textContent = paused ? TX[L].resume : TX[L].pause; };
-document.getElementById('rv').onclick = () => dir = -dir;
+pb.onclick = () => { 
+  if (isLocked) return;
+  paused = !paused; 
+  pb.textContent = paused ? TX[L].resume : TX[L].pause; 
+};
+document.getElementById('rv').onclick = () => { 
+  if (isLocked) return;
+  dir = -dir; 
+};
 document.getElementById('lg').onclick = () => {
   L = L === 'en' ? 'nl' : 'en';
   try { localStorage.setItem('igospiral-lang', L); } catch (e) {}
@@ -464,16 +524,13 @@ document.getElementById('qs').onchange = e => { CQ = +e.target.value; ctt = 0; b
 document.getElementById('ms').onchange = e => { CM = +e.target.value; ctt = 0; buildChain(); };
 document.addEventListener('visibilitychange', () => { last = performance.now(); });
 
-// The Align Button Logic
-document.getElementById('align').onclick = () => {
-  if (isAligning) return;
+// The Align Button Logic (Flash & Lock)
+document.getElementById('align7000').onclick = () => {
+  if (isAligning || isLocked) return;
   isAligning = true;
-  paused = true; // pause normal animation logic
-  pb.textContent = TX[L].resume; // show resume
+  paused = true; 
+  pb.textContent = TX[L].resume;
   
-  // We want all gears to align to their zero point (tooth 0 at the top).
-  // The master drive controls the rotation. We need drive to be a multiple of 2*PI.
-  // Let's find the next multiple of 2*PI that is at least 4 full rotations away.
   const currentRotations = drive / (2 * PI);
   const targetRotations = Math.ceil(currentRotations + 2);
   
@@ -481,7 +538,6 @@ document.getElementById('align').onclick = () => {
   alignStartDrive = drive;
   alignStartTime = performance.now();
   
-  // Start the fast forward
   requestAnimationFrame(alignFrame);
 };
 
@@ -489,15 +545,12 @@ function alignFrame(now) {
   if (!isAligning) return;
   
   const elapsed = now - alignStartTime;
-  const duration = 2500; // 2.5 seconds to spin up and align
+  const duration = 2500; 
   const progress = Math.min(elapsed / duration, 1);
   
-  // Easing function: ease-in-out
   const ease = progress < 0.5 ? 2 * progress * progress : 1 - Math.pow(-2 * progress + 2, 2) / 2;
-  
   drive = alignStartDrive + (alignTarget - alignStartDrive) * ease;
   
-  // Update visuals manually
   const T = TX[L];
   let th = drive;
   G.forEach((g, i) => {
@@ -507,7 +560,6 @@ function alignFrame(now) {
     }
     document.getElementById('g' + g.id).setAttribute('transform', `rotate(${(th * 180 / PI).toFixed(2)})`);
     
-    // Show rounding up
     const r = Math.abs(drive) / (2 * PI) * G[0].n / g.n;
     const c = r % g.m;
     const tx = document.getElementById('t' + g.id);
@@ -517,7 +569,7 @@ function alignFrame(now) {
   
   if (progress >= 1) {
     isAligning = false;
-    drive = alignTarget; // Lock it exactly
+    drive = alignTarget; 
     triggerFlash();
   } else {
     requestAnimationFrame(alignFrame);
@@ -528,31 +580,60 @@ function triggerFlash() {
   const flash = document.getElementById('flash');
   const flashText = document.getElementById('flash-text');
   
-  // Set text
   flashText.innerHTML = TX[L].alignMsg;
   
-  // Activate flash
+  // Show flash and text permanently
   flash.classList.add('active');
   flashText.classList.add('active');
   
-  // Remove after 1.5 seconds
-  setTimeout(() => {
-    flash.classList.remove('active');
-    flashText.classList.remove('active');
-    
-    // Resume normal animation after flash
-    setTimeout(() => {
-      paused = false;
-      pb.textContent = TX[L].pause;
-      last = performance.now(); // reset dt
-      requestAnimationFrame(frame);
-    }, 500);
-    
-  }, 1500);
+  // Lock the system
+  isLocked = true;
+  
+  // Show reset button, hide align button
+  document.getElementById('reset').classList.add('active');
+  document.getElementById('align7000').style.display = 'none';
+  
+  // Ensure everything is visibly at position 1
+  G.forEach(g => {
+    const tx = document.getElementById('t' + g.id);
+    tx.textContent = TX[L].syncText;
+    tx.setAttribute('fill', '#ffd700');
+    const d = document.getElementById('d' + g.id);
+    d.setAttribute('stroke', '#ffd700');
+    d.setAttribute('stroke-width', 4);
+  });
 }
 
+function resetAnimation() {
+  isLocked = false;
+  
+  // Hide flash
+  document.getElementById('flash').classList.remove('active');
+  document.getElementById('flash-text').classList.remove('active');
+  
+  // Toggle buttons
+  document.getElementById('reset').classList.remove('active');
+  document.getElementById('align7000').style.display = 'inline-block';
+  
+  // Resume time
+  paused = false;
+  pb.textContent = TX[L].pause;
+  last = performance.now();
+  
+  // Reset text colors
+  G.forEach(g => {
+    const d = document.getElementById('d' + g.id);
+    d.setAttribute('stroke', g.c);
+    d.setAttribute('stroke-width', 1.5);
+  });
+  
+  requestAnimationFrame(frame);
+}
+
+document.getElementById('reset').onclick = resetAnimation;
+
 function frame(now) {
-  if (isAligning) return; // Let alignFrame handle it
+  if (isAligning || isLocked) return; 
   
   const dt = Math.min((now - last) / 1000, 0.1);
   last = now;
@@ -588,6 +669,7 @@ function frame(now) {
   updateChain(dt, T);
   requestAnimationFrame(frame);
 }
+
 applyLang();
 requestAnimationFrame(frame);
 </script>
