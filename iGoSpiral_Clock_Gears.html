@@ -3,82 +3,123 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>iGoSpiral — Clock Tracks</title>
+<title>iGoSpiral Clock Gears — The Sacred Geometry of Time and the Digital Root</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,700;1,500&display=swap">
 <style>
 :root{
   color-scheme:dark;
-  --gold:#e8c36a;
-  --mut:#a39880;
-  --green:#8fd18f;
-  --orange:#ff9800;
-  --red:#f44336;
-  --cyan:#00bcd4;
-  --bg-panel: linear-gradient(180deg,#1c1710,#100d09);
-  --border: 1px solid #4a3e2c;
+  --pearl:#ece7f3; --pearl-hi:#fff; --pearl-lo:#8a97b8; --mut:#9aa7c7; --ink:#eef0f8; --lav:#a9c4f2;
+  --bord:#8f1a2e; --bord-hi:#c2334d; --blue:#7fa6e8;
+  --n0:#050b1a; --n1:#081330; --n2:#0d1d45; --n3:#16295a;
+  --line:#2b4478; --line-soft:rgba(214,224,248,.18);
+  --serif:'Cormorant Garamond',Georgia,'Times New Roman',serif;
+  --sans:system-ui,-apple-system,'Segoe UI',sans-serif;
+  --mono:ui-monospace,Menlo,Consolas,monospace;
+  --card:linear-gradient(180deg,#0f2150 0%,#081330 100%);
+  --irid:linear-gradient(135deg,#ffffff,#e9e1f3 40%,#d5e6f0 70%,#f6e9ec);
 }
 *{box-sizing:border-box}
-html,body{min-height:100%}
+html{min-height:100%;height:100%;scroll-padding-top:env(safe-area-inset-top,0px)}
 body{
-  margin:0; padding:12px 12px 24px;
-  background:radial-gradient(circle at 50% 0,#2a2218,#14110d 65%);
-  background-attachment:fixed;
-  color:#eadfc8; font-family:Georgia,'Times New Roman',serif;
-  display:flex; flex-direction:column; align-items:center;
-  position:relative; overflow-x:hidden;
+  margin:0; min-height:100%;
+  padding:calc(14px + env(safe-area-inset-top,0px)) 14px calc(28px + env(safe-area-inset-bottom,0px));
+  background:radial-gradient(ellipse 80% 40% at 50% 0,rgba(120,150,230,.22),transparent 70%),radial-gradient(circle at 50% 0,#16295a,#081330 60%,#050b1a);
+  background-attachment:fixed; color:var(--ink); font-family:var(--serif); font-size:17px;
+  display:flex; flex-direction:column; align-items:center; overflow-x:hidden; -webkit-text-size-adjust:100%;
 }
-h1{margin:4px 0 0;color:var(--gold);font-size:1.3em;text-align:center;letter-spacing:0.5px}
-.sub{color:var(--mut);font:italic .85em Georgia,serif;margin-bottom:12px;text-align:center}
-.ctl{display:flex;gap:12px;align-items:center;justify-content:center;flex-wrap:wrap;font:.85em system-ui,sans-serif;margin-bottom:12px}
-button,select{background:#2f271b;color:var(--gold);border:1px solid var(--gold);border-radius:7px;padding:6px 14px;font-size:1em;cursor:pointer;font-family:inherit;transition:all 0.2s}
-button:hover{background:#3f3524;transform:translateY(-1px)}
-button.align-btn{background:var(--gold);color:#14110d;font-weight:bold;box-shadow:0 0 10px rgba(232,195,106,0.4)}
-button.align-btn:hover{background:#fff;color:#000}
-button.reset-btn{background:var(--red);color:#fff;border-color:var(--red);font-weight:bold;display:none}
+h1{margin:6px 0 4px;max-width:780px;text-align:center;font:700 clamp(1.55rem,5.4vw,2.4rem)/1.12 var(--serif);
+  background:var(--irid);-webkit-background-clip:text;background-clip:text;color:transparent;text-wrap:balance}
+.sub{color:var(--mut);font:italic 500 1.08rem var(--serif);margin-bottom:14px;text-align:center;text-wrap:balance}
+.sub::after{content:"";display:block;width:120px;height:1px;margin:12px auto 0;background:linear-gradient(90deg,transparent,var(--bord-hi),var(--pearl),var(--bord-hi),transparent)}
+.ctl{position:sticky;top:calc(6px + env(safe-area-inset-top,0px));z-index:20;display:flex;gap:8px 10px;align-items:center;justify-content:center;flex-wrap:wrap;
+  font:.85rem var(--sans);margin-bottom:14px;padding:8px 12px;max-width:900px;width:100%;
+  background:rgba(8,19,48,.8);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);
+  border:1px solid var(--line-soft);border-radius:999px;box-shadow:0 6px 24px rgba(0,0,0,.5)}
+button,select{background:linear-gradient(180deg,#1f3a78,#122250);color:var(--pearl);border:1px solid rgba(214,224,248,.5);border-radius:999px;
+  padding:7px 15px;font:600 .95em var(--sans);cursor:pointer;transition:background .2s,transform .2s,box-shadow .2s;min-height:36px}
+button:hover{background:linear-gradient(180deg,#2a4a94,#183066);transform:translateY(-1px)}
+button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid var(--pearl-hi);outline-offset:2px}
+button.align-btn{background:var(--irid);color:#0a1736;border-color:#fff;box-shadow:0 0 14px rgba(214,224,248,.45)}
+button.align-btn:hover{background:#fff}
+button.reset-btn{background:linear-gradient(180deg,var(--bord-hi),var(--bord));color:#fff;border-color:#e08a9a;display:none}
 button.reset-btn.active{display:inline-block}
-select{padding:5px 8px}
-input[type=range]{width:100px;vertical-align:middle}
+button.toggle-active{background:var(--irid);color:#0a1736;border-color:#fff;box-shadow:0 0 12px rgba(214,224,248,.45)}
+select{border-radius:10px;padding:6px 10px;font-weight:500}
+label{color:var(--mut)}
+input[type=range]{width:110px;vertical-align:middle;accent-color:var(--bord-hi)}
 
-.panel{width:100%;max-width:900px;border:var(--border);border-radius:14px;background:var(--bg-panel);display:flex;align-items:center;justify-content:center;overflow:hidden;box-shadow:0 0 30px rgba(232,195,106,0.06);margin-bottom:16px;position:relative}
-.panel.gear-panel{height:clamp(500px, 70vh, 800px)}
-#s{width:100%;height:100%;display:block;z-index:1}
+.panel{width:100%;max-width:900px;position:relative;overflow:hidden;margin-bottom:16px;
+  border:1px solid var(--line);border-radius:22px;touch-action:pan-y;user-select:none;-webkit-user-select:none;
+  background:radial-gradient(circle at 50% 42%,rgba(110,140,225,.14),transparent 60%),radial-gradient(circle at center,#0d1d45 0%,#050b1a 100%);
+  box-shadow:0 0 0 4px rgba(0,0,0,.35),0 18px 50px rgba(0,0,0,.6),inset 0 0 60px rgba(0,0,0,.55);
+  transition:box-shadow .5s ease,border-color .5s ease}
+.panel::before{content:"";position:absolute;inset:8px;border:1px solid var(--line-soft);border-radius:16px;pointer-events:none;z-index:2}
+.panel.gear-panel{aspect-ratio:840/980;max-height:92vh}
+.panel.synced{box-shadow:0 0 90px rgba(214,224,248,.6),0 0 40px rgba(194,51,77,.5),inset 0 0 50px rgba(214,224,248,.25);border-color:var(--pearl)}
+.tilt{position:absolute;inset:0;transform-style:preserve-3d;}
+.tilt.soft{transform:rotateX(5deg)}
+.rimwrap{position:absolute;inset:0;transform-style:preserve-3d}
+.ly{position:absolute;inset:0;width:100%;height:100%;display:block;overflow:visible;transform:translateZ(var(--z,0px))}
+.ly text{paint-order:stroke;stroke:#050b1a;stroke-width:2.2px;stroke-linejoin:round}
+.stage3{position:relative;width:100%;max-width:420px;aspect-ratio:1;margin:6px auto 0;}
+#clockTop{filter:drop-shadow(0 10px 8px rgba(0,0,0,.55))}
+#cs{filter:drop-shadow(0 12px 14px rgba(0,0,0,.6))}
 
-#flash {position:fixed;top:0;left:0;width:100vw;height:100vh;background:radial-gradient(circle at center, rgba(232,195,106,0.95) 0%, rgba(232,195,106,0) 75%);pointer-events:none;opacity:0;z-index:999;transition:opacity 0.15s ease-out}
-#flash.active {opacity:1}
-#flash-text {position:fixed;top:50%;left:50%;transform:translate(-50%, -50%);color:#14110d;font-size:clamp(1.5rem, 6vw, 3.5rem);font-weight:bold;text-align:center;font-family:system-ui,sans-serif;opacity:0;z-index:1000;pointer-events:none;text-shadow:0 2px 10px rgba(255,255,255,0.6);transition:opacity 0.3s ease-out;line-height:1.2}
-#flash-text.active {opacity:1}
+.sync-banner{width:100%;max-width:900px;height:0;opacity:0;overflow:hidden;margin-bottom:0;
+  background:linear-gradient(180deg,rgba(214,224,248,.2),rgba(143,26,46,.15));border:1px solid rgba(214,224,248,.6);border-radius:14px;text-align:center;
+  font-family:var(--sans);font-weight:700;color:var(--pearl);transition:all .5s ease;display:flex;align-items:center;justify-content:center;flex-direction:column}
+.sync-banner.active{height:96px;opacity:1;margin-bottom:16px;box-shadow:0 0 28px rgba(214,224,248,.35)}
+.sync-banner .big-text{font-size:clamp(1.1rem,4.4vw,1.6rem);line-height:1.2;letter-spacing:.5px}
+.sync-banner .small-text{font-size:.85rem;opacity:.9;font-weight:400;margin-top:6px;font-family:var(--mono)}
 
-.info{width:100%;max-width:900px;padding:16px;border:var(--border);border-radius:14px;background:var(--bg-panel);text-align:center;box-shadow:0 0 30px rgba(232,195,106,0.06);margin-bottom:16px}
-.info h2{margin:0 0 8px;color:var(--gold);font-size:1.1em}
-.csub{font:italic .85em Georgia,serif;color:var(--mut);margin-bottom:12px}
-.ctl2{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;font:.85em system-ui,sans-serif;color:var(--mut);margin-bottom:12px}
-#cs{width:100%;max-width:560px;height:auto;display:block;margin:0 auto}
-.formula{font:.9em ui-monospace,Menlo,monospace;color:var(--green);margin:12px 0;line-height:1.6;text-align:left}
-.formula b{color:var(--gold)}
-.note,.legend{font:.8em/1.6 system-ui,sans-serif;color:var(--mut);margin:12px auto 0;max-width:680px;text-align:left}
-.legend br{margin-bottom:8px}
-
-.anchor-box{background:rgba(0, 188, 212, 0.05);border:1px solid rgba(0, 188, 212, 0.3);border-radius:8px;padding:12px;margin-top:16px;text-align:left;font-family:system-ui,sans-serif;font-size:0.85em;line-height:1.6}
-.anchor-box h3 {color:var(--cyan);margin:0 0 8px 0;font-size:1.1em}
-.anchor-box p {margin:0 0 8px 0}
+.info{width:100%;max-width:900px;padding:22px 16px 20px;margin-bottom:16px;text-align:center;border:1px solid var(--line);border-radius:22px;background:var(--card);
+  box-shadow:0 14px 40px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.07)}
+.info h2{margin:0 0 4px;color:var(--pearl);font:700 clamp(1.3rem,4.6vw,1.7rem)/1.2 var(--serif);text-wrap:balance}
+.csub{font:italic 500 1.02rem var(--serif);color:var(--mut);margin-bottom:14px;text-wrap:balance}
+.ctl2{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;font:.88rem var(--sans);margin-bottom:12px}
+.formula{font:.9rem/1.7 var(--mono);color:var(--lav);margin:14px auto 0;max-width:640px;text-align:left;
+  background:rgba(0,0,0,.35);border:1px solid rgba(169,196,242,.2);border-left:3px solid var(--bord-hi);border-radius:10px;padding:10px 14px;overflow-x:auto}
+.formula b{color:var(--pearl);font-family:var(--serif);font-size:1.15em}
+#rd{text-align:center;border-left-width:1px;margin-top:12px;min-height:3.4em}
+.note,.legend{font:.88rem/1.7 var(--sans);color:var(--mut);margin:14px auto 0;max-width:680px;text-align:left}
+.legend{padding:10px 14px;background:rgba(255,255,255,.04);border:1px solid var(--line-soft);border-radius:10px}
+.note{font-family:var(--serif);font-size:1.08rem;font-style:italic;text-align:center;color:var(--ink)}
+.anchor-box{background:linear-gradient(180deg,rgba(143,26,46,.28),rgba(143,26,46,.08));border:1px solid rgba(194,51,77,.5);border-left:3px solid var(--bord-hi);
+  border-radius:12px;padding:14px 16px;margin-top:16px;text-align:left;font:.92rem/1.7 var(--sans)}
+.anchor-box h3{color:#f0a3b2;margin:0 0 8px;font:700 1.2rem var(--serif)}
+.anchor-box p{margin:0}
+@media (max-width:520px){body{padding-left:8px;padding-right:8px}.ctl{border-radius:20px}.info{padding:18px 10px 16px;border-radius:18px}.panel{border-radius:16px}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
 <body>
 
-<div id="flash"></div>
-<div id="flash-text"></div>
-
-<h1 id="h1">iGoSpiral — Clock Tracks</h1>
-<div class="sub" id="sub">Three tracks. One destination: position 1.</div>
+<h1 id="h1">iGoSpiral Clock Gears — The Sacred Geometry of Time and the Digital Root</h1>
+<div class="sub" id="sub">All orbits converge to 1. The digital root is the level.</div>
 <div class="ctl">
   <button id="pp">Pause</button>
   <button id="rv">Reverse</button>
+  <button id="toggleClasses" title="Toggle Class Colors (A/B/C)">🎨 Klasse Kleuren</button>
   <button id="align7000" class="align-btn">⚡ Align at 7,000 years</button>
   <button id="reset" class="reset-btn">🔄 Reset</button>
   <button id="lg" aria-label="Language / Taal">NL</button>
   <label><span id="spl">Speed</span> <input id="sp" type="range" min="0.25" max="3" step="0.25" value="1"></label>
 </div>
 
-<div class="panel gear-panel"><svg id="s" role="img" preserveAspectRatio="xMidYMid meet"></svg></div>
+<!-- Vaste, niet-bewegende paneel met draaiende tandwielen -->
+<div class="panel gear-panel" id="main-panel"><div class="tilt"><svg id="s" class="ly" role="img"></svg><svg id="s1" class="ly" style="--z:70px" aria-hidden="true"></svg><svg id="s2" class="ly" style="--z:36px" aria-hidden="true"></svg><svg id="s3" class="ly" style="--z:36px" aria-hidden="true"></svg></div></div>
+
+<div class="sync-banner" id="sync-banner">
+  <div class="big-text" id="sync-big"></div>
+  <div class="small-text" id="sync-small"></div>
+</div>
+
+<div class="info">
+  <h2 id="clt">The Dualistic Day (2 × 12 + 1)</h2>
+  <div class="csub" id="clsub">The inner core is 1-12. The outer ring shows the +1 jump to 25 (on 1).</div>
+  <div class="stage3"><div class="tilt soft"><div id="rim" class="rimwrap"></div><svg id="clock" class="ly" viewBox="0 0 400 400" role="img"></svg><svg id="clockTop" class="ly" style="--z:26px" viewBox="0 0 400 400" aria-hidden="true"></svg></div></div>
+  <div class="formula" style="text-align:center">p = 2·12 + 1 = 25 · 25 ≡ 1 (mod 12)</div>
+</div>
 
 <div class="info">
   <h2 id="ct"></h2>
@@ -87,7 +128,7 @@ input[type=range]{width:100px;vertical-align:middle}
     <label>q <select id="qs"></select></label>
     <label>m <select id="ms"></select></label>
   </div>
-  <svg id="cs" viewBox="-200 -200 400 400" role="img" preserveAspectRatio="xMidYMid meet"></svg>
+  <div class="stage3"><div class="tilt soft"><svg id="cs" class="ly" viewBox="-200 -200 400 400" role="img"></svg></div></div>
   <div class="formula" id="rd"></div>
 </div>
 
@@ -103,53 +144,59 @@ input[type=range]{width:100px;vertical-align:middle}
 const TX = {
   en: {
     lang: 'en', loc: 'en-US', btn: 'NL', 
-    align7000: '⚡ Align at 7,000 years', reset: '🔄 Reset',
-    title: 'iGoSpiral — Clock Tracks',
-    sub: 'Three tracks. One destination: position 1.',
+    align7000: '⚡ Align at 7,000 years', reset: '🔄 Reset', toggle: '🎨 Class Colors',
+    title: 'iGoSpiral Clock Gears — The Sacred Geometry of Time and the Digital Root',
+    sub: 'All orbits converge to 1. The digital root is the level.',
     pause: 'Pause', resume: 'Resume', reverse: 'Reverse', speed: 'Speed',
-    note: 'The tracks are continuous, but the wheels dictate the structure.',
-    legend: '<span style="color:#ff9800">■</span> Time Track · <span style="color:#f44336">■</span> Calendar Track · <span style="color:#00bcd4">■</span> Week (Parallel)',
-    legend2: 'At 7,000 years, all tracks align to position 1.',
-    aria: 'Clock tracks', aria2: 'Round chain',
+    note: 'The week is the quarter of the month. The quarter-hour is the quarter of the hour.',
+    legend: '<span style="color:#c2334d">■</span> Time Orbit · <span style="color:#efe9dc">■</span> Calendar Orbit · <span style="color:#7fa6e8">■</span> Week (Quarter)',
+    legend2: 'The golden cross marks the 4 quarters. At 7,000 years, all tracks align on the vertical axis.',
+    aria: 'Concentric clock tracks', aria2: 'Round chain',
     start: '▼ START at 1', jump: '+1 jump!', syncText: 'SYNCHRONIZED',
     round: (c, m) => `round ${c} of ${m}`,
     lcm: 'lcm = 2,520,000 days',
     ct: 'The chain: p ≡ 1 (mod q)',
-    csub: 'Not counting further, but going up',
-    qopts: ['q = 9 · digital root', 'q = 12 · clock', 'q = 7 · week', 'q = 10 · base 10'],
+    csub: 'The inner core is 1-9. The outer rings show the +1 jump to 19 (on 1).',
+    clt: 'The Dualistic Day (2 × 12 + 1)',
+    clsub: 'The inner core is 1-12. The outer ring shows the +1 jump to 25 (on 1).',
+    qopts: ['q = 9 · Digital Root Core'],
     mopts: ['m = 1 · theoretical', 'm = 2 · dualistic', 'm = 3', 'm = 4'],
     pos: (v, d, n, m) => `${v} → digit ${d} · level ${n} of ${m}`,
     jumpMsg: (p, q) => `<b>+1 jump</b> to the next level: p = ${p} ≡ 1 (mod ${q})`,
     p3t: 'Explanation', gen: 'The general form',
     names: ['millisecond', 'second', 'minute', 'hour', 'day', 'month', 'year', 'leap cycle', '7000-year cycle', 'week'],
-    alignMsg: 'FULL SYNCHRONIZATION<br>7,000 YEARS<br>ALL AT 1',
-    anchorTitle: 'The Benchmark of History: The Leap Cycle',
-    anchorText: 'One could object that a year does not last 360 days, but 365. Yet this does not make the theory less true; it confirms it. The leap cycle is the anchor. Our 7,000-year cycle synchronizes with that universal correction.'
+    alignMsg: 'FULL SYNCHRONIZATION',
+    alignSub: '7,000 YEARS · SYNCHRONIZED AT d=1 (Mod 9)',
+    anchorTitle: 'The Anchor of the Real Calendar',
+    anchorText: 'One might object that a year is not exactly 360 or 365 days. Yet this does not weaken the theory; it confirms it. Whether one counts 360, 365, or 366 days, the leap cycle acts as the true anchor. Our 7,000-year cycle synchronizes perfectly with this universal correction.'
   },
   nl: {
     lang: 'nl', loc: 'nl-NL', btn: 'EN', 
-    align7000: '⚡ Lijn uit op 7.000 jaar', reset: '🔄 Reset',
-    title: 'iGoSpiral — Klok Rupsbanden',
-    sub: 'Drie banen. Eén bestemming: positie 1.',
+    align7000: '⚡ Lijn uit op 7.000 jaar', reset: '🔄 Reset', toggle: '🎨 Klasse Kleuren',
+    title: 'iGoSpiral Klok Tandwielen — De Sacrale Geometrie van Tijd en de Digitale Wortel',
+    sub: 'Alle banen komen samen bij 1. De digitale wortel is het niveau.',
     pause: 'Pauze', resume: 'Verder', reverse: 'Keer om', speed: 'Snelheid',
-    note: 'De rupsbanden lopen continu, maar de wielen bepalen de structuur.',
-    legend: '<span style="color:#ff9800">■</span> Tijd Baan · <span style="color:#f44336">■</span> Kalender Baan · <span style="color:#00bcd4">■</span> Week (Parallel)',
-    legend2: 'Bij 7.000 jaar lijnen alle banen uit op positie 1.',
-    aria: 'Klok rupsbanden', aria2: 'Ronde ketting',
+    note: 'De week is de kwart van de maand. Het kwartier is de kwart van het uur.',
+    legend: '<span style="color:#c2334d">■</span> Tijd Baan · <span style="color:#efe9dc">■</span> Kalender Baan · <span style="color:#7fa6e8">■</span> Week (Kwart)',
+    legend2: 'Het gouden kruis markeert de 4 kwartieren. Bij 7.000 jaar lijnen alle banen uit op de verticale as.',
+    aria: 'Concentrische klokbanen', aria2: 'Ronde ketting',
     start: '▼ START bij 1', jump: '+1 sprong!', syncText: 'GESYNCHRONISEERD',
     round: (c, m) => `ronde ${c} van ${m}`,
     lcm: 'kgv = 2.520.000 dagen',
     ct: 'De ketting: p ≡ 1 (mod q)',
-    csub: 'Niet verder tellen, maar omhoog',
-    qopts: ['q = 9 · digitale wortel', 'q = 12 · klok', 'q = 7 · week', 'q = 10 · basis 10'],
+    csub: 'De binnenste kern is 1-9. De buitenste ringen tonen de +1 sprong naar 19 (op de 1).',
+    clt: 'De Dualistische Dag (2 × 12 + 1)',
+    clsub: 'De binnenste kern is 1-12. De buitenste ring toont de +1 sprong naar 25 (op de 1).',
+    qopts: ['q = 9 · Digitale Wortel Kern'],
     mopts: ['m = 1 · theoretisch', 'm = 2 · dualistisch', 'm = 3', 'm = 4'],
     pos: (v, d, n, m) => `${v} → cijfer ${d} · niveau ${n} van ${m}`,
     jumpMsg: (p, q) => `<b>+1 sprong</b> naar het volgende niveau: p = ${p} ≡ 1 (mod ${q})`,
     p3t: 'Uitleg', gen: 'De algemene vorm',
     names: ['milliseconde', 'seconde', 'minuut', 'uur', 'dag', 'maand', 'jaar', 'schrikkelcyclus', '7000-jaarcyclus', 'week'],
-    alignMsg: 'VOLLEDIGE SYNCHRONISATIE<br>7.000 JAAR<br>ALLES OP 1',
-    anchorTitle: 'Het ijkpunt van de geschiedenis: de schrikkelcyclus',
-    anchorText: 'Men zou kunnen tegenwerpen dat een jaar geen 360 dagen duurt, maar 365. Toch bevestigt dit de theorie. De schrikkelcyclus is het anker. Onze 7000-jaarcyclus synchroniseert met die universele, historische correctie.'
+    alignMsg: 'VOLLEDIGE SYNCHRONISATIE',
+    alignSub: '7.000 JAAR · GESYNCHRONISEERD OP d=1 (Mod 9)',
+    anchorTitle: 'Het anker van de echte kalender',
+    anchorText: 'Men zou kunnen tegenwerpen dat een jaar niet precies 360 of 365 dagen duurt. Toch verzwakt dit de theorie niet; het bevestigt haar. Of men nu 360, 365 of 366 dagen telt, de schrikkelcyclus fungeert als het ware anker. Onze 7000-jaarcyclus synchroniseert perfect met deze universele correctie.'
   }
 };
 let L = 'en';
@@ -166,66 +213,91 @@ const CAL = [[30, 2, 55, 'cal'], [365, 2, 62, 'cal'], [365, 8, 66, 'cal'], [2520
 const WEEK = [[7, 2, 45, 'week']];
 const ALL_DATA = [...TIME, ...CAL, ...WEEK];
 
-const col = {2: "#ff9800", 8: "#f44336", week: "#00bcd4"};
+let showClasses = false;
+const colOrig = {2: "#c2334d", 8: "#efe9dc", week: "#7fa6e8"};
+const colClass = { A: "#c2334d", B: "#a9c4f2", C: "#ece7f3" };
+
 const fmt = x => x.toLocaleString(TX[L].loc);
 const MOD = 1.2, A = 2.2, DD = 2.8, PI = Math.PI;
 
-const G = ALL_DATA.map(([q, m, n, track], i) => ({
-  id: i + 1, q, m, n, track,
-  p: m * q + 1, R: MOD * n, s: 2 * PI / n,
-  c: track === 'week' ? col.week : col[m],
-  prev: 0, fl: 0
-}));
+function getClassColor(q) {
+  if (q % 9 === 0) return colClass.C;
+  if (q % 3 === 0) return colClass.B;
+  return colClass.A;
+}
+
+const G = ALL_DATA.map(([q, m, n, track], i) => {
+  const isClassC = (q % 9 === 0);
+  return {
+    id: i + 1, q, m, n, track,
+    p: m * q + 1, R: MOD * n, s: 2 * PI / n,
+    c: track === 'week' ? colOrig.week : colOrig[m],
+    origColor: track === 'week' ? colOrig.week : colOrig[m],
+    classColor: getClassColor(q),
+    isClassC,
+    prev: 0, fl: 0, currentRot: 0
+  };
+});
 
 const timeGears = G.filter(g => g.track === 'time');
 const calGears = G.filter(g => g.track === 'cal');
 const weekGear = G.find(g => g.track === 'week');
 
-// Visual layout
-const yTime = 0, yCal = 250, yWeek = 450; // Moved week down a bit
-let x0 = 1e9, x1 = -1e9, y0 = 1e9, y1 = -1e9;
+const cx = 0, cy = 0;
+const rTime = 120;
+const rCal = 280;
+const rWeek = 440;
 
-let tw = timeGears.reduce((a, g) => a + g.R * 2 + 30, 0), cx = -tw / 2;
-timeGears.forEach(g => { g.x = cx + g.R; g.y = yTime; cx += g.R * 2 + 30; });
-
-let cw = calGears.reduce((a, g) => a + g.R * 2 + 30, 0); cx = -cw / 2;
-calGears.forEach(g => { g.x = cx + g.R; g.y = yCal; cx += g.R * 2 + 30; });
-
-weekGear.x = 0; weekGear.y = yWeek;
-
-G.forEach(g => {
-  x0 = Math.min(x0, g.x - g.R - A - 40); x1 = Math.max(x1, g.x + g.R + A + 40);
-  y0 = Math.min(y0, g.y - g.R - A - 40); y1 = Math.max(y1, g.y + g.R + A + 40);
+timeGears.forEach((g, i) => {
+  const angle = (i / timeGears.length) * 2 * PI - PI/2;
+  g.x = cx + rTime * Math.cos(angle);
+  g.y = cy + rTime * Math.sin(angle);
 });
 
-const svg = document.getElementById('s');
-svg.setAttribute('viewBox', `${x0.toFixed(0)} ${y0.toFixed(0)} ${(x1 - x0).toFixed(0)} ${(y1 - y0).toFixed(0)}`);
+calGears.forEach((g, i) => {
+  const angle = (i / calGears.length) * 2 * PI - PI/2;
+  g.x = cx + rCal * Math.cos(angle);
+  g.y = cy + rCal * Math.sin(angle);
+});
 
-function drawBelt(x, y, width, color) {
-  const h = 16, r = h / 2;
-  return `<rect x="${x - width/2}" y="${y - h/2}" width="${width}" height="${h}" rx="${r}" fill="none" stroke="${color}" stroke-width="2" opacity="0.4" stroke-dasharray="10 5"/>`;
-}
+weekGear.x = cx;
+weekGear.y = cy + rWeek;
 
-// Special drawing for the Week belt (encircling the calendar)
-function drawWeekBelt(y, width, color) {
-  const h = 30, r = h / 2;
-  // A wide track that spans slightly wider than the calendar belt
-  return `<rect x="${-width/2 - 20}" y="${y - h/2}" width="${width + 40}" height="${h}" rx="${r}" fill="none" stroke="${color}" stroke-width="3" opacity="0.6" stroke-dasharray="15 8"/>`;
+const LY = ['s','s1','s2','s3'].map(id => document.getElementById(id));
+LY.forEach(e => e.setAttribute('viewBox', "-420 -445 840 980"));
+
+function drawConcentricBelt(radius, color) {
+  return `<circle cx="0" cy="0" r="${radius}" fill="none" stroke="${color}" stroke-width="22" opacity="0.06"/>` +
+         `<circle cx="0" cy="0" r="${radius}" fill="none" stroke="${color}" stroke-width="2.5" opacity="0.4" stroke-dasharray="2 9" stroke-linecap="round"/>`;
 }
 
 function body(g) {
-  const { n, R, s, c, id } = g, ro = R + A, ri = R - DD;
+  const { n, R, s, c, id, isClassC } = g, ro = R + A, ri = R - DD;
   let d = '', b = '';
-  for (let k = 0; k < n; k++) {
-    [[-.27, ri], [-.13, ro], [.13, ro], [.27, ri]].forEach(([f, r], j) => {
-      const a = (k + f) * s;
-      d += (k + j ? 'L' : 'M') + (r * Math.cos(a)).toFixed(2) + ' ' + (r * Math.sin(a)).toFixed(2) + ' ';
-    });
+  
+  if (!isClassC) {
+    for (let k = 0; k < n; k++) {
+      [[-.27, ri], [-.13, ro], [.13, ro], [.27, ri]].forEach(([f, r], j) => {
+        const a = (k + f) * s;
+        d += (k + j ? 'L' : 'M') + (r * Math.cos(a)).toFixed(2) + ' ' + (r * Math.sin(a)).toFixed(2) + ' ';
+      });
+    }
+  } else {
+    d = `M 0 ${-ri} A ${ri} ${ri} 0 1 1 0 ${ri} A ${ri} ${ri} 0 1 1 0 ${-ri}Z`;
   }
+
   for (let i = 0; i < 8; i++) {
     const t = i * PI / 4 + PI / 8;
-    b += `<circle cx="${(ri * .87 * Math.cos(t)).toFixed(1)}" cy="${(ri * .87 * Math.sin(t)).toFixed(1)}" r="1.8" fill="#0e0b08"/>`;
+    b += `<circle cx="${(ri * .87 * Math.cos(t)).toFixed(1)}" cy="${(ri * .87 * Math.sin(t)).toFixed(1)}" r="1.8" fill="#050b1a"/>`;
   }
+  
+  const path = isClassC 
+    ? `<circle cx="0" cy="0" r="${ro}" fill="url(#gr${id})" stroke="#050b1a" stroke-width=".8"/>` +
+      `<circle cx="0" cy="0" r="${ro - 1.6}" fill="none" stroke="#fff" stroke-opacity=".28" stroke-width=".9" stroke-dasharray="1.5 2.5"/>`
+    : `<path d="${d}Z" fill="url(#gr${id})" stroke="#050b1a" stroke-width=".8"/>`;
+  const rim = `<circle cx="0" cy="0" r="${(ri * .93).toFixed(1)}" fill="none" stroke="#fff" stroke-opacity=".16" stroke-width="1"/>` +
+              `<circle cx="0" cy="0" r="${(ri * .8).toFixed(1)}" fill="none" stroke="#000" stroke-opacity=".35" stroke-width="1"/>`;
+
   return `<defs>
     <radialGradient id="gr${id}" cx=".35" cy=".3" r=".9">
       <stop offset="0" stop-color="#fff" stop-opacity=".5"/>
@@ -234,40 +306,136 @@ function body(g) {
     </radialGradient>
   </defs>
   <g id="g${id}">
-    <path d="${d}Z" fill="url(#gr${id})" stroke="#0e0b08" stroke-width=".8"/>
+    ${path}
+    ${rim}
     ${b}
-    <circle cx="${R - 1}" cy="0" r="2.6" fill="#ffd700" stroke="#000" stroke-width=".5"/>
+    <circle cx="0" cy="${-(R - 1)}" r="4" fill="#fbf7ff" stroke="#000" stroke-width=".8"/>
+    <circle cx="-1" cy="${-(R - 2)}" r="1.4" fill="#fff" fill-opacity=".75"/>
   </g>
-  <circle id="d${id}" r="${ri * .74}" fill="#17120b" stroke="${c}" stroke-width="1.5"/>`;
+  <circle id="d${id}" r="${ri * .74}" fill="#0a1530" stroke="${c}" stroke-width="1.5"/>`;
 }
 
 function build() {
   const T = TX[L];
   let h = '';
   
-  // Draw tracks
-  h += drawBelt(0, yTime, (x1 - x0) * 0.9, "#ff9800");
-  h += drawBelt(0, yCal, (x1 - x0) * 0.9, "#f44336");
-  h += drawWeekBelt(yWeek, (x1 - x0) * 0.85, "#00bcd4"); // Wider, encircling track
+  G.forEach(g => {
+    h += `<line x1="0" y1="0" x2="${g.x}" y2="${g.y}" stroke="#fbf7ff" stroke-width="1" opacity="0.25" stroke-dasharray="4 5"/>`;
+  });
 
+  h += drawConcentricBelt(rTime, "#c2334d");
+  h += drawConcentricBelt(rCal, "#efe9dc");
+  h += drawConcentricBelt(rWeek, "#7fa6e8");
+
+  h += `<line x1="0" y1="-425" x2="0" y2="520" stroke="#fbf7ff" stroke-width="3" opacity="0.5" stroke-dasharray="10 6"/>`;
+  h += `<line x1="-405" y1="0" x2="405" y2="0" stroke="#fbf7ff" stroke-width="2" opacity="0.35" stroke-dasharray="5 6"/>`;
+  [[0,-425],[405,0],[0,520],[-405,0]].forEach(([x, y]) => {
+    h += `<circle cx="${x}" cy="${y}" r="6" fill="#fbf7ff" stroke="#050b1a" stroke-width="2"/>`;
+  });
+
+  const gl = {time:'',cal:'',week:''};
   G.forEach((g, i) => {
     const f = g.R * .19;
     const name = T.names[i];
-    h += `<g transform="translate(${g.x.toFixed(1)} ${g.y.toFixed(1)})">${body(g)}
-  <g font-family="system-ui,sans-serif" text-anchor="middle" fill="#eadfc8">
-    <text y="${-f * 1.55}" font-size="${f * .8}" fill="${g.c}">${g.id}</text>
-    <text y="${-f * .45}" font-size="${f}" font-weight="bold" fill="#e8c36a">${name.length > 12 ? name.replace(' ', '\u2009') : name}</text>
-    <text y="${f * .75}" font-size="${f * .92}" font-family="ui-monospace,monospace" fill="#8fd18f">q=${fmt(g.q)}</text>
-    <text y="${f * 1.85}" font-size="${f * .82}" font-family="ui-monospace,monospace" fill="#8fd18f">p=${g.m > 1 ? g.m : ''}q+1=${fmt(g.p)}</text>
-    <text id="t${g.id}" y="${f * 3.0}" font-size="${f * .85}" fill="#a39880"></text>
-  </g></g>`;
+    const displayColor = showClasses ? g.classColor : g.origColor;
+    
+    gl[g.track] += `<g id="gear${g.id}" transform="translate(${g.x.toFixed(1)} ${g.y.toFixed(1)})">
+      <circle cx="3" cy="5" r="${(g.R + A + 3).toFixed(1)}" fill="#000" opacity=".4"/>
+      <g id="body${g.id}">${body(g)}</g>
+      <g font-family="system-ui,sans-serif" text-anchor="middle" fill="#eef0f8">
+        <text y="${-f * 1.55}" font-size="${f * .8}" fill="${displayColor}">${g.id}</text>
+        <text y="${-f * .45}" font-size="${f}" font-weight="bold" fill="#ece7f3">${name.length > 12 ? name.replace(' ', '\u2009') : name}</text>
+        <text y="${f * .75}" font-size="${f * .92}" font-family="ui-monospace,monospace" fill="#a9c4f2">q=${fmt(g.q)}</text>
+        <text y="${f * 1.85}" font-size="${f * .82}" font-family="ui-monospace,monospace" fill="#a9c4f2">p=${g.m > 1 ? g.m : ''}q+1=${fmt(g.p)}</text>
+        <text id="t${g.id}" y="${f * 3.0}" font-size="${f * .85}" fill="#9aa7c7" font-weight="bold">d = 1</text>
+      </g>
+    </g>`;
   });
-  svg.innerHTML = h;
+  
+  gl.time += `<circle cx="0" cy="0" r="14" fill="#050b1a" stroke="#fbf7ff" stroke-width="2"/><circle cx="0" cy="0" r="6" fill="#fbf7ff" />`;
+  
+  LY[0].innerHTML = h; LY[1].innerHTML = gl.time; LY[2].innerHTML = gl.cal; LY[3].innerHTML = gl.week;
+  updateGearColors();
 }
+
+function updateGearColors() {
+  G.forEach(g => {
+    const color = showClasses ? g.classColor : g.origColor;
+    g.c = color;
+    const grad = document.querySelector(`#gr${g.id} stop:nth-child(2)`);
+    if (grad) grad.setAttribute('stop-color', color);
+    const dc = document.getElementById(`d${g.id}`);
+    if (dc && !isLocked) dc.setAttribute('stroke', color);
+    const numLabel = document.querySelector(`#gear${g.id} text`);
+    if (numLabel) numLabel.setAttribute('fill', color);
+  });
+}
+
+// --- CLOCK LOGIC (Start op 1, tot 25) ---
+const clockSvg = document.getElementById('clock');
+let clockRotation = 0;
+
+function buildClock() {
+  let h = `<defs>
+    <radialGradient id="face" cx=".5" cy=".4" r=".7"><stop offset="0" stop-color="#1a2f66"/><stop offset="1" stop-color="#050b1a"/></radialGradient>
+    <linearGradient id="bezel" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset=".5" stop-color="#8a97b8"/><stop offset="1" stop-color="#ece7f3"/></linearGradient>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  </defs>`;
+  const R = 160, cx = 200, cy = 200;
+  let hd = '';
+  
+  h += `<circle cx="${cx}" cy="${cy}" r="${R + 14}" fill="url(#bezel)"/>`;
+  h += `<circle cx="${cx}" cy="${cy}" r="${R + 8}" fill="#0a1736"/>`;
+  h += `<circle cx="${cx}" cy="${cy}" r="${R}" fill="url(#face)" stroke="#2b4478" stroke-width="2"/>`;
+  
+  // Inner core 1-12
+  for (let i = 1; i <= 12; i++) {
+    const angle = ((i - 1) / 12) * 2 * Math.PI - Math.PI/2;
+    const x = cx + (R - 55) * Math.cos(angle);
+    const y = cy + (R - 55) * Math.sin(angle);
+    h += `<text x="${x}" y="${y+7}" text-anchor="middle" font-size="20" fill="#ece7f3" font-family="Georgia,serif" font-weight="bold">${i}</text>`;
+  }
+  
+  // Outer ring 13-25
+  for (let i = 1; i <= 13; i++) {
+    const angle = ((i - 1) / 12) * 2 * Math.PI - Math.PI/2;
+    const x = cx + (R - 15) * Math.cos(angle);
+    const y = cy + (R - 15) * Math.sin(angle);
+    h += `<text x="${x}" y="${y+5}" text-anchor="middle" font-size="14" fill="#f0a3b2" font-family="system-ui,sans-serif" font-weight="bold">${i + 12}</text>`;
+  }
+
+  h += `<circle cx="${cx}" cy="${cy}" r="8" fill="#ece7f3" />`;
+  h += `<text x="${cx}" y="${cy+30}" text-anchor="middle" font-size="15" fill="#ece7f3" font-family="system-ui,sans-serif" font-weight="bold" stroke="#050b1a" stroke-width="3" paint-order="stroke">+1</text>`;
+
+  hd += `<g id="clockHand" filter="url(#glow)">
+          <line x1="${cx}" y1="${cy + 18}" x2="${cx}" y2="${cy - R + 45}" stroke="#c2334d" stroke-width="6" stroke-linecap="round"/>
+          <circle cx="${cx}" cy="${cy - R + 45}" r="8" fill="#c2334d" stroke="#fbf7ff" stroke-width="2"/>
+        </g>`;
+  hd += `<circle cx="${cx}" cy="${cy}" r="10" fill="#0a1736" stroke="#fbf7ff" stroke-width="3"/><circle cx="${cx}" cy="${cy}" r="3.5" fill="#fbf7ff"/>`;
+
+  clockSvg.innerHTML = h;
+  document.getElementById('clockTop').innerHTML = hd;
+  let rimH = '';
+  for (let k = 1; k <= 6; k++) rimH += `<svg class="ly" style="--z:${-k * 3}px" viewBox="0 0 400 400" aria-hidden="true"><circle cx="200" cy="200" r="174" fill="${k % 2 ? '#2b3f73' : '#6b1020'}"/></svg>`;
+  document.getElementById('rim').innerHTML = rimH;
+}
+
+function updateClock(now) {
+  if (isLocked) return;
+  if (!paused) {
+    clockRotation += dir * speed * 0.02;
+  }
+  const angle = (clockRotation % (2*Math.PI));
+  const hand = document.getElementById('clockHand');
+  if (hand) {
+    hand.setAttribute('transform', `rotate(${angle * 180 / Math.PI}, 200, 200)`);
+  }
+}
+// -------------------
 
 const cs = document.getElementById('cs'), R0 = 165;
 let CQ = 9, CM = 2, CH = null, chCur = -2, ctt = 0;
-const RING = ['#ff9800', '#ffb74d', '#ffcc80', '#ffe0b2'];
+const RING = ['#8f1a2e', '#b3243b', '#d9a0ab', '#f1e8e8'];
 const polar = (r, th) => [r * Math.sin(th), -r * Math.cos(th)];
 
 function sector(r0, r1, t0, t1) {
@@ -277,36 +445,52 @@ function sector(r0, r1, t0, t1) {
 
 function buildChain() {
   const q = CQ, m = CM, mq = m * q, step = 2 * PI / q;
-  const dr = Math.min(40, (R0 - 30) / m), w = dr * .8, pr = R0 - m * dr;
+  const dr = Math.min(40, (R0 - 30) / m), w = dr * .8;
+  // pr is de straal van de buitenste ring (startpunt van de stip)
+  const pr = R0; 
   const fs = Math.max(7, Math.min(11, 2 * PI * (R0 - (m - 1) * dr) / q * .34));
-  let h = `<g font-family="system-ui,sans-serif" text-anchor="middle">`;
-  const e0 = polar(R0 + w / 2 + 4, 0), e1 = polar(pr, 0);
-  h += `<line x1="${e0[0]}" y1="${e0[1].toFixed(1)}" x2="${e1[0]}" y2="${e1[1].toFixed(1)}" stroke="#e8c36a" stroke-opacity=".35" stroke-dasharray="3 4"/>`;
-  for (let i = 0; i < q; i++) {
-    const p = polar(R0 + w / 2 + 12, i * step);
-    h += `<text x="${p[0].toFixed(1)}" y="${(p[1] + 3).toFixed(1)}" font-size="9" fill="#a39880">${i + 1}</text>`;
-  }
+  let h = `<defs><filter id="bglow" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>`;
+  h += `<circle cx="0" cy="0" r="${pr + w / 2 + 22}" fill="none" stroke="#2b4478" stroke-width="1"/>`;
+  for (let k = 0; k < m; k++) h += `<circle cx="0" cy="0" r="${pr - k * dr}" fill="none" stroke="#ece7f3" stroke-opacity=".12" stroke-width="${w + 4}"/>`;
+  h += `<g font-family="system-ui,sans-serif" text-anchor="middle">`;
+  const e0 = polar(pr + w / 2 + 4, 0), e1 = polar(pr - m * dr, 0);
+  h += `<line x1="${e0[0]}" y1="${e0[1].toFixed(1)}" x2="${e1[0]}" y2="${e1[1].toFixed(1)}" stroke="#ece7f3" stroke-opacity=".35" stroke-dasharray="3 4"/>`;
+  
+  // Teken de blokjes van buiten naar binnen
   for (let v = 1; v <= mq; v++) {
-    const k = Math.floor((v - 1) / q), i = (v - 1) % q, r = R0 - k * dr;
-    const g = Math.min(.05, step * .12), c = polar(r, i * step);
-    h += `<g id="cl${v}"><path d="${sector(r - w / 2, r + w / 2, i * step - step / 2 + g, i * step + step / 2 - g)}" fill="${RING[k % 4]}" stroke="${RING[k % 4]}" stroke-width="2.4" stroke-linejoin="round"/>` +
-         `<text x="${c[0].toFixed(1)}" y="${(c[1] + fs * .35).toFixed(1)}" font-size="${fs}" font-weight="bold" fill="#14110d">${v}</text></g>`;
-    const pin = polar(r, i * step + step / 2);
-    h += `<circle cx="${pin[0].toFixed(1)}" cy="${pin[1].toFixed(1)}" r="1.6" fill="#0e0b08"/>`;
+    const k = Math.floor((v - 1) / q), i = (v - 1) % q; 
+    // r: de buitenste ring is de LAAGSTE k (0), dus r = pr - k*dr
+    const r = pr - k * dr;
+    const angle = (i / q) * 2 * Math.PI - Math.PI/2;
+    const g = Math.min(.05, step * .12), c = polar(r, angle);
+    
+    h += `<g id="cl${v}"><path d="${sector(r - w / 2, r + w / 2, angle - step / 2 + g, angle + step / 2 - g)}" fill="${RING[k % 4]}" stroke="${RING[k % 4]}" stroke-width="2.4" stroke-linejoin="round"/>` +
+         `<text x="${c[0].toFixed(1)}" y="${(c[1] + fs * .35).toFixed(1)}" font-size="${fs}" font-weight="bold" fill="${k < 2 ? '#f7f3ff' : '#0a1736'}">${v}</text></g>`;
+    const pin = polar(r, angle + step / 2);
+    h += `<circle cx="${pin[0].toFixed(1)}" cy="${pin[1].toFixed(1)}" r="1.6" fill="#050b1a"/>`;
   }
-  const pc = polar(pr, 0);
-  h += `<g id="cl${mq + 1}"><circle cx="${pc[0]}" cy="${pc[1].toFixed(1)}" r="${(w / 2 + 1).toFixed(1)}" fill="#ffd700" stroke="#ffd700" stroke-width="2"/><text x="${pc[0]}" y="${(pc[1] + fs * .35).toFixed(1)}" font-size="${fs}" font-weight="bold" fill="#14110d">${mq + 1}</text></g>`;
+  
+  // De +1 sprong stip (op de plek van 1, maar dan 1 stap verder naar binnen)
+  const prIn = pr - m * dr;
+  const pc = polar(prIn, -Math.PI/2);
+  h += `<g id="cl${mq + 1}"><circle cx="${pc[0]}" cy="${pc[1].toFixed(1)}" r="${(w / 2 + 1).toFixed(1)}" fill="#fbf7ff" stroke="#fbf7ff" stroke-width="2"/><text x="${pc[0]}" y="${(pc[1] + fs * .35).toFixed(1)}" font-size="${fs}" font-weight="bold" fill="#0a1736">${mq + 1}</text></g>`;
+  
+  // Pad van de stip (spiraal van buiten naar binnen)
   const pts = [], N = mq * 10;
   for (let j = 0; j <= N; j++) {
-    const u = j / 10, p = polar(R0 - dr * u / q, u * step);
+    const u = j / 10; 
+    // u loopt van 0 naar mq
+    const angle = (u / q) * 2 * Math.PI - Math.PI/2;
+    const r = pr - (u / q) * dr;
+    const p = polar(r, angle);
     pts.push(p[0].toFixed(1) + ' ' + p[1].toFixed(1));
   }
-  h += `<path d="M${pts.join('L')}" fill="none" stroke="#e8c36a" stroke-opacity=".3" stroke-dasharray="2 3"/>`;
-  h += `<path id="cpath" d="" fill="none" stroke="#e8c36a" stroke-width="2.2" stroke-linecap="round"/>`;
-  h += `<circle id="cbead" r="5" fill="#fff" stroke="#e8c36a" stroke-width="2"/>`;
+  h += `<path d="M${pts.join('L')}" fill="none" stroke="#ece7f3" stroke-opacity=".3" stroke-dasharray="2 3"/>`;
+  h += `<path id="cpath" d="" fill="none" stroke="#ece7f3" stroke-width="2.6" stroke-linecap="round" filter="url(#bglow)"/>`;
+  h += `<circle id="cbead" r="6" fill="#fff" stroke="#ece7f3" stroke-width="2.5" filter="url(#bglow)"/>`;
   h += `</g>`;
   cs.innerHTML = h;
-  CH = { q, m, mq, dr, pts, els: [] };
+  CH = { q, m, mq, dr, pr, pts, els: [] };
   for (let v = 1; v <= mq + 1; v++) CH.els.push(document.getElementById('cl' + v));
   chCur = -2;
   setFormula();
@@ -327,12 +511,18 @@ function setFormula() {
 
 function updateChain(dt, T) {
   if (!CH || isLocked) return;
-  const { q, m, mq, dr, pts } = CH, rate = 1.5, hold = 1.4, Tt = mq / rate + hold;
+  const { q, m, mq, dr, pr, pts } = CH, rate = 1.5, hold = 1.4, Tt = mq / rate + hold;
   if (!paused) ctt = (((ctt + dir * dt * speed) % Tt) + Tt) % Tt;
   const u = Math.min(ctt * rate, mq), jumped = ctt * rate >= mq;
-  const p = polar(R0 - dr * u / q, u * 2 * PI / q);
+  
+  // Buiten naar binnen
+  const angle = (u / q) * 2 * Math.PI - Math.PI/2;
+  const r = pr - (u / q) * dr;
+  const p = polar(r, angle);
+  
   document.getElementById('cbead').setAttribute('cx', p[0].toFixed(1));
   document.getElementById('cbead').setAttribute('cy', p[1].toFixed(1));
+  
   const idx = Math.min(pts.length - 1, Math.floor(u * 10));
   document.getElementById('cpath').setAttribute('d', idx > 0 ? 'M' + pts.slice(0, idx + 1).join('L') : '');
   const cur = jumped ? mq + 1 : Math.min(mq, Math.round(u) + 1);
@@ -342,7 +532,7 @@ function updateChain(dt, T) {
       const v = i + 1;
       el.setAttribute('opacity', v <= cur ? 1 : .45);
       const s = el.querySelector('path,circle');
-      s.setAttribute('stroke', v === cur ? '#fff' : (v === mq + 1 ? '#ffd700' : RING[Math.floor((v - 1) / q) % 4]));
+      s.setAttribute('stroke', v === cur ? '#fff' : (v === mq + 1 ? '#fbf7ff' : RING[Math.floor((v - 1) / q) % 4]));
     });
     document.getElementById('rd').innerHTML = cur === mq + 1
       ? T.jumpMsg(mq + 1, q)
@@ -351,12 +541,13 @@ function updateChain(dt, T) {
 }
 
 let speed = 1, paused = false, dir = 1, drive = 0, last = performance.now();
-let isAligning = false, alignTarget = 0, alignStartDrive = 0, alignStartTime = 0, isLocked = false;
+let isAligning = false, alignTargets = [], alignStartRot = [], alignStartTime = 0, isLocked = false;
 const pb = document.getElementById('pp');
 
 function fillSelects() {
   const T = TX[L], qs = document.getElementById('qs'), ms = document.getElementById('ms');
-  const qv = [9, 12, 7, 10];
+  // Hardcoded opties: alleen q=9 voor de chain
+  const qv = [9];
   qs.innerHTML = qv.map((v, i) => `<option value="${v}"${v === CQ ? ' selected' : ''}>${T.qopts[i]}</option>`).join('');
   ms.innerHTML = [1, 2, 3, 4].map((v, i) => `<option value="${v}"${v === CM ? ' selected' : ''}>${T.mopts[i]}</option>`).join('');
 }
@@ -370,22 +561,35 @@ function applyLang() {
   document.getElementById('rv').textContent = T.reverse;
   document.getElementById('spl').textContent = T.speed;
   document.getElementById('lg').textContent = T.btn;
+  document.getElementById('toggleClasses').textContent = T.toggle;
   document.getElementById('align7000').textContent = T.align7000;
   document.getElementById('reset').textContent = T.reset;
   document.getElementById('note').textContent = T.note;
   document.getElementById('legend').innerHTML = T.legend + '<br>' + T.legend2;
+  document.getElementById('clt').textContent = T.clt;
+  document.getElementById('clsub').textContent = T.clsub;
   document.getElementById('ct').textContent = T.ct;
   document.getElementById('csub').textContent = T.csub;
   document.getElementById('p3t').textContent = T.p3t;
+  document.getElementById('sync-big').textContent = T.alignMsg;
+  document.getElementById('sync-small').textContent = T.alignSub;
   pb.textContent = paused ? T.resume : T.pause;
   document.getElementById('anchor-box').innerHTML = `<h3>${T.anchorTitle}</h3><p>${T.anchorText}</p>`;
-  fillSelects(); build(); buildChain();
+  fillSelects(); build(); buildClock(); buildChain();
 }
 
 document.getElementById('sp').oninput = e => speed = +e.target.value;
 pb.onclick = () => { if (isLocked) return; paused = !paused; pb.textContent = paused ? TX[L].resume : TX[L].pause; };
 document.getElementById('rv').onclick = () => { if (isLocked) return; dir = -dir; };
 document.getElementById('lg').onclick = () => { L = L === 'en' ? 'nl' : 'en'; try { localStorage.setItem('igospiral-lang', L); } catch (e) {} applyLang(); };
+
+document.getElementById('toggleClasses').onclick = (e) => {
+  if (isLocked) return;
+  showClasses = !showClasses;
+  e.target.classList.toggle('toggle-active', showClasses);
+  updateGearColors();
+};
+
 document.getElementById('qs').onchange = e => { CQ = +e.target.value; ctt = 0; buildChain(); };
 document.getElementById('ms').onchange = e => { CM = +e.target.value; ctt = 0; buildChain(); };
 document.addEventListener('visibilitychange', () => { last = performance.now(); });
@@ -393,10 +597,14 @@ document.addEventListener('visibilitychange', () => { last = performance.now(); 
 document.getElementById('align7000').onclick = () => {
   if (isAligning || isLocked) return;
   isAligning = true; paused = true; pb.textContent = TX[L].resume;
-  const currentRotations = drive / (2 * PI);
-  const targetRotations = Math.ceil(currentRotations + 2);
-  alignTarget = targetRotations * 2 * PI;
-  alignStartDrive = drive;
+  
+  alignStartRot = G.map(g => g.currentRot);
+  alignTargets = G.map(g => {
+    const rotInRadians = g.currentRot;
+    const exactTarget = Math.ceil(rotInRadians / (2 * PI)) * 2 * PI;
+    return exactTarget + 2 * PI * 2; 
+  });
+  
   alignStartTime = performance.now();
   requestAnimationFrame(alignFrame);
 };
@@ -404,26 +612,22 @@ document.getElementById('align7000').onclick = () => {
 function alignFrame(now) {
   if (!isAligning) return;
   const elapsed = now - alignStartTime;
-  const duration = 2500; 
+  const duration = 3000; 
   const progress = Math.min(elapsed / duration, 1);
   const ease = progress < 0.5 ? 2 * progress * progress : 1 - Math.pow(-2 * progress + 2, 2) / 2;
-  drive = alignStartDrive + (alignTarget - alignStartDrive) * ease;
   
   const T = TX[L];
-  let th = drive;
+  
   G.forEach((g, i) => {
-    if (i) { const a = dirs[i - 1]; th = a + PI - g.s / 2 - (g.s / G[i - 1].s) * (th - a); }
-    document.getElementById('g' + g.id).setAttribute('transform', `rotate(${(th * 180 / PI).toFixed(2)})`);
-    const r = Math.abs(drive) / (2 * PI) * G[0].n / g.n;
-    const c = r % g.m;
+    g.currentRot = alignStartRot[i] + (alignTargets[i] - alignStartRot[i]) * ease;
+    document.getElementById('g' + g.id).setAttribute('transform', `rotate(${(g.currentRot * 180 / PI).toFixed(2)})`);
     const tx = document.getElementById('t' + g.id);
-    tx.textContent = T.round(Math.floor(c) + 1, g.m);
-    tx.setAttribute('fill', '#a39880');
+    tx.textContent = "d = 1";
+    tx.setAttribute('fill', '#9aa7c7');
   });
   
   if (progress >= 1) {
     isAligning = false;
-    drive = alignTarget; 
     triggerFlash();
   } else {
     requestAnimationFrame(alignFrame);
@@ -431,11 +635,8 @@ function alignFrame(now) {
 }
 
 function triggerFlash() {
-  const flash = document.getElementById('flash');
-  const flashText = document.getElementById('flash-text');
-  flashText.innerHTML = TX[L].alignMsg;
-  flash.classList.add('active');
-  flashText.classList.add('active');
+  document.getElementById('main-panel').classList.add('synced');
+  document.getElementById('sync-banner').classList.add('active');
   
   isLocked = true;
   document.getElementById('reset').classList.add('active');
@@ -444,22 +645,23 @@ function triggerFlash() {
   G.forEach(g => {
     const tx = document.getElementById('t' + g.id);
     tx.textContent = TX[L].syncText;
-    tx.setAttribute('fill', '#ffd700');
+    tx.setAttribute('fill', '#fbf7ff');
     const d = document.getElementById('d' + g.id);
-    d.setAttribute('stroke', '#ffd700');
+    d.setAttribute('stroke', '#fbf7ff');
     d.setAttribute('stroke-width', 4);
   });
 }
 
 function resetAnimation() {
   isLocked = false;
-  document.getElementById('flash').classList.remove('active');
-  document.getElementById('flash-text').classList.remove('active');
+  document.getElementById('main-panel').classList.remove('synced');
+  document.getElementById('sync-banner').classList.remove('active');
   document.getElementById('reset').classList.remove('active');
   document.getElementById('align7000').style.display = 'inline-block';
   paused = false;
   pb.textContent = TX[L].pause;
   last = performance.now();
+  
   G.forEach(g => {
     const d = document.getElementById('d' + g.id);
     d.setAttribute('stroke', g.c);
@@ -474,34 +676,41 @@ function frame(now) {
   if (isAligning || isLocked) return; 
   const dt = Math.min((now - last) / 1000, 0.1);
   last = now;
-  if (!paused) drive += dir * dt * speed * 0.12 * 2 * PI;
+  
+  if (!paused) {
+    const masterAdvance = dir * dt * speed * 2 * PI * 0.1;
+    G.forEach(g => { g.currentRot += masterAdvance / g.q; });
+    updateClock(now);
+  }
 
   const T = TX[L];
-  let th = drive;
+  
   G.forEach((g, i) => {
-    if (i) { const a = dirs[i - 1]; th = a + PI - g.s / 2 - (g.s / G[i - 1].s) * (th - a); }
-    document.getElementById('g' + g.id).setAttribute('transform', `rotate(${(th * 180 / PI).toFixed(2)})`);
+    document.getElementById('g' + g.id).setAttribute('transform', `rotate(${(g.currentRot * 180 / PI).toFixed(2)})`);
 
-    const r = Math.abs(drive) / (2 * PI) * G[0].n / g.n;
+    const totalRotations = Math.abs(g.currentRot) / (2 * PI);
+    const currentPos = Math.floor(totalRotations * g.q) + 1;
+    const digitalRoot = ((currentPos - 1) % 9) + 1;
+
+    const r = totalRotations;
     const c = r % g.m;
     if (c < g.prev && !paused && r > 0) g.fl = now + 800;
     g.prev = c;
 
     const on = now < g.fl;
     const tx = document.getElementById('t' + g.id);
-    tx.textContent = on ? T.jump : T.round(Math.floor(c) + 1, g.m);
-    tx.setAttribute('fill', on ? '#ffd700' : '#a39880');
+    
+    tx.textContent = on ? T.jump : `d = ${digitalRoot}`;
+    tx.setAttribute('fill', on ? '#fbf7ff' : '#9aa7c7');
 
     const d = document.getElementById('d' + g.id);
-    d.setAttribute('stroke', on ? '#ffd700' : g.c);
+    d.setAttribute('stroke', on ? '#fbf7ff' : g.c);
     d.setAttribute('stroke-width', on ? 4 : 1.5);
   });
 
   updateChain(dt, T);
   requestAnimationFrame(frame);
 }
-
-const dirs = [0, PI/2, PI, PI/2, 0, PI/2, PI, 0, PI/2];
 
 applyLang();
 requestAnimationFrame(frame);
