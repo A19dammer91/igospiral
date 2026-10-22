@@ -4,46 +4,67 @@
 
 👉 **[Launch the live iGoSpiral App here](https://a19dammer91.github.io/igospiral/)**
 
-iGoSpiral is a local-first Progressive Web App (PWA) that visualizes the clock, calendar, and number systems as a single, unified mathematical object. 
-It is not a time-management tool. 
-It is an interactive proof of the hidden structure of time.
+iGoSpiral is a local-first Progressive Web App (PWA) that visualizes the clock, calendar, and number systems as a single, unified mathematical object. It is not a time-management tool. It is an interactive proof of the hidden structure of time.
 
-## ⚙️ The Educational Gear Train
+## Interactive Visualizations
+
+This repository contains three distinct, interactive HTML modules that each illustrate a different facet of the theory:
+
+1. **The Main App (`index.html`):** The full PWA experience with the 3D life-spiral, timestamp attachment, and calendar mapping.
+2. **The Clock Gears (`iGoSpiral_Clock_Gears.html`):** An educational gear train showing how time units mesh and synchronize at 7,000 years.
+3. **Sacred Digital Root Patterns (`Digital Root Patterns.html`):** A pure, mathematical visualizer of the three fundamental cycles.
+
+---
+
+## 1. The Clock Gears
 
 To make the structural beauty of the clock tangible, the repository includes a dedicated, interactive educational visualization: the **Clock Gears**.
 
 👉 **[Launch the Clock Gears Visualization (HTML)](https://a19dammer91.github.io/igospiral/iGoSpiral_Clock_Gears.html)**
 
-This visual tool demonstrates how different units of time (from a millisecond to the 7000-year cycle) are linked through the universal formula **p ≡ 1 (mod q)**. 
+This visual tool demonstrates how different units of time (from a millisecond to the 7000-year cycle) are linked through the universal formula **p ≡ 1 (mod q)**.
 
 ### What you will see:
-- **The Gear Train:** Ten perfectly meshing gears representing the units of time. Their sizes and rotational speeds are mathematically linked. You can see the "+1 jump" light up in gold every time a gear completes its rounds and moves to the next level.
+- **The Gear Train:** Ten perfectly meshing gears representing the units of time. Their sizes and rotational speeds are mathematically linked. You can see the "+1 jump" light up every time a gear completes its rounds and moves to the next level.
 - **The Parallel Week:** The 7-day week is visualized as a parallel gear, showing how it runs out of sync with the calendar until the ultimate synchronization.
-- **The Ultimate Alignment:** Click the "⚡ Align at 7,000 years" button to witness the full synchronization. The gears lock into position, the screen flashes gold, and the system freezes to prove that time is a closed, perfect loop.
+- **The Ultimate Alignment:** Click the "⚡ Align at 7,000 years" button to witness the full synchronization. The gears lock into position, the screen flashes, and the system freezes to prove that time is a closed, perfect loop.
 - **The Round Chain (Spiral):** An interactive panel where you can change the modulus (`q`) and the number of rounds (`m`). Watch how the sequence spirals upwards. Every level lands on position 1 again, visually proving that time is not a linear count, but a rising spiral.
 - **Bilingual:** Fully interactive in both English and Dutch (NL/EN toggle).
 
+---
+
+## 2. Sacred Digital Root Patterns
+
+This standalone module strips the theory down to its purest mathematical core. It visualizes the three fundamental cycles of the digital root, independent of any clock or calendar context.
+
+👉 **[Launch the Digital Root Patterns Visualization (HTML)](./Digital%20Root%20Patterns.html)**
+
+### What you will see:
+- **The Three Patterns:** By adjusting the modulus (`q`), the visualizer automatically identifies whether the digital root follows a Nine-Cycle (Class A), a Three-Cycle (Class B), or a Constant-1 (Class C).
+- **The Mathematical Engine:** A live table demonstrates the formula `p = 1 + q·m`, showing exactly how the digital root is derived from the position over 10 levels.
+- **The Complete Universe:** An interactive grid maps all 899 valid moduli from 2 to 900. Colored by class, you can click any number to instantly visualize its unique pattern.
+- **Color-Coded:** The interface uses a specific visual language: Bordo Red for the Nine-Cycle, Pearl White for the Three-Cycle, and Marine Blue for the Constant-1.
+- **Bilingual:** Fully interactive in both English and Dutch.
+
+---
+
 ## The Core Theory
 
-The foundation of this application is the general form:
+The foundation of all three modules is the general form:
 
 **p ≡ 1 (mod q)**
 
-This is not a collection of isolated tricks for the clock or the calendar. 
-It is a universal theory of cyclical structures, with two distinct forms:
+This is not a collection of isolated tricks for the clock or the calendar. It is a universal theory of cyclical structures, with two distinct forms:
 
 1. **The Theoretical Form:** `q + 1 = p` (m = 1) — One round.
 2. **The Actual Form:** `2q + 1 = p` (m = 2) — Two rounds, creating a double cycle (e.g., day/night, or two moments within a week).
 
 **Generality as the Core Property:**
-The parameter `q` is not fixed. 
-The clock uses `q = 12` (leading to `p = 25`). 
-The week uses `q = 7` (leading to `p = 15`). 
-The minute uses `q = 60` (leading to `p = 121`). 
+The parameter `q` is not fixed. The clock uses `q = 12` (leading to `p = 25`). The week uses `q = 7` (leading to `p = 15`). The minute uses `q = 60` (leading to `p = 121`). 
 
-Any attempt to alter the parameters of this software does not circumvent the theory; it merely validates its generality. 
-The software is architecturally built to calculate `p` for _any_ valid `q` under this specific mathematical framework. 
-The mathematical structure **p ≡ 1 (mod q)** and its application to time measurement are the original intellectual property of the author, Bilal el Issaoui.
+Any attempt to alter the parameters of this software does not circumvent the theory; it merely validates its generality. The software is architecturally built to calculate `p` for _any_ valid `q` under this specific mathematical framework. The mathematical structure **p ≡ 1 (mod q)** and its application to time measurement are the original intellectual property of the author, Bilal el Issaoui.
+
+---
 
 ## Deep Dive: The Benchmark of History (The Leap Cycle)
 
@@ -52,32 +73,26 @@ One could object that a year does not last 360 days, but 365 (or 366 in a leap y
 What makes this system unique is that it does not rely on the raw orbital period, but on the **leap cycle as the benchmark**. This is the only variable that has been constantly corrected throughout history. Humanity has always known: the year runs out of sync, and the leap year is the solution. Our 7,000-year cycle therefore synchronizes with that universal, historical correction. The leap year is not just an addition; it is the anchor on which the entire spiral rests.
 
 - A normal year has **365 days**.
-- The first leap year is calculated using the double cycle (m=2): 
-  `2 × 365 + 1 = 731`. 
-  This means `731 ≡ 1 (mod 365)`.
-- For the full 4-year leap cycle (4 levels), the formula is: 
-  `4 × (2 × 365) + 1 = 2921`. 
-  This means `2921 ≡ 1 (mod 365)` with m=8.
+- The first leap year is calculated using the double cycle (m=2): `2 × 365 + 1 = 731`. This means `731 ≡ 1 (mod 365)`.
+- For the full 4-year leap cycle (4 levels), the formula is: `4 × (2 × 365) + 1 = 2921`. This means `2921 ≡ 1 (mod 365)` with m=8.
 
-The app calculates this automatically. 
-It uses the real leap years to stay perfectly synchronized with the real time.
+The app calculates this automatically. It uses the real leap years to stay perfectly synchronized with the real time.
+
+---
 
 ## Deep Dive: Why 2,520?
 
-You will see the number **2,520** everywhere in this application. 
-Why is this number so important?
+You will see the number **2,520** everywhere in this application. Why is this number so important?
 
-2,520 is the **Least Common Multiple (LCM)** of all numbers from 1 to 10. 
-It is the smallest number that can be divided by 1, 2, 3, 4, 5, 6, 7, 8, 9, and 10 without leaving a remainder.
+2,520 is the **Least Common Multiple (LCM)** of all numbers from 1 to 10. It is the smallest number that can be divided by 1, 2, 3, 4, 5, 6, 7, 8, 9, and 10 without leaving a remainder.
 
-In the context of the calendar, a standard year is divisible by 1, 2, 3, 4, 5, 6, 8, 9, and 10. 
-**Only the 7 is missing.**
+In the context of the calendar, a standard year is divisible by 1, 2, 3, 4, 5, 6, 8, 9, and 10. **Only the 7 is missing.**
 
-When you add the 7-day week to the calendar, you get:
-`360 days × 7 days = 2,520 days`
+When you add the 7-day week to the calendar, you get: `360 days × 7 days = 2,520 days`
 
-Because 7 is a prime number that does not divide evenly into 360, the 7-day week is the _only_ cycle length between 1 and 10 that forces the calendar to extend its cycle to find synchronization. 
-2,520 is the exact point where the 360-day model and the 7-day week meet again perfectly. (In the real Gregorian calendar, the synchronization of the week and the solar year is even more complex, but the mathematical model remains the same).
+Because 7 is a prime number that does not divide evenly into 360, the 7-day week is the _only_ cycle length between 1 and 10 that forces the calendar to extend its cycle to find synchronization. 2,520 is the exact point where the 360-day model and the 7-day week meet again perfectly. (In the real Gregorian calendar, the synchronization of the week and the solar year is even more complex, but the mathematical model remains the same).
+
+---
 
 ## Deep Dive: The 7,000-Year Closure
 
@@ -86,17 +101,15 @@ If we scale the model up to a millennium, the math becomes even more beautiful.
 - The calendar is 1,000 years of 360 days = **360,000 days**.
 - The week is **7 days**.
 
-To find out when the calendar and the week will perfectly align again, we calculate the LCM of 360,000 and 7. 
-Since 7 shares no common factors with 360,000 (which is built from 2, 3, and 5), we simply multiply them:
-`360,000 × 7 = 2,520,000 days`
+To find out when the calendar and the week will perfectly align again, we calculate the LCM of 360,000 and 7. Since 7 shares no common factors with 360,000 (which is built from 2, 3, and 5), we simply multiply them: `360,000 × 7 = 2,520,000 days`
 
-Converted back to years:
-`2,520,000 ÷ 360 = 7,000 years`
+Converted back to years: `2,520,000 ÷ 360 = 7,000 years`
 
-This is why the full clock cycle closes after exactly **7,000 years**. 
-Other millennium markers like 1,000, 3,000, 6,000, or 9,000 years do not close, because those numbers (3, 6, 9) share prime factors with 360,000, causing the cycle to reset prematurely.
+This is why the full clock cycle closes after exactly **7,000 years**. Other millennium markers like 1,000, 3,000, 6,000, or 9,000 years do not close, because those numbers (3, 6, 9) share prime factors with 360,000, causing the cycle to reset prematurely.
 
-## Features
+---
+
+## Features (Main App)
 
 - **Exact Bijection:** A flawless, round-trip conversion between any integer `N` (milliseconds) and its 10-part clock tuple (millennium to milliseconds) using native `BigInt` to prevent precision loss.
 - **Interactive 3D Spiral:** A live-rendered life-spiral. Enter a birthdate to see the Pearl of Time travel exactly to your current position in a 70-year life cycle, or view the world time.
@@ -106,18 +119,21 @@ Other millennium markers like 1,000, 3,000, 6,000, or 9,000 years do not close, 
 - **Calendar & Drift:** Visualizes the real Gregorian calendar and maps the mathematical cycles (including the 2921 leap cycle) directly onto it.
 - **Offline Capable:** Fully installable PWA. Once loaded, it works without an internet connection. Includes a built-in backup/export feature to save your personal data.
 
+---
+
 ## The Paper
 
 The complete mathematical proof, including the derivation of the formulas, the relationship between the clock and the (19, 9) system, and the synchronization rules, is documented in the accompanying paper:
 
 📄 **[The Clock as a Mathematical Object (PDF)](./The_Clock_as_a_Mathematical_Object.pdf)**
 
+---
+
 ## Architecture
 
-This application contains zero external dependencies. 
-The math runs natively in the browser using `BigInt`. 
-Data is never sent to a server. 
-The user is the sole owner of their local database.
+This application contains zero external dependencies. The math runs natively in the browser using `BigInt`. Data is never sent to a server. The user is the sole owner of their local database.
+
+---
 
 ## Licensing (Dual License)
 
@@ -139,18 +155,19 @@ This includes using the mathematical framework, the `BigInt` bijection algorithm
 
 - Contact **Bilal el Issaoui** at `elissa.oui.amster@gmail.com` or `elissa_oui@outlook.com` to obtain a commercial license.
 
+---
+
 ## Contributing
 
 **No pull requests will be accepted without a signed Contributor License Agreement (CLA).**
-Because this project is dual-licensed, the author must retain the sole right to sell commercial licenses. 
-By contributing to this repository, you agree that your contributions become the property of the author, allowing the author to relicense the software commercially. 
-See `CONTRIBUTING.md` for details.
-
-## Disclaimer
-
-The software is provided "as is", without warranty of any kind. 
-The author is not liable for any damages arising from the use of this software.
+Because this project is dual-licensed, the author must retain the sole right to sell commercial licenses. By contributing to this repository, you agree that your contributions become the property of the author, allowing the author to relicense the software commercially. See `CONTRIBUTING.md` for details.
 
 ---
 
-_Created by Bilal el Issaoui · Amsterdam, 2026_
+## Disclaimer
+
+The software is provided "as is", without warranty of any kind. The author is not liable for any damages arising from the use of this software.
+
+---
+
+_Bilal el Issaoui · Amsterdam, 2026_
