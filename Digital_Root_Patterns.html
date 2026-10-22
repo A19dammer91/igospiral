@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Digitale Wortel Patronen</title>
+<style>
+  :root {
+    /* Bordo, Marineblauw & Parelmoer Palet */
+    --bg: #0a192f;           /* Diep marineblauw */
+    --panel: #112240;        /* Iets lichter marineblauw voor panelen */
+    --border: #233554;       /* Marineblauwe rand */
+    
+    --pearl: #f8f9fa;        /* Parelmoerwit (tekst & accenten) */
+    --pearl-mut: #d1d5db;    /* Zacht parelmoer voor subtekst */
+    
+    --bordo: #800020;        /* Bordo rood */
+    --bordo-light: #a52a2a;  /* Lichter bordo voor highlights */
+    
+    --class-a: #800020;      /* Klasse A: Bordo */
+    --class-b: #f8f9fa;      /* Klasse B: Parelmoerwit */
+    --class-c: #4a6fa5;      /* Klasse C: Marineblauw accent */
+  }
+
+  body {
+    background-color: var(--bg);
+    color: var(--pearl);
+    font-family: system-ui, -apple-system, sans-serif;
+    margin: 0;
+    padding: 2rem 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .container {
+    max-width: 1000px;
+    width: 100%;
+  }
+
+  header {
+    text-align: center;
+    margin-bottom: 2rem;
+    position: relative;
+  }
+
+  h1 { 
+    color: var(--pearl); 
+    margin-bottom: 0.5rem; 
+    font-size: 2rem; 
+    text-shadow: 0 0 10px rgba(248, 249, 250, 0.2);
+  }
+
+  p.sub { 
+    color: var(--pearl-mut); 
+    font-style: italic; 
+    margin-top: 0; 
+    font-size: 1.1rem; 
+  }
+  
+  .lang-btn {
+    position: absolute; top: 0; right: 0;
+    background: var(--panel); color: var(--pearl); border: 1px solid var(--pearl-mut);
+    padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-weight: bold;
+    transition: all 0.3s;
+  }
+
+  .lang-btn:hover { 
+    background: var(--pearl); 
+    color: var(--bg); 
+    box-shadow: 0 0 15px rgba(248, 249, 250, 0.4);
+  }
+
+  .layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+
+  @media (max-width: 800px) {
+    .layout { grid-template-columns: 1fr; }
+    .lang-btn { position: relative; margin-top: 1rem; }
+  }
+
+  .card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5), inset 0 0 20px rgba(128, 0, 32, 0.1);
+  }
+
+  .card h2 {
+    margin-top: 0;
+    font-size: 1.2rem;
+    color: var(--pearl);
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .controls {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .control-group { flex: 1; min-width: 150px; display: flex; flex-direction: column; gap: 0.5rem; }
+  
+  label { font-size: 0.85rem; color: var(--pearl-mut); text-transform: uppercase; }
+  
+  input, select {
+    background: var(--bg); color: var(--pearl); border: 1px solid var(--border);
+    padding: 0.5rem; border-radius: 6px; font-size: 1rem; font-family: inherit; outline: none;
+    transition: border-color 0.3s;
+  }
+  
+  input:focus, select:focus { border-color: var(--bordo-light); }
+
+  .class-badge {
+    display: inline-block; padding: 0.25rem 0.75rem; border-radius: 999px;
+    font-size: 0.85rem; font-weight: bold; margin-bottom: 1rem;
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+  }
+
+  .svg-container {
+    position: relative; width: 100%; aspect-ratio: 1; max-width: 350px; margin: 0 auto;
+  }
+
+  svg { width: 100%; height: 100%; display: block; }
+  
+  .axis { stroke: #233554; stroke-width: 2; }
+  
+  .node-bg { 
+    fill: var(--panel); 
+    stroke: var(--border); 
+    stroke-width: 2; 
+    transition: all 0.3s; 
+  }
+
+  .node-text { 
+    fill: var(--pearl-mut); 
+    font-size: 14px; 
+    font-weight: bold; 
+    text-anchor: middle; 
+    alignment-baseline: middle; 
+    font-family: monospace; 
+  }
+
+  .node-active .node-bg { 
+    fill: var(--pearl); 
+    stroke: var(--bordo); 
+    stroke-width: 3;
+  }
+
+  .node-active .node-text { 
+    fill: var(--bg); 
+  }
+
+  .path-line { 
+    fill: none; 
+    stroke-width: 3; 
+    stroke-linecap: round; 
+  }
+
+  .bead { 
+    fill: var(--pearl); 
+    filter: drop-shadow(0 0 10px var(--pearl)); 
+  }
+
+  .data-table {
+    width: 100%; border-collapse: collapse; font-size: 0.9rem; margin-top: 1rem;
+  }
+
+  .data-table th, .data-table td {
+    padding: 0.5rem; text-align: left; border-bottom: 1px solid var(--border);
+  }
+
+  .data-table th { color: var(--pearl-mut); font-weight: normal; }
+  .data-table td { font-family: monospace; color: var(--pearl); }
+
+  .grid-overview {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(25px, 1fr));
+    gap: 4px; margin-top: 1rem; max-height: 300px; overflow-y: auto; padding-right: 0.5rem;
+  }
+
+  .grid-cell {
+    aspect-ratio: 1; display: flex; align-items: center; justify-content: center;
+    font-size: 0.6rem; font-family: monospace; border-radius: 3px; cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .grid-cell:hover { 
+    transform: scale(1.3); 
+    z-index: 10; 
+    box-shadow: 0 0 15px rgba(248, 249, 250, 0.6); 
+  }
+
+  .grid-cell.c-A { background: var(--class-a); color: var(--pearl); }
+  .grid-cell.c-B { background: var(--class-b); color: var(--bg); }
+  .grid-cell.c-C { background: var(--class-c); color: var(--pearl); }
+  
+  .grid-cell.active { 
+    border: 2px solid var(--pearl); 
+    transform: scale(1.2); 
+    z-index: 10; 
+    box-shadow: 0 0 10px var(--pearl);
+  }
+
+  .explanation {
+    background: rgba(128, 0, 32, 0.1); 
+    border-left: 4px solid var(--bordo-light);
+    padding: 1rem; border-radius: 0 8px 8px 0; margin-top: 1.5rem;
+    font-size: 0.95rem; line-height: 1.6; color: var(--pearl-mut);
+  }
+
+  .explanation b { color: var(--pearl); }
+  
+  .formula-box {
+    background: rgba(248, 249, 250, 0.05); 
+    border: 1px solid var(--border);
+    padding: 1rem; border-radius: 8px; margin-top: 1rem; text-align: center;
+    font-family: monospace; font-size: 1.1rem; color: var(--pearl);
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <h1 id="titleText">Digitale Wortel Patronen</h1>
+    <p class="sub" id="subtitleText">De Negen-, Drie- en Eencyclus</p>
+    <button class="lang-btn" id="langBtn" onclick="toggleLanguage()">English</button>
+  </header>
+
+  <div class="layout">
+    <!-- LINKER KOLOM: De Interactieve Visualisatie -->
+    <div class="card">
+      <h2 id="visTitle">Live Patroon</h2>
+      <div class="controls">
+        <div class="control-group">
+          <label for="qInput" id="lblQ">Modulus (q)</label>
+          <input type="number" id="qInput" value="7" min="2" max="900">
+        </div>
+        <div class="control-group">
+          <label for="presetSelect" id="lblPreset">Kies eenheid</label>
+          <select id="presetSelect">
+            <option value="7" data-en="The Week (q=7)" data-nl="De Week (q=7)">De Week (q=7)</option>
+            <option value="60" data-en="Hour/Minute (q=60)" data-nl="Uur/Minuut (q=60)">Uur/Minuut (q=60)</option>
+            <option value="360" data-en="Circle (q=360)" data-nl="Cirkel (q=360)">Cirkel (q=360)</option>
+            <option value="365" data-en="The Year (q=365)" data-nl="Het Jaar (q=365)">Het Jaar (q=365)</option>
+            <option value="15" data-en="Quarter (q=15)" data-nl="Kwartier (q=15)">Kwartier (q=15)</option>
+            <option value="2" data-en="Prime (q=2)" data-nl="Priemgetal (q=2)">Priemgetal (q=2)</option>
+            <option value="9" data-en="Multiple of 9 (q=9)" data-nl="Negenvoud (q=9)">Negenvoud (q=9)</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="classBadge" class="class-badge"></div>
+      
+      <div class="svg-container">
+        <svg viewBox="0 0 400 400" id="mainSvg">
+          <circle cx="200" cy="200" r="140" fill="none" stroke="#233554" stroke-width="1" stroke-dasharray="4 4"/>
+          <g id="nodes"></g>
+          <path id="travelPath" class="path-line" d=""></path>
+          <circle id="bead" class="bead" cx="200" cy="200" r="8"></circle>
+        </svg>
+      </div>
+
+      <div class="formula-box" id="formulaBox"></div>
+      <div class="explanation" id="explanationText"></div>
+    </div>
+
+    <!-- RECHTER KOLOM: De Data en het Overzicht -->
+    <div class="card">
+      <h2 id="tableTitle">De Berekening (p = 1 + q·m)</h2>
+      <p style="font-size: 0.9rem; color: var(--pearl-mut);" id="tableDesc">Hier zie je hoe de digitale wortel (d) wordt afgeleid van de positie (p) over de eerste 10 niveaus (m).</p>
+      
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th id="thLevel">Niveau (m)</th>
+            <th id="thPos">Positie (p)</th>
+            <th id="thRoot">Digitale Wortel (d)</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+      </table>
+
+      <h2 style="margin-top: 2rem;" id="gridTitle">Het Volledige Universum (2 t/m 900)</h2>
+      <p style="font-size: 0.9rem; color: var(--pearl-mut);" id="gridDesc">Elk blokje is een modulus. Klik erop om het patroon aan te passen. De kleuren tonen de drie cycli.</p>
+      
+      <div style="display: flex; gap: 1rem; font-size: 0.8rem; margin-bottom: 1rem;" id="legendBox">
+        <span style="color: var(--class-a)">■ <span id="legA">Klasse A (599)</span></span>
+        <span style="color: var(--class-b)">■ <span id="legB">Klasse B (200)</span></span>
+        <span style="color: var(--class-c)">■ <span id="legC">Klasse C (100)</span></span>
+      </div>
+
+      <div class="grid-overview" id="gridOverview"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  let currentLang = 'nl';
+
+  const TRANSLATIONS = {
+    nl: {
+      title: "Digitale Wortel Patronen",
+      subtitle: "De Negen-, Drie- en Eencyclus",
+      langBtn: "English",
+      visTitle: "Live Patroon",
+      lblQ: "Modulus (q)",
+      lblPreset: "Kies eenheid",
+      tableTitle: "De Berekening (p = 1 + q·m)",
+      tableDesc: "Hier zie je hoe de digitale wortel (d) wordt afgeleid van de positie (p) over de eerste 10 niveaus (m).",
+      thLevel: "Niveau (m)",
+      thPos: "Positie (p)",
+      thRoot: "Digitale Wortel (d)",
+      gridTitle: "Het Volledige Universum (2 t/m 900)",
+      gridDesc: "Elk blokje is een modulus. Klik erop om het patroon aan te passen. De kleuren tonen de drie cycli.",
+      legA: "Klasse A (599)",
+      legB: "Klasse B (200)",
+      legC: "Klasse C (100)",
+      classA: "Klasse A: De Negen-cyclus",
+      classB: "Klasse B: De Drie-cyclus",
+      classC: "Klasse C: De Constante-1",
+      explA: (q, step) => `<b>Wiskundige Verklaring:</b> Omdat <i>q</i> (${q}) niet deelbaar is door 3, is de ggd(${q}, 9) = 1. De digitale wortel moet alle negen restklassen doorlopen voordat hij terugkeert bij 1. De stap per ronde is <i>q</i> mod 9 = <b>${step}</b>.`,
+      explB: (q, step) => `<b>Wiskundige Verklaring:</b> De stap per ronde is een veelvoud van 3 (<i>q</i> mod 9 = <b>${step}</b>). Hierdoor slaat de digitale wortel zes van de negen niveaus over. Hij blijft gevangen in de deelverzameling {1, 4, 7}. Hier is ggd(${q}, 9) = 3.`,
+      explC: (q) => `<b>Wiskundige Verklaring:</b> De stap per ronde is een veelvoud van 9 (<i>q</i> mod 9 = <b>0</b>). Omdat de reeks start op 1 en er steeds een veelvoud van 9 bij komt, blijft de rest bij deling door 9 altijd 1. De digitale wortel is daarom constant.`
+    },
+    en: {
+      title: "Digital Root Patterns",
+      subtitle: "The Nine-, Three-, and One-Cycle",
+      langBtn: "Nederlands",
+      visTitle: "Live Pattern",
+      lblQ: "Modulus (q)",
+      lblPreset: "Choose unit",
+      tableTitle: "The Calculation (p = 1 + q·m)",
+      tableDesc: "Here you see how the digital root (d) is derived from the position (p) over the first 10 levels (m).",
+      thLevel: "Level (m)",
+      thPos: "Position (p)",
+      thRoot: "Digital Root (d)",
+      gridTitle: "The Complete Universe (2 to 900)",
+      gridDesc: "Each block is a modulus. Click on it to adjust the pattern. The colors show the three cycles.",
+      legA: "Class A (599)",
+      legB: "Class B (200)",
+      legC: "Class C (100)",
+      classA: "Class A: The Nine-Cycle",
+      classB: "Class B: The Three-Cycle",
+      classC: "Class C: The Constant-1",
+      explA: (q, step) => `<b>Mathematical Explanation:</b> Because <i>q</i> (${q}) is not divisible by 3, gcd(${q}, 9) = 1. The digital root must pass through all nine residue classes before returning to 1. The step per round is <i>q</i> mod 9 = <b>${step}</b>.`,
+      explB: (q, step) => `<b>Mathematical Explanation:</b> The step per round is a multiple of 3 (<i>q</i> mod 9 = <b>${step}</b>). As a result, the digital root skips six of the nine levels. It remains trapped in the subset {1, 4, 7}. Here, gcd(${q}, 9) = 3.`,
+      explC: (q) => `<b>Mathematical Explanation:</b> The step per round is a multiple of 9 (<i>q</i> mod 9 = <b>0</b>). Because the sequence starts at 1 and a multiple of 9 is added each time, the remainder when divided by 9 always remains 1. The digital root is therefore constant.`
+    }
+  };
+
+  const qInput = document.getElementById('qInput');
+  const presetSelect = document.getElementById('presetSelect');
+  const nodesGroup = document.getElementById('nodes');
+  const travelPath = document.getElementById('travelPath');
+  const bead = document.getElementById('bead');
+  const classBadge = document.getElementById('classBadge');
+  const explanationText = document.getElementById('explanationText');
+  const formulaBox = document.getElementById('formulaBox');
+  const tableBody = document.getElementById('tableBody');
+  const gridOverview = document.getElementById('gridOverview');
+
+  let animationId;
+  let currentPathPoints = [];
+  let currentIndex = 0;
+
+  function digitalRoot(n) {
+    if (n === 0) return 9;
+    return (n % 9 === 0) ? 9 : n % 9;
+  }
+
+  function getClass(q) {
+    if (q % 9 === 0) return 'C';
+    if (q % 3 === 0) return 'B';
+    return 'A';
+  }
+
+  function generatePattern(q) {
+    const pattern = [];
+    if (q % 9 === 0) return [1];
+    const maxSteps = (q % 3 === 0) ? 3 : 9;
+    let d = 1;
+    for (let i = 0; i < maxSteps; i++) {
+      pattern.push(d);
+      d = (d + (q % 9) - 1) % 9 + 1;
+    }
+    return pattern;
+  }
+
+  function getPosition(value) {
+    const angle = ((value - 1) / 9) * 2 * Math.PI - Math.PI / 2;
+    const r = 140;
+    return { x: 200 + r * Math.cos(angle), y: 200 + r * Math.sin(angle) };
+  }
+
+  function buildGrid() {
+    let html = '';
+    for (let q = 2; q <= 900; q++) {
+      const c = getClass(q);
+      html += `<div class="grid-cell c-${c}" data-q="${q}" title="q = ${q} (Class ${c})">${q}</div>`;
+    }
+    gridOverview.innerHTML = html;
+
+    document.querySelectorAll('.grid-cell').forEach(cell => {
+      cell.addEventListener('click', () => {
+        const q = parseInt(cell.getAttribute('data-q'));
+        qInput.value = q;
+        updateVisualization(q);
+        presetSelect.value = "";
+      });
+    });
+  }
+
+  function updateVisualization(q) {
+    cancelAnimationFrame(animationId);
+    const T = TRANSLATIONS[currentLang];
+    
+    // Highlight in grid
+    document.querySelectorAll('.grid-cell').forEach(c => c.classList.remove('active'));
+    const activeCell = document.querySelector(`.grid-cell[data-q="${q}"]`);
+    if (activeCell) activeCell.classList.add('active');
+
+    const qClass = getClass(q);
+    const pattern = generatePattern(q);
+    const step = q % 9;
+    
+    // Update Badge (Kleuren: A = Bordo, B = Parelmoer, C = Marineblauw)
+    let badgeColor = qClass === 'A' ? 'var(--bordo)' : qClass === 'B' ? 'var(--pearl)' : 'var(--class-c)';
+    let textColor = qClass === 'B' ? 'var(--bg)' : 'var(--pearl)';
+    let className = qClass === 'A' ? T.classA : qClass === 'B' ? T.classB : T.classC;
+    
+    classBadge.textContent = className;
+    classBadge.style.backgroundColor = badgeColor;
+    classBadge.style.color = textColor;
+    
+    // Update Explanation
+    if (qClass === 'A') explanationText.innerHTML = T.explA(q, step);
+    else if (qClass === 'B') explanationText.innerHTML = T.explB(q, step);
+    else explanationText.innerHTML = T.explC(q);
+
+    // Update Formula
+    formulaBox.textContent = `p = 1 + ${q}·m  |  Step = ${q} mod 9 = ${step}`;
+
+    // Update Table
+    let tableHtml = '';
+    for (let m = 1; m <= 10; m++) {
+      const p = 1 + q * m;
+      const d = digitalRoot(p);
+      tableHtml += `<tr><td>${m}</td><td>${p}</td><td>${d}</td></tr>`;
+    }
+    tableBody.innerHTML = tableHtml;
+
+    // Draw nodes
+    nodesGroup.innerHTML = '';
+    for (let i = 1; i <= 9; i++) {
+      const pos = getPosition(i);
+      nodesGroup.innerHTML += `
+        <g class="node" id="node-${i}" transform="translate(${pos.x}, ${pos.y})">
+          <circle class="node-bg" r="20"></circle>
+          <text class="node-text" dy="1">${i}</text>
+        </g>
+      `;
+    }
+
+    // Prepare path
+    currentPathPoints = [];
+    let pathD = '';
+    
+    if (qClass === 'C') {
+      const pos = getPosition(1);
+      currentPathPoints.push(pos);
+      pathD = `M ${pos.x} ${pos.y} A 20 20 0 1 1 ${pos.x + 0.1} ${pos.y}`;
+      document.getElementById('node-1').classList.add('node-active');
+      bead.style.opacity = 0;
+    } else {
+      bead.style.opacity = 1;
+      pattern.forEach((val, index) => {
+        const pos = getPosition(val);
+        currentPathPoints.push(pos);
+        pathD += (index === 0 ? 'M ' : 'L ') + `${pos.x} ${pos.y} `;
+        document.getElementById(`node-${val}`).classList.add('node-active');
+      });
+      if (currentPathPoints.length > 0) {
+        pathD += `L ${currentPathPoints[0].x} ${currentPathPoints[0].y}`;
+      }
+    }
+
+    travelPath.setAttribute('d', pathD);
+    // De lijn krijgt de kleur van de klasse
+    travelPath.setAttribute('stroke', badgeColor);
+    
+    // Start animation
+    currentIndex = 0;
+    if (qClass !== 'C') {
+      bead.setAttribute('cx', currentPathPoints[0].x);
+      bead.setAttribute('cy', currentPathPoints[0].y);
+      animateBead();
+    }
+  }
+
+  function animateBead() {
+    if (currentPathPoints.length === 0) return;
+    const target = currentPathPoints[currentIndex];
+    const startX = parseFloat(bead.getAttribute('cx'));
+    const startY = parseFloat(bead.getAttribute('cy'));
+    let startTime = null;
+    const duration = 600;
+
+    function step(timestamp) {
+      if (!startTime) startTime = timestamp;
+      const progress = (timestamp - startTime) / duration;
+      
+      if (progress < 1) {
+        const ease = progress < 0.5 ? 2 * progress * progress : 1 - Math.pow(-2 * progress + 2, 2) / 2;
+        bead.setAttribute('cx', startX + (target.x - startX) * ease);
+        bead.setAttribute('cy', startY + (target.y - startY) * ease);
+        animationId = requestAnimationFrame(step);
+      } else {
+        bead.setAttribute('cx', target.x);
+        bead.setAttribute('cy', target.y);
+        currentIndex = (currentIndex + 1) % currentPathPoints.length;
+        setTimeout(() => { animationId = requestAnimationFrame(animateBead); }, 200);
+      }
+    }
+    animationId = requestAnimationFrame(step);
+  }
+
+  function toggleLanguage() {
+    currentLang = currentLang === 'nl' ? 'en' : 'nl';
+    const T = TRANSLATIONS[currentLang];
+    
+    document.documentElement.lang = currentLang;
+    document.getElementById('titleText').textContent = T.title;
+    document.getElementById('subtitleText').textContent = T.subtitle;
+    document.getElementById('langBtn').textContent = T.langBtn;
+    document.getElementById('visTitle').textContent = T.visTitle;
+    document.getElementById('lblQ').textContent = T.lblQ;
+    document.getElementById('lblPreset').textContent = T.lblPreset;
+    document.getElementById('tableTitle').textContent = T.tableTitle;
+    document.getElementById('tableDesc').textContent = T.tableDesc;
+    document.getElementById('thLevel').textContent = T.thLevel;
+    document.getElementById('thPos').textContent = T.thPos;
+    document.getElementById('thRoot').textContent = T.thRoot;
+    document.getElementById('gridTitle').textContent = T.gridTitle;
+    document.getElementById('gridDesc').textContent = T.gridDesc;
+    document.getElementById('legA').textContent = T.legA;
+    document.getElementById('legB').textContent = T.legB;
+    document.getElementById('legC').textContent = T.legC;
+
+    // Translate Select Options
+    Array.from(presetSelect.options).forEach(opt => {
+      opt.textContent = opt.getAttribute(`data-${currentLang}`);
+    });
+
+    // Refresh current view to update text
+    updateVisualization(parseInt(qInput.value));
+  }
+
+  qInput.addEventListener('input', (e) => {
+    const val = parseInt(e.target.value);
+    if (val >= 2 && val <= 900) {
+      updateVisualization(val);
+      presetSelect.value = "";
+    }
+  });
+
+  presetSelect.addEventListener('change', (e) => {
+    if (e.target.value) {
+      qInput.value = e.target.value;
+      updateVisualization(parseInt(e.target.value));
+    }
+  });
+
+  // Initialize
+  buildGrid();
+  updateVisualization(7);
+</script>
+</body>
+</html>
