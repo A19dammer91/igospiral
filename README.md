@@ -1,129 +1,126 @@
-# iGoSpiral
+# iGoSpiral DigitalGears
 
-**Every round, one level higher.**
+**The Architecture of the Clock.**  
+*Every round, one level higher.*
 
 👉 **[Launch the live iGoSpiral App here](https://a19dammer91.github.io/igospiral/)**
 
-iGoSpiral is a local-first Progressive Web App (PWA) that visualizes the clock, calendar, and number systems as a single, unified mathematical object. It is not a time-management tool. It is an interactive proof of the hidden structure of time.
-
-## Interactive Visualizations
-
-This repository contains three distinct, interactive HTML modules that each illustrate a different facet of the theory:
-
-1. **The Main App (`index.html`):** The full PWA experience with the 3D life-spiral, timestamp attachment, and calendar mapping.
-2. **The Clock Gears (`iGoSpiral_Clock_Gears.html`):** An educational gear train showing how time units mesh and synchronize at 7,000 years.
-3. **Sacred Digital Root Patterns (`Digital Root Patterns.html`):** A pure, mathematical visualizer of the three fundamental cycles.
+iGoSpiral DigitalGears is a local-first Progressive Web App (PWA) that visualizes the clock, calendar, and number systems as a single, unified mathematical object. It is not a time-management tool. It is an interactive proof of the hidden structure of time.
 
 ---
 
-## 1. The Clock Gears
+## The Six Modules (One Application)
 
-To make the structural beauty of the clock tangible, the repository includes a dedicated, interactive educational visualization: the **Clock Gears**.
+De applicatie is gebundeld in één enkel bestand (`index.html`). De zes modules zijn toegankelijk via de navigatiebalk onderaan.
 
-👉 **[Launch the Clock Gears Visualization (HTML)](https://a19dammer91.github.io/igospiral/iGoSpiral_Clock_Gears.html)**
+### 1. 🌀 Spiraal (Spiral)
+De visuele kern van de applicatie. Een 3D-levensspiraal die de voortgang van de tijd toont. Kies je eigen leven (70 jaar) of de wereldtijd. De parel is het huidige moment; de gouden lijn is het verstreken deel van dit jaar. De spiraal stijgt bij elke cyclus, wat de formule `p ≡ 1 (mod q)` visueel bewijst.
 
-This visual tool demonstrates how different units of time (from a millisecond to the 7000-year cycle) are linked through the universal formula **p ≡ 1 (mod q)**.
+### 2. 🕰️ Klok (Clock)
+Een analoge klok met drie ingrijpende tandwielen (24, 12 en 6 tanden). De klok toont de live N (milliseconden) en de datum. De tandwielen demonstreren hoe de 24-uurs cyclus de 12-uurs cyclus aandrijft, die op zijn beurt de 6-uurs cyclus aandrijft. De wiskundige relatie is `25 ≡ 1 (mod 12)`.
 
-### What you will see:
-- **The Gear Train:** Ten perfectly meshing gears representing the units of time. Their sizes and rotational speeds are mathematically linked. You can see the "+1 jump" light up every time a gear completes its rounds and moves to the next level.
-- **The Parallel Week:** The 7-day week is visualized as a parallel gear, showing how it runs out of sync with the calendar until the ultimate synchronization.
-- **The Ultimate Alignment:** Click the "⚡ Align at 7,000 years" button to witness the full synchronization. The gears lock into position, the screen flashes, and the system freezes to prove that time is a closed, perfect loop.
-- **The Round Chain (Spiral):** An interactive panel where you can change the modulus (`q`) and the number of rounds (`m`). Watch how the sequence spirals upwards. Every level lands on position 1 again, visually proving that time is not a linear count, but a rising spiral.
-- **Bilingual:** Fully interactive in both English and Dutch (NL/EN toggle).
+### 3. ⚙️ Tandwielen (Gears)
+De sacrale geometrie van de tijd. Een concentrische tandwieltrein die alle tijdseenheden (van milliseconde tot 7.000-jaar cyclus) met elkaar verbindt. Klik op **"⚡ Align at 7,000 years"** om de volledige synchronisatie te zien: de tandwielen lijnen uit, het scherm flitst, en het systeem bevriest om te bewijzen dat tijd een gesloten, perfecte lus is. Bevat ook de interactieve ketting `p ≡ 1 (mod q)` met de +1 sprong.
 
----
+### 4. 🔢 Patronen (Patterns)
+De pure wiskundige kern. Visualiseert de drie fundamentele cycli van de digitale wortel (Klasse A, B en C), onafhankelijk van enige klok- of kalendercontext. Een live tabel toont de formule `p = 1 + q·m` over 10 niveaus. Een interactief raster brengt alle 899 geldige moduli van 2 tot 900 in kaart, gekleurd per klasse.
 
-## 2. Sacred Digital Root Patterns
+### 5. 🔄 Bijectie (Bijection)
+De exacte conversie tussen een geheel getal `N` (milliseconden) en de 10-delige klok-tuple (millennium tot milliseconden). De module rekent met de **werkelijke kalender**, niet met een kunstmatige +1.
 
-This standalone module strips the theory down to its purest mathematical core. It visualizes the three fundamental cycles of the digital root, independent of any clock or calendar context.
+De module toont twee weergaven naast elkaar:
+- **Echte kalender (0-based):** de waarden zoals de wereld ze toont (uur 0–23, minuut 0–59, seconde 0–59, ms 0–999).
+- **Model (1-based):** de posities zoals het iGoSpiral-model ze gebruikt (uur 1–24, minuut 1–60, seconde 1–60, ms 1–1000).
 
-👉 **[Launch the Digital Root Patterns Visualization (HTML)](./Digital%20Root%20Patterns.html)**
+Beide weergaven zijn altijd synchroon. De UTC-schakelaar zorgt voor een sluitende bijectie, zonder gaten of overlappingen door zomertijd.
 
-### What you will see:
-- **The Three Patterns:** By adjusting the modulus (`q`), the visualizer automatically identifies whether the digital root follows a Nine-Cycle (Class A), a Three-Cycle (Class B), or a Constant-1 (Class C).
-- **The Mathematical Engine:** A live table demonstrates the formula `p = 1 + q·m`, showing exactly how the digital root is derived from the position over 10 levels.
-- **The Complete Universe:** An interactive grid maps all 899 valid moduli from 2 to 900. Colored by class, you can click any number to instantly visualize its unique pattern.
-- **Color-Coded:** The interface uses a specific visual language: Bordo Red for the Nine-Cycle, Pearl White for the Three-Cycle, and Marine Blue for the Constant-1.
-- **Bilingual:** Fully interactive in both English and Dutch.
+### 6. 📔 Tools
+De persoonlijke laag van de applicatie:
+- **Agenda:** afspraken per dag, gekoppeld aan de modeldag.
+- **Notities:** tekst en foto's, gekoppeld aan een exact moment (N).
+- **Kluis (MRS-AUTH):** een post-quantum authenticatieraamwerk met PBKDF2-SHA256 (600k iteraties), het (19, 9) Diophantische systeem, en AES-256-GCM.
+- **Instellingen:** back-up, herstel, UTC-schakelaar, en opslagbeheer.
+- **MRS-demo:** een live rekenmachine voor `N = 19A + 9B`.
 
 ---
 
 ## The Core Theory
 
-The foundation of all three modules is the general form:
+De foundation van alle zes modules is de algemene vorm:
 
 **p ≡ 1 (mod q)**
 
-This is not a collection of isolated tricks for the clock or the calendar. It is a universal theory of cyclical structures, with two distinct forms:
+Dit is geen verzameling geïsoleerde trucs voor de klok of de kalender. Het is een universele theorie van cyclische structuren, met twee distincte vormen:
 
-1. **The Theoretical Form:** `q + 1 = p` (m = 1) — One round.
-2. **The Actual Form:** `2q + 1 = p` (m = 2) — Two rounds, creating a double cycle (e.g., day/night, or two moments within a week).
+1. **De Theoretische Vorm:** `q + 1 = p` (m = 1) — Eén ronde.
+2. **De Actuele Vorm:** `2q + 1 = p` (m = 2) — Twee rondes, wat een dubbele cyclus creëert (bijv. dag/nacht, of twee momenten binnen een week).
 
 **Generality as the Core Property:**
-The parameter `q` is not fixed. The clock uses `q = 12` (leading to `p = 25`). The week uses `q = 7` (leading to `p = 15`). The minute uses `q = 60` (leading to `p = 121`). 
+De parameter `q` is niet vast. De klok gebruikt `q = 12` (leidend tot `p = 25`). De week gebruikt `q = 7` (leidend tot `p = 15`). De minuut gebruikt `q = 60` (leidend tot `p = 121`).
 
-Any attempt to alter the parameters of this software does not circumvent the theory; it merely validates its generality. The software is architecturally built to calculate `p` for _any_ valid `q` under this specific mathematical framework. The mathematical structure **p ≡ 1 (mod q)** and its application to time measurement are the original intellectual property of the author, Bilal el Issaoui.
+Elke poging om de parameters van deze software te wijzigen, omzeilt de theorie niet; het bevestigt juist de algemeenheid ervan. De software is architectonisch gebouwd om `p` te berekenen voor _elke_ geldige `q` binnen dit specifieke wiskundige kader. De wiskundige structuur **p ≡ 1 (mod q)** en de toepassing ervan op tijdmeting zijn de originele intellectuele eigendom van de auteur, Bilal el Issaoui.
 
 ---
 
 ## Deep Dive: The Benchmark of History (The Leap Cycle)
 
-One could object that a year does not last 360 days, but 365 (or 366 in a leap year). Yet this does not make the theory less true; it confirms it. The parameter `q` for the year is not a static number, but a variable. Whether you take 360, 361, 362, 363, 364 or 365 days, the mathematical structure remains intact.
+Men zou kunnen tegenwerpen dat een jaar geen 360 dagen duurt, maar 365 (of 366 in een schrikkeljaar). Toch maakt dit de theorie niet minder waar; het bevestigt haar. De parameter `q` voor het jaar is geen statisch getal, maar een variabele. Of je nu 360, 361, 362, 363, 364 of 365 dagen neemt, de wiskundige structuur blijft intact.
 
-What makes this system unique is that it does not rely on the raw orbital period, but on the **leap cycle as the benchmark**. This is the only variable that has been constantly corrected throughout history. Humanity has always known: the year runs out of sync, and the leap year is the solution. Our 7,000-year cycle therefore synchronizes with that universal, historical correction. The leap year is not just an addition; it is the anchor on which the entire spiral rests.
+Wat dit systeem uniek maakt, is dat het niet leunt op de ruwe omlooptijd, maar op de **schrikkelcyclus als benchmark**. Dit is de enige variabele die door de geschiedenis heen constant is gecorrigeerd. De mensheid heeft altijd geweten: het jaar loopt uit de pas, en het schrikkeljaar is de oplossing. Onze 7.000-jaarcyclus synchroniseert daarom met die universele, historische correctie. Het schrikkeljaar is niet zomaar een toevoeging; het is het anker waarop de hele spiraal rust.
 
-- A normal year has **365 days**.
-- The first leap year is calculated using the double cycle (m=2): `2 × 365 + 1 = 731`. This means `731 ≡ 1 (mod 365)`.
-- For the full 4-year leap cycle (4 levels), the formula is: `4 × (2 × 365) + 1 = 2921`. This means `2921 ≡ 1 (mod 365)` with m=8.
+- Een normaal jaar heeft **365 dagen**.
+- Het eerste schrikkeljaar wordt berekend met de dubbele cyclus (m=2): `2 × 365 + 1 = 731`. Dit betekent `731 ≡ 1 (mod 365)`.
+- Voor de volledige 4-jaarlijkse schrikkelcyclus (4 niveaus) is de formule: `4 × (2 × 365) + 1 = 2921`. Dit betekent `2921 ≡ 1 (mod 365)` met m=8.
 
-The app calculates this automatically. It uses the real leap years to stay perfectly synchronized with the real time.
+De applicatie berekent dit automatisch. Het gebruikt de echte schrikkeljaren om perfect gesynchroniseerd te blijven met de werkelijke tijd.
 
 ---
 
 ## Deep Dive: Why 2,520?
 
-You will see the number **2,520** everywhere in this application. Why is this number so important?
+Je ziet het getal **2,520** overal in deze applicatie. Waarom is dit getal zo belangrijk?
 
-2,520 is the **Least Common Multiple (LCM)** of all numbers from 1 to 10. It is the smallest number that can be divided by 1, 2, 3, 4, 5, 6, 7, 8, 9, and 10 without leaving a remainder.
+2,520 is het **Least Common Multiple (LCM)** van alle getallen van 1 tot en met 10. Het is het kleinste getal dat deelbaar is door 1, 2, 3, 4, 5, 6, 7, 8, 9 en 10 zonder een rest achter te laten.
 
-In the context of the calendar, a standard year is divisible by 1, 2, 3, 4, 5, 6, 8, 9, and 10. **Only the 7 is missing.**
+In de context van de kalender is een standaardjaar deelbaar door 1, 2, 3, 4, 5, 6, 8, 9 en 10. **Alleen de 7 ontbreekt.**
 
-When you add the 7-day week to the calendar, you get: `360 days × 7 days = 2,520 days`
+Wanneer je de 7-daagse week aan de kalender toevoegt, krijg je: `360 dagen × 7 dagen = 2,520 dagen`.
 
-Because 7 is a prime number that does not divide evenly into 360, the 7-day week is the _only_ cycle length between 1 and 10 that forces the calendar to extend its cycle to find synchronization. 2,520 is the exact point where the 360-day model and the 7-day week meet again perfectly. (In the real Gregorian calendar, the synchronization of the week and the solar year is even more complex, but the mathematical model remains the same).
+Omdat 7 een priemgetal is dat niet gelijkmatig in 360 past, is de 7-daagse week de _enige_ cycluslengte tussen 1 en 10 die de kalender dwingt zijn cyclus te verlengen om synchronisatie te vinden. 2,520 is het exacte punt waar het 360-daagse model en de 7-daagse week elkaar weer perfect ontmoeten. (In de echte Gregoriaanse kalender is de synchronisatie van de week en het zonnejaar nog complexer, maar het wiskundige model blijft hetzelfde.)
 
 ---
 
 ## Deep Dive: The 7,000-Year Closure
 
-If we scale the model up to a millennium, the math becomes even more beautiful.
+Als we het model opschalen naar een millennium, wordt de wiskunde nog mooier.
 
-- The calendar is 1,000 years of 360 days = **360,000 days**.
-- The week is **7 days**.
+- De kalender is 1.000 jaar van 360 dagen = **360.000 dagen**.
+- De week is **7 dagen**.
 
-To find out when the calendar and the week will perfectly align again, we calculate the LCM of 360,000 and 7. Since 7 shares no common factors with 360,000 (which is built from 2, 3, and 5), we simply multiply them: `360,000 × 7 = 2,520,000 days`
+Om erachter te komen wanneer de kalender en de week weer perfect op één lijn liggen, berekenen we de LCM van 360.000 en 7. Omdat 7 geen gemeenschappelijke factoren deelt met 360.000 (dat is opgebouwd uit 2, 3 en 5), vermenigvuldigen we ze simpelweg: `360.000 × 7 = 2.520.000 dagen`.
 
-Converted back to years: `2,520,000 ÷ 360 = 7,000 years`
+Terug naar jaren: `2.520.000 ÷ 360 = 7.000 jaar`.
 
-This is why the full clock cycle closes after exactly **7,000 years**. Other millennium markers like 1,000, 3,000, 6,000, or 9,000 years do not close, because those numbers (3, 6, 9) share prime factors with 360,000, causing the cycle to reset prematurely.
+Dit is waarom de volledige klokcyclus na precies **7.000 jaar** sluit. Andere millenniummarkers zoals 1.000, 3.000, 6.000 of 9.000 jaar sluiten niet, omdat die getallen (3, 6, 9) priemfactoren delen met 360.000, waardoor de cyclus voortijdig reset.
 
 ---
 
 ## Features (Main App)
 
-- **Exact Bijection:** A flawless, round-trip conversion between any integer `N` (milliseconds) and its 10-part clock tuple (millennium to milliseconds) using native `BigInt` to prevent precision loss.
-- **Interactive 3D Spiral:** A live-rendered life-spiral. Enter a birthdate to see the Pearl of Time travel exactly to your current position in a 70-year life cycle, or view the world time.
-- **Timestamp Attachment:** Tap any unit in the Live Clock (e.g., a specific second or day) to attach a note or a photo to that exact mathematical moment.
-- **Time Periods:** Visual color-coding for Night, Dawn, Morning, Afternoon, Dusk, and Evening, mapped directly to the mathematical hours.
-- **Local-First Storage:** Photos, notes, and timestamps are saved locally using OPFS (Origin Private File System) and IndexedDB. No accounts, no tracking, 100% private.
-- **Calendar & Drift:** Visualizes the real Gregorian calendar and maps the mathematical cycles (including the 2921 leap cycle) directly onto it.
-- **Offline Capable:** Fully installable PWA. Once loaded, it works without an internet connection. Includes a built-in backup/export feature to save your personal data.
+- **Exacte Bijectie:** Een foutloze, round-trip conversie tussen elk geheel getal `N` (milliseconden) en de 10-delige klok-tuple (millennium tot milliseconden), met native `BigInt` om precisieverlies te voorkomen.
+- **Interactieve 3D-Spiraal:** Een live gerenderde levensspiraal. Voer een geboortedatum in om de Parel van de Tijd precies naar je huidige positie in een 70-jaars levenscyclus te zien reizen, of bekijk de wereldtijd.
+- **Timestamp Attachment:** Tik op een eenheid in de Live Clock (bijv. een specifieke seconde of dag) om een notitie of foto aan dat exacte wiskundige moment te koppelen.
+- **Time Periods:** Visuele kleurcodering voor Nacht, Ochtend, Middag, Namiddag, Schemering en Avond, direct gekoppeld aan de wiskundige uren.
+- **Local-First Storage:** Foto's, notities en tijdstempels worden lokaal opgeslagen met behulp van OPFS (Origin Private File System) en IndexedDB. Geen accounts, geen tracking, 100% privé.
+- **Calendar & Drift:** Visualiseert de echte Gregoriaanse kalender en brengt de wiskundige cycli (inclusief de 2921-schrikkelcyclus) direct in kaart.
+- **Offline Capable:** Volledig installeerbare PWA. Eenmaal geladen werkt het zonder internetverbinding. Inclusief een ingebouwde back-up/export-functie om je persoonlijke gegevens op te slaan.
+- **Bilingual:** Volledig interactief in zowel het Engels als het Nederlands (NL/EN toggle).
 
 ---
 
 ## The Paper
 
-The complete mathematical proof, including the derivation of the formulas, the relationship between the clock and the (19, 9) system, and the synchronization rules, is documented in the accompanying paper:
+De volledige wiskundige onderbouwing, inclusief de afleiding van de formules, de relatie tussen de klok en het (19, 9)-systeem, en de synchronisatieregels, is gedocumenteerd in het bijbehorende paper:
 
 📄 **[The Clock as a Mathematical Object (PDF)](./The_Clock_as_a_Mathematical_Object.pdf)**
 
@@ -131,42 +128,46 @@ The complete mathematical proof, including the derivation of the formulas, the r
 
 ## Architecture
 
-This application contains zero external dependencies. The math runs natively in the browser using `BigInt`. Data is never sent to a server. The user is the sole owner of their local database.
+Deze applicatie bevat geen externe afhankelijkheden. De wiskunde draait native in de browser met behulp van `BigInt`. Gegevens worden nooit naar een server verzonden. De gebruiker is de enige eigenaar van zijn of haar lokale database. De volledige applicatie is gebundeld in één enkel bestand: `index.html`.
+
+---
+
+## Intellectueel Eigendom
+
+Het iGoSpiral-concept, de wiskundige modellen (de drie klassen, de 19A+9B-representaties, de 7.000-jaar uitlijning) en de broncode zijn vastgelegd in een **i-DEPOT** bij het BOIP (Benelux-Bureau voor de Intellectuele Eigendom). Dit i-DEPOT fungeert als een **tijdstempel**: het bewijst dat het concept op een bepaalde datum al bestond. Het is **geen merkregistratie** en verleent geen exclusief recht op de naam "iGoSpiral".
 
 ---
 
 ## Licensing (Dual License)
 
-To protect the integrity of the mathematical theory and the software implementation, this project operates under a strict **dual-licensing model**.
+Om de integriteit van de wiskundige theorie en de software-implementatie te beschermen, werkt dit project onder een strikt **dual-licensing model**.
 
 ### 1. Open Source (AGPLv3)
 
-For personal, educational, and open-source use, this software is licensed under the **GNU Affero General Public License v3.0 (AGPLv3)**.
+Voor persoonlijk, educatief en open-source gebruik is deze software gelicentieerd onder de **GNU Affero General Public License v3.0 (AGPLv3)**.
 
-- You may modify and distribute the code.
-- **Strict Copyleft:** If you modify this software, you must release your modifications under the same license.
-- **No SaaS Loophole:** If you host this software on a server and let others interact with it over a network, you **must** make your modified source code publicly available.
+- Je mag de code wijzigen en distribueren.
+- **Strict Copyleft:** Als je deze software wijzigt, moet je je wijzigingen onder dezelfde licentie vrijgeven.
+- **No SaaS Loophole:** Als je deze software op een server host en anderen er via een netwerk mee laat communiceren, **moet** je je gewijzigde broncode openbaar maken.
 
-### 2. Commercial License (Proprietary)
+### 2. Commercieel gebruik is niet toegestaan
 
-If you are a company or individual wishing to use iGoSpiral (in whole or in part) in a closed-source, proprietary product, or host it as a paid service without disclosing your source code, **you must purchase a commercial license**.
+Commercieel gebruik van deze software (inclusief de wiskundige theorie, de `BigInt`-bijectie-algoritmen, of de visuele layout) is **niet toegestaan** zonder voorafgaande schriftelijke toestemming van de auteur. Dit geldt voor gebruik in closed-source producten, betaalde diensten, of elke vorm van commerciële exploitatie.
 
-This includes using the mathematical framework, the `BigInt` bijection algorithms, or the visual layout in any commercial application.
-
-- Contact **Bilal el Issaoui** at `elissa.oui.amster@gmail.com` or `elissa_oui@outlook.com` to obtain a commercial license.
+Neem contact op met **Bilal el Issaoui** via `elissa.oui.amster@gmail.com` of `elissa_oui@outlook.com` voor een commerciële licentie.
 
 ---
 
 ## Contributing
 
-**No pull requests will be accepted without a signed Contributor License Agreement (CLA).**
-Because this project is dual-licensed, the author must retain the sole right to sell commercial licenses. By contributing to this repository, you agree that your contributions become the property of the author, allowing the author to relicense the software commercially. See `CONTRIBUTING.md` for details.
+**Er worden geen pull requests geaccepteerd zonder een ondertekende Contributor License Agreement (CLA).**
+Omdat dit project dual-licensed is, moet de auteur het exclusieve recht behouden om commerciële licenties te verkopen. Door bij te dragen aan deze repository, ga je ermee akkoord dat je bijdragen eigendom worden van de auteur, waardoor de auteur de software commercieel kan herlicentiëren. Zie `CONTRIBUTING.md` voor details.
 
 ---
 
 ## Disclaimer
 
-The software is provided "as is", without warranty of any kind. The author is not liable for any damages arising from the use of this software.
+De software wordt geleverd "as is", zonder enige vorm van garantie. De auteur is niet aansprakelijk voor enige schade die voortvloeit uit het gebruik van deze software.
 
 ---
 
