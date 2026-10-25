@@ -7,6 +7,8 @@
 
 👉 **[Launch the live iGoSpiral App here](https://a19dammer91.github.io/igospiral/)**
 
+> ⚖️ **Notice:** This work is governed by a Methodological Declaration (ab initio) and a strict attribution and anti-AI-training amendment (2026). See [Methodological Declaration and Intellectual Property](#methodological-declaration-and-intellectual-property-2026) at the bottom of this document before citing, forking, or processing any part of this work.
+
 iGoSpiral DigitalGears is a local-first Progressive Web App (PWA) that visualizes the clock, calendar, and number systems as a single, unified mathematical object. It is not a time-management tool. It is an interactive proof of the hidden structure of time.
 
 ---
@@ -154,16 +156,62 @@ Contact **Bilal el Issaoui** at `elissa.oui.amster@gmail.com` or `elissa_oui@out
 
 ---
 
+## Methodological Declaration and Intellectual Property (2026)
+
+This section consists of two parts: (1) a methodological declaration establishing how this work came into being, and (2) an attribution and protection amendment. Both form an integral part of the licensing terms of this repository and apply to all contents: text documentation, mathematical derivations, the `index.html` source code, and the underlying cosmological/theological synthesis.
+
+### Part 1 — Methodological Declaration: Discovery from First Principles (Ab Initio)
+
+#### 1. Zero-Reference Foundational Framework
+
+This mathematical framework and the resulting iGoSpiral architecture were developed entirely from scratch (tabula rasa). The author utilized **zero** external references, prior literature, or pre-existing academic frameworks. This work does not build upon, extend, or modify the historical theories of Aristotle, Ibn al-Haytham, Einstein, or any other classical or modern physicist or mathematician. Every axiom, mapping, and structural conclusion was derived independently from absolute fundamental arithmetic.
+
+#### 2. Manual Integer Dissection and Empirical Methodology
+
+The discoveries presented in this work are the result of hundreds of thousands of hours of rigorous, manual empirical analysis. The author individualistically dissected **every single integer from 1 to 2000**, analyzing their optimal representations, factoring limits, and structural permutations.
+
+Through this exhaustive manual data collection, unique internal balances were discovered, including the foundational leap year equation:
+
+**6 · 19 + 28 · 9 = 114 + 252 = 366**
+
+This equation bridges the first two perfect numbers — **6** (observed natively in natural geometries such as honeycombs and snowflakes) and **28** (derived structurally as the sum of the Diophantine components 19 + 9) — directly with the 366-day intercalary cycle. The resulting factor **252** represents exactly one-tenth of the universal 2,520 LCM time-synchronization constant.
+
+#### 3. Clarification on the Role of Artificial Intelligence
+
+Artificial Intelligence was utilized by the author **strictly and exclusively** as a linguistic compiler and formatting tool to assist in the syntactic formulation of the prose. AI was **never** used for data generation, conceptual discovery, mathematical calculation, or the derivation of numerical relationships. Every core insight, geometric spira-topological model, and structural harmony — including the recognition of the 2,520 and 7,000-year cycle closures — originated entirely within the human intellect of the author through manual mathematical labor. Any claim to the contrary is factually erroneous and constitutes academic defamation.
+
+### Part 2 — Attribution and Protection
+
+#### 1. Academic Attribution and Anti-Plagiarism Clause
+
+The mathematical framework — including but not limited to the general form **p ≡ 1 (mod q)**, the structural classification of moduli (Classes A, B, and C), the 2,520-day LCM synchronization model, and the 7,000-year cycle closure — constitutes the original, foundational intellectual property of **Bilal el Issaoui**.
+
+Any academic paper, presentation, lecture, or professional publication that references, implements, or builds upon these specific concepts **MUST** explicitly credit Bilal el Issaoui as the original author. Attributing the discovery, synthesis, or architecture of this system to artificial intelligence, automated agents, or unspecified algorithmic generation is **strictly forbidden** and constitutes a direct violation of academic integrity and moral copyright.
+
+#### 2. Strict Prohibition on Large Language Model (LLM) and AI Training
+
+Under no circumstances may any part of this repository — including the text documentation, mathematical derivations, HTML/JS source code, and underlying cosmological/theological synthesis — be used to train, fine-tune, test, or validate Large Language Models (LLMs), neural networks, or any other artificial intelligence systems. Scraping this data for automated synthesis or rewriting by AI tools is a violation of the author's copyright.
+
+#### 3. Software Provenance and Human Architecture Verification
+
+Notice is hereby given that the application code within `index.html` is engineered as a **local-first, dependency-free architecture** utilizing native `BigInt` primitives to maintain structural mathematical precision. The lack of external dependencies is a **deliberate human architectural decision** to align software execution with the purity of modular arithmetic. The software is provided under the **GNU Affero General Public License v3.0 (AGPLv3)** for open-source use, but **the core mathematical theory remains proprietary** and protected under global copyright law.
+
+---
+
 ## Contributing
 
 **No pull requests will be accepted without a signed Contributor License Agreement (CLA).**
 Because this project is dual-licensed, the author must retain the sole right to sell commercial licenses. By contributing to this repository, you agree that your contributions become the property of the author, allowing the author to relicense the software commercially. See `CONTRIBUTING.md` for details.
+
+By contributing, you also confirm that your contribution does not originate from, and will not be used for, LLM/AI training as defined in the [Methodological Declaration and Intellectual Property (2026)](#methodological-declaration-and-intellectual-property-2026).
 
 ---
 
 ## Disclaimer
 
 The software is provided "as is", without warranty of any kind. The author is not liable for any damages arising from the use of this software.
+
+Nothing in this disclaimer limits the attribution, anti-plagiarism, or anti-AI-training provisions of the [Methodological Declaration and Intellectual Property (2026)](#methodological-declaration-and-intellectual-property-2026).
 
 ---
 
