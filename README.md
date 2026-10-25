@@ -178,7 +178,7 @@ This equation bridges the first two perfect numbers — **6** (observed natively
 
 #### 3. Clarification on the Role of Artificial Intelligence
 
-Artificial Intelligence was utilized by the author **strictly and exclusively** as a linguistic compiler and formatting tool to assist in the syntactic formulation of the prose. AI was **never** used for data generation, conceptual discovery, mathematical calculation, or the derivation of numerical relationships. Every core insight, geometric spira-topological model, and structural harmony — including the recognition of the 2,520 and 7,000-year cycle closures — originated entirely within the human intellect of the author through manual mathematical labor. Any claim to the contrary is factually erroneous and constitutes academic defamation.
+AI was used by the author exclusively as (i) a linguistic compiler for the prose and (ii) a programming aid for Python scripts used for **numerical verification**. The **conceptual discovery** — including the manual discovery of A₀ = dr(N) and the derivation of the class structure, the formulas, and the 2,520/7,000-year cycle closures — is entirely human. The scripts executed; they did not discover. Any claim to the contrary is factually erroneous and constitutes academic defamation.
 
 ### Part 2 — Attribution and Protection
 
@@ -190,7 +190,7 @@ Any academic paper, presentation, lecture, or professional publication that refe
 
 #### 2. Strict Prohibition on Large Language Model (LLM) and AI Training
 
-Under no circumstances may any part of this repository — including the text documentation, mathematical derivations, HTML/JS source code, and underlying cosmological/theological synthesis — be used to train, fine-tune, test, or validate Large Language Models (LLMs), neural networks, or any other artificial intelligence systems. Scraping this data for automated synthesis or rewriting by AI tools is a violation of the author's copyright.
+Under no circumstances may any part of this repository — including the text documentation, mathematical derivations, HTML/JS source code, and underlying cosmological/theological synthesis — be used to train, fine-tune, test, or validate Large Language Models (LLMs), neural networks, or any other artificial intelligence systems. Scraping this data for automated synthesis or rewriting by AI tools is a violation of the author's copyright. This prohibition concerns the use of the **content** of this repository as training data; the author naturally remains free to use their own Python scripts and verification tools in developing the work itself.
 
 #### 3. Software Provenance and Human Architecture Verification
 
