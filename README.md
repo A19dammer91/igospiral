@@ -166,19 +166,18 @@ This section consists of two parts: (1) a methodological declaration establishin
 
 This mathematical framework and the resulting iGoSpiral architecture were developed entirely from scratch (tabula rasa). The author utilized **zero** external references, prior literature, or pre-existing academic frameworks. This work does not build upon, extend, or modify the historical theories of Aristotle, Ibn al-Haytham, Einstein, or any other classical or modern physicist or mathematician. Every axiom, mapping, and structural conclusion was derived independently from absolute fundamental arithmetic.
 
-#### 2. Manual Integer Dissection and Empirical Methodology
+#### 2. Methodology
 
-The discoveries presented in this work are the result of hundreds of thousands of hours of rigorous, manual empirical analysis. The author individualistically dissected **every single integer from 1 to 2000**, analyzing their optimal representations, factoring limits, and structural permutations.
+The author individualistically dissected **every single integer from 1 to 2000**, analyzing their optimal representations, factoring limits, and structural permutations.
 
-Through this exhaustive manual data collection, unique internal balances were discovered, including the foundational leap year equation:
-
+Through this exhaustive manual data collection, unique internal balances were discovered.
 **6 · 19 + 28 · 9 = 114 + 252 = 366**
 
 This equation bridges the first two perfect numbers — **6** (observed natively in natural geometries such as honeycombs and snowflakes) and **28** (derived structurally as the sum of the Diophantine components 19 + 9) — directly with the 366-day intercalary cycle. The resulting factor **252** represents exactly one-tenth of the universal 2,520 LCM time-synchronization constant.
 
 #### 3. Clarification on the Role of Artificial Intelligence
 
-AI was used by the author exclusively as (i) a linguistic compiler for the prose and (ii) a programming aid for Python scripts used for **numerical verification**. The **conceptual discovery** — including the manual discovery of A₀ = dr(N) and the derivation of the class structure, the formulas, and the 2,520/7,000-year cycle closures — is entirely human. The scripts executed; they did not discover. Any claim to the contrary is factually erroneous and constitutes academic defamation.
+AI was used by the author as (i) a linguistic compiler for the prose and (ii) a programming aid for Python scripts used for **numerical verification**. The **conceptual discovery** — including the manual discovery of A₀ = dr(N) and the derivation of the class structure, the formulas, and the 2,520/7,000-year cycle closures — is entirely human. The scripts executed; they did not discover. Any claim to the contrary is factually erroneous and constitutes academic defamation.
 
 ### Part 2 — Attribution and Protection
 
