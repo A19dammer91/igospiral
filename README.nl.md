@@ -7,6 +7,8 @@
 
 👉 **[Start de live iGoSpiral App hier](https://a19dammer91.github.io/igospiral/)**
 
+> ⚖️ **Kennisgeving:** Dit werk valt onder een Methodologische Verklaring (ab initio) en een strikt attributie- en anti-AI-trainingsamendement (2026). Zie [Methodologische Verklaring en Intellectueel Eigendom](#methodologische-verklaring-en-intellectueel-eigendom-2026) onderaan dit document voordat je citeert, forks maakt of enig deel van dit werk verwerkt.
+
 iGoSpiral DigitalGears is een local-first Progressive Web App (PWA) die de klok, de kalender en getalsystemen visualiseert als één verenigd wiskundig object. Het is geen time-management tool. Het is een interactief bewijs van de verborgen structuur van tijd.
 
 ---
@@ -154,16 +156,62 @@ Neem contact op met **Bilal el Issaoui** via `elissa.oui.amster@gmail.com` of `e
 
 ---
 
+## Methodologische Verklaring en Intellectueel Eigendom (2026)
+
+Deze sectie bestaat uit twee delen: (1) een methodologische verklaring die vastlegt hoe dit werk tot stand is gekomen, en (2) een attributie- en beschermingsamendement. Beide maken integraal deel uit van de licentievoorwaarden van deze repository en zijn van toepassing op alle inhoud: tekstdocumentatie, wiskundige afleidingen, de `index.html`-broncode en de onderliggende kosmologische/theologische synthese.
+
+### Deel 1 — Methodologische Verklaring: Ontdekking vanuit Eerste Principia (Ab Initio)
+
+#### 1. Zero-Reference Fundamenteel Kader
+
+Dit wiskundige raamwerk en de daaruit voortvloeiende iGoSpiral-architectuur zijn volledig from scratch (tabula rasa) ontwikkeld. De auteur heeft **geen** externe referenties, voorafgaande literatuur of bestaande academische kaders gebruikt. Dit werk bouwt niet voort op, breidt niet uit en wijzigt niet de historische theorieën van Aristoteles, Ibn al-Haytham, Einstein of enige andere klassieke of moderne fysicus of wiskundige. Elk axioma, elke mapping en elke structurele conclusie is onafhankelijk afgeleid uit absolute fundamentele rekenkunde.
+
+#### 2. Handmatige Integer-dissectie en Empirische Methodologie
+
+De ontdekkingen in dit werk zijn het resultaat van honderdduizenden uren rigoureuze, handmatige empirische analyse. De auteur heeft individueel **elk afzonderlijk integer van 1 tot 2000** ontleed, inclusief hun optimale representaties, factorisatiegrenzen en structurele permutaties.
+
+Via deze uitputtende handmatige dataverzameling zijn unieke interne balansen ontdekt, waaronder de fundamentele schrikkeljaarvergelijking:
+
+**6 · 19 + 28 · 9 = 114 + 252 = 366**
+
+Deze vergelijking verbindt de eerste twee perfecte getallen — **6** (native waargenomen in natuurlijke geometrieën zoals honingraten en sneeuwvlokken) en **28** (structureel afgeleid als de som van de Diophantische componenten 19 + 9) — direct met de 366-daagse intercalaire cyclus. De resulterende factor **252** vertegenwoordigt exact één tiende van de universele 2.520 LCM-tijdsynchronisatieconstante.
+
+#### 3. Verduidelijking over de Rol van Kunstmatige Intelligentie
+
+AI is door de auteur uitsluitend gebruikt als (i) linguïstische compiler voor de prose en (ii) programmeerhulp bij Python-scripts voor **rekenkundige verificatie**. De **conceptuele ontdekking** — waaronder het handmatig vinden van A₀ = dr(N) en het afleiden van de klassenstructuur, de formules en de 2.520/7.000-jaar cyclusafsluitingen — is volledig menselijk. De scripts voerden uit; zij ontdekten niet. Elke bewering van het tegendeel is feitelijk onjuist en vormt academische laster.
+
+### Deel 2 — Attributie en Bescherming
+
+#### 1. Academische Attributie en Anti-Plagiaatclausule
+
+Het wiskundige raamwerk — inclusief maar niet beperkt tot de algemene vorm **p ≡ 1 (mod q)**, de structurele classificatie van moduli (Klassen A, B en C), het 2.520-dagen LCM-synchronisatiemodel en de 7.000-jaar cyclusafsluiting — vormt het oorspronkelijke, fundamentele intellectuele eigendom van **Bilal el Issaoui**.
+
+Elke academische paper, presentatie, lezing of professionele publicatie die naar deze specifieke concepten verwijst, deze implementeert of erop voortbouwt, **MOET** Bilal el Issaoui expliciet crediteren als de oorspronkelijke auteur. Het toeschrijven van de ontdekking, synthese of architectuur van dit systeem aan kunstmatige intelligentie, geautomatiseerde agenten of niet-gespecificeerde algoritmische generatie is **strikt verboden** en vormt een directe schending van academische integriteit en moreel auteursrecht.
+
+#### 2. Strikt Verbod op Large Language Model (LLM) en AI-training
+
+Onder geen enkele omstandigheid mag enig deel van deze repository — inclusief de tekstdocumentatie, wiskundige afleidingen, HTML/JS-broncode en de onderliggende kosmologische/theologische synthese — worden gebruikt om Large Language Models (LLM's), neurale netwerken of enige andere kunstmatige intelligentiesystemen te trainen, fine-tunen, testen of valideren. Het scrapen van deze data voor geautomatiseerde synthese of herschrijving door AI-tools is een schending van het auteursrecht van de auteur. Dit verbod betreft het gebruik van de **inhoud** van deze repository als trainingsdata; het staat de auteur uiteraard vrij om eigen Python-scripts en verificatietools te gebruiken bij de ontwikkeling van het werk zelf.
+
+#### 3. Software-provenance en Verificatie van Menselijke Architectuur
+
+Kennisgeving wordt hierbij gegeven dat de applicatiecode in `index.html` is ontworpen als een **local-first, dependency-vrije architectuur** die gebruikmaakt van native `BigInt`-primitieven om structurele wiskundige precisie te behouden. Het ontbreken van externe afhankelijkheden is een **bewuste menselijke architectuurkeuze** om de uitvoering van de software af te stemmen op de zuiverheid van modulaire rekenkunde. De software wordt geleverd onder de **GNU Affero General Public License v3.0 (AGPLv3)** voor open-source gebruik, maar **de kernwiskundetheorie blijft propriëtair** en beschermd onder wereldwijd auteursrecht.
+
+---
+
 ## Bijdragen
 
 **Er worden geen pull requests geaccepteerd zonder een ondertekende Contributor License Agreement (CLA).**
 Omdat dit project dual-licensed is, moet de auteur het exclusieve recht behouden om commerciële licenties te verkopen. Door bij te dragen aan deze repository, ga je ermee akkoord dat je bijdragen eigendom worden van de auteur, waardoor de auteur de software commercieel kan herlicentiëren. Zie `CONTRIBUTING.md` voor details.
+
+Door bij te dragen bevestig je tevens dat je bijdrage niet afkomstig is van, en niet zal worden gebruikt voor, LLM/AI-training zoals gedefinieerd in de [Methodologische Verklaring en Intellectueel Eigendom (2026)](#methodologische-verklaring-en-intellectueel-eigendom-2026).
 
 ---
 
 ## Disclaimer
 
 De software wordt geleverd "as is", zonder enige vorm van garantie. De auteur is niet aansprakelijk voor enige schade die voortvloeit uit het gebruik van deze software.
+
+Niets in deze disclaimer beperkt de attributie-, anti-plagiaat- of anti-AI-trainingsbepalingen van de [Methodologische Verklaring en Intellectueel Eigendom (2026)](#methodologische-verklaring-en-intellectueel-eigendom-2026).
 
 ---
 
