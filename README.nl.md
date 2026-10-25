@@ -166,11 +166,11 @@ Deze sectie bestaat uit twee delen: (1) een methodologische verklaring die vastl
 
 Dit wiskundige raamwerk en de daaruit voortvloeiende iGoSpiral-architectuur zijn volledig from scratch (tabula rasa) ontwikkeld. De auteur heeft **geen** externe referenties, voorafgaande literatuur of bestaande academische kaders gebruikt. Dit werk bouwt niet voort op, breidt niet uit en wijzigt niet de historische theorieën van Aristoteles, Ibn al-Haytham, Einstein of enige andere klassieke of moderne fysicus of wiskundige. Elk axioma, elke mapping en elke structurele conclusie is onafhankelijk afgeleid uit absolute fundamentele rekenkunde.
 
-#### 2. Handmatige Integer-dissectie en Empirische Methodologie
+#### 2. Methodologie
 
-De ontdekkingen in dit werk zijn het resultaat van honderdduizenden uren rigoureuze, handmatige empirische analyse. De auteur heeft individueel **elk afzonderlijk integer van 1 tot 2000** ontleed, inclusief hun optimale representaties, factorisatiegrenzen en structurele permutaties.
+De ontdekkingen in dit werk zijn het resultaat van rigoureuze, handmatige empirische analyse. De auteur heeft individueel **elk afzonderlijk integer van 1 tot 2000** ontleed, inclusief hun optimale representaties, factorisatiegrenzen en structurele permutaties.
 
-Via deze uitputtende handmatige dataverzameling zijn unieke interne balansen ontdekt, waaronder de fundamentele schrikkeljaarvergelijking:
+Via deze uitputtende handmatige dataverzameling zijn unieke interne balansen ontdekt.
 
 **6 · 19 + 28 · 9 = 114 + 252 = 366**
 
