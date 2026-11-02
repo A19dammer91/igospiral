@@ -14,45 +14,20 @@
 <style>
 :root{
   color-scheme:dark;
-  --bg:#0a0e27;
-  --bg2:#050b1a;
-  --p:#141a3a;
-  --p2:#1e2650;
-  --bd:#232a55;
-  --bd-soft:rgba(214,224,248,.18);
-  --gold:#f4c542;
-  --cy:#4dd0e1;
-  --pk:#ff6f91;
-  --bordo:#800020;
-  --bordo-hi:#c2334d;
-  --pearl:#ece7f3;
-  --pearl-hi:#ffffff;
-  --pearl-mut:#9aa7c7;
-  --lav:#a9c4f2;
-  --class-a:#c2334d;
-  --class-b:#ece7f3;
-  --class-c:#4a6fa5;
-  --tx:#e8e8f0;
-  --mu:#9aa3c7;
-  --sb:env(safe-area-inset-bottom,0px);
+  --bg:#0a0e27; --bg2:#050b1a; --p:#141a3a; --p2:#1e2650; --bd:#232a55; --bd-soft:rgba(214,224,248,.18);
+  --gold:#f4c542; --cy:#4dd0e1; --pk:#ff6f91; --bordo:#800020; --bordo-hi:#c2334d;
+  --pearl:#ece7f3; --pearl-hi:#ffffff; --pearl-mut:#9aa7c7; --lav:#a9c4f2;
+  --class-a:#c2334d; --class-b:#ece7f3; --class-c:#4a6fa5;
+  --tx:#e8e8f0; --mu:#9aa3c7; --sb:env(safe-area-inset-bottom,0px);
   --serif:'Cormorant Garamond',Georgia,'Times New Roman',serif;
   --sans:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
   --mono:ui-monospace,Menlo,Consolas,monospace;
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
-body{
-  font-family:var(--sans);
-  background:radial-gradient(ellipse at top,#1a2150,var(--bg) 70%) fixed;
-  color:var(--tx);
-  min-height:100vh;min-height:100dvh;
-  padding:calc(12px + env(safe-area-inset-top,0px)) 14px calc(84px + var(--sb));
-  font-size:15px;line-height:1.55;
-}
-.wrap{max-width:900px;margin:0 auto;position:relative}
-.logo{position:absolute;top:0;left:0;height:40px;width:auto;background:#fff;border-radius:10px;padding:3px;box-shadow:0 2px 8px rgba(0,0,0,.4)}
-
-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;gap:10px;flex-wrap:wrap;padding-left:48px;min-height:40px}
+body{font-family:var(--sans);background:radial-gradient(ellipse at top,#1a2150,var(--bg) 70%) fixed;color:var(--tx);min-height:100vh;min-height:100dvh;padding:calc(12px + env(safe-area-inset-top,0px)) 14px calc(84px + var(--sb));font-size:15px;line-height:1.55}
+.wrap{max-width:900px;margin:0 auto}
+header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;gap:10px;flex-wrap:wrap}
 header h1{font-weight:300;letter-spacing:3px;font-size:clamp(17px,4.5vw,22px);font-family:var(--serif)}
 header h1 b{color:var(--gold);font-weight:700}
 header small{display:block;color:var(--pearl-mut);font-size:10px;letter-spacing:2px;margin-top:2px;text-transform:uppercase}
@@ -60,15 +35,12 @@ header small{display:block;color:var(--pearl-mut);font-size:10px;letter-spacing:
 .ib{background:var(--p2);border:1px solid var(--bd);color:var(--tx);min-width:44px;min-height:44px;border-radius:12px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit}
 .ib:hover{border-color:var(--gold);color:var(--gold)}
 .ib.on{border-color:var(--gold);color:var(--gold)}
-
 nav{position:fixed;left:0;right:0;bottom:0;display:flex;background:rgba(14,18,48,.94);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:1px solid var(--bd);padding:6px 6px calc(6px + var(--sb));z-index:20}
-nav button{flex:1;background:none;border:0;color:var(--mu);padding:4px 0;min-height:48px;font-size:10px;font-family:inherit;letter-spacing:.5px;cursor:pointer;border-radius:10px;display:flex;flex-direction:column;align-items:center;gap:2px}
+nav button{flex:1;background:none;border:0;color:var(--mu);padding:4px 0;min-height:48px;font:10px inherit;font-family:inherit;letter-spacing:.5px;cursor:pointer;border-radius:10px;display:flex;flex-direction:column;align-items:center;gap:2px}
 nav button i{font-style:normal;font-size:19px;line-height:1}
 nav button.on{color:var(--gold);background:rgba(244,197,66,.08)}
-
 section{display:none}section.on{display:block;animation:fi .25s}
 @keyframes fi{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
-
 .panel{background:var(--p);border:1px solid var(--bd);border-radius:18px;padding:16px;margin-bottom:12px}
 .formula{text-align:center;font-family:var(--mono);color:var(--gold);font-size:13px;margin-bottom:12px;background:rgba(244,197,66,.08);padding:8px;border-radius:10px;border:1px solid rgba(244,197,66,.25)}
 .bar{display:flex;gap:8px;align-items:center;margin-bottom:10px;flex-wrap:wrap}
@@ -79,14 +51,12 @@ input:focus,textarea:focus,select:focus{outline:2px solid var(--gold);outline-of
 .btn{background:var(--p2);border:1px solid var(--bd);color:var(--tx);padding:10px 14px;border-radius:10px;font-size:14px;font-family:inherit;cursor:pointer;min-height:44px}
 .btn.pr{background:var(--gold);color:var(--bg);border-color:var(--gold);font-weight:600}
 .btn.dg{border-color:var(--pk);color:var(--pk)}
-
 #cv{width:100%;height:min(60vh,540px);display:block;border-radius:14px;pointer-events:none}
 .info{font-size:12px;color:var(--mu);text-align:center;line-height:1.7;margin:10px 0}
 .info b{color:var(--gold)}
 .info i{color:var(--cy);font-style:normal}
 .track{height:5px;background:var(--p2);border-radius:3px;overflow:hidden}
 #pg{height:100%;width:0;background:linear-gradient(90deg,var(--cy),var(--gold))}
-
 svg.clock{width:100%;max-width:360px;height:auto;display:block;margin:0 auto 12px}
 .sum{display:flex;justify-content:space-between;gap:10px;padding:6px 0;border-bottom:1px solid var(--bd);font-size:13px}
 .sum span{color:var(--mu)}
@@ -94,15 +64,9 @@ svg.clock{width:100%;max-width:360px;height:auto;display:block;margin:0 auto 12p
 .gfs{display:block;color:var(--gold);font:11px/1.8 var(--mono);margin:4px 0 8px}
 .badge{display:inline-block;padding:2px 10px;border-radius:20px;border:1px solid currentColor;font-size:11px;margin-left:6px}
 .big{font-size:30px;font-weight:200;color:var(--gold);font-variant-numeric:tabular-nums}
-
 h2{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--mu);margin:12px 0 8px;font-weight:500}
-
-/* === Tandwielen (Clock_Gears) === */
-.gear-panel{position:relative;width:100%;max-width:900px;aspect-ratio:840/980;max-height:92vh;margin:0 auto 16px;overflow:hidden;
-  border:1px solid var(--bd);border-radius:22px;touch-action:pan-y;user-select:none;
-  background:radial-gradient(circle at 50% 42%,rgba(110,140,225,.14),transparent 60%),radial-gradient(circle at center,#0d1d45 0%,#050b1a 100%);
-  box-shadow:0 0 0 4px rgba(0,0,0,.35),0 18px 50px rgba(0,0,0,.6),inset 0 0 60px rgba(0,0,0,.55);
-  transition:box-shadow .5s ease,border-color .5s ease}
+/* Tandwielen */
+.gear-panel{position:relative;width:100%;max-width:900px;aspect-ratio:840/980;max-height:92vh;margin:0 auto 16px;overflow:hidden;border:1px solid var(--bd);border-radius:22px;touch-action:pan-y;user-select:none;background:radial-gradient(circle at 50% 42%,rgba(110,140,225,.14),transparent 60%),radial-gradient(circle at center,#0d1d45 0%,#050b1a 100%);box-shadow:0 0 0 4px rgba(0,0,0,.35),0 18px 50px rgba(0,0,0,.6),inset 0 0 60px rgba(0,0,0,.55);transition:box-shadow .5s ease,border-color .5s ease}
 .gear-panel::before{content:"";position:absolute;inset:8px;border:1px solid var(--bd-soft);border-radius:16px;pointer-events:none;z-index:2}
 .gear-panel.synced{box-shadow:0 0 90px rgba(214,224,248,.6),0 0 40px rgba(194,51,77,.5),inset 0 0 50px rgba(214,224,248,.25);border-color:var(--pearl)}
 .tilt{position:absolute;inset:0;transform-style:preserve-3d}
@@ -113,20 +77,12 @@ h2{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--mu);ma
 .stage3{position:relative;width:100%;max-width:420px;aspect-ratio:1;margin:6px auto 0}
 #clockTop{filter:drop-shadow(0 10px 8px rgba(0,0,0,.55))}
 #cs{filter:drop-shadow(0 12px 14px rgba(0,0,0,.6))}
-
-.sync-banner{width:100%;max-width:900px;height:0;opacity:0;overflow:hidden;margin:0 auto;
-  background:linear-gradient(180deg,rgba(214,224,248,.2),rgba(143,26,46,.15));border:1px solid rgba(214,224,248,.6);border-radius:14px;text-align:center;
-  font-family:var(--sans);font-weight:700;color:var(--pearl);transition:all .5s ease;display:flex;align-items:center;justify-content:center;flex-direction:column}
+.sync-banner{width:100%;max-width:900px;height:0;opacity:0;overflow:hidden;margin:0 auto;background:linear-gradient(180deg,rgba(214,224,248,.2),rgba(143,26,46,.15));border:1px solid rgba(214,224,248,.6);border-radius:14px;text-align:center;font-family:var(--sans);font-weight:700;color:var(--pearl);transition:all .5s ease;display:flex;align-items:center;justify-content:center;flex-direction:column}
 .sync-banner.active{height:96px;opacity:1;margin-bottom:16px;box-shadow:0 0 28px rgba(214,224,248,.35)}
 .sync-banner .big-text{font-size:clamp(1.1rem,4.4vw,1.6rem);line-height:1.2;letter-spacing:.5px}
 .sync-banner .small-text{font-size:.85rem;opacity:.9;font-weight:400;margin-top:6px;font-family:var(--mono)}
-
-.ctl{display:flex;gap:8px 10px;align-items:center;justify-content:center;flex-wrap:wrap;
-  font:.85rem var(--sans);margin-bottom:14px;padding:8px 12px;
-  background:rgba(8,19,48,.8);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);
-  border:1px solid var(--bd-soft);border-radius:999px;box-shadow:0 6px 24px rgba(0,0,0,.5)}
-.ctl button,.ctl select{background:linear-gradient(180deg,#1f3a78,#122250);color:var(--pearl);border:1px solid rgba(214,224,248,.5);border-radius:999px;
-  padding:7px 15px;font:600 .95em var(--sans);cursor:pointer;transition:background .2s,transform .2s;min-height:36px}
+.ctl{display:flex;gap:8px 10px;align-items:center;justify-content:center;flex-wrap:wrap;font:.85rem var(--sans);margin-bottom:14px;padding:8px 12px;background:rgba(8,19,48,.8);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border:1px solid var(--bd-soft);border-radius:999px;box-shadow:0 6px 24px rgba(0,0,0,.5)}
+.ctl button,.ctl select{background:linear-gradient(180deg,#1f3a78,#122250);color:var(--pearl);border:1px solid rgba(214,224,248,.5);border-radius:999px;padding:7px 15px;font:600 .95em var(--sans);cursor:pointer;transition:background .2s,transform .2s;min-height:36px}
 .ctl button:hover{background:linear-gradient(180deg,#2a4a94,#183066);transform:translateY(-1px)}
 .ctl button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid var(--pearl-hi);outline-offset:2px}
 .ctl button.align-btn{background:linear-gradient(135deg,#ffffff,#e9e1f3 40%,#d5e6f0 70%,#f6e9ec);color:#0a1736;border-color:#fff;box-shadow:0 0 14px rgba(214,224,248,.45)}
@@ -137,23 +93,17 @@ h2{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--mu);ma
 .ctl select{border-radius:10px;padding:6px 10px;font-weight:500}
 .ctl label{color:var(--mu)}
 .ctl input[type=range]{width:110px;vertical-align:middle;accent-color:var(--bordo-hi);padding:0;min-height:auto;background:none;border:none}
-
-.info-g{width:100%;max-width:900px;padding:22px 16px 20px;margin:0 auto 16px;text-align:center;border:1px solid var(--bd);border-radius:22px;
-  background:linear-gradient(180deg,#0f2150 0%,#081330 100%);
-  box-shadow:0 14px 40px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.07)}
+.info-g{width:100%;max-width:900px;padding:22px 16px 20px;margin:0 auto 16px;text-align:center;border:1px solid var(--bd);border-radius:22px;background:linear-gradient(180deg,#0f2150 0%,#081330 100%);box-shadow:0 14px 40px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.07)}
 .info-g h2{margin:0 0 4px;color:var(--pearl);font:700 clamp(1.3rem,4.6vw,1.7rem)/1.2 var(--serif);text-wrap:balance}
 .csub{font:italic 500 1.02rem var(--serif);color:var(--mu);margin-bottom:14px;text-wrap:balance}
-.formula-g{font:.9rem/1.7 var(--mono);color:var(--lav);margin:14px auto 0;max-width:640px;text-align:left;
-  background:rgba(0,0,0,.35);border:1px solid rgba(169,196,242,.2);border-left:3px solid var(--bordo-hi);border-radius:10px;padding:10px 14px;overflow-x:auto}
+.formula-g{font:.9rem/1.7 var(--mono);color:var(--lav);margin:14px auto 0;max-width:640px;text-align:left;background:rgba(0,0,0,.35);border:1px solid rgba(169,196,242,.2);border-left:3px solid var(--bordo-hi);border-radius:10px;padding:10px 14px;overflow-x:auto}
 .formula-g b{color:var(--pearl);font-family:var(--serif);font-size:1.15em}
 .legend{font:.88rem/1.7 var(--sans);color:var(--mu);margin:14px auto 0;max-width:680px;text-align:left;padding:10px 14px;background:rgba(255,255,255,.04);border:1px solid var(--bd-soft);border-radius:10px}
 .note-g{font-family:var(--serif);font-size:1.08rem;font-style:italic;text-align:center;color:var(--ink);margin:14px auto 0;max-width:680px;color:var(--tx)}
-.anchor-box{background:linear-gradient(180deg,rgba(143,26,46,.28),rgba(143,26,46,.08));border:1px solid rgba(194,51,77,.5);border-left:3px solid var(--bordo-hi);
-  border-radius:12px;padding:14px 16px;margin-top:16px;text-align:left;font:.92rem/1.7 var(--sans)}
+.anchor-box{background:linear-gradient(180deg,rgba(143,26,46,.28),rgba(143,26,46,.08));border:1px solid rgba(194,51,77,.5);border-left:3px solid var(--bordo-hi);border-radius:12px;padding:14px 16px;margin-top:16px;text-align:left;font:.92rem/1.7 var(--sans)}
 .anchor-box h3{color:#f0a3b2;margin:0 0 8px;font:700 1.2rem var(--serif)}
 .anchor-box p{margin:0}
-
-/* === Patronen === */
+/* Patronen */
 .layout{display:grid;grid-template-columns:1fr 1fr;gap:2rem}
 @media (max-width:800px){.layout{grid-template-columns:1fr}}
 .card{background:var(--p);border:1px solid var(--bd);border-radius:12px;padding:1.5rem;box-shadow:0 10px 30px rgba(0,0,0,0.5),inset 0 0 20px rgba(128,0,32,0.1)}
@@ -184,8 +134,7 @@ h2{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--mu);ma
 .explanation{background:rgba(128,0,32,0.1);border-left:4px solid var(--bordo-hi);padding:1rem;border-radius:0 8px 8px 0;margin-top:1.5rem;font-size:0.95rem;line-height:1.6;color:var(--pearl-mut)}
 .explanation b{color:var(--pearl)}
 .formula-box{background:rgba(248,249,250,0.05);border:1px solid var(--bd);padding:1rem;border-radius:8px;margin-top:1rem;text-align:center;font-family:monospace;font-size:1.1rem;color:var(--pearl);box-shadow:inset 0 0 10px rgba(0,0,0,0.5)}
-
-/* === Tools / Bijectie / Dagboek / Kluis === */
+/* Tools / Bijectie / Dagboek / Kluis */
 details{background:var(--p2);border-radius:12px;margin-bottom:10px;padding:0 14px}
 summary{cursor:pointer;color:var(--gold);font-size:13px;min-height:48px;display:flex;align-items:center;font-weight:600}
 details[open] summary{border-bottom:1px solid var(--bd);margin-bottom:8px}
@@ -242,8 +191,6 @@ html[lang=nl] .en,html[lang=en] .nl{display:none}
 
 <body>
 <div class="wrap">
-<img class="logo" alt="iGoSpiral" src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBAUEBAYFBQUGBgYHCQ4JCQgICRINDQoOFRIWFhUSFBQXGiEcFxgfGRQUHScdHyIjJSUlFhwpLCgkKyEkJST/2wBDAQYGBgkICREJCREkGBQYJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCT/wAARCABgADoDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD6ooozRmgAoozSFgvUigBlxcw2cD3FzNHDDGNzySMFVR6knpXF6n8bfh9piuX8UWFyydUs2M5z6fICP1rqNV1qDS7d5HjeQgZ2gYz+dfLHxm1eXxXrcNnpmh2iXcsmyKOyth587HszAbm/kK7MFh41p2nsc2JqypwvHc9N079pC38WeN9J8MeF9EmkW9uQkt3eNt2RAFnZY1yc7QcZI+le1V8t/syeAdQsPiPr19rFqYbjQYjZlCQQs8nXBHBwgPT+9X1HmljYU4VOWlsi6Dm43nuLXF+Nvix4b8ETiwupzd6o4ytjbENIoPQueiD68+gNYvx2+J83w78MCPTCv9sX+UgYgEQKPvSY7kZAA9T7V89/CT4a+KPiFqUurhZBavKWn1K7YkSPn5sHq7euPxIrTDYSMoOrVdo/mZ1q7T5IK7PovRvHGreJSH2R2cLciOLlse7H+mK63T7qKPP7x5pO4jBkP446fjVLw94A0zQ7dEleS9kUDJl4T8EHH55rpFEcKhFCoo4CgYA/CuObi37ux0RvbUxtT0efWwUcm1iPUthn/IcfrSaB4L0Pw1I9xY2afa5BiS6k+aVh6buw9hgVpXuox2UZdlZiOwrzHxx4y1jUkOm6erQJMfL8uDmSXPG3Pv6CiLk/dTBpbs9F0GHSXjutT0lYyupzG4mlUf61woj3flGB+FanHqaxPBejTeHvC2naZcEGaGL95joGJLEfgTj8K2s1L3GjxT4heB2+JHxbs9HvGcabbWiXFyQcHyQfuqfV2OM9gGPaus8W/E/wj8Lbe30KFEku4o1SDS7IAGJMcbuyL9eT2Bqt8ZfFSfDvQrzxHYBf7avYE0+2LKCF2lm3kd9u5jjucV83/Cn4deJ/iZrU+pAyGDzS91qV2SQznk89Xf2H44r06NJVaanVdoR/M46k3CTjTV5M+itE8d614pKykJZwtz5UPJA92PJ/Su00y6hRc73nk7iMFz+JHH5mqPhr4e6V4etY43Ml7KoGXm4Un2Qcfnk+9dONkQCLtUDgKOMfhXn1HFv3djrgnbUy7yyutSOAgt4z1Mhy35D/ABplnoOk6E/2wqvnkhPtEvUFiAAPTJIHHrVrUdYh0+NmZHdh2HFedX+p6x428T6fpsY8qyhuEuHSPoqowO5j3PGB7mpSuNnqfNHNFGakZ5N8dPCdx4yvfC+kRs8cV5dPbvIoz5YIDM312KxH0rb8T+O/CHwY0Ox0hI1WRItlnpltjzGUfxH+6CerN1OeprqvEtxa6dpE+r3UQk/sxHvIxnGGVGH6gkfjXxx4W8NeK/jH8QL27OZp3k828u5ciK3UngfQAYVR6fU16OFpqtH947Qiclabpv3F7zPoLQfiNrXi2QSOI7C3PIih5IHu55P6V3+k3MYjynmXD4/5ZqW/8e6frWf4U+HWk+F7KOE7r6ZQMyzj5c+ydB+OT7106zRH5EIbb2XtXHVlFy9xaHRBSS97cy7vSptUb99i3jPUZDP/AID9as6Xp2n6SHtbJESTAeTnLtnIBY/gfyNZviHxO+lwv9nhUyAfec8D8O9Zvw8tNSmfUtc1R3aS/ZFi38Eomecdhk8fT3rO2hR2WaOKKMUhlDX9LGtaHf6aSB9qgeIE9iRgfrXlmi6/ofwL+E9le6hbN/aN87yNarxLc3LE5Uk9AgABPYD1IB9jFfN/7RPhrV/GHxL8N6LaZxcwrFBuzsQl2Mjn6Bcn2UV14SKnL2c3aO7+RhXbiueK12Nfwr4/1/x3cC41KcRQu2Y7S2BCL7Y6sfrn8K9h0qK6it1SO1KcfemO3/x0ZP54rF8O+HfC/wAKtGgt1mjSVwEa5m5muG74HXHsOB+tdJa6mt9A00KlIwMgv3rOvKMpXgrIukmo2k9Srd6bYWqSahqjo6RDc28YRfw7/jWvjAwO1cfd6Lf+KdQhN3O66ZDIJCvQS4OQAO/1rsaxZoJ1pcUhpaQCVlar4dtdU1XSdVb5LzS5mkhkAzlXQo6H2IOfYgVqK4dQykEHkEdDTvrTTa2Bq58vaPqes+P/AI3axa3DsJ4Lqa3ijkJ2W0ETEdPwBOOpavpDT9Ft7GFI2Z52XvJ0B9l6CuP8QfC0f8JnD468LXUOna8gKXMU6Fra/QjBDgcq2APnGegyDity1+IXhpp0sbzxBodtqedr2g1GN2VvQHIz+QPtXViKiq8vItEjClDkvzdzpaKAfSkrkNwpeaz9Q1yy0tttzIVA272AyE3HC5+uDV+gD//Z">
-
 <header>
   <div>
     <h1 id="h1">iGo<b>Spiral</b></h1>
@@ -277,14 +224,17 @@ html[lang=nl] .en,html[lang=en] .nl{display:none}
 <section id="kl"><div class="panel">
 <div class="formula">25 ≡ 1 (mod 12) · 24 · 12 · 6</div>
 <svg class="clock" id="svg" viewBox="0 0 200 200" role="img"></svg>
-<div><span class="big" id="hp">1</span><span class="badge" id="pb"></span></div>
+<div><span class="big" id="hp">0</span><span class="badge" id="pb"></span></div>
 <h2 id="l-gears" style="margin-top:14px"></h2>
 <div class="info" id="gear-text" style="color:var(--cy);text-align:left"></div>
 <code class="gfs">φA = 360° · t / 24u<br>φB = −(24/12) · φA = −2 · φA<br>φC = −(12/6) · φB = +4 · φA<br>24·1 = 12·2 = 6·4 = 24</code>
 <div id="gf"></div>
+<h2 id="l-ktp"></h2>
+<div class="cards" id="ktp"></div>
 <div id="cx" style="margin-top:10px;font-size:13px;color:var(--mu)"></div>
 </div></section>
-<!-- === TAB 3: TANDWIELEN (Clock_Gears) === -->
+
+<!-- === TAB 3: TANDWIELEN === -->
 <section id="tw"><div class="panel" style="padding:0;background:none;border:none">
 
 <div class="ctl">
@@ -331,9 +281,33 @@ html[lang=nl] .en,html[lang=en] .nl{display:none}
 
 </div></section>
 
-<!-- === TAB 4: PATRONEN (Digital_Root_Patterns) === -->
-<section id="pt"><div class="layout" style="padding:0">
+<!-- === TAB 4: BIJECTIE === -->
+<section id="bj"><div class="panel ex">
 
+<div class="formula">2922 = 2 × (4 × 365 + 1)</div>
+
+<h2 id="l-b1"></h2>
+<div class="bar">
+  <input id="n" inputmode="numeric" style="flex:1;width:auto">
+  <button class="btn" id="nw" type="button"></button>
+</div>
+<input id="dt" type="datetime-local" step="1">
+<div id="o1"></div>
+
+<div class="panel" style="background:var(--p2);margin-top:12px">
+  <h2 id="l-b2"></h2>
+  <div class="grid-t grid" id="ti" style="display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin:10px 0"></div>
+  <button class="btn pr" id="go2" type="button" style="width:100%"></button>
+  <div class="eq" id="o2"></div>
+</div>
+
+</div></section>
+
+<!-- === TAB 5: TOOLS (Patronen + Dagboek + Kluis + Instellingen) === -->
+<section id="in"><div class="panel ex">
+
+<!-- Patronen -->
+<div class="layout" style="padding:0;margin-bottom:12px">
   <div class="card">
     <h2 id="visTitle">Live Patroon</h2>
     <div class="controls">
@@ -366,7 +340,6 @@ html[lang=nl] .en,html[lang=en] .nl{display:none}
     <div class="formula-box" id="formulaBox"></div>
     <div class="explanation" id="explanationText"></div>
   </div>
-
   <div class="card">
     <h2 id="tableTitle">De Berekening (p = 1 + q·m)</h2>
     <p style="font-size:0.9rem;color:var(--pearl-mut)" id="tableDesc">Hier zie je hoe de digitale wortel (d) wordt afgeleid van de positie (p) over de eerste 10 niveaus (m).</p>
@@ -378,7 +351,6 @@ html[lang=nl] .en,html[lang=en] .nl{display:none}
       </tr></thead>
       <tbody id="tableBody"></tbody>
     </table>
-
     <h2 style="margin-top:2rem" id="gridTitle">Het Volledige Universum (2 t/m 900)</h2>
     <p style="font-size:0.9rem;color:var(--pearl-mut)" id="gridDesc">Elk blokje is een modulus. Klik erop om het patroon aan te passen. De kleuren tonen de drie cycli.</p>
     <div style="display:flex;gap:1rem;font-size:0.8rem;margin-bottom:1rem;flex-wrap:wrap" id="legendBox">
@@ -388,27 +360,9 @@ html[lang=nl] .en,html[lang=en] .nl{display:none}
     </div>
     <div class="grid-overview" id="gridOverview"></div>
   </div>
-
-</div></section>
-
-<!-- === TAB 5: TOOLS (Bijectie + Dagboek + Kluis + Instellingen + MRS) === -->
-<section id="in"><div class="panel ex">
-
-<!-- Bijectie -->
-<div class="formula">2921 = 2 × (4 × 365) + 1</div>
-<h2 id="l-b1"></h2>
-<div class="bar"><input id="n" inputmode="numeric" style="flex:1;width:auto"><button class="btn" id="nw" type="button"></button></div>
-<input id="dt" type="datetime-local" step="1">
-<div id="o1"></div>
-
-<div class="panel" style="background:var(--p2);margin-top:12px">
-  <h2 id="l-b2"></h2>
-  <div class="grid-t grid" id="ti" style="display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin:10px 0"></div>
-  <button class="btn pr" id="go2" type="button" style="width:100%"></button>
-  <div class="eq" id="o2"></div>
 </div>
 
-<!-- Dagboek (Agenda + Notities) -->
+<!-- Dagboek -->
 <div class="panel" style="background:var(--p2);margin-top:12px">
   <div class="bar">
     <button class="btn" id="ap" type="button" aria-label="‹">←</button>
@@ -509,16 +463,16 @@ html[lang=nl] .en,html[lang=en] .nl{display:none}
         <li>Week: <code>15 ≡ 1 (mod 7)</code>, m = 2.</li>
         <li>Getallen: <code>19 ≡ 1 (mod 9)</code>, m = 2. Zie het tabblad MRS.</li>
       </ul>
-      <h3>De posities</h3>
-      <p>Alle posities beginnen bij 1. Van klein naar groot: ms (1000), seconde (60), minuut (60), uur (24), dag (30), maand (12), jaar (10), decennium (10), eeuw (10), millennium (onbegrensd). Er geldt <code>N = Σ (positie − 1) · gewicht</code>.</p>
-      <div class="note-t"><b>Model en echte kalender:</b> Het model rekent met een 1-based positie (overal +1). De echte kalender toont de 0-based waarde. Voor 2026 geeft de echte kalender millennium 2, eeuw 0, decennium 2 en jaar 6.</div>
+      <h3>365 dagen, niet 360</h3>
+      <p>De echte kalender telt <b>365 dagen</b>. 360 is de platte, gesloten cirkel (60 × 6), zonder begin of eind. De tijd is een <b>spiraal</b>: na een volledige cyclus kom je één niveau hoger. Daarom is de basis van de kalender 365, en de +1 (schrikkeldag) is de sprong naar het volgende niveau.</p>
+      <div class="note-t"><b>Model en echte kalender:</b> de tuple is gelijk aan de echte kalender. Voor 2026 geeft de tuple millennium 2, eeuw 0, decennium 2, jaar 6 — exact zoals de Gregoriaanse kalender.</div>
       <h3>De onderdelen</h3>
       <ul>
-        <li><b>Spiraal:</b> kies je eigen leven (70 jaar) of de wereldtijd.</li>
+        <li><b>Spiraal:</b> kies je eigen leven (100 jaar) of de wereldtijd. De wereldkalender blijft.</li>
         <li><b>Klok:</b> analoge klok met drie ingrijpende tandwielen (24, 12 en 6 tanden).</li>
         <li><b>Tandwielen:</b> de sacrale geometrie van de tijd met de 7.000-jaar uitlijning.</li>
-        <li><b>Patronen:</b> de drie klassen (A/B/C) en het volledige universum q=2..900.</li>
-        <li><b>Tools:</b> bijectie, agenda, notities, kluis en instellingen.</li>
+        <li><b>Bijectie:</b> de tuple ↔ N omzetting, met rekenstappen.</li>
+        <li><b>Tools:</b> patronen, agenda, notities, kluis en instellingen.</li>
       </ul>
       <h3>Waarom 2520?</h3>
       <p>2520 is het kleinste getal dat deelbaar is door 1 tot en met 10. Het is ook het kleinste gemene veelvoud van 7 (week) en 360 (modeljaar). De app toont daarom steeds de dag in de 2520-cyclus.</p>
@@ -533,16 +487,16 @@ html[lang=nl] .en,html[lang=en] .nl{display:none}
         <li>Week: <code>15 ≡ 1 (mod 7)</code>, m = 2.</li>
         <li>Numbers: <code>19 ≡ 1 (mod 9)</code>, m = 2. See the MRS tab.</li>
       </ul>
-      <h3>The positions</h3>
-      <p>All positions start at 1. Small to large: ms (1000), second (60), minute (60), hour (24), day (30), month (12), year (10), decade (10), century (10), millennium (unbounded). It holds that <code>N = Σ (position − 1) · weight</code>.</p>
-      <div class="note-t"><b>Model and real calendar:</b> The model uses a 1-based position (everywhere +1). The real calendar shows the 0-based value. For 2026 the real calendar gives millennium 2, century 0, decade 2 and year 6.</div>
+      <h3>365 days, not 360</h3>
+      <p>The real calendar counts <b>365 days</b>. 360 is the flat, closed circle (60 × 6), without beginning or end. Time is a <b>spiral</b>: after a full cycle you arrive one level higher. That is why the basis of the calendar is 365, and the +1 (leap day) is the jump to the next level.</p>
+      <div class="note-t"><b>Model and real calendar:</b> the tuple equals the real calendar. For 2026 the tuple gives millennium 2, century 0, decade 2, year 6 — exactly as the Gregorian calendar.</div>
       <h3>The parts</h3>
       <ul>
-        <li><b>Spiral:</b> choose your own life (70 years) or world time.</li>
+        <li><b>Spiral:</b> choose your own life (100 years) or world time. The world calendar remains.</li>
         <li><b>Clock:</b> analog clock with three meshing gears (24, 12 and 6 teeth).</li>
         <li><b>Gears:</b> the sacred geometry of time with the 7,000-year alignment.</li>
-        <li><b>Patterns:</b> the three classes (A/B/C) and the complete universe q=2..900.</li>
-        <li><b>Tools:</b> bijection, calendar, notes, vault and settings.</li>
+        <li><b>Bijection:</b> the tuple ↔ N conversion, with steps.</li>
+        <li><b>Tools:</b> patterns, calendar, notes, vault and settings.</li>
       </ul>
       <h3>Why 2520?</h3>
       <p>2520 is the smallest number divisible by every number from 1 to 10. It is also the least common multiple of 7 (week) and 360 (model year). The app therefore always shows the day within the 2520 cycle.</p>
@@ -557,11 +511,11 @@ html[lang=nl] .en,html[lang=en] .nl{display:none}
     <div class="nl">
       <h3>Gebruiksaanwijzing</h3>
       <ul>
-        <li><b>Spiraal:</b> Kies je eigen leven (70 jaar) of de wereldtijd. Klik op 'Wis' om de wereldtijd-weergave te herstellen. De parel is nu, de gouden lijn is het verstreken deel van dit jaar.</li>
+        <li><b>Spiraal:</b> kies je eigen leven (100 jaar) of de wereldtijd. De wereldkalender blijft altijd beschikbaar. De parel is nu, de gouden lijn is het verstreken deel van dit jaar.</li>
         <li><b>Klok:</b> kijk naar de wijzers en de tandwielen. Eronder staan de live N (milliseconden) en de datum.</li>
         <li><b>Tandwielen:</b> bekijk de concentrische tandwieltrein. Klik op 'Align at 7,000 years' voor de volledige synchronisatie.</li>
+        <li><b>Bijectie:</b> typ N, kies een datum, of tik op Nu. De kaarten tonen de tuple (0-based). Open "Rekenstappen" voor de berekening.</li>
         <li><b>Patronen:</b> kies een modulus q of klik op een blokje in het universum. De drie klassen (A/B/C) worden getoond.</li>
-        <li><b>Bijectie:</b> typ N, kies een datum, of tik op Nu. De kaarten tonen de tuple. Open "Rekenstappen" voor de berekening.</li>
         <li><b>Agenda:</b> tik op een dag, typ een afspraak en tik op +.</li>
         <li><b>Notities:</b> kies datum en tijd, schrijf een tekst en voeg foto's toe.</li>
         <li><b>Kluis:</b> de eerste keer kies je een hoofdwachtwoord van minstens 10 tekens. Daarna: Ontgrendel.</li>
@@ -569,18 +523,23 @@ html[lang=nl] .en,html[lang=en] .nl{display:none}
       <div class="note-t">
         <b>De Kalender Wiskunde</b><br>
         De kern van deze app is de ontdekking dat de kalender een perfecte wiskundige orde heeft. De formule <code>p ≡ 1 (mod q)</code> toont aan dat elke cyclus (uren, dagen, jaren) eindigt op positie 1, maar op een hoger niveau.<br><br>
-        <b>Het Schrikkeljaar:</b> In de Gregoriaanse kalender telt een normaal jaar 365 dagen. Na twee rondes (m=2) kom je uit op 731 dagen: <code>731 ≡ 1 (mod 365)</code>. Dit is exact één vol jaar (2 rondes van 365 + 1).<br><br>
-        Voor de volledige 4-jaarlijkse schrikkelcyclus (4 levels) geldt: <code>2921 ≡ 1 (mod 365)</code> met m=4. Dit vertegenwoordigt 4 × 2 rondes van 365 dagen + 1.
+        <b>365 dagen, niet 360:</b> De echte kalender telt 365 dagen. 360 is de platte cirkel (60 × 6), zonder begin of eind. De tijd is een spiraal: na een volledige cyclus kom je één niveau hoger. Daarom is de basis 365.<br><br>
+        <b>Het Schrikkeljaar:</b> Elke cyclus van 4 jaar krijgt zijn eigen +1 (schrikkeldag): <code>4 × 365 + 1 = 1461 ≡ 1 (mod 365)</code>.<br><br>
+        Voor de volledige 8-jaarlijkse cyclus geldt dan:<br>
+        <code>2 × (4 × 365 + 1) = 2922</code> verstreken dagen,<br>
+        en de nieuwe cyclus begint op <b>2923</b> (zoals 24 uur verstreken → positie 25).<br><br>
+        In twee niveaus: <code>1461 ≡ 1 (mod 365)</code> en <code>2923 ≡ 1 (mod 1461)</code>.<br><br>
+        <b>Uitzondering:</b> valt er een eeuwjaar zonder schrikkeldag in de cyclus (zoals 2100), dan is het aantal verstreken dagen 2921.
       </div>
     </div>
     <div class="en">
       <h3>User manual</h3>
       <ul>
-        <li><b>Spiral:</b> Choose your own life (70 years) or world time. Click 'Clear' to restore the world time view. The pearl is now, the gold line is the elapsed part of this year.</li>
+        <li><b>Spiral:</b> choose your own life (100 years) or world time. The world calendar always remains available. The pearl is now, the gold line is the elapsed part of this year.</li>
         <li><b>Clock:</b> watch the hands and the gears. Below are the live N (milliseconds) and the date.</li>
         <li><b>Gears:</b> view the concentric gear train. Click 'Align at 7,000 years' for full synchronization.</li>
+        <li><b>Bijection:</b> type N, pick a date, or tap Now. The cards show the tuple (0-based). Open "Steps" for the calculation.</li>
         <li><b>Patterns:</b> choose a modulus q or click a block in the universe. The three classes (A/B/C) are shown.</li>
-        <li><b>Bijection:</b> type N, pick a date, or tap Now. The cards show the tuple.</li>
         <li><b>Calendar:</b> tap a day, type an appointment and tap +.</li>
         <li><b>Notes:</b> pick a date and time, write text and add photos.</li>
         <li><b>Vault:</b> the first time, choose a master passphrase of at least 10 characters.</li>
@@ -588,11 +547,15 @@ html[lang=nl] .en,html[lang=en] .nl{display:none}
       <div class="note-t">
         <b>The Calendar Mathematics</b><br>
         The core of this app is the discovery that the calendar has a perfect mathematical order. The formula <code>p ≡ 1 (mod q)</code> shows that every cycle (hours, days, years) ends at position 1, but on a higher level.<br><br>
-        <b>The Leap Year:</b> In the Gregorian calendar, a normal year has 365 days. After two rounds (m=2), you arrive at 731 days: <code>731 ≡ 1 (mod 365)</code>. This is exactly one full year (2 rounds of 365 + 1).<br><br>
-        For the complete 4-year leap cycle (4 levels): <code>2921 ≡ 1 (mod 365)</code> with m=4. This represents 4 × 2 rounds of 365 days + 1.
+        <b>365 days, not 360:</b> The real calendar counts 365 days. 360 is the flat circle (60 × 6), without beginning or end. Time is a spiral: after a full cycle you arrive one level higher. That is why the basis is 365.<br><br>
+        <b>The Leap Year:</b> Each 4-year cycle gets its own +1 (leap day): <code>4 × 365 + 1 = 1461 ≡ 1 (mod 365)</code>.<br><br>
+        For the full 8-year cycle:<br>
+        <code>2 × (4 × 365 + 1) = 2922</code> elapsed days,<br>
+        and the new cycle begins at <b>2923</b> (like 24 hours elapsed → position 25).<br><br>
+        In two levels: <code>1461 ≡ 1 (mod 365)</code> and <code>2923 ≡ 1 (mod 1461)</code>.<br><br>
+        <b>Exception:</b> if a century year without a leap day falls inside the cycle (such as 2100), the number of elapsed days is 2921.
       </div>
     </div>
-    <div class="note-t"><span class="nl">Nieuw: de Agenda en de Notities zitten samen in het tabblad Dagboek. Maak regelmatig een back-up (Instellingen); foto's zitten nog niet in de back-up.</span><span class="en">New: Calendar and Notes are together in the Journal tab. Back up regularly (Settings); photos are not in the backup yet.</span></div>
   </div>
 </details>
 
@@ -646,25 +609,46 @@ html[lang=nl] .en,html[lang=en] .nl{display:none}
   <button data-t="sp" role="tab" type="button"><i>🌀</i><span></span></button>
   <button data-t="kl" role="tab" type="button"><i>🕰️</i><span></span></button>
   <button data-t="tw" role="tab" type="button"><i>⚙️</i><span></span></button>
-  <button data-t="pt" role="tab" type="button"><i>🔢</i><span></span></button>
+  <button data-t="bj" role="tab" type="button"><i>🔁</i><span></span></button>
   <button data-t="in" role="tab" type="button"><i>📔</i><span></span></button>
 </nav>
-
 <script>
 /* ============================================================
    iGoSpiral · The Architecture of the Clock
-   Unified script: Spiral + Clock + Gears + Patterns + Tools
+
+   ────────────────────────────────────────────────────────────
+   SYSTEEM LOGICA
+   ────────────────────────────────────────────────────────────
+   Ons model rekent met de echte kalender (365 dagen, niet 360).
+   360 is de platte cirkel (60 × 6). De tijd is een spiraal:
+   365 dagen + de +1 sprong (schrikkeldag) naar het volgende niveau.
+
+   De Tuple (0-based):
+   Nulpunt: 1 januari jaar 0, 00:00:00.000 (N = 0).
+   De tuple volgt de echte Gregoriaanse kalender exact.
+
+   De Spiraal:
+   - Wereldtijd: 100-jaar cyclus (start op 2000, Y % 100).
+   - Mijn leven: 100-jaar cyclus (start op 0, leeftijd).
+   Schrikkeljaren worden gemarkeerd. De laatste 4 dagen (rond de 
+   verjaardag) hebben een dag/nacht kleurverloop.
+
+   ────────────────────────────────────────────────────────────
+   DE DRIE IJK PUNTEN (Synchronisatie)
+   ────────────────────────────────────────────────────────────
+   1. 365 DAGEN (Primair). 4 × 365 + 1 = 1461 ≡ 1 (mod 365).
+   2. 400 JAAR (Kalender).
+   3. 700 JAAR (Structuur). 700 = 7000 / 10.
+   ────────────────────────────────────────────────────────────
    ============================================================ */
 
 const $=id=>document.getElementById(id);
 const ls={get:k=>{try{return localStorage.getItem(k)}catch{return null}},set:(k,v)=>{try{localStorage.setItem(k,v)}catch{}},del:k=>{try{localStorage.removeItem(k)}catch{}}};
 
-/* ---------- Centrale taal ---------- */
 let L = ls.get("igo_l") || "nl";
 const T=(n,e)=>L==="nl"?n:e;
 const LOC=()=>L==="nl"?"nl-NL":"en-GB";
 
-/* ---------- Centrale state ---------- */
 let tab="sp";
 let UTC=ls.get("igo_utc")==="1";
 let mode=ls.get("igo_m")||"world";
@@ -697,13 +681,14 @@ function show(id){
   $("gb").classList.toggle("on",id==="in");
   if(id==="sp")setTimeout(()=>sp.resize(),30);
   if(id==="in")stInfo();
+  if(id==="bj")renderBij();
   scrollTo(0,0);
 }
 document.querySelectorAll("#nv button").forEach(b=>b.onclick=()=>show(b.dataset.t));
 $("gb").onclick=()=>show(tab==="in"?"sp":"in");
 
 /* ============================================================
-   DEEL C: OPSLAG (IndexedDB + OPFS)
+   DEEL C: OPSLAG
    ============================================================ */
 let db;
 const dbp=new Promise(r=>{try{const q=indexedDB.open("igo2",1);q.onupgradeneeded=e=>["moments","events","vault","meta"].forEach(x=>e.target.result.createObjectStore(x,{keyPath:"id"}));q.onsuccess=e=>{db=e.target.result;r()};q.onerror=q.onblocked=()=>r()}catch{r()}});
@@ -743,35 +728,67 @@ async function stInfo(){
    DEEL D: BIJECTIE
    ============================================================ */
 const UNITS=["millennium","eeuw","decennium","jaar","maand","dag","uur","minuut","seconde","ms"];
-const BASE={ms:1000n,seconde:60n,minuut:60n,uur:24n,dag:30n,maand:12n,jaar:10n,decennium:10n,eeuw:10n,millennium:null};
+const BASE={ms:1000n,seconde:60n,minuut:60n,uur:24n,dag:31n,maand:12n,jaar:10n,decennium:10n,eeuw:10n,millennium:null};
 const UE={millennium:"millennium",eeuw:"century",decennium:"decade",jaar:"year",maand:"month",dag:"day",uur:"hour",minuut:"minute",seconde:"second",ms:"ms"};
 const ul=u=>L==="nl"?u:UE[u];
 const SL=[...UNITS].reverse();
 const W={};
 {let w=1n;for(const u of SL){W[u]=w;if(BASE[u])w*=BASE[u]}}
-function toTuple(N){let r=BigInt(N);const o=[];for(const u of SL){const b=BASE[u];if(b===null)o.push(r+1n);else{o.push(r%b+1n);r/=b}}return o.reverse()}
-function toN(a){
-  let N=0n;
-  UNITS.forEach((u,i)=>{
+
+function toTuple(N){
+  if(N<8000000000000000n){
+    const d=fromZ(N),g=f=>UTC?d["getUTC"+f]():d["get"+f](),Y=g("FullYear");
+    return [Math.floor(Y/1000),Math.floor(Y/100)%10,Math.floor(Y/10)%10,Y%10,g("Month"),g("Date")-1,g("Hours"),g("Minutes"),g("Seconds"),g("Milliseconds")];
+  }
+  let r=BigInt(N);const o=[];
+  for(const u of SL){
     const b=BASE[u];
-    if(!/^\d+$/.test(String(a[i]).trim()))throw new Error(`${ul(u)}: 1–${b||"∞"}`);
-    const p=BigInt(a[i]);
-    if(p<1n||(b&&p>b))throw new Error(`${ul(u)}: 1–${b||"∞"}`);
-    N+=(p-1n)*W[u];
-  });
-  return N;
+    if(b===null)o.push(r);
+    else{o.push(r%b);r/=b}
+  }
+  return o.reverse();
 }
-$("ti").innerHTML=UNITS.map(u=>`<div><label>${u}</label><input type="number" id="t-${u}" value="1" min="1" inputmode="numeric"></div>`).join("");
+function toN(a){
+  const Y=Number(BigInt(a[0])*1000n+BigInt(a[1])*100n+BigInt(a[2])*10n+BigInt(a[3]));
+  const M=Number(a[4]),D=Number(a[5])+1,H=Number(a[6]),Mi=Number(a[7]),S=Number(a[8]),Ms=Number(a[9]);
+  const d=UTC?new Date(Date.UTC(Y,M,D,H,Mi,S,Ms)):new Date(Y,M,D,H,Mi,S,Ms);
+  return nZ(d.getTime());
+}
+$("ti").innerHTML=UNITS.map(u=>{
+  const b=BASE[u],mx=b?Number(b)-1:"";
+  return `<div><label>${u}</label><input type="number" id="t-${u}" value="0" min="0"${mx!==""?` max="${mx}"`:""} inputmode="numeric"></div>`;
+}).join("");
 
 function realBlock(N){
   let h=`<h2>${T("Echte kalender (0-based)","Real calendar (0-based)")}</h2>`;
   if(N<8000000000000000n){
     const d=fromZ(N),g=f=>UTC?d["getUTC"+f]():d["get"+f](),Y=g("FullYear");
-    const v=[Math.floor(Y/1000),Math.floor(Y/100)%10,Math.floor(Y/10)%10,Y%10,g("Month")+1,g("Date"),g("Hours")+1,g("Minutes")+1,g("Seconds")+1,g("Milliseconds")+1];
+    const v=[Math.floor(Y/1000),Math.floor(Y/100)%10,Math.floor(Y/10)%10,Y%10,g("Month"),g("Date")-1,g("Hours"),g("Minutes"),g("Seconds"),g("Milliseconds")];
     h+=`<div class="cards">${UNITS.map((u,i)=>`<div class="card-t ${i<4?"":i<6?"cc":"ct"}"><b>${v[i]}</b><small>${ul(u)}</small></div>`).join("")}</div><div class="eq">${T("Echt jaar","Real year")} ${Y} · ${T("millennium","millennium")} ${v[0]}</div>`;
   }else h+=`<div class="eq">—</div>`;
   return h;
 }
+
+function ijpunten(N){
+  const d=fromZ(N),Y=d.getFullYear();
+  const isLeap=(y=>((y%4===0&&y%100!==0)||y%400===0))(Y);
+  const dom=Math.floor((d-new Date(Y,0,1))/864e5);
+  const last400=Math.floor(Y/400)*400,last700=Math.floor(Y/700)*700;
+  const next400=last400+400,next700=last700+700;
+  const R=(a,b,c)=>`<div class="sum"><span>${a}</span><b>${b}</b>${c?`<i style="display:block;font-size:11px;color:var(--mu);margin-top:2px">${c}</i>`:""}</div>`;
+  return `<h2>${T("IJkpunten","Anchor points")}</h2>`+
+    R(T("365 dagen (primair)","365 days (primary)"),
+      isLeap?T("Ja — schrikkeljaar","Yes — leap year"):T("Nee","No"),
+      T(`Dag ${dom} (0-based) van 365${isLeap?" of 366":""}`,
+        `Day ${dom} (0-based) of 365${isLeap?" or 366":""}`))+
+    R(T("400 jaar (kalender)","400 years (calendar)"),
+      `${Y-last400} ${T("jaar sinds","years since")} ${last400}`,
+      `${T("volgende","next")}: ${next400}`)+
+    R(T("700 jaar (structuur)","700 years (structure)"),
+      `${Y-last700} ${T("jaar sinds","years since")} ${last700}`,
+      `${T("volgende","next")}: ${next700}${last700===2100||next700===2100?" · 2100":""}`);
+}
+
 function renderBij(fromDt){
   const o=$("o1");let N;
   try{
@@ -779,21 +796,26 @@ function renderBij(fromDt){
     if(!/^\d+$/.test(v))throw new Error(T("Voer een geheel getal ≥ 0 in.","Enter an integer ≥ 0."));
     N=BigInt(v);
   }catch(e){o.innerHTML=`<div class="eq" style="color:#ff6f91">${esc(e.message)}</div>`;return}
-  const tp=toTuple(N),days=N/86400000n,dr=N===0n?0n:1n+(N-1n)%9n;
+  const tp=toTuple(N),days=N/86400000n,dr=N===0n?0n:(N-1n)%9n+1n;
   const S=(a,b)=>`<div class="sum"><span>${a}</span><b>${b}</b></div>`;
   let when="—";
   if(N<8000000000000000n){const d=fromZ(N);when=d.toLocaleString(LOC());if(!fromDt)$("dt").value=lv(d)}
-  const realDate=fromZ(N),realYear=realDate.getFullYear(),realMonth=realDate.getMonth()+1,realDay=realDate.getDate();
-  const modelTuple=[Math.floor(realYear/1000),Math.floor((realYear%1000)/100),Math.floor((realYear%100)/10),realYear%10,realMonth,realDay,realDate.getHours()+1,realDate.getMinutes()+1,realDate.getSeconds()+1,realDate.getMilliseconds()+1];
+  const d=fromZ(N),Y=d.getFullYear();
+  const tuple=[Math.floor(Y/1000),Math.floor(Y%1000/100),Math.floor(Y%100/10),Y%10,d.getMonth(),d.getDate()-1,d.getHours(),d.getMinutes(),d.getSeconds(),d.getMilliseconds()];
   o.innerHTML=realBlock(N)+
-    `<h2>${T("Model (tijdsaanduiding)","Model (time indication)")}</h2>
-    <div class="cards">${UNITS.map((u,i)=>`<div class="card-t ${i<4?"":i<6?"cc":"ct"}"><b>${modelTuple[i]}</b><small>${ul(u)}</small></div>`).join("")}</div>`+
+    `<h2>${T("Tuple (0-based)","Tuple (0-based)")}</h2>
+    <div class="cards">${UNITS.map((u,i)=>`<div class="card-t ${i<4?"":i<6?"cc":"ct"}"><b>${tuple[i]}</b><small>${ul(u)}</small></div>`).join("")}</div>
+    <div class="info" style="text-align:left;margin:8px 0">${T(
+      "Nulpunt: 1 januari jaar 0, 00:00:00.000 (N = 0). De tuple toont de werkelijke aantallen (0-based), gelijk aan de kalender. De wiskundige positie <b>p</b> in de formules is 1-based; beide beschrijven hetzelfde moment.",
+      "Epoch: 1 January year 0, 00:00:00.000 (N = 0). The tuple shows the actual counts (0-based), equal to the calendar. The mathematical position <b>p</b> in the formulas is 1-based; both describe the same moment."
+    )}</div>`+
+    ijpunten(N)+
     S(T("Datum","Date"),when)+
     S(T("Weekdag","Weekday"),wd()[Number((days+5n)%7n)])+
-    S(T("Dag in 2520-cyclus","Day in 2520 cycle"),`${days%2520n+1n} / 2520 (${T("cyclus","cycle")} ${days/2520n+1n})`)+
+    S(T("Dag in 2520-cyclus","Day in 2520 cycle"),`${days%2520n} / 2520 (${T("cyclus","cycle")} ${days/2520n})`)+
     S(T("Digitale wortel","Digital root"),dr)+
-    S(T("Duur","Duration"),`${days}d ${(N%86400000n)/3600000n}h ${(N%3600000n)/60000n}m ${(N%60000n)/1000n}s`)+
-    `<details style="margin-top:10px"><summary>${T("Rekenstappen","Steps")}</summary><div><table class="data-table"><tr><th>${T("eenheid","unit")}</th><th>${T("gewicht ms","weight ms")}</th><th>${T("deel","part")}</th><th>${T("positie","pos")}</th></tr>${UNITS.map((u,i)=>{const q=BigInt(modelTuple[i]-1);return `<tr><td>${ul(u)}</td><td>${W[u]}</td><td>${q}</td><td style="color:var(--gold);font-weight:700">${modelTuple[i]}</td></tr>`}).join("")}</table></div></details>`;
+    S(T("Duur sinds jaar 0","Duration since year 0"),`${days}d ${(N%86400000n)/3600000n}h ${(N%3600000n)/60000n}m ${(N%60000n)/1000n}s`)+
+    `<details style="margin-top:10px"><summary>${T("Rekenstappen","Steps")}</summary><div><table class="data-table"><tr><th>${T("eenheid","unit")}</th><th>${T("gewicht ms","weight ms")}</th><th>${T("positie","pos")}</th></tr>${UNITS.map((u,i)=>`<tr><td>${ul(u)}</td><td>${W[u]}</td><td style="color:var(--gold);font-weight:700">${tuple[i]}</td></tr>`).join("")}</table><div class="eq">N = ${UNITS.map((u,i)=>`${tuple[i]}·${W[u]}`).join(" + ")} = ${N}</div></div></details>`;
   tp.forEach((v,i)=>{$("t-"+UNITS[i]).value=v});
 }
 let _nb;
@@ -811,7 +833,7 @@ $("go2").onclick=()=>{
 $("n").value=nZ(Date.now()).toString();
 
 /* ============================================================
-   DEEL E: SPIRAAL
+   DEEL E: SPIRAAL — LEEFTIJD OF WERELDJAAR
    ============================================================ */
 function state(d){
   if(mode==="life"&&birth){
@@ -819,11 +841,19 @@ function state(d){
     const at=k=>{const x=new Date(birth);x.setFullYear(birth.getFullYear()+k);return x};
     if(at(y)>d)y--;
     const a=at(y),b=at(y+1),f=Math.min(.999999,Math.max(0,(d-a)/(b-a)));
-    return{Y:birth.getFullYear()+y,f,len:70,level:y%70+1,target:birth.getFullYear()+70*(Math.floor(y/70)+1),end:b.getTime(),age:y};
+    
+    // Leeftijd is het niveau (0-100)
+    const level = y % 100;
+    return{Y:y, f, len:100, level:level, target:100*(Math.floor(y/100)+1), end:b.getTime(), age:y, isLife:true};
   }
+  
   const Y=d.getFullYear(),a=new Date(Y,0,1),b=new Date(Y+1,0,1);
-  return{Y,f:(d-a)/(b-a),len:70,level:(Y-1)%70+1,target:Math.ceil(Y/70)*70,end:b.getTime()};
+  // Wereldtijd is het niveau (2000-2099)
+  const level = Y % 100;
+  const target = (Y - level) + 100;
+  return{Y, f:(d-a)/(b-a), len:100, level:level, target:target, end:b.getTime(), isLife:false};
 }
+
 class Spiral{
   constructor(c){
     this.c=c;this.x=c.getContext("2d");this.rot=.5;this.tl=1;this.shown=null;this.w=300;this.h=300;
@@ -863,6 +893,10 @@ class Spiral{
       x.beginPath();x.arc(t.x*w,t.y*h,t.r,0,7);x.fillStyle=t.c;x.fill();
     }
     x.globalAlpha=1;
+    
+    // Kleuren bepalen voor de lijn
+    let lineRGB = "244,197,66"; // Goud (standaard)
+    
     const seg=(f,t0,t1,n,rgb,al,wd)=>{
       let p=f(t0);
       for(let i=1;i<=n;i++){
@@ -871,23 +905,67 @@ class Spiral{
         p=q;
       }
     };
-    const from=Math.max(1,Math.floor(this.shown)-4),to=Math.min(st.len,Math.ceil(this.shown)+5);
-    const yr=l=>st.Y-st.level+l,hx=t=>this.pt(A0+TP*t,t);
-    seg(hx,Math.max(1,this.shown-4),this.shown,300,"244,197,66",.1,5);
-    seg(hx,Math.max(1,this.shown-4),this.shown,300,"244,197,66",.5,1.6);
-    seg(hx,this.shown,Math.min(st.len+1,this.shown+5),300,"154,163,199",.18,1);
+    
+    const from=Math.max(0,Math.floor(this.shown)-4), to=Math.min(st.len-1,Math.ceil(this.shown)+5);
+    const yr=l=>st.Y-st.level+l, hx=t=>this.pt(A0+TP*t,t);
+
+    // Kleurverloop voor de laatste 4 dagen (rond de verjaardag)
+    // We pakken het fragment van (cont - 4) tot cont.
+    const startDays = Math.max(0, this.shown - 4);
+    if(this.shown >= startDays && startDays < 100) {
+      // Teken de dag/nacht cyclus. 
+      // We splitsen de 4 dagen in cyaan (dag) en donkerblauw (nacht).
+      // Stel: 1 dag is 0 tot 1. We pakken kleine segmenten om een vloeiend verloop te maken.
+      let p = hx(startDays);
+      const steps = 80;
+      for(let i=1; i<=steps; i++) {
+        const t = startDays + (i/steps)*(this.shown - startDays);
+        const q = hx(t);
+        // Bepaal kleur op basis van fractie (0 = begin, 1 = eind)
+        const fract = (t - startDays) / 4; 
+        // Cyaan (dag) = 77, 208, 225
+        // Paars (nacht) = 142, 155, 255
+        const mix = fract < 0.5 ? fract * 2 : (1 - fract) * 2; // 0..1..0
+        const r = Math.round(77 + (142 - 77) * (1 - mix)); // Cyaan naar Paars
+        const g = Math.round(208 + (155 - 208) * (1 - mix));
+        const b = Math.round(225 + (255 - 225) * (1 - mix));
+        
+        it.push({k:0,z:(p.z+q.z)/2, a:p,b:q, rgb:`${r},${g},${b}`, al: 0.8*Math.max(.2,Math.min(1,.6-q.z/(q.R*2.2))), w: 4});
+        p=q;
+      }
+    }
+
+    // Teken de basis spiraal (goud)
+    seg(hx,Math.max(0,startDays-4),startDays,300,lineRGB,.1,5);
+    seg(hx,Math.max(0,startDays-4),startDays,300,lineRGB,.5,1.6);
+    if(startDays >= 0) seg(hx,startDays,Math.min(st.len,startDays+4),300,lineRGB,.1,5); // Vage gloed basis
+    seg(hx,startDays,Math.min(st.len,startDays+4),300,lineRGB,.5,1.6); // Dunne lijn onder de dag/nacht
+
+    // Teken de ringen
     for(let l=from;l<=to;l++){
       if(l===st.level)continue;
       const fd=Math.max(.12,1-Math.abs(l-this.shown)/6),pa=l<this.shown;
-      seg(a=>this.pt(a,l),A0,A0+TP,56,pa?"77,208,225":"154,163,199",.6*fd,pa?1.7:1);
+      // Als we in de levensmodus zitten, markeer schrikkeljaren (elke 4 jaar)
+      const isLeapYear = st.isLife && (l % 4 === 0);
+      const ringRGB = isLeapYear ? "255,235,150" : (pa?"77,208,225":"154,163,199");
+      const ringAlpha = isLeapYear ? 0.9 : 0.6*fd;
+      const ringWidth = isLeapYear ? 2.5 : (pa?1.7:1);
+      seg(a=>this.pt(a,l),A0,A0+TP,56,ringRGB,ringAlpha,ringWidth);
     }
+    
+    // De huidige ring (actief)
     seg(a=>this.pt(a,st.level),A0,A0+TP,56,"154,163,199",.4,1.8);
+
+    // De gouden lijn van de dag/nacht cyclus (als we niet in de buurt zijn, is het gewoon goud)
     if(st.f>.002){
       seg(hx,st.level,st.level+st.f,Math.max(4,Math.ceil(st.f*120)),"244,197,66",.95,3.2);
       seg(hx,Math.max(st.level,cont-.12),cont,16,"255,244,200",.9,5);
     }
+    
+    // Markeringen (elke 12 maanden / 12 levels)
     for(let i=0;i<12;i++){const p=this.pt(A0+TP*i/12,st.level);it.push({k:2,z:p.z,p})}
     const pp=hx(cont);it.push({k:1,z:pp.z,p:pp});it.push({k:3,z:pp.z,p:pp});
+    
     it.sort((a,b)=>b.z-a.z);
     x.lineCap="round";
     for(const o of it){
@@ -960,14 +1038,14 @@ addEventListener("resize",()=>{clearTimeout(sp._t);sp._t=setTimeout(()=>sp.resiz
 function spText(st,d){
   const lc=LOC(),days=Math.max(0,Math.ceil((st.end-d)/864e5));
   if(mode==="life"&&birth){
-    const rest=70*(Math.floor(st.age/70)+1)-st.age;
+    const rest=100*(Math.floor(st.age/100)+1)-st.age;
     $("top").innerHTML=`${T("Geboortedatum","Birthdate")}: <b>${birth.toLocaleDateString(lc)}</b><br>${T("Leeftijd","Age")}: <b>${st.age}</b> ${T("jaar","years")}`;
-    $("bot").innerHTML=`${T("Niveau","Level")} <b>${st.level} / 70</b><br><i>(${T("Nog","Still")} ${rest} ${T("jaar tot de volgende 70-cyclus","years until the next 70-cycle")})</i>`;
+    $("bot").innerHTML=`${T("Niveau","Level")} <b>${st.level + 1} / 100</b><br><i>(${T("Nog","Still")} ${rest} ${T("jaar tot de volgende 100-cyclus","years until the next 100-cycle")})</i>`;
   }else{
-    $("top").innerHTML=`${T("Vandaag","Today")}: <b>${d.toLocaleDateString(lc,{weekday:"long",day:"numeric",month:"long",year:"numeric"})}</b><br>${T("Wereldtijd sinds jaar 1","World time since year 1")}: <b>${st.Y}</b> ${T("jaar","years")} · ${T("Doel","Target")}: <b>${st.target}</b>`;
-    $("bot").innerHTML=`${T("Niveau","Level")} <b>${st.level} / 70</b> (${T("Jaar","Year")} ${st.Y})<br><i>(${T("Nog","Still")} ${days} ${T("dagen tot het volgende niveau","days until the next level")})</i>`;
+    $("top").innerHTML=`${T("Vandaag","Today")}: <b>${d.toLocaleDateString(lc,{weekday:"long",day:"numeric",month:"long",year:"numeric"})}</b><br>${T("Wereldtijd","World time")}: <b>${st.Y}</b> · ${T("Doel","Target")}: <b>${st.target}</b>`;
+    $("bot").innerHTML=`${T("Niveau","Level")} <b>${st.level + 1} / 100</b> (${T("Jaar","Year")} ${st.Y})<br><i>(${T("Nog","Still")} ${days} ${T("dagen tot het volgende niveau","days until the next level")})</i><br>${T("Tuple","Tuple")}: <b>${liveTuple(d).join(" · ")}</b>`;
   }
-  $("pg").style.width=((st.level-1+st.f)/70*100).toFixed(2)+"%";
+  $("pg").style.width=((st.level+st.f)/100*100).toFixed(2)+"%";
 }
 $("mode").onchange=e=>{mode=e.target.value;ls.set("igo_m",mode);$("bb").style.display=mode==="life"?"flex":"none";spText(state(new Date()),new Date())};
 $("bc").onclick=()=>{const v=$("bd").value,d=new Date(v+"T00:00:00");if(v&&!isNaN(d)){birth=d;ls.set("iGoSpiral_birth",v);spText(state(new Date()),new Date())}};
@@ -975,74 +1053,83 @@ $("br").onclick=()=>{birth=null;ls.del("iGoSpiral_birth");$("bd").value="";spTex
 {const v=ls.get("iGoSpiral_birth");if(v){const d=new Date(v+"T00:00:00");if(!isNaN(d)){birth=d;$("bd").value=v}}}
 $("mode").value=mode;$("bb").style.display=mode==="life"?"flex":"none";
 
-/* ============================================================ DEEL F: KLOK (analoog met 3 tandwielen 24/12/6) ============================================================ */ 
-let cacc=1e9; 
-{ 
-  const NS="http://www.w3.org/2000/svg"; 
-  const sv=$("svg"); 
-  const el=(t,a,p)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);(p||sv).appendChild(e);return e}; 
-  const defs=el("defs",{}); 
-  defs.innerHTML=`<radialGradient id="fc" cx="50%" cy="40%" r="70%"><stop offset="0" stop-color="#16204a"/><stop offset="1" stop-color="#090d24"/></radialGradient><linearGradient id="gl" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".16"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>`+["#f4c542","#4dd0e1","#ff6f91"].map((c,i)=>`<linearGradient id="g${i}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${c}" stop-opacity=".42"/><stop offset=".5" stop-color="${c}" stop-opacity=".12"/><stop offset="1" stop-color="${c}" stop-opacity=".34"/></linearGradient>`).join(""); 
-  el("circle",{cx:100,cy:100,r:98,fill:"#0c1130",stroke:"#2a3470","stroke-width":1.5}); 
-  el("circle",{cx:100,cy:100,r:90,fill:"url(#fc)"}); 
-  const arcP=(r,h0,h1)=>{const a=k=>(k/24)*Math.PI*2-Math.PI/2;return`M${100+r*Math.cos(a(h0))} ${100+r*Math.sin(a(h0))}A${r} ${r} 0 ${h1-h0>12?1:0} 1 ${100+r*Math.cos(a(h1))} ${100+r*Math.sin(a(h1))}`}; 
-  el("path",{d:arcP(94,6,18),fill:"none",stroke:"#f4c542","stroke-opacity":.55,"stroke-width":3}); 
-  el("path",{d:arcP(94,18,30),fill:"none",stroke:"#5c6bc0","stroke-opacity":.6,"stroke-width":3}); 
-  const gearsG=el("g",{}); 
-  function gearD(n,rp,m){const ro=rp+.9*m,ri=rp-1.1*m,t=Math.PI*2/n;let d="";for(let i=0;i<n;i++)for(const[o,r]of[[-.26,ri],[-.13,ro],[.13,ro],[.26,ri]]){const A=i*t+o*t;d+=(d?"L":"M")+(r*Math.cos(A)).toFixed(2)+" "+(r*Math.sin(A)).toFixed(2)}return d+"Z"} 
-  const MOD=3.4,TH1=-40*Math.PI/180,TH2=50*Math.PI/180,COL=["#f4c542","#4dd0e1","#ff6f91"]; 
-  const G=[{n:24,c:[100,100]}]; 
-  G.push({n:12,c:[100+Math.cos(TH1)*18*MOD,100+Math.sin(TH1)*18*MOD]}); 
-  G.push({n:6,c:[G[1].c[0]+Math.cos(TH2)*9*MOD,G[1].c[1]+Math.sin(TH2)*9*MOD]}); 
-  G.forEach((g,i)=>{ 
-    const e=el("g",{},gearsG),rp=g.n*MOD/2,sp=g.n>12?6:g.n>6?4:3; 
-    el("path",{d:gearD(g.n,rp,MOD),fill:`url(#g${i})`,stroke:COL[i],"stroke-opacity":.7,"stroke-width":.8},e); 
-    el("circle",{r:rp*.72,fill:"none",stroke:COL[i],"stroke-opacity":.3,"stroke-width":.6},e); 
-    for(let k=0;k<sp;k++){const a=k/sp*Math.PI*2;el("line",{x1:Math.cos(a)*rp*.22,y1:Math.sin(a)*rp*.22,x2:Math.cos(a)*rp*.72,y2:Math.sin(a)*rp*.72,stroke:COL[i],"stroke-opacity":.45,"stroke-width":1.2},e)} 
-    el("circle",{r:rp*.2,fill:COL[i],"fill-opacity":.35,stroke:COL[i],"stroke-opacity":.7,"stroke-width":.8},e); 
-    const t=el("text",{y:2.5,"text-anchor":"middle","font-size":6,fill:COL[i],"fill-opacity":.9},e); 
-    t.textContent=g.n;g.el=e; 
-  }); 
-  for(let i=0;i<60;i++){const a=i/60*Math.PI*2-Math.PI/2,q=i%5===0,r0=q?80:84;el("line",{x1:100+Math.cos(a)*r0,y1:100+Math.sin(a)*r0,x2:100+Math.cos(a)*88,y2:100+Math.sin(a)*88,stroke:i===0?"#f4c542":q?"#3a4590":"#232c63","stroke-width":i===0?2.6:q?1.6:.8})} 
-  for(let i=0;i<12;i++){const a=i/12*Math.PI*2-Math.PI/2,t=el("text",{x:100+Math.cos(a)*71,y:100+Math.sin(a)*71+3.5,"text-anchor":"middle","font-size":10,fill:"#fbf4e2","font-weight":500});t.textContent=i||12} 
-  const dmk=el("circle",{r:3.2,fill:"#fff",stroke:"#0a0e27","stroke-width":1}); 
-  const hh=el("polygon",{points:"96.5,106 100,50 103.5,106",fill:"#f4c542"}), mh=el("polygon",{points:"98,108 100,28 102,108",fill:"#e8e8f0"}), sh=el("g",{}); 
-  el("line",{x1:100,y1:114,x2:100,y2:22,stroke:"#4dd0e1","stroke-width":1.3,"stroke-linecap":"round"},sh); 
-  el("circle",{cx:100,cy:114,r:3,fill:"#4dd0e1"},sh); 
-  el("circle",{cx:100,cy:100,r:5,fill:"#f4c542"}); 
-  el("circle",{cx:100,cy:100,r:2,fill:"#0a0e27"}); 
-  el("ellipse",{cx:100,cy:58,rx:66,ry:40,fill:"url(#gl)"}); 
-  function clock(dt){ 
-    const d=new Date(),h=d.getHours(),mi=d.getMinutes(),s=d.getSeconds()+d.getMilliseconds()/1e3; 
-    hh.setAttribute("transform",`rotate(${(h%12)*30+mi*.5+s/120} 100 100)`); 
-    mh.setAttribute("transform",`rotate(${mi*6+s*.1} 100 100)`); 
-    sh.setAttribute("transform",`rotate(${s*6} 100 100)`); 
-    const f=(h+mi/60+s/3600)/24,pA=f*Math.PI*2, 
-      pB=TH1+Math.PI-Math.PI/12-(pA-TH1)*2, 
-      pC=TH2+Math.PI-Math.PI/6-(pB-TH2)*2; 
-    [pA,pB,pC].forEach((p,i)=>G[i].el.setAttribute("transform",`translate(${G[i].c[0]} ${G[i].c[1]}) rotate(${p*180/Math.PI})`)); 
-    const ma=f*Math.PI*2-Math.PI/2; 
-    dmk.setAttribute("cx",100+94*Math.cos(ma)); 
-    dmk.setAttribute("cy",100+94*Math.sin(ma)); 
-    cacc+=dt;if(cacc<250)return;cacc=0; 
-    const day=h>=6&&h<18,r=(x,n)=>x.toFixed(n), 
-      row=(a,b)=>`<div class="sum"><span>${a}</span><b>${b}</b></div>`; 
-    $("hp").textContent=h+1; 
-    $("pb").textContent=day?T("☀️ Dag","☀️ Day"):T("🌙 Nacht","🌙 Night"); 
-    $("pb").style.color=day?"#f4c542":"#8e9bff"; 
-    $("gf").innerHTML= 
-      row(T("A · 24 tanden","A · 24 teeth"),`${r(f*360,1)}° · ${r(f,2)} ${T("ronde","lap")}`)+ 
-      row(T("B · 12 tanden","B · 12 teeth"),`${r(f*2%1*360,1)}° · ${r(f*2,2)} ${T("rondes","laps")}`)+ 
-      row(T("C · 6 tanden","C · 6 teeth"),`${r(f*4%1*360,1)}° · ${r(f*4,2)} ${T("rondes","laps")}`)+ 
-      row(T("Tanden vandaag","Teeth today"),`${r(f*24,1)} / 24`)+ 
-      row("m = (25−1)/12",`2 ${T("rondes van B per dag","B laps per day")}`); 
-    const N=nZ(d.getTime()),days=N/86400000n; 
-    $("cx").innerHTML=`${T("weekdag","weekday")} <b style="color:#f4c542">${wd()[Number((days+5n)%7n)]}</b> · ${T("dag","day")} <b style="color:#f4c542">${Number(days%2520n)+1}</b>/2520 · ${T("cyclus","cycle")} <b style="color:#f4c542">${days/2520n+1n}</b><br>N <b style="color:#4dd0e1">${N}</b>`; 
-  } 
+/* ============================================================
+   DEEL F: KLOK
+   ============================================================ */
+const NS="http://www.w3.org/2000/svg";
+const sv=$("svg");
+const el=(t,a,p)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);(p||sv).appendChild(e);return e};
+const defs=el("defs",{});
+defs.innerHTML=`<radialGradient id="fc" cx="50%" cy="40%" r="70%"><stop offset="0" stop-color="#16204a"/><stop offset="1" stop-color="#090d24"/></radialGradient><linearGradient id="gl" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".16"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>`+["#f4c542","#4dd0e1","#ff6f91"].map((c,i)=>`<linearGradient id="g${i}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${c}" stop-opacity=".42"/><stop offset=".5" stop-color="${c}" stop-opacity=".12"/><stop offset="1" stop-color="${c}" stop-opacity=".34"/></linearGradient>`).join("");
+el("circle",{cx:100,cy:100,r:98,fill:"#0c1130",stroke:"#2a3470","stroke-width":1.5});
+el("circle",{cx:100,cy:100,r:90,fill:"url(#fc)"});
+const arcP=(r,h0,h1)=>{const a=k=>(k/24)*Math.PI*2-Math.PI/2;return`M${100+r*Math.cos(a(h0))} ${100+r*Math.sin(a(h0))}A${r} ${r} 0 ${h1-h0>12?1:0} 1 ${100+r*Math.cos(a(h1))} ${100+r*Math.sin(a(h1))}`};
+el("path",{d:arcP(94,6,18),fill:"none",stroke:"#f4c542","stroke-opacity":.55,"stroke-width":3});
+el("path",{d:arcP(94,18,30),fill:"none",stroke:"#5c6bc0","stroke-opacity":.6,"stroke-width":3});
+const gearsG=el("g",{});
+function gearD(n,rp,m){const ro=rp+.9*m,ri=rp-1.1*m,t=Math.PI*2/n;let d="";for(let i=0;i<n;i++)for(const[o,r]of[[-.26,ri],[-.13,ro],[.13,ro],[.26,ri]]){const A=i*t+o*t;d+=(d?"L":"M")+(r*Math.cos(A)).toFixed(2)+" "+(r*Math.sin(A)).toFixed(2)}return d+"Z"}
+const KMOD=3.4,TH1=-40*Math.PI/180,TH2=50*Math.PI/180,COL=["#f4c542","#4dd0e1","#ff6f91"];
+const KG=[{n:24,c:[100,100]}];
+KG.push({n:12,c:[100+Math.cos(TH1)*18*KMOD,100+Math.sin(TH1)*18*KMOD]});
+KG.push({n:6,c:[KG[1].c[0]+Math.cos(TH2)*9*KMOD,KG[1].c[1]+Math.sin(TH2)*9*KMOD]});
+KG.forEach((g,i)=>{
+  const e=el("g",{},gearsG),rp=g.n*KMOD/2,sp=g.n>12?6:g.n>6?4:3;
+  el("path",{d:gearD(g.n,rp,KMOD),fill:`url(#g${i})`,stroke:COL[i],"stroke-opacity":.7,"stroke-width":.8},e);
+  el("circle",{r:rp*.72,fill:"none",stroke:COL[i],"stroke-opacity":.3,"stroke-width":.6},e);
+  for(let k=0;k<sp;k++){const a=k/sp*Math.PI*2;el("line",{x1:Math.cos(a)*rp*.22,y1:Math.sin(a)*rp*.22,x2:Math.cos(a)*rp*.72,y2:Math.sin(a)*rp*.72,stroke:COL[i],"stroke-opacity":.45,"stroke-width":1.2},e)}
+  el("circle",{r:rp*.2,fill:COL[i],"fill-opacity":.35,stroke:COL[i],"stroke-opacity":.7,"stroke-width":.8},e);
+  const t=el("text",{y:2.5,"text-anchor":"middle","font-size":6,fill:COL[i],"fill-opacity":.9},e);
+  t.textContent=g.n;g.el=e;
+});
+for(let i=0;i<60;i++){const a=i/60*Math.PI*2-Math.PI/2,q=i%5===0,r0=q?80:84;el("line",{x1:100+Math.cos(a)*r0,y1:100+Math.sin(a)*r0,x2:100+Math.cos(a)*88,y2:100+Math.sin(a)*88,stroke:i===0?"#f4c542":q?"#3a4590":"#232c63","stroke-width":i===0?2.6:q?1.6:.8})}
+for(let i=0;i<12;i++){const a=i/12*Math.PI*2-Math.PI/2,t=el("text",{x:100+Math.cos(a)*71,y:100+Math.sin(a)*71+3.5,"text-anchor":"middle","font-size":10,fill:"#fbf4e2","font-weight":500});t.textContent=i||12}
+const dmk=el("circle",{r:3.2,fill:"#fff",stroke:"#0a0e27","stroke-width":1});
+const hh=el("polygon",{points:"96.5,106 100,50 103.5,106",fill:"#f4c542"}),
+  mh=el("polygon",{points:"98,108 100,28 102,108",fill:"#e8e8f0"}),
+  sh=el("g",{});
+el("line",{x1:100,y1:114,x2:100,y2:22,stroke:"#4dd0e1","stroke-width":1.3,"stroke-linecap":"round"},sh);
+el("circle",{cx:100,cy:114,r:3,fill:"#4dd0e1"},sh);
+el("circle",{cx:100,cy:100,r:5,fill:"#f4c542"});
+el("circle",{cx:100,cy:100,r:2,fill:"#0a0e27"});
+el("ellipse",{cx:100,cy:58,rx:66,ry:40,fill:"url(#gl)"});
+
+function liveTuple(d){
+  const g=f=>UTC?d["getUTC"+f]():d["get"+f](),Y=g("FullYear");
+  return [Math.floor(Y/1000),Math.floor(Y/100)%10,Math.floor(Y/10)%10,Y%10,g("Month"),g("Date")-1,g("Hours"),g("Minutes"),g("Seconds"),g("Milliseconds")];
+}
+let cacc=1e9;
+function clock(dt){
+  const d=new Date(),h=d.getHours(),mi=d.getMinutes(),s=d.getSeconds()+d.getMilliseconds()/1e3;
+  hh.setAttribute("transform",`rotate(${(h%12)*30+mi*.5+s/120} 100 100)`);
+  mh.setAttribute("transform",`rotate(${mi*6+s*.1} 100 100)`);
+  sh.setAttribute("transform",`rotate(${s*6} 100 100)`);
+  const f=(h+mi/60+s/3600)/24,pA=f*Math.PI*2,
+    pB=TH1+Math.PI-Math.PI/12-(pA-TH1)*2,
+    pC=TH2+Math.PI-Math.PI/6-(pB-TH2)*2;
+  [pA,pB,pC].forEach((p,i)=>KG[i].el.setAttribute("transform",`translate(${KG[i].c[0]} ${KG[i].c[1]}) rotate(${p*180/Math.PI})`));
+  const ma=f*Math.PI*2-Math.PI/2;
+  dmk.setAttribute("cx",100+94*Math.cos(ma));
+  dmk.setAttribute("cy",100+94*Math.sin(ma));
+  cacc+=dt;if(cacc<250)return;cacc=0;
+  const day=h>=6&&h<18,r=(x,n)=>x.toFixed(n),
+    row=(a,b)=>`<div class="sum"><span>${a}</span><b>${b}</b></div>`;
+  $("hp").textContent=h;
+  $("pb").textContent=day?T("☀️ Dag","☀️ Day"):T("🌙 Nacht","🌙 Night");
+  $("pb").style.color=day?"#f4c542":"#8e9bff";
+  $("gf").innerHTML=
+    row(T("A · 24 tanden","A · 24 teeth"),`${r(f*360,1)}° · ${r(f,2)} ${T("ronde","lap")}`)+
+    row(T("B · 12 tanden","B · 12 teeth"),`${r(f*2%1*360,1)}° · ${r(f*2,2)} ${T("rondes","laps")}`)+
+    row(T("C · 6 tanden","C · 6 teeth"),`${r(f*4%1*360,1)}° · ${r(f*4,2)} ${T("rondes","laps")}`)+
+    row(T("Tanden vandaag","Teeth today"),`${r(f*24,1)} / 24`)+
+    row("m = (25−1)/12",`2 ${T("rondes van B per dag","B laps per day")}`);
+  const N=nZ(d.getTime()),days=N/86400000n;
+  $("cx").innerHTML=`${T("weekdag","weekday")} <b style="color:#f4c542">${wd()[Number((days+5n)%7n)]}</b> · ${T("dag","day")} <b style="color:#f4c542">${Number(days%2520n)}</b>/2520 · ${T("cyclus","cycle")} <b style="color:#f4c542">${days/2520n}</b><br>N <b style="color:#4dd0e1">${N}</b>`;
+  $("l-ktp").textContent=T("Klok-tuple (live, 0-based)","Clock tuple (live, 0-based)");
+  $("ktp").innerHTML=liveTuple(d).map((v,i)=>`<div class="card-t ${i<4?"":i<6?"cc":"ct"}"><b>${v}</b><small>${ul(UNITS[i])}</small></div>`).join("");
 }
 
 /* ============================================================
-   DEEL G: DAGBOEK (agenda + notities + foto's)
+   DEEL G: DAGBOEK
    ============================================================ */
 let ag=new Date(),sel=new Date(),evs={},mom={};
 const urls=[];
@@ -1059,8 +1146,9 @@ async function renderDg(){
   const o=(new Date(y,m,1).getDay()+6)%7,dim=new Date(y,m+1,0).getDate(),td=dk(new Date());
   for(let i=0;i<o;i++)h+=`<div class="cd e"></div>`;
   for(let d=1;d<=dim;d++){
-    const dt=new Date(y,m,d,12),k=dk(dt),p=toTuple(nZ(dt.getTime()))[5];
-    h+=`<div class="cd${k===td?" td":""}${k===dk(sel)?" sl":""}${evs[k]||mom[k]?" ev":""}" data-k="${k}" role="button">${d}<small>${EMO[Math.round(Number(p-1n)/30*8)%8]}${p}</small></div>`;
+    const dt=new Date(y,m,d,12),k=dk(dt),tuple=toTuple(nZ(dt.getTime()));
+    const dom=tuple[5]+1;
+    h+=`<div class="cd${k===td?" td":""}${k===dk(sel)?" sl":""}${evs[k]||mom[k]?" ev":""}" data-k="${k}" role="button">${d}<small>${EMO[Math.round(dom/30*8)%8]}${dom}</small></div>`;
   }
   $("agg").innerHTML=h;
   $("agg").querySelectorAll("[data-k]").forEach(e=>e.onclick=()=>{
@@ -1068,8 +1156,8 @@ async function renderDg(){
     const n=new Date();$("nd").value=lv(new Date(a,b-1,c,n.getHours(),n.getMinutes(),n.getSeconds()));
     renderDg();
   });
-  const k=dk(sel),p=toTuple(nZ(new Date(sel.getFullYear(),sel.getMonth(),sel.getDate(),12).getTime()))[5];
-  $("ags").textContent=`${sel.toLocaleDateString(lc,{weekday:"long",day:"numeric",month:"long"})} · ${T("modeldag","model day")} ${p}/30`;
+  const k=dk(sel),dom=toTuple(nZ(new Date(sel.getFullYear(),sel.getMonth(),sel.getDate(),12).getTime()))[5]+1;
+  $("ags").textContent=`${sel.toLocaleDateString(lc,{weekday:"long",day:"numeric",month:"long"})} · ${T("modeldag","model day")} ${dom}`;
   if(!$("lbw").classList.contains("on"))urls.splice(0).forEach(u=>URL.revokeObjectURL(u));
   let out="";
   for(const e of evs[k]||[])out+=`<div class="li"><div class="h"><span>📅 ${esc(e.time||"")} ${esc(e.text)}</span><b class="x" data-e="${e.id}" role="button" aria-label="✕">✕</b></div></div>`;
@@ -1091,7 +1179,7 @@ async function renderAllNt(){
     const tp=toTuple(BigInt(r.n)+EP);
     let im="";
     for(const ph of r.photos||[]){const u=await photoURL(ph);if(u){urls.push(u);im+=`<img src="${u}" alt="">`}}
-    h+=`<div class="li"><div class="h"><span>${fromN(BigInt(r.n)).toLocaleString(lc)}</span><b class="x" data-ax="${r.id}" role="button" aria-label="✕">✕</b></div><div class="mu">${tp[3]} · ${tp[4]}/${tp[5]} · ${tp[6]}h · N ${BigInt(r.n)+EP}</div>${r.text?`<div class="tx">${esc(r.text)}</div>`:""}${im?`<div class="ph">${im}</div>`:""}</div>`;
+    h+=`<div class="li"><div class="h"><span>${fromN(BigInt(r.n)).toLocaleString(lc)}</span><b class="x" data-ax="${r.id}" role="button" aria-label="✕">✕</b></div><div class="mu">${tp[3]} · ${tp[4]+1}/${tp[5]+1} · ${tp[6]}h · N ${BigInt(r.n)+EP}</div>${r.text?`<div class="tx">${esc(r.text)}</div>`:""}${im?`<div class="ph">${im}</div>`:""}</div>`;
   }
   const c=$("nl");c.innerHTML=h||`<div class="info">—</div>`;
   c.querySelectorAll("img").forEach(im=>im.onclick=()=>{$("lbi").src=im.src;$("lbw").classList.add("on")});
@@ -1131,7 +1219,7 @@ $("ns").onclick=async()=>{
 $("nd").value=lv(new Date());
 
 /* ============================================================
-   DEEL H: KLUIS (MRS-AUTH)
+   DEEL H: KLUIS
    ============================================================ */
 let vk=null,vt,vinfo=null;
 const b64=u=>{let s="";for(let i=0;i<u.length;i+=32768)s+=String.fromCharCode.apply(null,u.subarray(i,i+32768));return btoa(s)};
@@ -1207,7 +1295,7 @@ async function renderKv(){
 document.addEventListener("visibilitychange",()=>{if(document.hidden&&vk)setTimeout(()=>{if(document.hidden)vlock()},6e4)});
 
 /* ============================================================
-   DEEL I: INSTELLINGEN (back-up, wissen)
+   DEEL I: INSTELLINGEN
    ============================================================ */
 const bst=(t,e)=>{$("bst").textContent=t;$("bst").className="stat"+(e?" err":"")};
 $("bx").onclick=async()=>{
@@ -1260,7 +1348,7 @@ function mrsDemo(){
 $("md-n").oninput=mrsDemo;
 
 /* ============================================================
-   DEEL K: TANDWIELEN (Clock_Gears)
+   DEEL K: TANDWIELEN
    ============================================================ */
 const TX = {
   en: {
@@ -1289,7 +1377,11 @@ const TX = {
     alignMsg:'FULL SYNCHRONIZATION',
     alignSub:'7,000 YEARS · SYNCHRONIZED AT d=1 (Mod 9)',
     anchorTitle:'The Anchor of the Real Calendar',
-    anchorText:'One might object that a year is not exactly 360 or 365 days. Yet this does not weaken the theory; it confirms it. Whether one counts 360, 365, or 366 days, the leap cycle acts as the true anchor. Our 7,000-year cycle synchronizes perfectly with this universal correction.'
+    anchorText:'A year counts 365 days in the real calendar, not 360. 360 is the flat, closed circle (60 × 6), without beginning or end. Time is a spiral: after a full cycle you arrive one level higher. That is why the basis of the calendar is 365, and the +1 (leap day) is the jump to the next level: '+
+      '4 × 365 + 1 = 1461 ≡ 1 (mod 365). For the full 8-year cycle: '+
+      '2 × (4 × 365 + 1) = 2922 elapsed days, and the new cycle begins at 2923 '+
+      '(2923 ≡ 1 (mod 1461)). If a century year without a leap day (such as 2100) falls '+
+      'inside the cycle, the number of elapsed days is 2921.'
   },
   nl: {
     lang:'nl',loc:'nl-NL',btn:'EN',
@@ -1317,7 +1409,11 @@ const TX = {
     alignMsg:'VOLLEDIGE SYNCHRONISATIE',
     alignSub:'7.000 JAAR · GESYNCHRONISEERD OP d=1 (Mod 9)',
     anchorTitle:'Het anker van de echte kalender',
-    anchorText:'Men zou kunnen tegenwerpen dat een jaar niet precies 360 of 365 dagen duurt. Toch verzwakt dit de theorie niet; het bevestigt haar. Of men nu 360, 365 of 366 dagen telt, de schrikkelcyclus fungeert als het ware anker. Onze 7000-jaarcyclus synchroniseert perfect met deze universele correctie.'
+    anchorText:'Een jaar telt 365 dagen in de echte kalender, niet 360. 360 is de platte, gesloten cirkel (60 × 6), zonder begin of eind. De tijd is een spiraal: na een volledige cyclus kom je één niveau hoger. Daarom is de basis van de kalender 365, en de +1 (schrikkeldag) is de sprong naar het volgende niveau: '+
+      '4 × 365 + 1 = 1461 ≡ 1 (mod 365). Voor de volledige 8-jaarlijkse cyclus: '+
+      '2 × (4 × 365 + 1) = 2922 verstreken dagen, en de nieuwe cyclus begint op 2923 '+
+      '(2923 ≡ 1 (mod 1461)). Valt een eeuwjaar zonder schrikkeldag (zoals 2100) in de '+
+      'cyclus, dan is het aantal verstreken dagen 2921.'
   }
 };
 const TXGet=()=>TX[L];
@@ -1420,7 +1516,6 @@ function updateGearColors(){
     if(numLabel)numLabel.setAttribute('fill',color);
   });
 }
-/* Dualistische dagklok */
 const clockSvg=document.getElementById('clock');
 let clockRotation=0;
 function buildClockGears(){
@@ -1463,7 +1558,6 @@ function updateClockGears(now){
   const hand=document.getElementById('clockHand');
   if(hand)hand.setAttribute('transform',`rotate(${angle*180/Math.PI}, 200, 200)`);
 }
-/* Ketting p ≡ 1 (mod q) */
 const cs=document.getElementById('cs'),R0=165;
 let CQ=9,CM=2,CH=null,chCur=-2,ctt=0;
 const RING=['#8f1a2e','#b3243b','#d9a0ab','#f1e8e8'];
@@ -1475,38 +1569,27 @@ function sector(r0,r1,t0,t1){
 function buildChain(){
   const q=CQ,m=CM,mq=m*q,step=2*PI/q;
   const dr=Math.min(40,(R0-30)/m),w=dr*.8,pr=R0;
-  const fs=Math.max(7,Math.min(11,2*PI*(R0-(m-1)*dr)/q*.34));
+  const rad=k=>pr-(m-k)*dr;
+  const fs=Math.max(7,Math.min(11,2*PI*(pr-m*dr)/q*.34));
   let h=`<defs><filter id="bglow" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>`;
   h+=`<circle cx="0" cy="0" r="${pr+w/2+22}" fill="none" stroke="#2b4478" stroke-width="1"/>`;
-  for(let k=0;k<m;k++)h+=`<circle cx="0" cy="0" r="${pr-k*dr}" fill="none" stroke="#ece7f3" stroke-opacity=".12" stroke-width="${w+4}"/>`;
+  for(let k=0;k<m;k++)h+=`<circle cx="0" cy="0" r="${rad(k)}" fill="none" stroke="#ece7f3" stroke-opacity=".12" stroke-width="${w+4}"/>`;
   h+=`<g font-family="system-ui,sans-serif" text-anchor="middle">`;
   const e0=polar(pr+w/2+4,0),e1=polar(pr-m*dr,0);
   h+=`<line x1="${e0[0]}" y1="${e0[1].toFixed(1)}" x2="${e1[0]}" y2="${e1[1].toFixed(1)}" stroke="#ece7f3" stroke-opacity=".35" stroke-dasharray="3 4"/>`;
-  
-  // BELANGRIJKE WIJZIGING: Ringen lopen nu van BUITEN (1) naar BINNEN (9)
   for(let v=1;v<=mq;v++){
-    const k=Math.floor((v-1)/q), i=(v-1)%q; 
-    // r: de buitenste ring is de LAAGSTE k (0), dus r = pr - k*dr
-    const r=pr-k*dr; 
+    const k=Math.floor((v-1)/q),i=(v-1)%q,r=rad(k);
     const angle=(i/q)*2*Math.PI-Math.PI/2;
     const g=Math.min(.05,step*.12),c=polar(r,angle);
     h+=`<g id="cl${v}"><path d="${sector(r-w/2,r+w/2,angle-step/2+g,angle+step/2-g)}" fill="${RING[k%4]}" stroke="${RING[k%4]}" stroke-width="2.4" stroke-linejoin="round"/><text x="${c[0].toFixed(1)}" y="${(c[1]+fs*.35).toFixed(1)}" font-size="${fs}" font-weight="bold" fill="${k<2?'#f7f3ff':'#0a1736'}">${v}</text></g>`;
     const pin=polar(r,angle+step/2);
     h+=`<circle cx="${pin[0].toFixed(1)}" cy="${pin[1].toFixed(1)}" r="1.6" fill="#050b1a"/>`;
   }
-  
-  // De +1 sprong stip (op de plek van 1, maar dan 1 stap verder naar binnen)
-  const prIn=pr-m*dr,pc=polar(prIn,-Math.PI/2);
+  const pc=polar(pr,-Math.PI/2);
   h+=`<g id="cl${mq+1}"><circle cx="${pc[0]}" cy="${pc[1].toFixed(1)}" r="${(w/2+1).toFixed(1)}" fill="#fbf7ff" stroke="#fbf7ff" stroke-width="2"/><text x="${pc[0]}" y="${(pc[1]+fs*.35).toFixed(1)}" font-size="${fs}" font-weight="bold" fill="#0a1736">${mq+1}</text></g>`;
-  
-  // Pad van de stip (spiraal van buiten naar binnen)
   const pts=[],N=mq*10;
   for(let j=0;j<=N;j++){
-    const u=j/10; 
-    // u loopt van 0 naar mq
-    const angle=(u/q)*2*Math.PI-Math.PI/2;
-    const r=pr-(u/q)*dr;
-    const p=polar(r,angle);
+    const u=j/10,angle=(u/q)*2*Math.PI-Math.PI/2,r=pr-m*dr+(u/q)*dr,p=polar(r,angle);
     pts.push(p[0].toFixed(1)+' '+p[1].toFixed(1));
   }
   h+=`<path d="M${pts.join('L')}" fill="none" stroke="#ece7f3" stroke-opacity=".3" stroke-dasharray="2 3"/>`;
@@ -1530,15 +1613,9 @@ function updateChain(dt,T){
   const {q,m,mq,dr,pr,pts}=CH,rate=1.5,hold=1.4,Tt=mq/rate+hold;
   if(!paused)ctt=(((ctt+dir*dt*speed)%Tt)+Tt)%Tt;
   const u=Math.min(ctt*rate,mq),jumped=ctt*rate>=mq;
-  
-  // Buiten naar binnen
-  const angle=(u/q)*2*Math.PI-Math.PI/2;
-  const r=pr-(u/q)*dr;
-  const p=polar(r,angle);
-  
+  const angle=(u/q)*2*Math.PI-Math.PI/2,r=pr-m*dr+(u/q)*dr,p=polar(r,angle);
   document.getElementById('cbead').setAttribute('cx',p[0].toFixed(1));
   document.getElementById('cbead').setAttribute('cy',p[1].toFixed(1));
-  
   const idx=Math.min(pts.length-1,Math.floor(u*10));
   document.getElementById('cpath').setAttribute('d',idx>0?'M'+pts.slice(0,idx+1).join('L'):'');
   const cur=jumped?mq+1:Math.min(mq,Math.round(u)+1);
@@ -1683,7 +1760,7 @@ function frame(now){
 }
 
 /* ============================================================
-   DEEL L: PATRONEN (Digital_Root_Patterns)
+   DEEL L: PATRONEN
    ============================================================ */
 const qInput=document.getElementById('qInput');
 const presetSelect=document.getElementById('presetSelect');
@@ -1847,21 +1924,21 @@ buildGrid();
 updateVisualization(7);
 
 /* ============================================================
-   DEEL M: TAAL (centrale schakelaar)
+   DEEL M: TAAL
    ============================================================ */
 const I=[
   ["#sub","De Architectuur van de Klok","The Architecture of the Clock"],
   ["#nv [data-t=sp] span","Spiraal","Spiral"],
   ["#nv [data-t=kl] span","Klok","Clock"],
   ["#nv [data-t=tw] span","Tandwielen","Gears"],
-  ["#nv [data-t=pt] span","Patronen","Patterns"],
+  ["#nv [data-t=bj] span","Bijectie","Bijection"],
   ["#nv [data-t=in] span","Tools","Tools"],
   ["#mode option:nth-child(1)","Wereldtijd (kalender)","World time (calendar)"],
-  ["#mode option:nth-child(2)","Mijn leven (70 jaar)","My life (70 years)"],
+  ["#mode option:nth-child(2)","Mijn leven (100 jaar)","My life (100 years)"],
   ["#bc","Bereken","Calculate"],
   ["#br","↺ Wis","↺ Clear"],
-  ["#l-b1","Milliseconden (N) ↔ datum ↔ klok-tuple","Milliseconds (N) ↔ date ↔ clock tuple"],
-  ["#l-b2","Klok-tuple → N","Clock tuple → N"],
+  ["#l-b1","Milliseconden (N) ↔ datum ↔ tuple (0-based)","Milliseconds (N) ↔ date ↔ tuple (0-based)"],
+  ["#l-b2","Tuple (0-based) → N","Tuple (0-based) → N"],
   ["#go2","Bereken N","Calculate N"],
   ["#nw","Nu","Now"],
   ["#l-new","Nieuwe notitie","New note"],
