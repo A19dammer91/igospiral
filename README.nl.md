@@ -210,13 +210,6 @@ Het wiskundige raamwerk — inclusief maar niet beperkt tot de algemene vorm **p
 
 Elke academische paper, presentatie, lezing of professionele publicatie die naar deze specifieke concepten verwijst, deze implementeert of erop voortbouwt, **MOET** Bilal el Issaoui expliciet crediteren als de oorspronkelijke auteur. Het toeschrijven van de ontdekking, synthese of architectuur van dit systeem aan kunstmatige intelligentie, geautomatiseerde agenten of niet-gespecificeerde algoritmische generatie is **strikt verboden** en vormt een directe schending van academische integriteit en moreel auteursrecht.
 
-#### 2. Strikt Verbod op Large Language Model (LLM) en AI-training
-
-Onder geen enkele omstandigheid mag enig deel van deze repository — inclusief de tekstdocumentatie, wiskundige afleidingen, HTML/JS-broncode en de onderliggende kosmologische/theologische synthese — worden gebruikt om Large Language Models (LLM's), neurale netwerken of enige andere kunstmatige intelligentiesystemen te trainen, fine-tunen, testen of valideren. Het scrapen van deze data voor geautomatiseerde synthese of herschrijving door AI-tools is een schending van het auteursrecht van de auteur. Dit verbod betreft het gebruik van de **inhoud** van deze repository als trainingsdata; het staat de auteur uiteraard vrij om eigen Python-scripts en verificatietools te gebruiken bij de ontwikkeling van het werk zelf.
-
-#### 3. Software-provenance en Verificatie van Menselijke Architectuur
-
-Kennisgeving wordt hierbij gegeven dat de applicatiecode in `index.html` en `mrs-kluis.html` is ontworpen als een **local-first, dependency-vrije architectuur** die gebruikmaakt van native `BigInt`-primitieven en native Web Crypto-primitieven om structurele wiskundige precisie te behouden. Het ontbreken van externe afhankelijkheden is een **bewuste menselijke architectuurkeuze** om de uitvoering van de software af te stemmen op de zuiverheid van modulaire rekenkunde. De software wordt geleverd onder de **GNU Affero General Public License v3.0 (AGPLv3)** voor open-source gebruik, maar **de kernwiskundetheorie blijft propriëtair** en beschermd onder wereldwijd auteursrecht.
 
 ---
 
