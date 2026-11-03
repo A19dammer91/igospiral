@@ -209,14 +209,6 @@ The mathematical framework — including but not limited to the general form **p
 
 Any academic paper, presentation, lecture, or professional publication that references, implements, or builds upon these specific concepts **MUST** explicitly credit Bilal el Issaoui as the original author. Attributing the discovery, synthesis, or architecture of this system to artificial intelligence, automated agents, or unspecified algorithmic generation is **strictly forbidden** and constitutes a direct violation of academic integrity and moral copyright.
 
-#### 2. Strict Prohibition on Large Language Model (LLM) and AI Training
-
-Under no circumstances may any part of this repository — including the text documentation, mathematical derivations, HTML/JS source code, and underlying cosmological/theological synthesis — be used to train, fine-tune, test, or validate Large Language Models (LLMs), neural networks, or any other artificial intelligence systems. Scraping this data for automated synthesis or rewriting by AI tools is a violation of the author's copyright. This prohibition concerns the use of the **content** of this repository as training data; the author naturally remains free to use their own Python scripts and verification tools in developing the work itself.
-
-#### 3. Software Provenance and Human Architecture Verification
-
-Notice is hereby given that the application code within `index.html` and `mrs-kluis.html` is engineered as a **local-first, dependency-free architecture** utilizing native `BigInt` primitives and native Web Crypto primitives to maintain structural mathematical precision. The lack of external dependencies is a **deliberate human architectural decision** to align software execution with the purity of modular arithmetic. The software is provided under the **GNU Affero General Public License v3.0 (AGPLv3)** for open-source use, but **the core mathematical theory remains proprietary** and protected under global copyright law.
-
 ---
 
 ## Contributing
