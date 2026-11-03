@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+<title>MRS-AUTH · Offline Kluis & Chat</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --burgundy: #6B1A2A; --burgundy-md: #8B2236; --burgundy-lt: #A93347;
+  --navy: #0F2545; --navy-md: #1A3A6B; --navy-lt: #2C5282;
+  --steel: #4A6FA5; --steel-lt: #7A9FCC;
+  --white: #FFFFFF; --off: #F7F6F3; --light: #EDEEF2; --mid: #C4CAD8;
+  --dark: #1A1C22; --muted: #6B7280; --soft: #9BA3B0;
+  --gold: #B8943F; --ok: #1A6B45; --err: #8B1A1A;
+  --sh1: 0 1px 4px rgba(15,37,69,.07); --sh2: 0 4px 16px rgba(15,37,69,.10); --sh3: 0 12px 40px rgba(15,37,69,.14);
+  --sidebar-w: 240px; --topbar-h: 60px; --bottom-nav-h: 64px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; -webkit-tap-highlight-color: transparent; }
+body { font-family: 'DM Sans', sans-serif; background: var(--off); color: var(--dark); min-height: 100vh; overflow-x: hidden; }
+button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 3px solid var(--navy-lt); outline-offset: 2px; }
+
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+@keyframes up    { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+@keyframes pop   { from{opacity:0;transform:translateY(5px)}  to{opacity:1;transform:none} }
+@keyframes spin  { to{transform:rotate(360deg)} }
+
+/* LOGIN */
+#login-screen { display: flex; position: fixed; inset: 0; z-index: 1000; background: var(--navy); background-image: radial-gradient(ellipse at 15% 85%, rgba(107,26,42,0.35) 0%, transparent 55%), radial-gradient(ellipse at 85% 15%, rgba(74,111,165,0.2) 0%, transparent 55%); align-items: center; justify-content: center; padding: 24px; }
+.login-card { width: 100%; max-width: 400px; background: var(--white); border-radius: 20px; box-shadow: 0 24px 80px rgba(0,0,0,0.35); overflow: hidden; }
+.login-top { background: var(--navy); padding: 32px 28px 26px; position: relative; overflow: hidden; }
+.login-top::before { content: ''; position: absolute; bottom: -40px; right: -40px; width: 150px; height: 150px; border-radius: 50%; background: rgba(107,26,42,0.3); }
+.login-brand { display: flex; align-items: center; gap: 13px; margin-bottom: 20px; position: relative; z-index: 1; }
+.login-ico { width: 44px; height: 44px; background: linear-gradient(135deg, var(--burgundy), var(--burgundy-lt)); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px; box-shadow: 0 4px 14px rgba(107,26,42,0.5); }
+.login-nm { font-family:'Cormorant Garamond',serif; font-size:21px; font-weight:600; color:white; letter-spacing:0.02em; }
+.login-sb { font-size:9px; color:var(--steel-lt); letter-spacing:0.14em; text-transform:uppercase; margin-top:2px; }
+.login-title { font-family:'Cormorant Garamond',serif; font-size:27px; font-weight:500; color:white; line-height:1.2; position:relative; z-index:1; }
+.login-sub { font-size:11px; color:var(--steel-lt); margin-top:5px; position:relative; z-index:1; letter-spacing:0.04em; }
+.login-body { padding:26px 28px 30px; }
+.lbl { display:block; font-size:10px; font-weight:500; color:var(--muted); letter-spacing:0.1em; text-transform:uppercase; margin-bottom:6px; margin-top:14px; }
+.lbl:first-child { margin-top:0; }
+.linp { width: 100%; background: var(--off); border: 1.5px solid var(--light); color: var(--dark); font-family: 'DM Sans', sans-serif; font-size: 16px; padding: 12px 14px; outline: none; border-radius: 10px; transition: border-color 0.2s, box-shadow 0.2s; -webkit-appearance: none; }
+.linp:focus { border-color:var(--navy-lt); box-shadow:0 0 0 3px rgba(44,82,130,0.12); background:var(--white); }
+.linp::placeholder { color:var(--soft); }
+.l-hint { font-size:11px; color:var(--soft); margin-top:6px; line-height:1.5; }
+.l-btn { width: 100%; padding: 14px; margin-top: 22px; background: var(--navy); color: white; border: none; font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500; letter-spacing: 0.05em; cursor: pointer; border-radius: 11px; transition: all 0.2s; box-shadow: var(--sh2); }
+.l-btn:hover { background:var(--navy-md); box-shadow:var(--sh3); }
+.l-btn:active { transform:scale(0.98); }
+.l-btn:disabled { opacity:0.35; cursor:not-allowed; }
+.l-feats { margin-top:18px; display:flex; flex-direction:column; gap:7px; }
+.l-feat { display:flex; align-items:center; gap:8px; font-size:11px; color:var(--soft); }
+.lfdot { width:5px; height:5px; border-radius:50%; background:var(--burgundy-lt); flex-shrink:0; }
+
+/* SIDEBAR */
+.sidebar { position: fixed; left: 0; top: 0; width: var(--sidebar-w); height: 100vh; background: var(--navy); display: flex; flex-direction: column; z-index: 200; box-shadow: var(--sh3); transition: transform 0.3s ease; }
+.brand { padding: 26px 22px 20px; border-bottom: 1px solid rgba(255,255,255,0.07); display: flex; align-items: center; gap: 13px; }
+.brand-icon { width: 38px; height: 38px; background: linear-gradient(135deg, var(--burgundy), var(--burgundy-lt)); border-radius: 9px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 17px; box-shadow: 0 3px 10px rgba(107,26,42,0.4); }
+.brand-name { font-family:'Cormorant Garamond',serif; font-size:17px; font-weight:600; color:white; letter-spacing:0.02em; line-height:1.15; }
+.brand-sub { font-size:9.5px; color:var(--steel-lt); letter-spacing:0.14em; text-transform:uppercase; margin-top:2px; }
+.sb-user { margin: 12px 12px 0; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 10px 12px; display: flex; align-items: center; gap: 10px; }
+.sb-av { width: 32px; height: 32px; background: linear-gradient(135deg, var(--burgundy), var(--burgundy-lt)); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Cormorant Garamond', serif; font-size: 14px; font-weight: 600; color: white; flex-shrink: 0; }
+.sb-info { flex:1; min-width:0; }
+.sb-name { font-size:13px; font-weight:500; color:white; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.sb-kamer { font-size:10px; color:var(--steel-lt); letter-spacing:0.04em; }
+.sb-dot { width: 7px; height: 7px; background: #3FB87A; border-radius: 50%; flex-shrink: 0; box-shadow: 0 0 5px rgba(63,184,122,0.6); animation: blink 2.5s ease-in-out infinite; }
+.nav { flex: 1; padding: 14px 12px; display: flex; flex-direction: column; gap: 2px; overflow-y: auto; }
+.nav::-webkit-scrollbar { width:4px; }
+.nav::-webkit-scrollbar-thumb { background:rgba(255,255,255,0.1); border-radius:4px; }
+.nav-label { font-size: 9.5px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.28); padding: 10px 10px 4px; }
+.nav-btn { display: flex; align-items: center; gap: 11px; padding: 10px 12px; border-radius: 8px; cursor: pointer; transition: all 0.16s; color: rgba(255,255,255,0.55); font-size: 13px; font-weight: 400; border: none; background: none; width: 100%; text-align: left; }
+.nav-btn svg  { width:15px; height:15px; flex-shrink:0; opacity:0.75; }
+.nav-btn:hover { background:rgba(255,255,255,0.07); color:rgba(255,255,255,0.9); }
+.nav-btn.active { background: rgba(107,26,42,0.35); color: white; font-weight: 500; border-left: 2px solid var(--burgundy-lt); }
+.nav-badge { margin-left: auto; background: var(--burgundy); color: white; font-size: 10px; font-weight: 600; padding: 1px 7px; border-radius: 10px; min-width: 18px; text-align: center; }
+.sb-foot { padding:14px 22px; border-top:1px solid rgba(255,255,255,0.07); }
+.motor-dot { display:flex; align-items:center; gap:8px; font-size:11px; color:rgba(255,255,255,0.3); }
+.dot { width:7px; height:7px; border-radius:50%; background:#3FB87A; box-shadow:0 0 6px rgba(63,184,122,0.6); animation:blink 2.5s ease-in-out infinite; }
+.logout-lnk { margin-top:10px; display:flex; align-items:center; gap:7px; font-size:12px; color:rgba(255,255,255,0.3); cursor:pointer; transition:color 0.15s; background:none; border:none; width:100%; text-align:left; padding:0; }
+.logout-lnk:hover { color:rgba(255,255,255,0.7); }
+
+/* MAIN / TOPBAR */
+.main { margin-left:var(--sidebar-w); min-height:100vh; display:flex; flex-direction:column; }
+.topbar { background: var(--white); border-bottom: 1px solid var(--light); height: var(--topbar-h); padding: 0 28px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; box-shadow: var(--sh1); }
+.topbar-left  { display:flex; align-items:center; gap:12px; }
+.hamburger    { display:none; background:none; border:none; cursor:pointer; padding:6px; color:var(--navy); }
+.hamburger svg { width:22px; height:22px; }
+.page-title   { font-family:'Cormorant Garamond',serif; font-size:20px; font-weight:500; color:var(--navy); }
+.topbar-right { display:flex; align-items:center; gap:10px; }
+.n-pill { background: var(--light); border: 1px solid var(--mid); border-radius: 20px; padding: 4px 12px; font-size: 12px; color: var(--muted); font-weight: 500; }
+.n-pill b { color:var(--burgundy); }
+.enc-badge { display: flex; align-items: center; gap: 5px; background: rgba(26,107,69,0.08); border: 1px solid rgba(26,107,69,0.2); border-radius: 20px; padding: 4px 12px; font-size: 11px; color: var(--ok); font-weight: 500; }
+.content { flex:1; padding:24px 28px; max-width:960px; width:100%; }
+
+/* PANELS */
+.panel { display:none; }
+.panel.active { display:block; animation:up 0.25s ease; }
+
+/* STATS */
+.stat-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; margin-bottom: 24px; }
+.stat-card { background: var(--white); border: 1px solid var(--light); border-radius: 12px; padding: 18px; box-shadow: var(--sh1); position: relative; overflow: hidden; transition: box-shadow 0.2s; }
+.stat-card:hover { box-shadow:var(--sh2); }
+.stat-card::before { content:''; position:absolute; top:0; left:0; width:3px; height:100%; }
+.stat-card.c1::before { background:var(--burgundy); }
+.stat-card.c2::before { background:var(--navy-md); }
+.stat-card.c3::before { background:var(--gold); }
+.stat-card.c4::before { background:var(--steel); }
+.stat-ico { font-size:22px; margin-bottom:8px; }
+.stat-lbl { font-size:10px; text-transform:uppercase; letter-spacing:0.1em; color:var(--soft); margin-bottom:5px; }
+.stat-val { font-family:'Cormorant Garamond',serif; font-size:30px; font-weight:600; color:var(--navy); line-height:1; }
+.stat-sub { font-size:11px; color:var(--soft); margin-top:4px; }
+
+/* CARDS */
+.card { background:var(--white); border:1px solid var(--light); border-radius:14px; box-shadow:var(--sh1); overflow:hidden; margin-bottom:20px; }
+.card-head { padding: 16px 22px; border-bottom: 1px solid var(--light); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+.card-title { font-family:'Cormorant Garamond',serif; font-size:17px; font-weight:500; color:var(--navy); }
+.card-body  { padding:20px 22px; }
+
+/* BADGES */
+.badge { font-size:10.5px; padding:3px 10px; border-radius:20px; font-weight:500; letter-spacing:0.04em; white-space:nowrap; }
+.b-red   { background:rgba(107,26,42,.08);  color:var(--burgundy); border:1px solid rgba(107,26,42,.15); }
+.b-navy  { background:rgba(15,37,69,.07);   color:var(--navy-md);  border:1px solid rgba(15,37,69,.12); }
+.b-gold  { background:rgba(184,148,63,.09); color:var(--gold);     border:1px solid rgba(184,148,63,.2); }
+.b-ok    { background:rgba(26,107,69,.07);  color:var(--ok);       border:1px solid rgba(26,107,69,.15); }
+.b-steel { background:rgba(74,111,165,.08); color:var(--steel);    border:1px solid rgba(74,111,165,.2); }
+
+/* DASHBOARD STRIP + ACTIVITEIT + SEC-METER (toegevoegd) */
+.dash-strip {
+  background: linear-gradient(135deg, var(--navy), var(--navy-md));
+  border-radius: 14px; padding: 20px 24px; margin-bottom: 20px;
+  color: white; display: flex; align-items: center; justify-content: space-between;
+  gap: 16px; box-shadow: var(--sh2);
+}
+.ds-left h2 { font-family:'Cormorant Garamond',serif; font-size:22px; font-weight:500; margin-bottom:4px; }
+.ds-left p  { font-size:12px; color:var(--steel-lt); line-height:1.5; }
+.ds-enc {
+  background: rgba(63,184,122,0.15); border: 1px solid rgba(63,184,122,0.3);
+  border-radius: 8px; padding: 8px 14px; font-size: 11px; color: #3FB87A;
+  text-align: center; line-height: 1.5; flex-shrink: 0;
+}
+.sec-meter { display:flex; align-items:center; gap:8px; margin-top:8px; }
+.sec-bar   { flex:1; height:6px; background:var(--light); border-radius:6px; overflow:hidden; }
+.sec-fill  { height:100%; border-radius:6px; }
+.act-list  { display:flex; flex-direction:column; }
+.act-item  { display:flex; align-items:flex-start; gap:12px; padding:12px 0; border-bottom:1px solid var(--light); }
+.act-item:last-child { border-bottom:none; }
+.act-ico   { width:32px; height:32px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:14px; flex-shrink:0; }
+.ai-blue   { background:rgba(15,37,69,0.08); }
+.ai-red    { background:rgba(107,26,42,0.08); }
+.ai-gold   { background:rgba(184,148,63,0.1); }
+.ai-green  { background:rgba(26,107,69,0.08); }
+.act-text  { flex:1; }
+.act-title { font-size:13px; font-weight:500; color:var(--dark); margin-bottom:2px; }
+.act-sub   { font-size:11px; color:var(--soft); }
+.act-time  { font-size:10px; color:var(--soft); white-space:nowrap; }
+
+/* FORMS */
+.row   { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:14px; }
+.row-1 { grid-template-columns:1fr; }
+.row-3 { grid-template-columns:1fr 1fr 1fr; }
+.field { display:flex; flex-direction:column; gap:6px; }
+.field label { font-size:11px; font-weight:500; color:var(--muted); letter-spacing:0.06em; text-transform:uppercase; }
+.field input, .field textarea, .field select { padding: 10px 13px; border: 1.5px solid var(--light); border-radius: 8px; font-family: 'DM Sans', sans-serif; font-size: 14px; color: var(--dark); background: var(--off); outline: none; transition: all 0.15s; -webkit-appearance: none; }
+.field input:focus, .field textarea:focus { border-color:var(--navy-lt); background:var(--white); box-shadow:0 0 0 3px rgba(26,58,107,.07); }
+.field textarea { resize:vertical; min-height:80px; }
+
+/* BUTTONS */
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 11px 20px; border-radius: 9px; font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.16s; border: none; letter-spacing: 0.01em; white-space: nowrap; }
+.btn-primary { background:var(--burgundy); color:white; box-shadow:0 2px 8px rgba(107,26,42,.3); }
+.btn-primary:hover { background:var(--burgundy-md); transform:translateY(-1px); box-shadow:0 4px 14px rgba(107,26,42,.38); }
+.btn-navy    { background:var(--navy); color:white; box-shadow:0 2px 8px rgba(15,37,69,.25); }
+.btn-navy:hover { background:var(--navy-md); transform:translateY(-1px); }
+.btn-ghost   { background:none; color:var(--navy); border:1.5px solid var(--mid); }
+.btn-ghost:hover { border-color:var(--navy-lt); background:var(--light); }
+.btn-danger  { background:var(--err); color:white; }
+.btn-danger:hover { background:#A02020; }
+.btn-sm      { padding:6px 13px; font-size:12px; }
+.btn-full    { width:100%; justify-content:center; }
+.btn.loading { pointer-events:none; opacity:0.7; }
+.btn svg     { width:15px; height:15px; }
+.spin { width:14px; height:14px; border:2px solid rgba(255,255,255,.3); border-top-color:white; border-radius:50%; animation:spin .7s linear infinite; flex-shrink:0; }
+
+/* RESULT BOX */
+.rbox { background: var(--off); border: 1px solid var(--light); border-radius: 10px; padding: 16px 18px; margin-top: 18px; display: none; animation: up 0.22s ease; }
+.rbox.show    { display:block; }
+.rbox.ok-box  { border-color:rgba(26,107,69,.22);  background:rgba(26,107,69,.03); }
+.rbox.err-box { border-color:rgba(139,26,26,.22); background:rgba(139,26,26,.03); }
+.rbox-title { font-size:11.5px; font-weight:600; letter-spacing:0.07em; text-transform:uppercase; margin-bottom:12px; display:flex; align-items:center; gap:6px; }
+.rbox-title.ok { color:var(--ok); }
+.rbox-title.er { color:var(--err); }
+.rrow { display:flex; justify-content:space-between; align-items:flex-start; padding:7px 0; border-bottom:1px solid var(--light); gap:16px; }
+.rrow:last-child { border-bottom:none; }
+.rkey { font-size:12px; color:var(--soft); font-weight:500; min-width:140px; flex-shrink:0; }
+.rval { font-size:13px; color:var(--dark); font-weight:500; text-align:right; word-break:break-all; }
+.rval.mono { font-family:monospace; font-size:11px; color:var(--navy-md); }
+.rval.good { color:var(--ok); }
+.rval.bad  { color:var(--err); }
+
+/* KLUIS TABLE */
+.ktable { width:100%; border-collapse:collapse; }
+.ktable th { font-size:10.5px; text-transform:uppercase; letter-spacing:0.09em; color:var(--soft); font-weight:500; padding:10px 16px; text-align:left; border-bottom:2px solid var(--light); background:var(--off); }
+.ktable td { padding:12px 16px; font-size:13px; border-bottom:1px solid var(--light); vertical-align:middle; }
+.ktable tr:hover td { background:rgba(15,37,69,.02); }
+.ktable tr:last-child td { border-bottom:none; }
+.empty-st { text-align:center; padding:50px 20px; color:var(--soft); }
+.empty-st svg { width:36px; height:36px; opacity:.25; margin:0 auto 10px; display:block; }
+.empty-st p { font-size:13.5px; }
+
+/* SPEC GRID */
+.spec-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.spec-item { background:var(--off); border:1px solid var(--light); border-radius:10px; padding:14px 16px; }
+.spec-part { font-size:9.5px; text-transform:uppercase; letter-spacing:0.12em; color:var(--burgundy); font-weight:600; margin-bottom:4px; }
+.spec-name { font-size:13.5px; font-weight:500; color:var(--navy); margin-bottom:3px; }
+.spec-desc { font-size:12px; color:var(--soft); line-height:1.5; }
+.divider   { height:1px; background:var(--light); margin:20px 0; }
+
+/* WARN / INFO */
+.warn { margin-top: 12px; padding: 11px 14px; background: rgba(139,26,26,.04); border: 1px solid rgba(139,26,26,.14); border-radius: 8px; font-size: 12px; color: var(--err); display: flex; align-items: flex-start; gap: 8px; line-height: 1.6; }
+.info-box { padding: 12px 16px; border-radius: 8px; background: rgba(15,37,69,0.05); border: 1px solid rgba(15,37,69,0.12); font-size: 12px; color: var(--navy-md); line-height: 1.6; margin-bottom: 16px; }
+.info-box.ok-box { background:rgba(26,107,69,0.04); border-color:rgba(26,107,69,0.15); color:var(--ok); }
+
+/* CHAT */
+.chat-container { display: flex; flex-direction: column; height: 520px; background: var(--white); border-radius: 14px; overflow: hidden; border: 1px solid var(--light); box-shadow: var(--sh1); }
+.chat-hdr { background: var(--navy); padding: 12px 18px; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
+.chat-hdr-l { display:flex; align-items:center; gap:10px; }
+.chat-av { width: 34px; height: 34px; background: linear-gradient(135deg, var(--burgundy), var(--burgundy-lt)); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Cormorant Garamond', serif; font-size: 15px; font-weight: 600; color: white; flex-shrink: 0; }
+.chat-hdr-name { font-family:'Cormorant Garamond',serif; font-size:16px; font-weight:600; color:white; }
+.chat-hdr-room { font-size:10px; color:var(--steel-lt); display:flex; align-items:center; gap:5px; }
+.chat-live     { width:5px; height:5px; background:#3FB87A; border-radius:50%; animation:blink 2.5s infinite; box-shadow:0 0 5px rgba(63,184,122,0.6); }
+.chat-enc      { font-size:9px; color:var(--steel-lt); letter-spacing:0.05em; text-align:right; line-height:1.5; }
+.chat-tabs-bar { display:flex; border-bottom:1px solid var(--light); background:var(--off); flex-shrink:0; }
+.chat-tab { padding:10px 18px; font-size:12px; font-weight:500; color:var(--muted); cursor:pointer; transition:all 0.15s; border-bottom:2px solid transparent; user-select:none; }
+.chat-tab.active { color:var(--navy); border-bottom-color:var(--burgundy); background:var(--white); }
+.chat-tab:hover:not(.active) { color:var(--dark); background:var(--light); }
+.chat-room-bar { background:rgba(26,107,69,0.05); border-bottom:1px solid rgba(26,107,69,0.12); padding:7px 16px; font-size:11px; color:var(--ok); display:flex; align-items:center; gap:6px; flex-shrink:0; }
+.messages { flex:1; overflow-y:auto; padding:16px; display:flex; flex-direction:column; gap:8px; -webkit-overflow-scrolling:touch; overscroll-behavior:contain; background:var(--off); }
+.messages::-webkit-scrollbar { width:4px; }
+.messages::-webkit-scrollbar-thumb { background:var(--mid); border-radius:4px; }
+.msg-empty-st { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; color:var(--soft); text-align:center; padding:32px; pointer-events:none; }
+.msg-empty-ico { font-size:38px; opacity:0.3; }
+.msg-empty-st p { font-size:13px; line-height:1.6; color:var(--muted); }
+.msg-wrap  { display:flex; flex-direction:column; max-width:75%; animation:pop 0.17s ease; }
+.msg-wrap.me   { align-self:flex-end;   align-items:flex-end; }
+.msg-wrap.them { align-self:flex-start; align-items:flex-start; }
+.msg-sender { font-size:10px; color:var(--muted); margin-bottom:3px; padding:0 4px; font-weight:500; }
+.msg-bubble { padding:10px 14px; font-size:14px; line-height:1.5; word-break:break-word; box-shadow:var(--sh1); }
+.me   .msg-bubble { background:var(--navy); color:white; border-radius:14px 14px 3px 14px; }
+.them .msg-bubble { background:var(--white); color:var(--dark); border:1px solid var(--light); border-radius:14px 14px 14px 3px; }
+.msg-time  { font-size:10px; color:var(--soft); margin-top:3px; padding:0 4px; }
+.chat-input-area { border-top:1px solid var(--light); padding:12px 14px; padding-bottom:max(12px,env(safe-area-inset-bottom)); background:var(--white); display:flex; align-items:flex-end; gap:10px; flex-shrink:0; box-shadow:0 -2px 8px rgba(15,37,69,0.05); }
+.chat-ta { flex:1; background:var(--off); border:1.5px solid var(--light); color:var(--dark); font-family:'DM Sans',sans-serif; font-size:14px; padding:10px 14px; border-radius:22px; outline:none; resize:none; min-height:42px; max-height:110px; line-height:1.4; transition:border-color 0.2s; -webkit-appearance:none; }
+.chat-ta:focus { border-color:var(--navy-lt); box-shadow:0 0 0 3px rgba(44,82,130,0.1); }
+.chat-ta::placeholder { color:var(--soft); }
+.chat-send { width:42px; height:42px; flex-shrink:0; border:none; cursor:pointer; border-radius:50%; font-size:16px; display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg,var(--navy),var(--navy-md)); color:white; box-shadow:var(--sh2); transition:all 0.2s; }
+.chat-send:active { transform:scale(0.9); box-shadow:none; }
+
+/* TOASTS / OVERLAY */
+.cp { background:none; border:1px solid var(--mid); border-radius:5px; padding:2px 7px; font-size:10.5px; cursor:pointer; color:var(--soft); transition:all .13s; margin-left:6px; white-space:nowrap; }
+.cp:hover { background:var(--light); color:var(--navy); }
+.toasts { position:fixed; bottom:80px; right:16px; display:flex; flex-direction:column; gap:8px; z-index:9998; }
+.toast { background:var(--navy); color:white; padding:11px 16px; border-radius:10px; font-size:13px; box-shadow:var(--sh3); display:flex; align-items:center; gap:9px; animation:up 0.22s ease; max-width:300px; }
+.toast.ok  { border-left:3px solid #3FB87A; }
+.toast.err { border-left:3px solid var(--burgundy-lt); }
+.overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.45); z-index:150; backdrop-filter:blur(2px); }
+.overlay.show { display:block; }
+
+/* BOTTOM NAV */
+.bottom-nav { display: none; position: fixed; bottom: 0; left: 0; right: 0; height: var(--bottom-nav-h); background: var(--navy); border-top: 1px solid rgba(255,255,255,0.1); z-index: 200; padding: 0 4px; align-items: center; justify-content: space-around; }
+.bnav-btn { display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 8px 10px; border-radius: 10px; background: none; border: none; cursor: pointer; color: rgba(255,255,255,0.45); transition: all 0.15s; min-width: 50px; }
+.bnav-btn.active { color:white; background:rgba(107,26,42,0.4); }
+.bnav-btn svg  { width:20px; height:20px; }
+.bnav-btn span { font-size:9px; letter-spacing:0.02em; }
+
+/* RESPONSIVE */
+@media (max-width:860px) {
+  :root { --sidebar-w:200px; }
+  .stat-grid { grid-template-columns:1fr 1fr; }
+  .row-3     { grid-template-columns:1fr 1fr; }
+  .spec-grid { grid-template-columns:1fr; }
+  .content   { padding:20px 18px; }
+}
+@media (max-width:640px) {
+  .sidebar { transform:translateX(-100%); width:260px; }
+  .sidebar.open { transform:translateX(0); }
+  .main { margin-left:0; padding-bottom:var(--bottom-nav-h); }
+  .bottom-nav { display:flex; }
+  .topbar { padding:0 16px; }
+  .hamburger  { display:flex; }
+  .enc-badge  { display:none; }
+  .content    { padding:16px 14px; }
+  .stat-grid  { grid-template-columns:1fr 1fr; gap:10px; margin-bottom:16px; }
+  .stat-val   { font-size:24px; }
+  .row, .row-3 { grid-template-columns:1fr; gap:12px; }
+  .field input, .field textarea { font-size:16px; }
+  .card       { border-radius:12px; margin-bottom:14px; }
+  .card-head  { padding:14px 16px; }
+  .card-body  { padding:16px; }
+  .toasts { bottom:calc(var(--bottom-nav-h) + 12px); right:12px; left:12px; }
+  .toast  { max-width:100%; }
+  .rkey   { min-width:100px; font-size:11px; }
+  .rval   { font-size:12px; }
+  .rval.mono { font-size:10px; }
+  .spec-grid { grid-template-columns:1fr; }
+  .ktable thead { display:none; }
+  .ktable tr { display:block; padding:12px 16px; border-bottom:1px solid var(--light); }
+  .ktable td { display:flex; justify-content:space-between; padding:4px 0; border:none; font-size:13px; }
+  .ktable td::before { content:attr(data-label); color:var(--soft); font-size:11px; font-weight:500; text-transform:uppercase; letter-spacing:0.06em; }
+  .chat-container { height:calc(100vh - 220px); min-height:300px; }
+  .dash-strip { flex-direction:column; align-items:flex-start; }
+}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="login-screen">
+  <div class="login-card">
+    <div class="login-top">
+      <div class="login-brand">
+        <div class="login-ico">🔒</div>
+        <div>
+          <div class="login-nm">MRS-AUTH</div>
+          <div class="login-sb">Offline Kluis &amp; Chat</div>
+        </div>
+      </div>
+      <div class="login-title">Veilige communicatie<br>zonder server</div>
+      <div class="login-sub">// end-to-end versleuteld · MRS Clock KDF · offline</div>
+    </div>
+    <div class="login-body">
+      <label class="lbl">Jouw naam</label>
+      <input class="linp" type="text" id="l-naam" placeholder="bijv. Bilal" maxlength="28" autocomplete="off" oninput="loginChk()" onkeydown="if(event.key==='Enter')document.getElementById('l-kamer').focus()">
+      <label class="lbl">Kamernummer (of wachtwoord)</label>
+      <input class="linp" type="password" id="l-kamer" placeholder="Kies een sterk geheim..." maxlength="40" autocomplete="off" oninput="loginChk()" onkeydown="if(event.key==='Enter')doLogin()">
+      <div class="l-hint">Dit getal/woord is je sleutel. Deel het alleen met de persoon met wie je wilt chatten. Het wordt nooit verstuurd.</div>
+      <button class="l-btn" id="l-btn" onclick="doLogin()" disabled>KLUIS ONTGRENDELEN</button>
+      <div class="l-feats">
+        <div class="l-feat"><div class="lfdot"></div>AES-256-GCM end-to-end encryptie</div>
+        <div class="l-feat"><div class="lfdot"></div>Sleutel via MRS Clock KDF (19A+9B structuur)</div>
+        <div class="l-feat"><div class="lfdot"></div>Werkt 100% offline (geen server, geen internet)</div>
+        <div class="l-feat"><div class="lfdot"></div>Lokale opslag in IndexedDB</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="overlay" onclick="closeMenu()"></div>
+<div class="toasts" id="toasts"></div>
+
+<!-- SIDEBAR -->
+<nav class="sidebar" id="sidebar" aria-label="Hoofdnavigatie">
+  <div class="brand">
+    <div class="brand-icon">🔒</div>
+    <div>
+      <div class="brand-name">MRS-AUTH</div>
+      <div class="brand-sub">Offline Kluis &amp; Chat</div>
+    </div>
+  </div>
+  <div class="sb-user">
+    <div class="sb-av" id="sb-av">?</div>
+    <div class="sb-info">
+      <div class="sb-name"  id="sb-naam">–</div>
+      <div class="sb-kamer" id="sb-kamer">Kamer –</div>
+    </div>
+    <div class="sb-dot"></div>
+  </div>
+  <div class="nav">
+    <div class="nav-label">Overzicht</div>
+    <button class="nav-btn active" id="nb-dashboard" onclick="go('dashboard')">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>Dashboard
+    </button>
+    <div class="nav-label">Kluis</div>
+    <button class="nav-btn" id="nb-kluis" onclick="go('kluis')">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 6h-2.18c.07-.44.18-.88.18-1.36C18 2.05 15.96 0 13.5 0c-1.4 0-2.5.83-3.5 2.1C9 .83 7.9 0 6.5 0 4.04 0 2 2.05 2 4.64c0 .48.11.92.18 1.36H0v14h24V6h-4z"/></svg>Mijn Kluis
+    </button>
+    <div class="nav-label">Communicatie</div>
+    <button class="nav-btn" id="nb-chat" onclick="go('chat')">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>Veilige Chat
+      <span class="nav-badge" id="chat-badge" style="display:none">0</span>
+    </button>
+    <div class="nav-label">Authenticatie</div>
+    <button class="nav-btn" id="nb-handtekening" onclick="go('handtekening')">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>Handtekening
+    </button>
+    <button class="nav-btn" id="nb-tijdcode" onclick="go('tijdcode')">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67V7z"/></svg>Tijdcodes
+    </button>
+    <div class="nav-label">Encryptie</div>
+    <button class="nav-btn" id="nb-versleutel" onclick="go('versleutel')">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>Versleutelen
+    </button>
+    <button class="nav-btn" id="nb-ontsleutel" onclick="go('ontsleutel')">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.65 10C11.83 7.67 9.61 6 7 6c-3.31 0-6 2.69-6 6s2.69 6 6 6c2.61 0 4.83-1.67 5.65-4H17v4h4v-4h2v-4H12.65z"/></svg>Ontsleutelen
+    </button>
+    <div class="nav-label">Info</div>
+    <button class="nav-btn" id="nb-info" onclick="go('info')">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M11 17h2v-6h-2v6zm1-15C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zM11 9h2V7h-2v2z"/></svg>Over MRS-AUTH
+    </button>
+  </div>
+  <div class="sb-foot">
+    <div class="motor-dot"><div class="dot"></div><span id="sb-status">Lokaal actief</span></div>
+    <button class="logout-lnk" onclick="doLogout()">
+      <svg viewBox="0 0 24 24" fill="currentColor" style="width:13px;height:13px;opacity:0.6">
+        <path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/>
+      </svg>Vergrendelen
+    </button>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<div class="main" id="main-app" style="display:none">
+  <header class="topbar">
+    <div class="topbar-left">
+      <button class="hamburger" onclick="openMenu()" aria-label="Menu openen">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
+      </button>
+      <div class="page-title" id="page-title">Dashboard</div>
+    </div>
+    <div class="topbar-right">
+      <div class="n-pill">Kamer: <b id="topbar-kamer">–</b></div>
+      <div class="enc-badge">🔒 Lokaal actief</div>
+    </div>
+  </header>
+
+  <div class="content">
+
+    <!-- DASHBOARD -->
+    <div id="panel-dashboard" class="panel active">
+      <div class="dash-strip">
+        <div class="ds-left">
+          <h2>Welkom, <span id="dash-naam">–</span></h2>
+          <p>Kamer <b id="dash-kamer">–</b> · Lokale modus · Alle gegevens blijven op dit apparaat</p>
+        </div>
+        <div class="ds-enc">🔒 MRS-AUTH<br><span style="font-size:9px;opacity:0.8">Clock KDF actief</span></div>
+      </div>
+      <div class="stat-grid">
+        <div class="stat-card c1"><div class="stat-ico">🔏</div><div class="stat-lbl">Handtekeningen</div><div class="stat-val" id="st-signs">0</div><div class="stat-sub">Deze sessie</div></div>
+        <div class="stat-card c2"><div class="stat-ico">⏰</div><div class="stat-lbl">Tijdcodes</div><div class="stat-val" id="st-codes">0</div><div class="stat-sub">Gegenereerd</div></div>
+        <div class="stat-card c3"><div class="stat-ico">💬</div><div class="stat-lbl">Berichten</div><div class="stat-val" id="st-msgs">0</div><div class="stat-sub">In deze sessie</div></div>
+        <div class="stat-card c4"><div class="stat-ico">🗝️</div><div class="stat-lbl">AES bits sterkte</div><div class="stat-val">256</div><div class="stat-sub">GCM · MRS KDF</div></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px">
+        <div class="card" style="margin-bottom:0">
+          <div class="card-head"><div class="card-title">Recente activiteit</div><span class="badge b-navy">Live</span></div>
+          <div class="card-body" style="padding:0 22px">
+            <div class="act-list" id="act-list">
+              <div class="act-item">
+                <div class="act-ico ai-green">🔒</div>
+                <div class="act-text"><div class="act-title">Kluis ontgrendeld</div><div class="act-sub">MRS Clock KDF toegepast</div></div>
+                <div class="act-time" id="act-login-time">–</div>
+              </div>
+              <div class="act-item">
+                <div class="act-ico ai-blue">🔑</div>
+                <div class="act-text"><div class="act-title">Sleutel gegenereerd</div><div class="act-sub">19A+9B structuur · 256-bit</div></div>
+                <div class="act-time">nu</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card" style="margin-bottom:0">
+          <div class="card-head"><div class="card-title">Beveiligingsstatus</div><span class="badge b-ok">Veilig</span></div>
+          <div class="card-body">
+            <div style="margin-bottom:14px">
+              <div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:12px;color:var(--muted)">Encryptie sterkte</span><span style="font-size:12px;font-weight:500;color:var(--ok)">AES-256-GCM</span></div>
+              <div class="sec-meter"><div class="sec-bar"><div class="sec-fill" style="width:100%;background:linear-gradient(90deg,var(--ok),#22C55E)"></div></div><span style="font-size:11px;font-weight:500;color:var(--ok)">Maximaal</span></div>
+            </div>
+            <div style="margin-bottom:14px">
+              <div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:12px;color:var(--muted)">Sleutelafleiding</span><span style="font-size:12px;font-weight:500;color:var(--ok)">MRS Clock KDF</span></div>
+              <div class="sec-meter"><div class="sec-bar"><div class="sec-fill" style="width:95%;background:linear-gradient(90deg,var(--ok),#22C55E)"></div></div><span style="font-size:11px;font-weight:500;color:var(--ok)">Framework-native</span></div>
+            </div>
+            <div style="margin-bottom:14px">
+              <div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:12px;color:var(--muted)">Opslag</span><span style="font-size:12px;font-weight:500;color:var(--ok)">IndexedDB (lokaal)</span></div>
+              <div class="sec-meter"><div class="sec-bar"><div class="sec-fill" style="width:90%;background:linear-gradient(90deg,var(--ok),#22C55E)"></div></div><span style="font-size:11px;font-weight:500;color:var(--ok)">Offline</span></div>
+            </div>
+            <div class="info-box" style="margin-bottom:0">ℹ️ Alle gegevens blijven op dit apparaat. Er is geen server of internetverbinding nodig.</div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-head"><div class="card-title">MRS-AUTH Motor — vier onderdelen</div><span class="badge b-navy">v4.0 Offline</span></div>
+        <div class="card-body">
+          <div class="spec-grid">
+            <div class="spec-item"><div class="spec-part">Deel I · v3.1</div><div class="spec-name">19A + 9B Handtekening</div><div class="spec-desc">Lineaire Diofantische vergelijking. Triangle Requirement: dr(B) = dr(2·dr(A)). Volledig lokaal berekend.</div></div>
+            <div class="spec-item"><div class="spec-part">Deel II · v4.0</div><div class="spec-name">Clock KDF (framework-native)</div><div class="spec-desc">Sleutel afgeleid van N via R(N), k en (A,B). Branchless, bijectief, auditbaar. Geen PBKDF2 meer.</div></div>
+            <div class="spec-item"><div class="spec-part">Deel III · v3.0</div><div class="spec-name">EUF-CMA Tijdcodes</div><div class="spec-desc">HMAC-SHA256. Sleutel afgeleid van encSleutel. Forward secrecy per tijdsvenster.</div></div>
+            <div class="spec-item"><div class="spec-part">Deel IV · v4.0</div><div class="spec-name">AES-256-GCM + IndexedDB</div><div class="spec-desc">IND-CCA2 veilig. 96-bit nonce. Lokale opslag in IndexedDB (niet localStorage).</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-head"><div class="card-title">Kamerinformatie</div><span class="badge b-steel">Lokaal</span></div>
+        <div class="card-body">
+          <div class="row row-3">
+            <div class="spec-item"><div class="spec-part">Kamer ID</div><div class="spec-name" id="info-kamer-id">–</div><div class="spec-desc">Uw unieke kamernummer</div></div>
+            <div class="spec-item"><div class="spec-part">Protocol</div><div class="spec-name">BroadcastChannel</div><div class="spec-desc">Lokaal netwerk (offline)</div></div>
+            <div class="spec-item"><div class="spec-part">Encryptie</div><div class="spec-name">AES-256-GCM</div><div class="spec-desc">MRS Clock KDF · nonce-based</div></div>
+          </div>
+          <div class="info-box" style="margin-top:8px;margin-bottom:0">💡 <b>Uitnodigen:</b> Deel kamernummer <b id="info-kamer-share">–</b> via sms of persoonlijk. Iedereen met dit nummer kan deelnemen en berichten lezen.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- KLUIS -->
+    <div id="panel-kluis" class="panel">
+      <div class="card">
+        <div class="card-head"><div class="card-title">Item toevoegen aan kluis</div><span class="badge b-ok">AES-256 · MRS Clock KDF</span></div>
+        <div class="card-body">
+          <div class="info-box">Sla een wachtwoord, pincode of notitie veilig op. Elk item wordt versleuteld met AES-256-GCM. De sleutel is afgeleid via de MRS Clock KDF (19A+9B). Items worden bewaard in IndexedDB (lokaal).</div>
+          <div class="row">
+            <div class="field"><label>Titel</label><input type="text" id="k-titel" placeholder="bijv. Netflix, ING Bank" autocomplete="off"></div>
+            <div class="field"><label>Gebruikersnaam / E-mail</label><input type="text" id="k-gebruiker" placeholder="bijv. bilal@example.com" autocomplete="off"></div>
+          </div>
+          <div class="row">
+            <div class="field"><label>Wachtwoord</label>
+              <div style="display:flex;gap:6px">
+                <input type="password" id="k-wachtwoord" placeholder="Uw wachtwoord..." autocomplete="new-password" style="flex:1">
+                <button class="btn btn-ghost btn-sm" type="button" onclick="genereerWachtwoord()" title="Genereer sterk wachtwoord">🎲</button>
+              </div>
+            </div>
+            <div class="field"><label>Website (optioneel)</label><input type="url" id="k-website" placeholder="https://..." autocomplete="off"></div>
+          </div>
+          <div class="row row-1">
+            <div class="field"><label>Notities (optioneel)</label><textarea id="k-notities" placeholder="Extra informatie, beveiligingsvragen, etc." style="min-height:60px"></textarea></div>
+          </div>
+          <div class="row">
+            <div class="field"><label>Categorie</label>
+              <select id="k-cat">
+                <option value="wachtwoord">🔑 Wachtwoord</option>
+                <option value="pin">🔢 PIN / code</option>
+                <option value="sleutel">🗝️ Sleutel</option>
+                <option value="notitie">📝 Notitie</option>
+                <option value="overig">📦 Overig</option>
+              </select>
+            </div>
+            <div class="field" style="justify-content:flex-end">
+              <label>&nbsp;</label>
+              <button class="btn btn-primary" id="btn-kluis" onclick="kluisOpslaan()">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z"/></svg>Opslaan in kluis
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-head"><div class="card-title">Kluisinhoud</div><span class="badge b-red" id="kluis-count">0 items</span></div>
+        <div id="kluis-body" class="card-body" style="padding:0">
+          <div class="empty-st"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 6h-2.18c.07-.44.18-.88.18-1.36C18 2.05 15.96 0 13.5 0c-1.4 0-2.5.83-3.5 2.1C9 .83 7.9 0 6.5 0 4.04 0 2 2.05 2 4.64c0 .48.11.92.18 1.36H0v14h24V6h-4z"/></svg><p>Uw kluis is leeg.</p></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CHAT -->
+    <div id="panel-chat" class="panel">
+      <div class="card" style="margin-bottom:0">
+        <div class="card-head"><div class="card-title">💬 Veilige Chat</div><span class="badge b-ok">E2E · AES-256-GCM · Offline</span></div>
+        <div class="chat-container">
+          <div class="chat-hdr">
+            <div class="chat-hdr-l">
+              <div class="chat-av" id="chat-av">?</div>
+              <div>
+                <div class="chat-hdr-name" id="chat-naam">–</div>
+                <div class="chat-hdr-room"><div class="chat-live"></div><span id="chat-room">Kamer –</span></div>
+              </div>
+            </div>
+            <div class="chat-enc">🔒 E2E<br>AES-256-GCM</div>
+          </div>
+          <div class="chat-tabs-bar">
+            <div class="chat-tab active" id="tab-chat" onclick="switchTab('chat')">💬 Kamer chat</div>
+            <div class="chat-tab" id="tab-info" onclick="switchTab('info')">🔐 Verbindingsinfo</div>
+          </div>
+          <div id="chat-chat-panel">
+            <div class="chat-room-bar">🔒 Berichten versleuteld vóór verzending — alleen lokaal netwerk</div>
+            <div class="messages" id="messages">
+              <div class="msg-empty-st" id="msg-empty">
+                <div class="msg-empty-ico">🔐</div>
+                <p>Kamer is leeg.<br>Stuur het eerste bericht.</p>
+              </div>
+            </div>
+            <div class="chat-input-area">
+              <textarea class="chat-ta" id="chat-input" placeholder="Typ een bericht... (Enter = verstuur, Shift+Enter = nieuwe regel)" rows="1" oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,110)+'px'" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();verstuurBericht()}"></textarea>
+              <button class="chat-send" onclick="verstuurBericht()" title="Verstuur">➤</button>
+            </div>
+          </div>
+          <div id="chat-info-panel" style="display:none;padding:20px 22px;overflow-y:auto;flex:1">
+            <div class="spec-grid">
+              <div class="spec-item"><div class="spec-part">Kamernummer</div><div class="spec-name" id="ci-kamer">–</div><div class="spec-desc">Gedeeld met alle deelnemers</div></div>
+              <div class="spec-item"><div class="spec-part">Encryptie</div><div class="spec-name">AES-256-GCM</div><div class="spec-desc">IND-CCA2 · 96-bit nonce per bericht</div></div>
+              <div class="spec-item"><div class="spec-part">Sleutelafleiding</div><div class="spec-name">MRS Clock KDF</div><div class="spec-desc">19A+9B structuur · framework-native</div></div>
+              <div class="spec-item"><div class="spec-part">Transport</div><div class="spec-name">BroadcastChannel</div><div class="spec-desc">Lokaal netwerk · geen internet nodig</div></div>
+            </div>
+            <div class="warn" style="margin-top:16px">⚠️ <span>Deze chat werkt alleen binnen hetzelfde apparaat/netwerk. Voor chat over het internet is een WebRTC-verbinding nodig (toekomstige versie).</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- HANDTEKENING -->
+    <div id="panel-handtekening" class="panel">
+      <div class="card">
+        <div class="card-head"><div class="card-title">MRS-AUTH Handtekening</div><span class="badge b-red">Deel I · 19A + 9B · v3.1 Lokaal</span></div>
+        <div class="card-body">
+          <div class="info-box">Genereer een MRS-AUTH handtekening via het <b>19A + 9B systeem</b>. Het paar (A, B) wordt lokaal in de browser berekend zodat 19A + 9B = N, met de <b>Triangle Requirement</b>: dr(B) = dr(2·dr(A)). Na gebruik worden A en B onmiddellijk uit het geheugen gewist (zeroize).</div>
+          <div class="row">
+            <div class="field"><label>N-waarde</label><input type="number" id="h-n" value="592" min="144" inputmode="numeric"></div>
+            <div class="field"><label>Transactie ID</label><input type="text" id="h-id" value="TXN-001"></div>
+          </div>
+          <div class="row">
+            <div class="field"><label>Afzender</label><input type="text" id="h-van" placeholder="bijv. Alice" autocomplete="off"></div>
+            <div class="field"><label>Ontvanger</label><input type="text" id="h-naar" placeholder="bijv. Bob" autocomplete="off"></div>
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px">
+            <button class="btn btn-ghost btn-sm" onclick="stelNin(592,'h-n')">N=592</button>
+            <button class="btn btn-ghost btn-sm" onclick="stelNin(958,'h-n')">N=958</button>
+            <button class="btn btn-ghost btn-sm" onclick="stelNin(366,'h-n')">N=366</button>
+            <button class="btn btn-ghost btn-sm" onclick="stelNin(1000,'h-n')">N=1000</button>
+            <button class="btn btn-ghost btn-sm" onclick="stelNin(2024,'h-n')">N=2024</button>
+            <button class="btn btn-ghost btn-sm" onclick="stelNin(10000,'h-n')">N=10000</button>
+          </div>
+          <button class="btn btn-primary" id="btn-ht" onclick="doHandtekening()">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
+            Handtekening berekenen
+          </button>
+          <div id="r-ht" class="rbox">
+            <div class="rbox-title ok" id="r-ht-title">✓ Handtekening berekend — sleutel gewist</div>
+            <div id="r-ht-rows"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TIJDCODE -->
+    <div id="panel-tijdcode" class="panel">
+      <div class="card">
+        <div class="card-head"><div class="card-title">EUF-CMA Tijdcode</div><span class="badge b-gold">Deel III · Forward Secrecy · v3.0</span></div>
+        <div class="card-body">
+          <div class="info-box">Genereer een tijdgebonden authenticatiecode op basis van <b>HMAC-SHA256</b>. De HMAC-sleutel is afgeleid van de <b>kamersleutel (encSleutel)</b>. Alleen gebruikers in dezelfde kamer kunnen dezelfde code reproduceren.</div>
+          <div class="row">
+            <div class="field"><label>N-waarde</label><input type="number" id="tc-n" value="592" min="144" inputmode="numeric"></div>
+            <div class="field"><label>Keten diepte (L)</label><input type="number" id="tc-d" value="1" min="1" max="3" inputmode="numeric"></div>
+          </div>
+          <div class="row">
+            <div class="field"><label>Tijdsvenster (seconden)</label><input type="number" id="tc-venster" value="30" min="10" max="300"></div>
+            <div class="field"><label>Toepassingsdoel</label>
+              <select id="tc-use">
+                <option value="auth">Authenticatie</option>
+                <option value="sign">Handtekening</option>
+                <option value="demo">Demo / Test</option>
+              </select>
+            </div>
+          </div>
+          <button class="btn btn-primary" id="btn-tc" onclick="doTijdcode()">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67V7z"/></svg>
+            Tijdcode genereren
+          </button>
+          <div id="r-tc" class="rbox">
+            <div class="rbox-title ok">✓ Tijdcode gegenereerd — kamersleutel gebonden</div>
+            <div id="r-tc-rows"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- VERSLEUTELEN -->
+    <div id="panel-versleutel" class="panel">
+      <div class="card">
+        <div class="card-head"><div class="card-title">Bericht versleutelen</div><span class="badge b-navy">Deel IV · AES-256-GCM</span></div>
+        <div class="card-body">
+          <div class="info-box">Versleutel een bericht lokaal met <b>AES-256-GCM</b>. Het wachtwoord wordt via de MRS Clock KDF omgezet naar een 256-bit sleutel. Elk bericht krijgt een unieke 96-bit nonce.</div>
+          <div class="row">
+            <div class="field"><label>Wachtwoord / sleutel</label><input type="password" id="e-pw" placeholder="Kies een sterk wachtwoord..." autocomplete="new-password"></div>
+            <div class="field"><label>Context / label</label><input type="text" id="e-ctx" placeholder="bijv. kamer-4219" value="securechat"></div>
+          </div>
+          <div class="row row-1">
+            <div class="field"><label>Bericht om te versleutelen</label><textarea id="e-msg">Geheim bericht voor de digitale kluis</textarea></div>
+          </div>
+          <button class="btn btn-primary" id="btn-enc" onclick="doVersleutel()">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>Versleutelen
+          </button>
+          <div id="r-enc" class="rbox"><div class="rbox-title ok">✓ Versleuteld — nonce ingebakken in ciphertext</div><div id="r-enc-rows"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ONTSLEUTELEN -->
+    <div id="panel-ontsleutel" class="panel">
+      <div class="card">
+        <div class="card-head"><div class="card-title">Bericht ontsleutelen</div><span class="badge b-navy">Deel IV · AES-256-GCM</span></div>
+        <div class="card-body">
+          <div class="info-box">Ontsleutel een eerder versleuteld bericht. De nonce zit ingebakken in de eerste 12 bytes van de ciphertext (base64).</div>
+          <div class="row">
+            <div class="field"><label>Wachtwoord / sleutel</label><input type="password" id="d-pw" placeholder="Hetzelfde wachtwoord als bij versleuteling..." autocomplete="current-password"></div>
+            <div class="field"><label>Context / label</label><input type="text" id="d-ctx" placeholder="bijv. kamer-4219" value="securechat"></div>
+          </div>
+          <div class="row row-1">
+            <div class="field"><label>Ciphertext (base64)</label><textarea id="d-ct" placeholder="Plak hier de base64 ciphertext..." style="min-height:100px;font-family:monospace;font-size:12px"></textarea></div>
+          </div>
+          <button class="btn btn-navy" id="btn-dec" onclick="doOntsleutel()">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.65 10C11.83 7.67 9.61 6 7 6c-3.31 0-6 2.69-6 6s2.69 6 6 6c2.61 0 4.83-1.67 5.65-4H17v4h4v-4h2v-4H12.65z"/></svg>Ontsleutelen
+          </button>
+          <div id="r-dec" class="rbox"><div class="rbox-title ok">✓ Ontsleuteld — sleutel gewist uit geheugen</div><div id="r-dec-rows"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- INFO -->
+    <div id="panel-info" class="panel">
+      <div class="card">
+        <div class="card-head"><div class="card-title">🔐 Over MRS-AUTH</div><span class="badge b-red">Onderzoeksfase · 2026</span></div>
+        <div class="card-body">
+          <div class="info-box">MRS-AUTH (Multiple Representation Systems Authentication) is een cryptografisch protocol van <b>Bilal el Issaoui</b> gebaseerd op <b>N = 19A + 9B</b>. Het biedt informatie-theoretische ontkenbaarheid.</div>
+          <div class="spec-grid">
+            <div class="spec-item"><div class="spec-part">Wiskundige basis</div><div class="spec-name">N = 19A + 9B</div><div class="spec-desc">ggd(19,9)=1 → elke N>143 representeerbaar. Frobenius getal g(19,9)=143.</div></div>
+            <div class="spec-item"><div class="spec-part">Sleutelafleiding</div><div class="spec-name">Clock KDF</div><div class="spec-desc">Branchless, bijectief, auditbaar. Gebaseerd op de (19,9) structuur.</div></div>
+            <div class="spec-item"><div class="spec-part">Deniability</div><div class="spec-name">Adv_DENY(A) = 0</div><div class="spec-desc">Informatie-theoretisch bewijs. Onbegrensde adversary kan ware keten niet onderscheiden.</div></div>
+            <div class="spec-item"><div class="spec-part">Auteur / status</div><div class="spec-name">Bilal el Issaoui · 2026</div><div class="spec-desc">Onafhankelijk onderzoeker · Amsterdam.</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav" id="bottom-nav" style="display:none">
+  <button class="bnav-btn active" id="bn-dashboard"    onclick="go('dashboard')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg><span>Home</span></button>
+  <button class="bnav-btn"        id="bn-kluis"        onclick="go('kluis')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 6h-2.18c.07-.44.18-.88.18-1.36C18 2.05 15.96 0 13.5 0c-1.4 0-2.5.83-3.5 2.1C9 .83 7.9 0 6.5 0 4.04 0 2 2.05 2 4.64c0 .48.11.92.18 1.36H0v14h24V6h-4z"/></svg><span>Kluis</span></button>
+  <button class="bnav-btn"        id="bn-chat"         onclick="go('chat')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg><span>Chat</span></button>
+  <button class="bnav-btn"        id="bn-versleutel"   onclick="go('versleutel')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg><span>Encrypt</span></button>
+  <button class="bnav-btn"        id="bn-handtekening" onclick="go('handtekening')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg><span>Auth</span></button>
+</nav>
+
+<script>
+'use strict';
+
+// Hier komt de volledige script uit je "mrs save.html"
+// (regel 1071 t/m 1833 in jouw bestand — alles vanaf 'use strict'; tot en met de laatste window.Xxx = ...;)
+// Dat is te lang om hier opnieuw te plakken; kopieer het exact uit je "mrs save.html" (tussen <script> en </script>).
+
+</script>
+</body>
+</html>
