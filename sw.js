@@ -1,7 +1,8 @@
-const CACHE = "igospiral-v3";
+const CACHE = "igospiral-v4";
 const ASSETS = [
   "./",
   "./index.html",
+  "./mrs-kluis.html",
   "./manifest.json",
   "./icon-192.png",
   "./icon-512.png"
@@ -29,7 +30,7 @@ self.addEventListener("activate", (e) => {
 
 self.addEventListener("fetch", (e) => {
   if (e.request.method !== "GET") return;
-  
+
   // Sla verzoeken naar browser-extensies over
   if (!e.request.url.startsWith('http')) return;
 
@@ -48,7 +49,7 @@ self.addEventListener("fetch", (e) => {
     .catch(() => {
       return caches.match(e.request).then((cachedResponse) => {
         if (cachedResponse) return cachedResponse;
-        
+
         // Als de pagina niet in de cache staat en de browser vraagt om een navigatie
         if (e.request.mode === 'navigate') {
           return caches.match('./index.html');
