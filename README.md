@@ -13,9 +13,9 @@ iGoSpiral DigitalGears is a local-first Progressive Web App (PWA) that visualize
 
 ---
 
-## The Six Modules (One Application)
+## The Seven Modules (One Application)
 
-The application is bundled into a single file (`index.html`). The six modules are accessible via the bottom navigation bar.
+The application is bundled into a single file (`index.html`). The seven modules are accessible via the bottom navigation bar.
 
 ### 1. 🌀 Spiral
 The visual core of the application. A 3D life-spiral that shows the progression of time. Choose your own life (70 years) or world time. The pearl is the current moment; the gold line is the elapsed part of this year. The spiral rises with each cycle, visually proving the formula `p ≡ 1 (mod q)`.
@@ -42,15 +42,32 @@ Both views are always in sync. The UTC switch ensures a gap-free bijection, with
 The personal layer of the application:
 - **Journal:** appointments per day, linked to the model day.
 - **Notes:** text and photos, linked to an exact moment (N).
-- **Vault (MRS-AUTH):** a post-quantum authentication framework with PBKDF2-SHA256 (600k iterations), the (19, 9) Diophantine system, and AES-256-GCM.
 - **Settings:** backup, restore, UTC switch, and storage management.
-- **MRS demo:** a live calculator for `N = 19A + 9B`.
+
+### 7. 🔐 MRS — Offline Vault & Chat
+A standalone, local-first vault and chat application, embedded as a separate module. It is the **practical application** of the MRS-AUTH-PQC framework: the key is derived from the (19, 9) Diophantine structure, not from a generic KDF.
+
+**What it does:**
+- **Vault:** passwords, PINs, keys, and notes. Each item is encrypted with AES-256-GCM. The AES key is derived via the **MRS Clock KDF** (the same `p ≡ 1 (mod q)` structure, with `19 ≡ 1 (mod 9)`).
+- **Chat:** end-to-end encrypted messages between two users in the same room. The same room key is used to derive both the vault key and the chat key. Messages are stored locally in IndexedDB; no server is involved.
+- **Deniability (coercion resistance):** the user can enter an **alternative room code** that derives a **different, mathematically valid key** from the same `N`. This second key opens a separate, empty vault and a separate chat. Under coercion, the user can hand over this alternative key, and no one can prove it is not the real one.
+- **Offline:** works without an internet connection. Data stays in the browser (IndexedDB). There is no account, no email, no server.
+
+**Why it matters:**
+The MRS-AUTH-PQC framework is a general, machine-verified (EasyCrypt) system with two goals: post-quantum confidentiality (via ML-KEM-1024) and coercion resistance (via the (19, 9) witness space). The MRS module in iGoSpiral is the **minimum viable application** of that framework: a vault and chat that inherit both properties, but implemented as a single, dependency-free HTML file that runs entirely offline.
+
+**Full documentation:**
+The complete theoretical foundation — the double cycle, the Positive Anchor Convention, the Frobenius boundary at 162, the fractal ladder ⧊, the formal verification, and the deniability proof — is documented in the dedicated repository:
+
+👉 **[MRS-AUTH-PQC on GitHub](https://github.com/A19dammer91/MRS-AUTH-PQC)**
+
+That repository contains the Rust implementation, the 14 EasyCrypt proof files (231 lemmas, 0 admits), the 108 tests, and the full README explaining the mathematics. The iGoSpiral README does not duplicate that material; it only points to it.
 
 ---
 
 ## The Core Theory
 
-The foundation of all six modules is the general form:
+The foundation of all seven modules is the general form:
 
 **p ≡ 1 (mod q)**
 
@@ -60,7 +77,7 @@ This is not a collection of isolated tricks for the clock or the calendar. It is
 2. **The Actual Form:** `2q + 1 = p` (m = 2) — Two rounds, creating a double cycle (e.g., day/night, or two moments within a week).
 
 **Generality as the Core Property:**
-The parameter `q` is not fixed. The clock uses `q = 12` (leading to `p = 25`). The week uses `q = 7` (leading to `p = 15`). The minute uses `q = 60` (leading to `p = 121`).
+The parameter `q` is not fixed. The clock uses `q = 12` (leading to `p = 25`). The week uses `q = 7` (leading to `p = 15`). The minute uses `q = 60` (leading to `p = 121`). The MRS vault uses `q = 9` (leading to `p = 19`).
 
 Any attempt to alter the parameters of this software does not circumvent the theory; it merely validates its generality. The software is architecturally built to calculate `p` for _any_ valid `q` within this specific mathematical framework. The mathematical structure **p ≡ 1 (mod q)** and its application to time measurement are the original intellectual property of the author, Bilal el Issaoui.
 
@@ -117,6 +134,7 @@ This is why the full clock cycle closes after exactly **7,000 years**. Other mil
 - **Time Periods:** Visual color-coding for Night, Dawn, Morning, Afternoon, Dusk, and Evening, mapped directly to the mathematical hours.
 - **Local-First Storage:** Photos, notes, and timestamps are saved locally using OPFS (Origin Private File System) and IndexedDB. No accounts, no tracking, 100% private.
 - **Calendar & Drift:** Visualizes the real Gregorian calendar and maps the mathematical cycles (including the 2921 leap cycle) directly onto it.
+- **MRS Vault & Chat:** An embedded, offline vault and end-to-end encrypted chat, using the MRS Clock KDF for key derivation. Includes coercion resistance via the (19, 9) witness space.
 - **Offline Capable:** Fully installable PWA. Once loaded, it works without an internet connection. Includes a built-in backup/export feature to save your personal data.
 - **Bilingual:** Fully interactive in both English and Dutch (NL/EN toggle).
 
@@ -128,11 +146,15 @@ The complete mathematical proof, including the derivation of the formulas, the r
 
 📄 **[The Clock as a Mathematical Object (PDF)](./The_Clock_as_a_Mathematical_Object.pdf)**
 
+For the full MRS-AUTH-PQC framework — the double cycle, the Positive Anchor Convention, the Frobenius boundary at 162, the fractal ladder ⧊, the formal verification in EasyCrypt, and the deniability proof — see the dedicated repository:
+
+👉 **[MRS-AUTH-PQC on GitHub](https://github.com/A19dammer91/MRS-AUTH-PQC)**
+
 ---
 
 ## Architecture
 
-This application contains zero external dependencies. The math runs natively in the browser using `BigInt`. Data is never sent to a server. The user is the sole owner of their local database. The complete application is bundled into a single file: `index.html`.
+This application contains zero external dependencies. The math runs natively in the browser using `BigInt`. Data is never sent to a server. The user is the sole owner of their local database. The complete application is bundled into a single file: `index.html`. The MRS module (`mrs-kluis.html`) is a separate, self-contained HTML file that runs inside an iframe, with its own IndexedDB storage and its own MRS Clock KDF.
 
 ---
 
@@ -150,7 +172,7 @@ For personal, educational, and open-source use, this software is licensed under 
 
 ### 2. Commercial Use Is Not Permitted
 
-Commercial use of this software (including the mathematical theory, the `BigInt` bijection algorithms, or the visual layout) is **not permitted** without prior written permission from the author. This applies to use in closed-source products, paid services, or any form of commercial exploitation.
+Commercial use of this software (including the mathematical theory, the `BigInt` bijection algorithms, the MRS Clock KDF, or the visual layout) is **not permitted** without prior written permission from the author. This applies to use in closed-source products, paid services, or any form of commercial exploitation.
 
 Contact **Bilal el Issaoui** at `elissa.oui.amster@gmail.com` or `elissa_oui@outlook.com` for a commercial license.
 
@@ -158,7 +180,7 @@ Contact **Bilal el Issaoui** at `elissa.oui.amster@gmail.com` or `elissa_oui@out
 
 ## Methodological Declaration and Intellectual Property (2026)
 
-This section consists of two parts: (1) a methodological declaration establishing how this work came into being, and (2) an attribution and protection amendment. Both form an integral part of the licensing terms of this repository and apply to all contents: text documentation, mathematical derivations, the `index.html` source code, and the underlying cosmological/theological synthesis.
+This section consists of two parts: (1) a methodological declaration establishing how this work came into being, and (2) an attribution and protection amendment. Both form an integral part of the licensing terms of this repository and apply to all contents: text documentation, mathematical derivations, the `index.html` source code, the `mrs-kluis.html` source code, and the underlying cosmological/theological synthesis.
 
 ### Part 1 — Methodological Declaration: Discovery from First Principles (Ab Initio)
 
@@ -177,13 +199,13 @@ This equation bridges the first two perfect numbers — **6** (observed natively
 
 #### 3. Clarification on the Role of Artificial Intelligence
 
-AI was used by the author as (i) a linguistic compiler for the prose and (ii) a programming aid for Python scripts used for **numerical verification**. The **conceptual discovery** — including the manual discovery of A₀ = dr(N) and the derivation of the class structure, the formulas, and the 2,520/7,000-year cycle closures — is entirely human. The scripts executed; they did not discover. Any claim to the contrary is factually erroneous and constitutes academic defamation.
+AI was used by the author as (i) a linguistic compiler for the prose and (ii) a programming aid for Python scripts used for **numerical verification**. The **conceptual discovery** — including the manual discovery of A₀ = dr(N) and the derivation of the class structure, the formulas, the (19, 9) Diophantine system, and the 2,520/7,000-year cycle closures — is entirely human. The scripts executed; they did not discover. Any claim to the contrary is factually erroneous and constitutes academic defamation.
 
 ### Part 2 — Attribution and Protection
 
 #### 1. Academic Attribution and Anti-Plagiarism Clause
 
-The mathematical framework — including but not limited to the general form **p ≡ 1 (mod q)**, the structural classification of moduli (Classes A, B, and C), the 2,520-day LCM synchronization model, and the 7,000-year cycle closure — constitutes the original, foundational intellectual property of **Bilal el Issaoui**.
+The mathematical framework — including but not limited to the general form **p ≡ 1 (mod q)**, the structural classification of moduli (Classes A, B, and C), the 2,520-day LCM synchronization model, the 7,000-year cycle closure, and the (19, 9) Diophantine representation system — constitutes the original, foundational intellectual property of **Bilal el Issaoui**.
 
 Any academic paper, presentation, lecture, or professional publication that references, implements, or builds upon these specific concepts **MUST** explicitly credit Bilal el Issaoui as the original author. Attributing the discovery, synthesis, or architecture of this system to artificial intelligence, automated agents, or unspecified algorithmic generation is **strictly forbidden** and constitutes a direct violation of academic integrity and moral copyright.
 
@@ -193,7 +215,7 @@ Under no circumstances may any part of this repository — including the text do
 
 #### 3. Software Provenance and Human Architecture Verification
 
-Notice is hereby given that the application code within `index.html` is engineered as a **local-first, dependency-free architecture** utilizing native `BigInt` primitives to maintain structural mathematical precision. The lack of external dependencies is a **deliberate human architectural decision** to align software execution with the purity of modular arithmetic. The software is provided under the **GNU Affero General Public License v3.0 (AGPLv3)** for open-source use, but **the core mathematical theory remains proprietary** and protected under global copyright law.
+Notice is hereby given that the application code within `index.html` and `mrs-kluis.html` is engineered as a **local-first, dependency-free architecture** utilizing native `BigInt` primitives and native Web Crypto primitives to maintain structural mathematical precision. The lack of external dependencies is a **deliberate human architectural decision** to align software execution with the purity of modular arithmetic. The software is provided under the **GNU Affero General Public License v3.0 (AGPLv3)** for open-source use, but **the core mathematical theory remains proprietary** and protected under global copyright law.
 
 ---
 
