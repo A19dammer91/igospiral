@@ -13,9 +13,9 @@ iGoSpiral DigitalGears is een local-first Progressive Web App (PWA) die de klok,
 
 ---
 
-## De Zes Modules (Eén Applicatie)
+## De Zeven Modules (Eén Applicatie)
 
-De applicatie is gebundeld in één enkel bestand (`index.html`). De zes modules zijn toegankelijk via de navigatiebalk onderaan.
+De applicatie is gebundeld in één enkel bestand (`index.html`). De zeven modules zijn toegankelijk via de navigatiebalk onderaan.
 
 ### 1. 🌀 Spiraal
 De visuele kern van de applicatie. Een 3D-levensspiraal die de voortgang van de tijd toont. Kies je eigen leven (70 jaar) of de wereldtijd. De parel is het huidige moment; de gouden lijn is het verstreken deel van dit jaar. De spiraal stijgt bij elke cyclus, wat de formule `p ≡ 1 (mod q)` visueel bewijst.
@@ -42,15 +42,32 @@ Beide weergaven zijn altijd synchroon. De UTC-schakelaar zorgt voor een sluitend
 De persoonlijke laag van de applicatie:
 - **Agenda:** afspraken per dag, gekoppeld aan de modeldag.
 - **Notities:** tekst en foto's, gekoppeld aan een exact moment (N).
-- **Kluis (MRS-AUTH):** een post-quantum authenticatieraamwerk met PBKDF2-SHA256 (600k iteraties), het (19, 9) Diophantische systeem, en AES-256-GCM.
 - **Instellingen:** back-up, herstel, UTC-schakelaar, en opslagbeheer.
-- **MRS-demo:** een live rekenmachine voor `N = 19A + 9B`.
+
+### 7. 🔐 MRS — Offline Kluis & Chat
+Een standalone, local-first kluis- en chat-applicatie, ingebed als aparte module. Het is de **praktische toepassing** van het MRS-AUTH-PQC-framework: de sleutel wordt afgeleid uit de (19, 9) Diophantische structuur, niet uit een generieke KDF.
+
+**Wat het doet:**
+- **Kluis:** wachtwoorden, pincodes, sleutels en notities. Elk item wordt versleuteld met AES-256-GCM. De AES-sleutel wordt afgeleid via de **MRS Clock KDF** (dezelfde `p ≡ 1 (mod q)`-structuur, met `19 ≡ 1 (mod 9)`).
+- **Chat:** end-to-end versleutelde berichten tussen twee gebruikers in dezelfde kamer. Dezelfde kamersleutel wordt gebruikt om zowel de kluis- als de chat-sleutel af te leiden. Berichten worden lokaal opgeslagen in IndexedDB; er is geen server bij betrokken.
+- **Deniability (dwangbestendigheid):** de gebruiker kan een **alternatieve kamercode** invoeren die een **andere, wiskundig geldige sleutel** afleidt uit dezelfde `N`. Deze tweede sleutel opent een aparte, lege kluis en een aparte chat. Onder dwang kan de gebruiker deze alternatieve sleutel overhandigen, en niemand kan bewijzen dat het niet de echte is.
+- **Offline:** werkt zonder internetverbinding. Gegevens blijven in de browser (IndexedDB). Er is geen account, geen e-mail, geen server.
+
+**Waarom het ertoe doet:**
+Het MRS-AUTH-PQC-framework is een algemeen, machinaal geverifieerd (EasyCrypt) systeem met twee doelen: post-quantum vertrouwelijkheid (via ML-KEM-1024) en dwangbestendigheid (via de (19, 9) witness-ruimte). De MRS-module in iGoSpiral is de **minimum viable toepassing** van dat framework: een kluis en chat die beide eigenschappen erven, maar geïmplementeerd als één enkel, dependency-vrij HTML-bestand dat volledig offline draait.
+
+**Volledige documentatie:**
+De complete theoretische onderbouwing — de dubbele cyclus, de Positive Anchor Convention, de Frobenius-grens op 162, de fractale ladder ⧊, de formele verificatie, en het deniability-bewijs — staat in de aparte repository:
+
+👉 **[MRS-AUTH-PQC op GitHub](https://github.com/A19dammer91/MRS-AUTH-PQC)**
+
+Die repository bevat de Rust-implementatie, de 14 EasyCrypt-bewijsbestanden (231 lemma's, 0 admits), de 108 tests, en de volledige README die de wiskunde uitlegt. De iGoSpiral-README dupliceert dat materiaal niet; hij verwijst er alleen naar.
 
 ---
 
 ## De Kern Theorie
 
-De foundation van alle zes modules is de algemene vorm:
+De foundation van alle zeven modules is de algemene vorm:
 
 **p ≡ 1 (mod q)**
 
@@ -60,7 +77,7 @@ Dit is geen verzameling geïsoleerde trucs voor de klok of de kalender. Het is e
 2. **De Actuele Vorm:** `2q + 1 = p` (m = 2) — Twee rondes, wat een dubbele cyclus creëert (bijv. dag/nacht, of twee momenten binnen een week).
 
 **Algemeenheid als Kern-eigenschap:**
-De parameter `q` is niet vast. De klok gebruikt `q = 12` (leidend tot `p = 25`). De week gebruikt `q = 7` (leidend tot `p = 15`). De minuut gebruikt `q = 60` (leidend tot `p = 121`).
+De parameter `q` is niet vast. De klok gebruikt `q = 12` (leidend tot `p = 25`). De week gebruikt `q = 7` (leidend tot `p = 15`). De minuut gebruikt `q = 60` (leidend tot `p = 121`). De MRS-kluis gebruikt `q = 9` (leidend tot `p = 19`).
 
 Elke poging om de parameters van deze software te wijzigen, omzeilt de theorie niet; het bevestigt juist de algemeenheid ervan. De software is architectonisch gebouwd om `p` te berekenen voor _elke_ geldige `q` binnen dit specifieke wiskundige kader. De wiskundige structuur **p ≡ 1 (mod q)** en de toepassing ervan op tijdmeting zijn de originele intellectuele eigendom van de auteur, Bilal el Issaoui.
 
@@ -117,6 +134,7 @@ Dit is waarom de volledige klokcyclus na precies **7.000 jaar** sluit. Andere mi
 - **Time Periods:** Visuele kleurcodering voor Nacht, Ochtend, Middag, Namiddag, Schemering en Avond, direct gekoppeld aan de wiskundige uren.
 - **Local-First Storage:** Foto's, notities en tijdstempels worden lokaal opgeslagen met behulp van OPFS (Origin Private File System) en IndexedDB. Geen accounts, geen tracking, 100% privé.
 - **Calendar & Drift:** Visualiseert de echte Gregoriaanse kalender en brengt de wiskundige cycli (inclusief de 2921-schrikkelcyclus) direct in kaart.
+- **MRS Kluis & Chat:** Een ingebedde, offline kluis en end-to-end versleutelde chat, met de MRS Clock KDF voor sleutelafleiding. Inclusief dwangbestendigheid via de (19, 9) witness-ruimte.
 - **Offline Capable:** Volledig installeerbare PWA. Eenmaal geladen werkt het zonder internetverbinding. Inclusief een ingebouwde back-up/export-functie om je persoonlijke gegevens op te slaan.
 - **Tweetalig:** Volledig interactief in zowel het Engels als het Nederlands (NL/EN toggle).
 
@@ -128,11 +146,15 @@ De volledige wiskundige onderbouwing, inclusief de afleiding van de formules, de
 
 📄 **[The Clock as a Mathematical Object (PDF)](./The_Clock_as_a_Mathematical_Object.pdf)**
 
+Voor het volledige MRS-AUTH-PQC-framework — de dubbele cyclus, de Positive Anchor Convention, de Frobenius-grens op 162, de fractale ladder ⧊, de formele verificatie in EasyCrypt, en het deniability-bewijs — zie de aparte repository:
+
+👉 **[MRS-AUTH-PQC op GitHub](https://github.com/A19dammer91/MRS-AUTH-PQC)**
+
 ---
 
 ## Architectuur
 
-Deze applicatie bevat geen externe afhankelijkheden. De wiskunde draait native in de browser met behulp van `BigInt`. Gegevens worden nooit naar een server verzonden. De gebruiker is de enige eigenaar van zijn of haar lokale database. De volledige applicatie is gebundeld in één enkel bestand: `index.html`.
+Deze applicatie bevat geen externe afhankelijkheden. De wiskunde draait native in de browser met behulp van `BigInt`. Gegevens worden nooit naar een server verzonden. De gebruiker is de enige eigenaar van zijn of haar lokale database. De volledige applicatie is gebundeld in één enkel bestand: `index.html`. De MRS-module (`mrs-kluis.html`) is een apart, op zichzelf staand HTML-bestand dat in een iframe draait, met een eigen IndexedDB-opslag en een eigen MRS Clock KDF.
 
 ---
 
@@ -150,7 +172,7 @@ Voor persoonlijk, educatief en open-source gebruik is deze software gelicentieer
 
 ### 2. Commercieel gebruik is niet toegestaan
 
-Commercieel gebruik van deze software (inclusief de wiskundige theorie, de `BigInt`-bijectie-algoritmen, of de visuele layout) is **niet toegestaan** zonder voorafgaande schriftelijke toestemming van de auteur. Dit geldt voor gebruik in closed-source producten, betaalde diensten, of elke vorm van commerciële exploitatie.
+Commercieel gebruik van deze software (inclusief de wiskundige theorie, de `BigInt`-bijectie-algoritmen, de MRS Clock KDF, of de visuele layout) is **niet toegestaan** zonder voorafgaande schriftelijke toestemming van de auteur. Dit geldt voor gebruik in closed-source producten, betaalde diensten, of elke vorm van commerciële exploitatie.
 
 Neem contact op met **Bilal el Issaoui** via `elissa.oui.amster@gmail.com` of `elissa_oui@outlook.com` voor een commerciële licentie.
 
@@ -158,7 +180,7 @@ Neem contact op met **Bilal el Issaoui** via `elissa.oui.amster@gmail.com` of `e
 
 ## Methodologische Verklaring en Intellectueel Eigendom (2026)
 
-Deze sectie bestaat uit twee delen: (1) een methodologische verklaring die vastlegt hoe dit werk tot stand is gekomen, en (2) een attributie- en beschermingsamendement. Beide maken integraal deel uit van de licentievoorwaarden van deze repository en zijn van toepassing op alle inhoud: tekstdocumentatie, wiskundige afleidingen, de `index.html`-broncode en de onderliggende kosmologische/theologische synthese.
+Deze sectie bestaat uit twee delen: (1) een methodologische verklaring die vastlegt hoe dit werk tot stand is gekomen, en (2) een attributie- en beschermingsamendement. Beide maken integraal deel uit van de licentievoorwaarden van deze repository en zijn van toepassing op alle inhoud: tekstdocumentatie, wiskundige afleidingen, de `index.html`-broncode, de `mrs-kluis.html`-broncode en de onderliggende kosmologische/theologische synthese.
 
 ### Deel 1 — Methodologische Verklaring: Ontdekking vanuit Eerste Principia (Ab Initio)
 
@@ -178,13 +200,13 @@ Deze vergelijking verbindt de eerste twee perfecte getallen — **6** (native wa
 
 #### 3. Verduidelijking over de Rol van Kunstmatige Intelligentie
 
-AI is door de auteur uitsluitend gebruikt als (i) linguïstische compiler voor de prose en (ii) programmeerhulp bij Python-scripts voor **rekenkundige verificatie**. De **conceptuele ontdekking** — waaronder het handmatig vinden van A₀ = dr(N) en het afleiden van de klassenstructuur, de formules en de 2.520/7.000-jaar cyclusafsluitingen — is volledig menselijk. De scripts voerden uit; zij ontdekten niet. Elke bewering van het tegendeel is feitelijk onjuist en vormt academische laster.
+AI is door de auteur uitsluitend gebruikt als (i) linguïstische compiler voor de prose en (ii) programmeerhulp bij Python-scripts voor **rekenkundige verificatie**. De **conceptuele ontdekking** — waaronder het handmatig vinden van A₀ = dr(N) en het afleiden van de klassenstructuur, de formules, het (19, 9) Diophantische systeem, en de 2.520/7.000-jaar cyclusafsluitingen — is volledig menselijk. De scripts voerden uit; zij ontdekten niet. Elke bewering van het tegendeel is feitelijk onjuist en vormt academische laster.
 
 ### Deel 2 — Attributie en Bescherming
 
 #### 1. Academische Attributie en Anti-Plagiaatclausule
 
-Het wiskundige raamwerk — inclusief maar niet beperkt tot de algemene vorm **p ≡ 1 (mod q)**, de structurele classificatie van moduli (Klassen A, B en C), het 2.520-dagen LCM-synchronisatiemodel en de 7.000-jaar cyclusafsluiting — vormt het oorspronkelijke, fundamentele intellectuele eigendom van **Bilal el Issaoui**.
+Het wiskundige raamwerk — inclusief maar niet beperkt tot de algemene vorm **p ≡ 1 (mod q)**, de structurele classificatie van moduli (Klassen A, B en C), het 2.520-dagen LCM-synchronisatiemodel, de 7.000-jaar cyclusafsluiting en het (19, 9) Diophantische representatiesysteem — vormt het oorspronkelijke, fundamentele intellectuele eigendom van **Bilal el Issaoui**.
 
 Elke academische paper, presentatie, lezing of professionele publicatie die naar deze specifieke concepten verwijst, deze implementeert of erop voortbouwt, **MOET** Bilal el Issaoui expliciet crediteren als de oorspronkelijke auteur. Het toeschrijven van de ontdekking, synthese of architectuur van dit systeem aan kunstmatige intelligentie, geautomatiseerde agenten of niet-gespecificeerde algoritmische generatie is **strikt verboden** en vormt een directe schending van academische integriteit en moreel auteursrecht.
 
@@ -194,7 +216,7 @@ Onder geen enkele omstandigheid mag enig deel van deze repository — inclusief 
 
 #### 3. Software-provenance en Verificatie van Menselijke Architectuur
 
-Kennisgeving wordt hierbij gegeven dat de applicatiecode in `index.html` is ontworpen als een **local-first, dependency-vrije architectuur** die gebruikmaakt van native `BigInt`-primitieven om structurele wiskundige precisie te behouden. Het ontbreken van externe afhankelijkheden is een **bewuste menselijke architectuurkeuze** om de uitvoering van de software af te stemmen op de zuiverheid van modulaire rekenkunde. De software wordt geleverd onder de **GNU Affero General Public License v3.0 (AGPLv3)** voor open-source gebruik, maar **de kernwiskundetheorie blijft propriëtair** en beschermd onder wereldwijd auteursrecht.
+Kennisgeving wordt hierbij gegeven dat de applicatiecode in `index.html` en `mrs-kluis.html` is ontworpen als een **local-first, dependency-vrije architectuur** die gebruikmaakt van native `BigInt`-primitieven en native Web Crypto-primitieven om structurele wiskundige precisie te behouden. Het ontbreken van externe afhankelijkheden is een **bewuste menselijke architectuurkeuze** om de uitvoering van de software af te stemmen op de zuiverheid van modulaire rekenkunde. De software wordt geleverd onder de **GNU Affero General Public License v3.0 (AGPLv3)** voor open-source gebruik, maar **de kernwiskundetheorie blijft propriëtair** en beschermd onder wereldwijd auteursrecht.
 
 ---
 
