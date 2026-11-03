@@ -4,8 +4,8 @@ const ASSETS = [
   "./index.html",
   "./mrs-kluis.html",
   "./manifest.json",
-  "./icon-192.png",
-  "./icon-512.png"
+  "./icons/icon192.jpg",
+  "./icons/icon512.jpg"
 ];
 
 self.addEventListener("install", (e) => {
