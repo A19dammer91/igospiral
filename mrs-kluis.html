@@ -20,13 +20,11 @@
 html { scroll-behavior: smooth; -webkit-tap-highlight-color: transparent; }
 body { font-family: 'DM Sans', sans-serif; background: var(--off); color: var(--dark); min-height: 100vh; overflow-x: hidden; }
 button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 3px solid var(--navy-lt); outline-offset: 2px; }
-
 @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
 @keyframes up    { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
 @keyframes pop   { from{opacity:0;transform:translateY(5px)}  to{opacity:1;transform:none} }
 @keyframes spin  { to{transform:rotate(360deg)} }
 
-/* LOGIN */
 #login-screen { display: flex; position: fixed; inset: 0; z-index: 1000; background: var(--navy); background-image: radial-gradient(ellipse at 15% 85%, rgba(107,26,42,0.35) 0%, transparent 55%), radial-gradient(ellipse at 85% 15%, rgba(74,111,165,0.2) 0%, transparent 55%); align-items: center; justify-content: center; padding: 24px; }
 .login-card { width: 100%; max-width: 400px; background: var(--white); border-radius: 20px; box-shadow: 0 24px 80px rgba(0,0,0,0.35); overflow: hidden; }
 .login-top { background: var(--navy); padding: 32px 28px 26px; position: relative; overflow: hidden; }
@@ -52,7 +50,6 @@ button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 3px
 .l-feat { display:flex; align-items:center; gap:8px; font-size:11px; color:var(--soft); }
 .lfdot { width:5px; height:5px; border-radius:50%; background:var(--burgundy-lt); flex-shrink:0; }
 
-/* SIDEBAR */
 .sidebar { position: fixed; left: 0; top: 0; width: var(--sidebar-w); height: 100vh; background: var(--navy); display: flex; flex-direction: column; z-index: 200; box-shadow: var(--sh3); transition: transform 0.3s ease; }
 .brand { padding: 26px 22px 20px; border-bottom: 1px solid rgba(255,255,255,0.07); display: flex; align-items: center; gap: 13px; }
 .brand-icon { width: 38px; height: 38px; background: linear-gradient(135deg, var(--burgundy), var(--burgundy-lt)); border-radius: 9px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 17px; box-shadow: 0 3px 10px rgba(107,26,42,0.4); }
@@ -79,7 +76,6 @@ button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 3px
 .logout-lnk { margin-top:10px; display:flex; align-items:center; gap:7px; font-size:12px; color:rgba(255,255,255,0.3); cursor:pointer; transition:color 0.15s; background:none; border:none; width:100%; text-align:left; padding:0; }
 .logout-lnk:hover { color:rgba(255,255,255,0.7); }
 
-/* MAIN / TOPBAR */
 .main { margin-left:var(--sidebar-w); min-height:100vh; display:flex; flex-direction:column; }
 .topbar { background: var(--white); border-bottom: 1px solid var(--light); height: var(--topbar-h); padding: 0 28px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; box-shadow: var(--sh1); }
 .topbar-left  { display:flex; align-items:center; gap:12px; }
@@ -92,11 +88,9 @@ button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 3px
 .enc-badge { display: flex; align-items: center; gap: 5px; background: rgba(26,107,69,0.08); border: 1px solid rgba(26,107,69,0.2); border-radius: 20px; padding: 4px 12px; font-size: 11px; color: var(--ok); font-weight: 500; }
 .content { flex:1; padding:24px 28px; max-width:960px; width:100%; }
 
-/* PANELS */
 .panel { display:none; }
 .panel.active { display:block; animation:up 0.25s ease; }
 
-/* STATS */
 .stat-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; margin-bottom: 24px; }
 .stat-card { background: var(--white); border: 1px solid var(--light); border-radius: 12px; padding: 18px; box-shadow: var(--sh1); position: relative; overflow: hidden; transition: box-shadow 0.2s; }
 .stat-card:hover { box-shadow:var(--sh2); }
@@ -110,13 +104,11 @@ button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 3px
 .stat-val { font-family:'Cormorant Garamond',serif; font-size:30px; font-weight:600; color:var(--navy); line-height:1; }
 .stat-sub { font-size:11px; color:var(--soft); margin-top:4px; }
 
-/* CARDS */
 .card { background:var(--white); border:1px solid var(--light); border-radius:14px; box-shadow:var(--sh1); overflow:hidden; margin-bottom:20px; }
 .card-head { padding: 16px 22px; border-bottom: 1px solid var(--light); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
 .card-title { font-family:'Cormorant Garamond',serif; font-size:17px; font-weight:500; color:var(--navy); }
 .card-body  { padding:20px 22px; }
 
-/* BADGES */
 .badge { font-size:10.5px; padding:3px 10px; border-radius:20px; font-weight:500; letter-spacing:0.04em; white-space:nowrap; }
 .b-red   { background:rgba(107,26,42,.08);  color:var(--burgundy); border:1px solid rgba(107,26,42,.15); }
 .b-navy  { background:rgba(15,37,69,.07);   color:var(--navy-md);  border:1px solid rgba(15,37,69,.12); }
@@ -124,20 +116,10 @@ button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 3px
 .b-ok    { background:rgba(26,107,69,.07);  color:var(--ok);       border:1px solid rgba(26,107,69,.15); }
 .b-steel { background:rgba(74,111,165,.08); color:var(--steel);    border:1px solid rgba(74,111,165,.2); }
 
-/* DASHBOARD STRIP + ACTIVITEIT + SEC-METER (toegevoegd) */
-.dash-strip {
-  background: linear-gradient(135deg, var(--navy), var(--navy-md));
-  border-radius: 14px; padding: 20px 24px; margin-bottom: 20px;
-  color: white; display: flex; align-items: center; justify-content: space-between;
-  gap: 16px; box-shadow: var(--sh2);
-}
+.dash-strip { background: linear-gradient(135deg, var(--navy), var(--navy-md)); border-radius: 14px; padding: 20px 24px; margin-bottom: 20px; color: white; display: flex; align-items: center; justify-content: space-between; gap: 16px; box-shadow: var(--sh2); }
 .ds-left h2 { font-family:'Cormorant Garamond',serif; font-size:22px; font-weight:500; margin-bottom:4px; }
 .ds-left p  { font-size:12px; color:var(--steel-lt); line-height:1.5; }
-.ds-enc {
-  background: rgba(63,184,122,0.15); border: 1px solid rgba(63,184,122,0.3);
-  border-radius: 8px; padding: 8px 14px; font-size: 11px; color: #3FB87A;
-  text-align: center; line-height: 1.5; flex-shrink: 0;
-}
+.ds-enc { background: rgba(63,184,122,0.15); border: 1px solid rgba(63,184,122,0.3); border-radius: 8px; padding: 8px 14px; font-size: 11px; color: #3FB87A; text-align: center; line-height: 1.5; flex-shrink: 0; }
 .sec-meter { display:flex; align-items:center; gap:8px; margin-top:8px; }
 .sec-bar   { flex:1; height:6px; background:var(--light); border-radius:6px; overflow:hidden; }
 .sec-fill  { height:100%; border-radius:6px; }
@@ -154,7 +136,6 @@ button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 3px
 .act-sub   { font-size:11px; color:var(--soft); }
 .act-time  { font-size:10px; color:var(--soft); white-space:nowrap; }
 
-/* FORMS */
 .row   { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:14px; }
 .row-1 { grid-template-columns:1fr; }
 .row-3 { grid-template-columns:1fr 1fr 1fr; }
@@ -164,7 +145,6 @@ button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 3px
 .field input:focus, .field textarea:focus { border-color:var(--navy-lt); background:var(--white); box-shadow:0 0 0 3px rgba(26,58,107,.07); }
 .field textarea { resize:vertical; min-height:80px; }
 
-/* BUTTONS */
 .btn { display: inline-flex; align-items: center; gap: 8px; padding: 11px 20px; border-radius: 9px; font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.16s; border: none; letter-spacing: 0.01em; white-space: nowrap; }
 .btn-primary { background:var(--burgundy); color:white; box-shadow:0 2px 8px rgba(107,26,42,.3); }
 .btn-primary:hover { background:var(--burgundy-md); transform:translateY(-1px); box-shadow:0 4px 14px rgba(107,26,42,.38); }
@@ -180,7 +160,6 @@ button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 3px
 .btn svg     { width:15px; height:15px; }
 .spin { width:14px; height:14px; border:2px solid rgba(255,255,255,.3); border-top-color:white; border-radius:50%; animation:spin .7s linear infinite; flex-shrink:0; }
 
-/* RESULT BOX */
 .rbox { background: var(--off); border: 1px solid var(--light); border-radius: 10px; padding: 16px 18px; margin-top: 18px; display: none; animation: up 0.22s ease; }
 .rbox.show    { display:block; }
 .rbox.ok-box  { border-color:rgba(26,107,69,.22);  background:rgba(26,107,69,.03); }
@@ -196,7 +175,6 @@ button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 3px
 .rval.good { color:var(--ok); }
 .rval.bad  { color:var(--err); }
 
-/* KLUIS TABLE */
 .ktable { width:100%; border-collapse:collapse; }
 .ktable th { font-size:10.5px; text-transform:uppercase; letter-spacing:0.09em; color:var(--soft); font-weight:500; padding:10px 16px; text-align:left; border-bottom:2px solid var(--light); background:var(--off); }
 .ktable td { padding:12px 16px; font-size:13px; border-bottom:1px solid var(--light); vertical-align:middle; }
@@ -206,7 +184,6 @@ button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 3px
 .empty-st svg { width:36px; height:36px; opacity:.25; margin:0 auto 10px; display:block; }
 .empty-st p { font-size:13.5px; }
 
-/* SPEC GRID */
 .spec-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
 .spec-item { background:var(--off); border:1px solid var(--light); border-radius:10px; padding:14px 16px; }
 .spec-part { font-size:9.5px; text-transform:uppercase; letter-spacing:0.12em; color:var(--burgundy); font-weight:600; margin-bottom:4px; }
@@ -214,12 +191,10 @@ button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 3px
 .spec-desc { font-size:12px; color:var(--soft); line-height:1.5; }
 .divider   { height:1px; background:var(--light); margin:20px 0; }
 
-/* WARN / INFO */
 .warn { margin-top: 12px; padding: 11px 14px; background: rgba(139,26,26,.04); border: 1px solid rgba(139,26,26,.14); border-radius: 8px; font-size: 12px; color: var(--err); display: flex; align-items: flex-start; gap: 8px; line-height: 1.6; }
 .info-box { padding: 12px 16px; border-radius: 8px; background: rgba(15,37,69,0.05); border: 1px solid rgba(15,37,69,0.12); font-size: 12px; color: var(--navy-md); line-height: 1.6; margin-bottom: 16px; }
 .info-box.ok-box { background:rgba(26,107,69,0.04); border-color:rgba(26,107,69,0.15); color:var(--ok); }
 
-/* CHAT */
 .chat-container { display: flex; flex-direction: column; height: 520px; background: var(--white); border-radius: 14px; overflow: hidden; border: 1px solid var(--light); box-shadow: var(--sh1); }
 .chat-hdr { background: var(--navy); padding: 12px 18px; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
 .chat-hdr-l { display:flex; align-items:center; gap:10px; }
@@ -254,7 +229,6 @@ button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 3px
 .chat-send { width:42px; height:42px; flex-shrink:0; border:none; cursor:pointer; border-radius:50%; font-size:16px; display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg,var(--navy),var(--navy-md)); color:white; box-shadow:var(--sh2); transition:all 0.2s; }
 .chat-send:active { transform:scale(0.9); box-shadow:none; }
 
-/* TOASTS / OVERLAY */
 .cp { background:none; border:1px solid var(--mid); border-radius:5px; padding:2px 7px; font-size:10.5px; cursor:pointer; color:var(--soft); transition:all .13s; margin-left:6px; white-space:nowrap; }
 .cp:hover { background:var(--light); color:var(--navy); }
 .toasts { position:fixed; bottom:80px; right:16px; display:flex; flex-direction:column; gap:8px; z-index:9998; }
@@ -264,14 +238,12 @@ button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 3px
 .overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.45); z-index:150; backdrop-filter:blur(2px); }
 .overlay.show { display:block; }
 
-/* BOTTOM NAV */
 .bottom-nav { display: none; position: fixed; bottom: 0; left: 0; right: 0; height: var(--bottom-nav-h); background: var(--navy); border-top: 1px solid rgba(255,255,255,0.1); z-index: 200; padding: 0 4px; align-items: center; justify-content: space-around; }
 .bnav-btn { display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 8px 10px; border-radius: 10px; background: none; border: none; cursor: pointer; color: rgba(255,255,255,0.45); transition: all 0.15s; min-width: 50px; }
 .bnav-btn.active { color:white; background:rgba(107,26,42,0.4); }
 .bnav-btn svg  { width:20px; height:20px; }
 .bnav-btn span { font-size:9px; letter-spacing:0.02em; }
 
-/* RESPONSIVE */
 @media (max-width:860px) {
   :root { --sidebar-w:200px; }
   .stat-grid { grid-template-columns:1fr 1fr; }
@@ -312,16 +284,12 @@ button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 3px
 </head>
 <body>
 
-<!-- LOGIN -->
 <div id="login-screen">
   <div class="login-card">
     <div class="login-top">
       <div class="login-brand">
         <div class="login-ico">🔒</div>
-        <div>
-          <div class="login-nm">MRS-AUTH</div>
-          <div class="login-sb">Offline Kluis &amp; Chat</div>
-        </div>
+        <div><div class="login-nm">MRS-AUTH</div><div class="login-sb">Offline Kluis &amp; Chat</div></div>
       </div>
       <div class="login-title">Veilige communicatie<br>zonder server</div>
       <div class="login-sub">// end-to-end versleuteld · MRS Clock KDF · offline</div>
@@ -346,73 +314,39 @@ button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 3px
 <div class="overlay" id="overlay" onclick="closeMenu()"></div>
 <div class="toasts" id="toasts"></div>
 
-<!-- SIDEBAR -->
 <nav class="sidebar" id="sidebar" aria-label="Hoofdnavigatie">
-  <div class="brand">
-    <div class="brand-icon">🔒</div>
-    <div>
-      <div class="brand-name">MRS-AUTH</div>
-      <div class="brand-sub">Offline Kluis &amp; Chat</div>
-    </div>
-  </div>
+  <div class="brand"><div class="brand-icon">🔒</div><div><div class="brand-name">MRS-AUTH</div><div class="brand-sub">Offline Kluis &amp; Chat</div></div></div>
   <div class="sb-user">
     <div class="sb-av" id="sb-av">?</div>
-    <div class="sb-info">
-      <div class="sb-name"  id="sb-naam">–</div>
-      <div class="sb-kamer" id="sb-kamer">Kamer –</div>
-    </div>
+    <div class="sb-info"><div class="sb-name" id="sb-naam">–</div><div class="sb-kamer" id="sb-kamer">Kamer –</div></div>
     <div class="sb-dot"></div>
   </div>
   <div class="nav">
     <div class="nav-label">Overzicht</div>
-    <button class="nav-btn active" id="nb-dashboard" onclick="go('dashboard')">
-      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>Dashboard
-    </button>
+    <button class="nav-btn active" id="nb-dashboard" onclick="go('dashboard')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>Dashboard</button>
     <div class="nav-label">Kluis</div>
-    <button class="nav-btn" id="nb-kluis" onclick="go('kluis')">
-      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 6h-2.18c.07-.44.18-.88.18-1.36C18 2.05 15.96 0 13.5 0c-1.4 0-2.5.83-3.5 2.1C9 .83 7.9 0 6.5 0 4.04 0 2 2.05 2 4.64c0 .48.11.92.18 1.36H0v14h24V6h-4z"/></svg>Mijn Kluis
-    </button>
+    <button class="nav-btn" id="nb-kluis" onclick="go('kluis')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 6h-2.18c.07-.44.18-.88.18-1.36C18 2.05 15.96 0 13.5 0c-1.4 0-2.5.83-3.5 2.1C9 .83 7.9 0 6.5 0 4.04 0 2 2.05 2 4.64c0 .48.11.92.18 1.36H0v14h24V6h-4z"/></svg>Mijn Kluis</button>
     <div class="nav-label">Communicatie</div>
-    <button class="nav-btn" id="nb-chat" onclick="go('chat')">
-      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>Veilige Chat
-      <span class="nav-badge" id="chat-badge" style="display:none">0</span>
-    </button>
+    <button class="nav-btn" id="nb-chat" onclick="go('chat')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>Veilige Chat<span class="nav-badge" id="chat-badge" style="display:none">0</span></button>
     <div class="nav-label">Authenticatie</div>
-    <button class="nav-btn" id="nb-handtekening" onclick="go('handtekening')">
-      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>Handtekening
-    </button>
-    <button class="nav-btn" id="nb-tijdcode" onclick="go('tijdcode')">
-      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67V7z"/></svg>Tijdcodes
-    </button>
+    <button class="nav-btn" id="nb-handtekening" onclick="go('handtekening')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>Handtekening</button>
+    <button class="nav-btn" id="nb-tijdcode" onclick="go('tijdcode')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67V7z"/></svg>Tijdcodes</button>
     <div class="nav-label">Encryptie</div>
-    <button class="nav-btn" id="nb-versleutel" onclick="go('versleutel')">
-      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>Versleutelen
-    </button>
-    <button class="nav-btn" id="nb-ontsleutel" onclick="go('ontsleutel')">
-      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.65 10C11.83 7.67 9.61 6 7 6c-3.31 0-6 2.69-6 6s2.69 6 6 6c2.61 0 4.83-1.67 5.65-4H17v4h4v-4h2v-4H12.65z"/></svg>Ontsleutelen
-    </button>
+    <button class="nav-btn" id="nb-versleutel" onclick="go('versleutel')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>Versleutelen</button>
+    <button class="nav-btn" id="nb-ontsleutel" onclick="go('ontsleutel')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.65 10C11.83 7.67 9.61 6 7 6c-3.31 0-6 2.69-6 6s2.69 6 6 6c2.61 0 4.83-1.67 5.65-4H17v4h4v-4h2v-4H12.65z"/></svg>Ontsleutelen</button>
     <div class="nav-label">Info</div>
-    <button class="nav-btn" id="nb-info" onclick="go('info')">
-      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M11 17h2v-6h-2v6zm1-15C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zM11 9h2V7h-2v2z"/></svg>Over MRS-AUTH
-    </button>
+    <button class="nav-btn" id="nb-info" onclick="go('info')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M11 17h2v-6h-2v6zm1-15C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zM11 9h2V7h-2v2z"/></svg>Over MRS-AUTH</button>
   </div>
   <div class="sb-foot">
     <div class="motor-dot"><div class="dot"></div><span id="sb-status">Lokaal actief</span></div>
-    <button class="logout-lnk" onclick="doLogout()">
-      <svg viewBox="0 0 24 24" fill="currentColor" style="width:13px;height:13px;opacity:0.6">
-        <path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/>
-      </svg>Vergrendelen
-    </button>
+    <button class="logout-lnk" onclick="doLogout()"><svg viewBox="0 0 24 24" fill="currentColor" style="width:13px;height:13px;opacity:0.6"><path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/></svg>Vergrendelen</button>
   </div>
 </nav>
 
-<!-- MAIN -->
 <div class="main" id="main-app" style="display:none">
   <header class="topbar">
     <div class="topbar-left">
-      <button class="hamburger" onclick="openMenu()" aria-label="Menu openen">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
-      </button>
+      <button class="hamburger" onclick="openMenu()" aria-label="Menu openen"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg></button>
       <div class="page-title" id="page-title">Dashboard</div>
     </div>
     <div class="topbar-right">
@@ -423,13 +357,9 @@ button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 3px
 
   <div class="content">
 
-    <!-- DASHBOARD -->
     <div id="panel-dashboard" class="panel active">
       <div class="dash-strip">
-        <div class="ds-left">
-          <h2>Welkom, <span id="dash-naam">–</span></h2>
-          <p>Kamer <b id="dash-kamer">–</b> · Lokale modus · Alle gegevens blijven op dit apparaat</p>
-        </div>
+        <div class="ds-left"><h2>Welkom, <span id="dash-naam">–</span></h2><p>Kamer <b id="dash-kamer">–</b> · Lokale modus · Alle gegevens blijven op dit apparaat</p></div>
         <div class="ds-enc">🔒 MRS-AUTH<br><span style="font-size:9px;opacity:0.8">Clock KDF actief</span></div>
       </div>
       <div class="stat-grid">
@@ -443,34 +373,17 @@ button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 3px
           <div class="card-head"><div class="card-title">Recente activiteit</div><span class="badge b-navy">Live</span></div>
           <div class="card-body" style="padding:0 22px">
             <div class="act-list" id="act-list">
-              <div class="act-item">
-                <div class="act-ico ai-green">🔒</div>
-                <div class="act-text"><div class="act-title">Kluis ontgrendeld</div><div class="act-sub">MRS Clock KDF toegepast</div></div>
-                <div class="act-time" id="act-login-time">–</div>
-              </div>
-              <div class="act-item">
-                <div class="act-ico ai-blue">🔑</div>
-                <div class="act-text"><div class="act-title">Sleutel gegenereerd</div><div class="act-sub">19A+9B structuur · 256-bit</div></div>
-                <div class="act-time">nu</div>
-              </div>
+              <div class="act-item"><div class="act-ico ai-green">🔒</div><div class="act-text"><div class="act-title">Kluis ontgrendeld</div><div class="act-sub">MRS Clock KDF toegepast</div></div><div class="act-time" id="act-login-time">–</div></div>
+              <div class="act-item"><div class="act-ico ai-blue">🔑</div><div class="act-text"><div class="act-title">Sleutel gegenereerd</div><div class="act-sub">19A+9B structuur · 256-bit</div></div><div class="act-time">nu</div></div>
             </div>
           </div>
         </div>
         <div class="card" style="margin-bottom:0">
           <div class="card-head"><div class="card-title">Beveiligingsstatus</div><span class="badge b-ok">Veilig</span></div>
           <div class="card-body">
-            <div style="margin-bottom:14px">
-              <div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:12px;color:var(--muted)">Encryptie sterkte</span><span style="font-size:12px;font-weight:500;color:var(--ok)">AES-256-GCM</span></div>
-              <div class="sec-meter"><div class="sec-bar"><div class="sec-fill" style="width:100%;background:linear-gradient(90deg,var(--ok),#22C55E)"></div></div><span style="font-size:11px;font-weight:500;color:var(--ok)">Maximaal</span></div>
-            </div>
-            <div style="margin-bottom:14px">
-              <div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:12px;color:var(--muted)">Sleutelafleiding</span><span style="font-size:12px;font-weight:500;color:var(--ok)">MRS Clock KDF</span></div>
-              <div class="sec-meter"><div class="sec-bar"><div class="sec-fill" style="width:95%;background:linear-gradient(90deg,var(--ok),#22C55E)"></div></div><span style="font-size:11px;font-weight:500;color:var(--ok)">Framework-native</span></div>
-            </div>
-            <div style="margin-bottom:14px">
-              <div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:12px;color:var(--muted)">Opslag</span><span style="font-size:12px;font-weight:500;color:var(--ok)">IndexedDB (lokaal)</span></div>
-              <div class="sec-meter"><div class="sec-bar"><div class="sec-fill" style="width:90%;background:linear-gradient(90deg,var(--ok),#22C55E)"></div></div><span style="font-size:11px;font-weight:500;color:var(--ok)">Offline</span></div>
-            </div>
+            <div style="margin-bottom:14px"><div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:12px;color:var(--muted)">Encryptie sterkte</span><span style="font-size:12px;font-weight:500;color:var(--ok)">AES-256-GCM</span></div><div class="sec-meter"><div class="sec-bar"><div class="sec-fill" style="width:100%;background:linear-gradient(90deg,var(--ok),#22C55E)"></div></div><span style="font-size:11px;font-weight:500;color:var(--ok)">Maximaal</span></div></div>
+            <div style="margin-bottom:14px"><div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:12px;color:var(--muted)">Sleutelafleiding</span><span style="font-size:12px;font-weight:500;color:var(--ok)">MRS Clock KDF</span></div><div class="sec-meter"><div class="sec-bar"><div class="sec-fill" style="width:95%;background:linear-gradient(90deg,var(--ok),#22C55E)"></div></div><span style="font-size:11px;font-weight:500;color:var(--ok)">Framework-native</span></div></div>
+            <div style="margin-bottom:14px"><div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:12px;color:var(--muted)">Opslag</span><span style="font-size:12px;font-weight:500;color:var(--ok)">IndexedDB (lokaal)</span></div><div class="sec-meter"><div class="sec-bar"><div class="sec-fill" style="width:90%;background:linear-gradient(90deg,var(--ok),#22C55E)"></div></div><span style="font-size:11px;font-weight:500;color:var(--ok)">Offline</span></div></div>
             <div class="info-box" style="margin-bottom:0">ℹ️ Alle gegevens blijven op dit apparaat. Er is geen server of internetverbinding nodig.</div>
           </div>
         </div>
@@ -499,7 +412,6 @@ button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 3px
       </div>
     </div>
 
-    <!-- KLUIS -->
     <div id="panel-kluis" class="panel">
       <div class="card">
         <div class="card-head"><div class="card-title">Item toevoegen aan kluis</div><span class="badge b-ok">AES-256 · MRS Clock KDF</span></div>
@@ -533,9 +445,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 3px
             </div>
             <div class="field" style="justify-content:flex-end">
               <label>&nbsp;</label>
-              <button class="btn btn-primary" id="btn-kluis" onclick="kluisOpslaan()">
-                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z"/></svg>Opslaan in kluis
-              </button>
+              <button class="btn btn-primary" id="btn-kluis" onclick="kluisOpslaan()"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z"/></svg>Opslaan in kluis</button>
             </div>
           </div>
         </div>
@@ -548,19 +458,12 @@ button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 3px
       </div>
     </div>
 
-    <!-- CHAT -->
     <div id="panel-chat" class="panel">
       <div class="card" style="margin-bottom:0">
         <div class="card-head"><div class="card-title">💬 Veilige Chat</div><span class="badge b-ok">E2E · AES-256-GCM · Offline</span></div>
         <div class="chat-container">
           <div class="chat-hdr">
-            <div class="chat-hdr-l">
-              <div class="chat-av" id="chat-av">?</div>
-              <div>
-                <div class="chat-hdr-name" id="chat-naam">–</div>
-                <div class="chat-hdr-room"><div class="chat-live"></div><span id="chat-room">Kamer –</span></div>
-              </div>
-            </div>
+            <div class="chat-hdr-l"><div class="chat-av" id="chat-av">?</div><div><div class="chat-hdr-name" id="chat-naam">–</div><div class="chat-hdr-room"><div class="chat-live"></div><span id="chat-room">Kamer –</span></div></div></div>
             <div class="chat-enc">🔒 E2E<br>AES-256-GCM</div>
           </div>
           <div class="chat-tabs-bar">
@@ -570,10 +473,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 3px
           <div id="chat-chat-panel">
             <div class="chat-room-bar">🔒 Berichten versleuteld vóór verzending — alleen lokaal netwerk</div>
             <div class="messages" id="messages">
-              <div class="msg-empty-st" id="msg-empty">
-                <div class="msg-empty-ico">🔐</div>
-                <p>Kamer is leeg.<br>Stuur het eerste bericht.</p>
-              </div>
+              <div class="msg-empty-st" id="msg-empty"><div class="msg-empty-ico">🔐</div><p>Kamer is leeg.<br>Stuur het eerste bericht.</p></div>
             </div>
             <div class="chat-input-area">
               <textarea class="chat-ta" id="chat-input" placeholder="Typ een bericht... (Enter = verstuur, Shift+Enter = nieuwe regel)" rows="1" oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,110)+'px'" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();verstuurBericht()}"></textarea>
@@ -593,7 +493,6 @@ button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 3px
       </div>
     </div>
 
-    <!-- HANDTEKENING -->
     <div id="panel-handtekening" class="panel">
       <div class="card">
         <div class="card-head"><div class="card-title">MRS-AUTH Handtekening</div><span class="badge b-red">Deel I · 19A + 9B · v3.1 Lokaal</span></div>
@@ -615,19 +514,12 @@ button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 3px
             <button class="btn btn-ghost btn-sm" onclick="stelNin(2024,'h-n')">N=2024</button>
             <button class="btn btn-ghost btn-sm" onclick="stelNin(10000,'h-n')">N=10000</button>
           </div>
-          <button class="btn btn-primary" id="btn-ht" onclick="doHandtekening()">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
-            Handtekening berekenen
-          </button>
-          <div id="r-ht" class="rbox">
-            <div class="rbox-title ok" id="r-ht-title">✓ Handtekening berekend — sleutel gewist</div>
-            <div id="r-ht-rows"></div>
-          </div>
+          <button class="btn btn-primary" id="btn-ht" onclick="doHandtekening()"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>Handtekening berekenen</button>
+          <div id="r-ht" class="rbox"><div class="rbox-title ok" id="r-ht-title">✓ Handtekening berekend — sleutel gewist</div><div id="r-ht-rows"></div></div>
         </div>
       </div>
     </div>
 
-    <!-- TIJDCODE -->
     <div id="panel-tijdcode" class="panel">
       <div class="card">
         <div class="card-head"><div class="card-title">EUF-CMA Tijdcode</div><span class="badge b-gold">Deel III · Forward Secrecy · v3.0</span></div>
@@ -639,27 +531,14 @@ button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 3px
           </div>
           <div class="row">
             <div class="field"><label>Tijdsvenster (seconden)</label><input type="number" id="tc-venster" value="30" min="10" max="300"></div>
-            <div class="field"><label>Toepassingsdoel</label>
-              <select id="tc-use">
-                <option value="auth">Authenticatie</option>
-                <option value="sign">Handtekening</option>
-                <option value="demo">Demo / Test</option>
-              </select>
-            </div>
+            <div class="field"><label>Toepassingsdoel</label><select id="tc-use"><option value="auth">Authenticatie</option><option value="sign">Handtekening</option><option value="demo">Demo / Test</option></select></div>
           </div>
-          <button class="btn btn-primary" id="btn-tc" onclick="doTijdcode()">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67V7z"/></svg>
-            Tijdcode genereren
-          </button>
-          <div id="r-tc" class="rbox">
-            <div class="rbox-title ok">✓ Tijdcode gegenereerd — kamersleutel gebonden</div>
-            <div id="r-tc-rows"></div>
-          </div>
+          <button class="btn btn-primary" id="btn-tc" onclick="doTijdcode()"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67V7z"/></svg>Tijdcode genereren</button>
+          <div id="r-tc" class="rbox"><div class="rbox-title ok">✓ Tijdcode gegenereerd — kamersleutel gebonden</div><div id="r-tc-rows"></div></div>
         </div>
       </div>
     </div>
 
-    <!-- VERSLEUTELEN -->
     <div id="panel-versleutel" class="panel">
       <div class="card">
         <div class="card-head"><div class="card-title">Bericht versleutelen</div><span class="badge b-navy">Deel IV · AES-256-GCM</span></div>
@@ -669,18 +548,13 @@ button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 3px
             <div class="field"><label>Wachtwoord / sleutel</label><input type="password" id="e-pw" placeholder="Kies een sterk wachtwoord..." autocomplete="new-password"></div>
             <div class="field"><label>Context / label</label><input type="text" id="e-ctx" placeholder="bijv. kamer-4219" value="securechat"></div>
           </div>
-          <div class="row row-1">
-            <div class="field"><label>Bericht om te versleutelen</label><textarea id="e-msg">Geheim bericht voor de digitale kluis</textarea></div>
-          </div>
-          <button class="btn btn-primary" id="btn-enc" onclick="doVersleutel()">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>Versleutelen
-          </button>
+          <div class="row row-1"><div class="field"><label>Bericht om te versleutelen</label><textarea id="e-msg">Geheim bericht voor de digitale kluis</textarea></div></div>
+          <button class="btn btn-primary" id="btn-enc" onclick="doVersleutel()"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>Versleutelen</button>
           <div id="r-enc" class="rbox"><div class="rbox-title ok">✓ Versleuteld — nonce ingebakken in ciphertext</div><div id="r-enc-rows"></div></div>
         </div>
       </div>
     </div>
 
-    <!-- ONTSLEUTELEN -->
     <div id="panel-ontsleutel" class="panel">
       <div class="card">
         <div class="card-head"><div class="card-title">Bericht ontsleutelen</div><span class="badge b-navy">Deel IV · AES-256-GCM</span></div>
@@ -690,18 +564,13 @@ button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 3px
             <div class="field"><label>Wachtwoord / sleutel</label><input type="password" id="d-pw" placeholder="Hetzelfde wachtwoord als bij versleuteling..." autocomplete="current-password"></div>
             <div class="field"><label>Context / label</label><input type="text" id="d-ctx" placeholder="bijv. kamer-4219" value="securechat"></div>
           </div>
-          <div class="row row-1">
-            <div class="field"><label>Ciphertext (base64)</label><textarea id="d-ct" placeholder="Plak hier de base64 ciphertext..." style="min-height:100px;font-family:monospace;font-size:12px"></textarea></div>
-          </div>
-          <button class="btn btn-navy" id="btn-dec" onclick="doOntsleutel()">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.65 10C11.83 7.67 9.61 6 7 6c-3.31 0-6 2.69-6 6s2.69 6 6 6c2.61 0 4.83-1.67 5.65-4H17v4h4v-4h2v-4H12.65z"/></svg>Ontsleutelen
-          </button>
+          <div class="row row-1"><div class="field"><label>Ciphertext (base64)</label><textarea id="d-ct" placeholder="Plak hier de base64 ciphertext..." style="min-height:100px;font-family:monospace;font-size:12px"></textarea></div></div>
+          <button class="btn btn-navy" id="btn-dec" onclick="doOntsleutel()"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.65 10C11.83 7.67 9.61 6 7 6c-3.31 0-6 2.69-6 6s2.69 6 6 6c2.61 0 4.83-1.67 5.65-4H17v4h4v-4h2v-4H12.65z"/></svg>Ontsleutelen</button>
           <div id="r-dec" class="rbox"><div class="rbox-title ok">✓ Ontsleuteld — sleutel gewist uit geheugen</div><div id="r-dec-rows"></div></div>
         </div>
       </div>
     </div>
 
-    <!-- INFO -->
     <div id="panel-info" class="panel">
       <div class="card">
         <div class="card-head"><div class="card-title">🔐 Over MRS-AUTH</div><span class="badge b-red">Onderzoeksfase · 2026</span></div>
@@ -720,7 +589,6 @@ button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 3px
   </div>
 </div>
 
-<!-- BOTTOM NAV -->
 <nav class="bottom-nav" id="bottom-nav" style="display:none">
   <button class="bnav-btn active" id="bn-dashboard"    onclick="go('dashboard')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg><span>Home</span></button>
   <button class="bnav-btn"        id="bn-kluis"        onclick="go('kluis')"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 6h-2.18c.07-.44.18-.88.18-1.36C18 2.05 15.96 0 13.5 0c-1.4 0-2.5.83-3.5 2.1C9 .83 7.9 0 6.5 0 4.04 0 2 2.05 2 4.64c0 .48.11.92.18 1.36H0v14h24V6h-4z"/></svg><span>Kluis</span></button>
@@ -730,12 +598,662 @@ button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 3px
 </nav>
 
 <script>
+// === DEEL 1: GLOBALE STAAT + HELPERS + MRS CLOCK KDF + AES + INDEXEDDB + LOGIN + NAVIGATIE ===
 'use strict';
 
-// Hier komt de volledige script uit je "mrs save.html"
-// (regel 1071 t/m 1833 in jouw bestand — alles vanaf 'use strict'; tot en met de laatste window.Xxx = ...;)
-// Dat is te lang om hier opnieuw te plakken; kopieer het exact uit je "mrs save.html" (tussen <script> en </script>).
+let encSleutel = null;
+let mijnNaam = '';
+let mijnKamer = '';
+let bc = null;
+let kluis = {};
+let kluisDB = null;
+let gezienIds = new Set();
+let lokaalTs = new Set();
+let stSigns = 0, stCodes = 0, stMsgs = 0, ongelezen = 0;
 
+function g(id) { return document.getElementById(id); }
+function esc(s) {
+  return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+function dr(n) {
+  n = Math.abs(Math.round(n));
+  if (n === 0) return 0;
+  const r = n % 9;
+  return r === 0 ? 9 : r;
+}
+function tijdNu() {
+  return new Date().toLocaleTimeString('nl-NL', { hour: '2-digit', minute: '2-digit' });
+}
+function toast(bericht, type = 'ok') {
+  const c = g('toasts');
+  if (!c) return;
+  const t = document.createElement('div');
+  t.className = 'toast ' + (type === 'ok' ? 'ok' : 'err');
+  t.innerHTML = (type === 'ok' ? '✓' : '✕') + ' <span>' + esc(bericht) + '</span>';
+  c.appendChild(t);
+  setTimeout(() => t.remove(), 3400);
+}
+function setLoading(btnId, aan) {
+  const btn = g(btnId);
+  if (!btn) return;
+  if (aan) {
+    btn._origHTML = btn.innerHTML;
+    btn.classList.add('loading');
+    btn.innerHTML = '<div class="spin"></div> Bezig…';
+  } else {
+    btn.classList.remove('loading');
+    if (btn._origHTML) btn.innerHTML = btn._origHTML;
+  }
+}
+function rendResult(rowsId, boxId, rijen, succes = true) {
+  const rowsEl = g(rowsId);
+  const boxEl = g(boxId);
+  if (!rowsEl || !boxEl) return;
+  boxEl.className = 'rbox show ' + (succes ? 'ok-box' : 'err-box');
+  rowsEl.innerHTML = rijen.map(([k, v, cls = '']) => `
+    <div class="rrow">
+      <span class="rkey">${esc(k)}</span>
+      <span class="rval ${esc(cls)}">${esc(String(v))}${
+        cls === 'mono' || String(v).length > 20
+          ? ` <button class="cp" data-cptext="${esc(String(v)).replace(/"/g,'&quot;')}">Kopieer</button>`
+          : ''
+      }</span>
+    </div>`).join('');
+}
+function isNGeldig(n) {
+  return Number.isInteger(n) && n > 143 && n % 9 !== 0;
+}
+function stelNin(n, veldId) {
+  const el = g(veldId);
+  if (el) el.value = n;
+}
+async function cp(tekst, btn) {
+  try {
+    await navigator.clipboard.writeText(tekst);
+    toast('Gekopieerd ✓', 'ok');
+    if (btn) { const o = btn.textContent; btn.textContent = '✓'; setTimeout(() => btn.textContent = o, 1200); }
+  } catch { toast('Kopiëren mislukt', 'err'); }
+}
+document.addEventListener('click', async (e) => {
+  const cpBtn = e.target.closest('.cp');
+  if (!cpBtn) return;
+  const tekst = cpBtn.getAttribute('data-cptext');
+  if (!tekst) return;
+  await cp(tekst, cpBtn);
+});
+
+// MRS Clock KDF
+async function mrsClockKDF(wachtwoord, kamer) {
+  const enc = new TextEncoder();
+  const seedData = await crypto.subtle.digest('SHA-256', enc.encode(wachtwoord + '|' + kamer));
+  const seedBytes = new Uint8Array(seedData);
+  let N = 0n;
+  for (let i = 0; i < 16; i++) N = (N << 8n) | BigInt(seedBytes[i]);
+  if (N < 144n) N += 144n;
+  if (N % 9n === 0n) N += 1n;
+  const Ms = Number(N % 1000n);
+  const S  = Number((N / 1000n) % 60n);
+  const M  = Number((N / 60000n) % 60n);
+  const H  = Number((N / 3600000n) % 24n);
+  const D  = Number(N / 86400000n);
+  const drN = BigInt(dr(Number(N % 9n === 0n ? 9n : N % 9n)));
+  const floorDiv19 = N / 19n;
+  const inner = floorDiv19 > drN ? floorDiv19 - drN : 0n;
+  const RN = inner / 9n + 1n;
+  const kData = await crypto.subtle.digest('SHA-256', enc.encode(
+    Array.from(seedBytes).join('') + '|k'
+  ));
+  const kBytes = new Uint8Array(kData);
+  let kBig = 0n;
+  for (let i = 0; i < 8; i++) kBig = (kBig << 8n) | BigInt(kBytes[i]);
+  const k = kBig % RN;
+  const A0 = drN;
+  const B0 = (N - 19n * A0) / 9n;
+  const A = A0 + 9n * k;
+  const B = B0 - 19n * k;
+  const keyMaterial = enc.encode(
+    Array.from(seedBytes).join('') + '|' + A.toString() + '|' + B.toString()
+  );
+  const keyHash = await crypto.subtle.digest('SHA-256', keyMaterial);
+  const key = await crypto.subtle.importKey(
+    'raw', new Uint8Array(keyHash),
+    { name: 'AES-GCM', length: 256 },
+    true, ['encrypt', 'decrypt']
+  );
+  return {
+    key,
+    meta: { N: N.toString(), drN: drN.toString(), RN: RN.toString(), k: k.toString(), A: A.toString(), B: B.toString(), clock: {D, H, M, S, Ms} }
+  };
+}
+
+// AES-256-GCM
+async function encr(tekst, sleutel) {
+  sleutel = sleutel || encSleutel;
+  const nonce = crypto.getRandomValues(new Uint8Array(12));
+  const ct = await crypto.subtle.encrypt({ name: 'AES-GCM', iv: nonce }, sleutel, new TextEncoder().encode(tekst));
+  const buf = new Uint8Array(12 + ct.byteLength);
+  buf.set(nonce, 0);
+  buf.set(new Uint8Array(ct), 12);
+  return btoa(String.fromCharCode(...buf));
+}
+async function decr(b64, sleutel) {
+  sleutel = sleutel || encSleutel;
+  try {
+    const buf = Uint8Array.from(atob(b64), c => c.charCodeAt(0));
+    const nonce = buf.slice(0, 12);
+    const ct = buf.slice(12);
+    const plain = await crypto.subtle.decrypt({ name: 'AES-GCM', iv: nonce }, sleutel, ct);
+    return new TextDecoder().decode(plain);
+  } catch { return null; }
+}
+
+// IndexedDB
+function openDB() {
+  return new Promise((resolve, reject) => {
+    const req = indexedDB.open('mrs-auth-offline', 1);
+    req.onupgradeneeded = (e) => {
+      const db = e.target.result;
+      if (!db.objectStoreNames.contains('kluis')) db.createObjectStore('kluis', { keyPath: 'id' });
+      if (!db.objectStoreNames.contains('berichten')) db.createObjectStore('berichten', { keyPath: 'id' });
+    };
+    req.onsuccess = (e) => resolve(e.target.result);
+    req.onerror = () => reject(req.error);
+  });
+}
+async function dbGetAll(store) {
+  if (!kluisDB) return [];
+  return new Promise((res) => {
+    const tx = kluisDB.transaction(store, 'readonly');
+    const req = tx.objectStore(store).getAll();
+    req.onsuccess = () => res(req.result || []);
+    req.onerror = () => res([]);
+  });
+}
+async function dbPut(store, item) {
+  if (!kluisDB) return;
+  return new Promise((res) => {
+    const tx = kluisDB.transaction(store, 'readwrite');
+    tx.objectStore(store).put(item);
+    tx.oncomplete = () => res(true);
+    tx.onerror = () => res(false);
+  });
+}
+async function dbDel(store, id) {
+  if (!kluisDB) return;
+  return new Promise((res) => {
+    const tx = kluisDB.transaction(store, 'readwrite');
+    tx.objectStore(store).delete(id);
+    tx.oncomplete = () => res(true);
+    tx.onerror = () => res(false);
+  });
+}
+
+// Login / Logout
+function loginChk() {
+  const naam = (g('l-naam')?.value || '').trim();
+  const kamer = (g('l-kamer')?.value || '').trim();
+  if (g('l-btn')) g('l-btn').disabled = !(naam && kamer && kamer.length >= 6);
+}
+async function doLogin() {
+  const naam = (g('l-naam')?.value || '').trim();
+  const kamer = (g('l-kamer')?.value || '').trim();
+  if (!naam || !kamer) { toast('Vul naam en kamer in', 'err'); return; }
+  if (kamer.length < 6) { toast('Kamernummer moet ≥ 6 tekens zijn', 'err'); return; }
+  const btn = g('l-btn');
+  if (btn) { btn.disabled = true; btn.textContent = 'Sleutel afleiden…'; }
+  try {
+    const result = await mrsClockKDF(kamer, 'mrs-auth-' + kamer);
+    encSleutel = result.key;
+    mijnNaam = naam;
+    mijnKamer = kamer;
+    kluisDB = await openDB();
+    await laadKluis();
+    bc = new BroadcastChannel('mrs-chat-' + kamer);
+    bc.onmessage = (ev) => verwerkInkomend(ev.data);
+    const initiaal = naam.charAt(0).toUpperCase();
+    if (g('sb-av')) g('sb-av').textContent = initiaal;
+    if (g('sb-naam')) g('sb-naam').textContent = naam;
+    if (g('sb-kamer')) g('sb-kamer').textContent = 'Kamer ' + kamer.slice(0, 8) + '…';
+    if (g('dash-naam')) g('dash-naam').textContent = naam;
+    if (g('dash-kamer')) g('dash-kamer').textContent = kamer.slice(0, 8) + '…';
+    if (g('topbar-kamer')) g('topbar-kamer').textContent = kamer.slice(0, 8) + '…';
+    if (g('chat-av')) g('chat-av').textContent = initiaal;
+    if (g('chat-naam')) g('chat-naam').textContent = naam;
+    if (g('chat-room')) g('chat-room').textContent = 'Kamer ' + kamer.slice(0, 8) + '…';
+    if (g('ci-kamer')) g('ci-kamer').textContent = kamer;
+    if (g('info-kamer-id')) g('info-kamer-id').textContent = kamer.slice(0, 8) + '…';
+    if (g('info-kamer-share')) g('info-kamer-share').textContent = kamer;
+    if (g('h-van')) g('h-van').value = naam;
+    if (g('act-login-time')) g('act-login-time').textContent = tijdNu();
+    await laadBerichten();
+    if (g('login-screen')) g('login-screen').style.display = 'none';
+    if (g('main-app')) g('main-app').style.display = '';
+    if (g('bottom-nav')) g('bottom-nav').style.display = 'flex';
+    console.log('MRS Clock KDF:', result.meta);
+    toast('Kluis ontgrendeld — Clock KDF toegepast ✓', 'ok');
+  } catch (e) {
+    console.error(e);
+    toast('Fout: ' + e.message, 'err');
+    if (btn) { btn.disabled = false; btn.textContent = 'KLUIS ONTGRENDELEN'; }
+  }
+}
+function doLogout() {
+  if (!confirm('Vergrendelen? Alle sleutels worden gewist.')) return;
+  gezienIds.clear();
+  lokaalTs.clear();
+  kluis = {};
+  encSleutel = null;
+  mijnNaam = '';
+  mijnKamer = '';
+  stSigns = stCodes = stMsgs = ongelezen = 0;
+  if (bc) { bc.close(); bc = null; }
+  if (kluisDB) { kluisDB.close(); kluisDB = null; }
+  const msgs = g('messages');
+  if (msgs) msgs.innerHTML = `<div class="msg-empty-st" id="msg-empty"><div class="msg-empty-ico">🔐</div><p>Kamer is leeg.<br>Stuur het eerste bericht.</p></div>`;
+  ['st-signs','st-codes','st-msgs'].forEach(id => { if (g(id)) g(id).textContent = '0'; });
+  if (g('main-app')) g('main-app').style.display = 'none';
+  if (g('bottom-nav')) g('bottom-nav').style.display = 'none';
+  if (g('login-screen')) g('login-screen').style.display = 'flex';
+  if (g('l-naam')) g('l-naam').value = '';
+  if (g('l-kamer')) g('l-kamer').value = '';
+  if (g('l-btn')) { g('l-btn').textContent = 'KLUIS ONTGRENDELEN'; g('l-btn').disabled = true; }
+  go('dashboard');
+}
+
+// Navigatie
+const PANEL_TITELS = {
+  dashboard: 'Dashboard', kluis: 'Mijn Kluis', chat: 'Veilige Chat',
+  handtekening: 'Handtekening (v3.1)', tijdcode: 'Tijdcodes (v3.0)',
+  versleutel: 'Versleutelen', ontsleutel: 'Ontsleutelen', info: 'Over MRS-AUTH'
+};
+function go(panelId) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn, .bnav-btn').forEach(b => b.classList.remove('active'));
+  const panel = g('panel-' + panelId);
+  if (panel) panel.classList.add('active');
+  if (g('page-title')) g('page-title').textContent = PANEL_TITELS[panelId] || panelId;
+  const nb = g('nb-' + panelId); if (nb) nb.classList.add('active');
+  const bn = g('bn-' + panelId); if (bn) bn.classList.add('active');
+  if (panelId === 'chat') {
+    ongelezen = 0;
+    const badge = g('chat-badge');
+    if (badge) badge.style.display = 'none';
+  }
+  closeMenu();
+}
+function openMenu() { g('sidebar')?.classList.add('open'); g('overlay')?.classList.add('show'); }
+function closeMenu() { g('sidebar')?.classList.remove('open'); g('overlay')?.classList.remove('show'); }
+function switchTab(tab) {
+  const chatPanel = g('chat-chat-panel'), infoPanel = g('chat-info-panel');
+  const tabChat = g('tab-chat'), tabInfo = g('tab-info');
+  if (!chatPanel || !infoPanel) return;
+  if (tab === 'chat') {
+    chatPanel.style.display = ''; infoPanel.style.display = 'none';
+    tabChat?.classList.add('active'); tabInfo?.classList.remove('active');
+  } else {
+    chatPanel.style.display = 'none'; infoPanel.style.display = '';
+    tabChat?.classList.remove('active'); tabInfo?.classList.add('active');
+  }
+}
+
+// === HANDTEKENING, TIJDCODE, VERSLEUTELEN, KLUIS, CHAT, ACTIVITEIT, EXPORTS ===
+
+async function doHandtekening() {
+  const N = parseInt(g('h-n')?.value || '592');
+  const txId = (g('h-id')?.value || 'TXN-001').trim();
+  const van = (g('h-van')?.value || mijnNaam || 'Alice').trim();
+  const naar = (g('h-naar')?.value || 'Bob').trim();
+  if (!isNGeldig(N)) { toast('N moet > 143 zijn en niet deelbaar door 9', 'err'); return; }
+  setLoading('btn-ht', true);
+  let A = -1, B = -1, triangleOk = false;
+  for (let a = 0; a <= Math.floor(N / 19); a++) {
+    const rest = N - 19 * a;
+    if (rest >= 0 && rest % 9 === 0) {
+      const b = rest / 9;
+      if (dr(b) === dr(2 * dr(a))) { A = a; B = b; triangleOk = true; break; }
+      if (A === -1) { A = a; B = b; }
+    }
+  }
+  await new Promise(r => setTimeout(r, 180));
+  setLoading('btn-ht', false);
+  if (A === -1) {
+    if (g('r-ht-title')) g('r-ht-title').textContent = '✗ Geen geldig koppel';
+    rendResult('r-ht-rows', 'r-ht', [['Fout', 'Geen oplossing voor N=' + N, 'bad']], false);
+    return;
+  }
+  const verificatie = (19 * A + 9 * B === N);
+  const drN = dr(N), drA = dr(A), drB = dr(B);
+  const drInvariant = (drN === drA);
+  if (g('r-ht-title')) g('r-ht-title').textContent = verificatie
+    ? '✓ Handtekening berekend — sleutels gewist'
+    : '✗ Verificatie mislukt';
+  rendResult('r-ht-rows', 'r-ht', [
+    ['N (publieke parameter)', String(N), ''],
+    ['A (geheim · zeroize)', String(A), ''],
+    ['B (geheim · zeroize)', String(B), ''],
+    ['19A + 9B', `${19*A + 9*B} = ${N}`, verificatie ? 'good' : 'bad'],
+    ['Verificatie', verificatie ? '✓ Geldig' : '✗ Ongeldig', verificatie ? 'good' : 'bad'],
+    ['dr(N)', String(drN), ''],
+    ['dr(A)', String(drA), ''],
+    ['dr(N) = dr(A)', drInvariant ? '✓ Ja' : '✗ Nee', drInvariant ? 'good' : 'bad'],
+    ['Triangle Requirement', triangleOk
+      ? `✓ dr(B)=${drB} = dr(2·dr(A)) = ${dr(2*drA)}`
+      : '⚠ Fallback koppel', triangleOk ? 'good' : ''],
+    ['Transactie ID', txId, ''],
+    ['Afzender → Ontvanger', `${van} → ${naar}`, ''],
+    ['Tijdstip', new Date().toLocaleString('nl-NL'), ''],
+  ], verificatie);
+  stSigns++;
+  if (g('st-signs')) g('st-signs').textContent = stSigns;
+  voegActiviteit('🔏', 'ai-red', 'Handtekening berekend',
+    `N=${N} · A=${A} · B=${B}${triangleOk ? ' · Triangle ✓' : ' · fallback'}`, tijdNu());
+  A = 0; B = 0;
+}
+
+async function doTijdcode() {
+  if (!encSleutel) { toast('Log eerst in', 'err'); return; }
+  const N = parseInt(g('tc-n')?.value || '592');
+  const diepte = parseInt(g('tc-d')?.value || '1');
+  const venster = parseInt(g('tc-venster')?.value || '30');
+  const doel = g('tc-use')?.value || 'auth';
+  if (!isNGeldig(N)) { toast('N moet > 143 zijn en niet deelbaar door 9', 'err'); return; }
+  setLoading('btn-tc', true);
+  try {
+    const rawKeyBytes = await crypto.subtle.exportKey('raw', encSleutel);
+    const hmacSleutel = await crypto.subtle.importKey('raw', rawKeyBytes, { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']);
+    const T = Math.floor(Date.now() / (venster * 1000));
+    let codeHex = '';
+    for (let laag = 1; laag <= diepte; laag++) {
+      const bericht = `mrs-tijdcode|N=${N}|doel=${doel}|kamer=${mijnKamer}|laag=${laag}|T=${T}`;
+      const sig = await crypto.subtle.sign('HMAC', hmacSleutel, new TextEncoder().encode(laag === 1 ? bericht : codeHex + '|laag=' + laag + '|T=' + T));
+      const bytes = new Uint8Array(sig);
+      const offset = bytes[bytes.length - 1] & 0x0F;
+      const waarde = ((bytes[offset] & 0x7F) << 24) | (bytes[offset+1] << 16) | (bytes[offset+2] << 8) | bytes[offset+3];
+      codeHex = String(waarde % 1_000_000).padStart(6, '0');
+    }
+    const resterende = venster - (Math.floor(Date.now() / 1000) % venster);
+    setLoading('btn-tc', false);
+    rendResult('r-tc-rows', 'r-tc', [
+      ['Tijdcode', codeHex, 'mono'],
+      ['N-waarde', String(N), ''],
+      ['Keten diepte', String(diepte) + ' laag' + (diepte > 1 ? 'en' : ''), ''],
+      ['Tijdsvenster', venster + ' sec.', ''],
+      ['Resterende geldigheid', resterende + ' sec.', ''],
+      ['Doel', doel, ''],
+      ['Sleutelbinding', 'HMAC van encSleutel (kamer: ' + mijnKamer + ')', ''],
+      ['Forward secrecy', '✓ Nieuwe code per venster', 'good'],
+    ], true);
+    stCodes++;
+    if (g('st-codes')) g('st-codes').textContent = stCodes;
+    voegActiviteit('⏰', 'ai-gold', 'Tijdcode gegenereerd',
+      `N=${N} · kamer ${mijnKamer.slice(0,8)}… · ${resterende}s geldig`, tijdNu());
+  } catch (e) {
+    setLoading('btn-tc', false);
+    toast('Tijdcode mislukt: ' + e.message, 'err');
+  }
+}
+
+async function doVersleutel() {
+  const pw = g('e-pw')?.value || '';
+  const ctx = g('e-ctx')?.value || 'securechat';
+  const msg = g('e-msg')?.value || '';
+  if (!pw) { toast('Voer een wachtwoord in', 'err'); return; }
+  if (!msg) { toast('Voer een bericht in', 'err'); return; }
+  setLoading('btn-enc', true);
+  try {
+    const result = await mrsClockKDF(pw, 'mrs-enc-' + ctx);
+    const cipherB64 = await encr(msg, result.key);
+    setLoading('btn-enc', false);
+    rendResult('r-enc-rows', 'r-enc', [
+      ['Ciphertext', cipherB64, 'mono'],
+      ['Sleutelafleiding', 'MRS Clock KDF (19A+9B)', ''],
+      ['Algoritme', 'AES-256-GCM · 96-bit nonce', ''],
+      ['Context', ctx, ''],
+      ['Tijdstip', new Date().toLocaleString('nl-NL'), ''],
+    ], true);
+  } catch (e) {
+    setLoading('btn-enc', false);
+    toast('Versleutelen mislukt: ' + e.message, 'err');
+  }
+}
+
+async function doOntsleutel() {
+  const pw = g('d-pw')?.value || '';
+  const ctx = g('d-ctx')?.value || 'securechat';
+  const ct = (g('d-ct')?.value || '').trim();
+  if (!pw) { toast('Voer het wachtwoord in', 'err'); return; }
+  if (!ct) { toast('Voer de ciphertext in', 'err'); return; }
+  setLoading('btn-dec', true);
+  try {
+    const result = await mrsClockKDF(pw, 'mrs-enc-' + ctx);
+    const plain = await decr(ct, result.key);
+    setLoading('btn-dec', false);
+    if (plain === null) {
+      rendResult('r-dec-rows', 'r-dec', [['Fout', 'Ontsleuteling mislukt — verkeerd wachtwoord', 'bad']], false);
+      toast('Ontsleuteling mislukt', 'err');
+    } else {
+      rendResult('r-dec-rows', 'r-dec', [
+        ['Originele tekst', plain, ''],
+        ['Sleutelafleiding', 'MRS Clock KDF', ''],
+        ['Context', ctx, ''],
+      ], true);
+      toast('Ontsleuteld ✓', 'ok');
+    }
+  } catch (e) {
+    setLoading('btn-dec', false);
+    toast('Ontsleutelen mislukt: ' + e.message, 'err');
+  }
+}
+
+// ============ KLUIS ============
+
+function genereerWachtwoord() {
+  const cs = 'abcdefghijkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789!@#$%&*?';
+  const arr = crypto.getRandomValues(new Uint32Array(20));
+  const pw = Array.from(arr).map(x => cs[x % cs.length]).join('');
+  if (g('k-wachtwoord')) g('k-wachtwoord').value = pw;
+  toast('Sterk wachtwoord gegenereerd', 'ok');
+}
+
+async function kluisOpslaan() {
+  const titel = (g('k-titel')?.value || '').trim();
+  const gebruiker = (g('k-gebruiker')?.value || '').trim();
+  const wachtwoord = (g('k-wachtwoord')?.value || '').trim();
+  const website = (g('k-website')?.value || '').trim();
+  const notities = (g('k-notities')?.value || '').trim();
+  const cat = g('k-cat')?.value || 'overig';
+  if (!titel) { toast('Voer een titel in', 'err'); return; }
+  if (!wachtwoord && !notities) { toast('Voer een wachtwoord of notitie in', 'err'); return; }
+  const id = 'k-' + Date.now() + '-' + Math.random().toString(36).slice(2, 6);
+  const plain = JSON.stringify({ titel, gebruiker, wachtwoord, website, notities, cat });
+  const encrypted = await encr(plain);
+  await dbPut('kluis', {
+    id,
+    data: encrypted,
+    tijd: new Date().toLocaleString('nl-NL'),
+    tijdRaw: Date.now()
+  });
+  ['k-titel','k-gebruiker','k-wachtwoord','k-website','k-notities'].forEach(x => { if (g(x)) g(x).value = ''; });
+  await renderKluis();
+  voegActiviteit('🗝️', 'ai-gold', 'Kluis bijgewerkt', titel + ' opgeslagen', tijdNu());
+  toast('Item opgeslagen ✓', 'ok');
+}
+
+async function renderKluis() {
+  const body = g('kluis-body');
+  const teller = g('kluis-count');
+  if (!body || !teller) return;
+  const items = await dbGetAll('kluis');
+  teller.textContent = items.length + ' item' + (items.length !== 1 ? 's' : '');
+  if (!items.length) {
+    body.innerHTML = `<div class="empty-st"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 6h-2.18c.07-.44.18-.88.18-1.36C18 2.05 15.96 0 13.5 0c-1.4 0-2.5.83-3.5 2.1C9 .83 7.9 0 6.5 0 4.04 0 2 2.05 2 4.64c0 .48.11.92.18 1.36H0v14h24V6h-4z"/></svg><p>Uw kluis is leeg.</p></div>`;
+    return;
+  }
+  const decrypted = [];
+  for (const item of items) {
+    const plain = await decr(item.data);
+    if (plain) {
+      try {
+        const data = JSON.parse(plain);
+        decrypted.push({ id: item.id, tijd: item.tijd, ...data });
+      } catch {}
+    }
+  }
+  if (!decrypted.length) {
+    body.innerHTML = `<div class="empty-st"><p>Kluis-items konden niet worden ontsleuteld (verkeerde kamer?).</p></div>`;
+    return;
+  }
+  decrypted.sort((a, b) => (b.tijd || '').localeCompare(a.tijd || ''));
+  const catIco = { wachtwoord: '🔑', pin: '🔢', sleutel: '🗝️', notitie: '📝', overig: '📦' };
+  body.innerHTML = `
+    <table class="ktable">
+      <thead>
+        <tr><th>Titel</th><th>Gebruiker</th><th>Wachtwoord</th><th>Categorie</th><th>Opgeslagen</th><th></th></tr>
+      </thead>
+      <tbody>
+        ${decrypted.map(item => {
+          const safeId = 'kluis-val-' + item.id;
+          return `<tr>
+            <td data-label="Titel"><b style="color:var(--navy)">${esc(item.titel || '–')}</b>${item.website ? `<br><span style="font-size:10px;color:var(--soft)">${esc(item.website)}</span>` : ''}</td>
+            <td data-label="Gebruiker"><span style="font-size:12px;color:var(--muted)">${esc(item.gebruiker || '–')}</span></td>
+            <td data-label="Wachtwoord">
+              <span id="${safeId}" style="font-family:monospace;font-size:12px;color:var(--soft)">••••••••</span>
+              <button class="cp" data-cptext="${esc(item.wachtwoord || '').replace(/"/g,'&quot;')}">Kopieer</button>
+            </td>
+            <td data-label="Categorie">${catIco[item.cat] || '📦'} ${esc(item.cat || 'overig')}</td>
+            <td data-label="Opgeslagen"><span style="font-size:11px;color:var(--soft)">${esc(item.tijd || '–')}</span></td>
+            <td><button class="btn btn-danger btn-sm" onclick="kluisWissen('${item.id}')">Wis</button></td>
+          </tr>`;
+        }).join('')}
+      </tbody>
+    </table>`;
+}
+
+async function kluisWissen(id) {
+  if (!confirm('Dit item verwijderen?')) return;
+  await dbDel('kluis', id);
+  await renderKluis();
+  toast('Item verwijderd', 'ok');
+}
+
+async function laadKluis() {
+  await renderKluis();
+}
+
+// ============ CHAT ============
+
+async function verstuurBericht() {
+  const ta = g('chat-input');
+  const tekst = (ta?.value || '').trim();
+  if (!tekst || !encSleutel) {
+    if (!encSleutel) toast('Log in om te chatten', 'err');
+    return;
+  }
+  ta.value = '';
+  if (ta) ta.style.height = 'auto';
+  const ts = Date.now();
+  const id = 'msg-' + ts + '-' + Math.random().toString(36).slice(2, 6);
+  lokaalTs.add(ts);
+  gezienIds.add(id);
+  const enNaam = await encr(mijnNaam);
+  const enTekst = await encr(tekst);
+  const msg = { id, n: enNaam, t: enTekst, ts };
+  voegBerichtToe({ naam: mijnNaam, tekst, tijd: ts });
+  if (bc) bc.postMessage(msg);
+  await dbPut('berichten', msg);
+  stMsgs++;
+  if (g('st-msgs')) g('st-msgs').textContent = stMsgs;
+  voegActiviteit('💬', 'ai-blue', 'Bericht verstuurd',
+    tekst.substring(0, 32) + (tekst.length > 32 ? '…' : ''), tijdNu());
+}
+
+async function verwerkInkomend(msg) {
+  if (!msg || !msg.id || !msg.n || !msg.t) return;
+  if (gezienIds.has(msg.id)) return;
+  if (lokaalTs.has(msg.ts)) return;
+  gezienIds.add(msg.id);
+  if (!encSleutel) return;
+  const [naam, tekst] = await Promise.all([decr(msg.n), decr(msg.t)]);
+  if (!naam || !tekst) return;
+  voegBerichtToe({ naam, tekst, tijd: msg.ts });
+  await dbPut('berichten', msg);
+  const chatPanel = g('panel-chat');
+  if (!chatPanel?.classList.contains('active')) {
+    ongelezen++;
+    const badge = g('chat-badge');
+    if (badge) { badge.style.display = ''; badge.textContent = ongelezen; }
+  }
+}
+
+async function laadBerichten() {
+  const list = await dbGetAll('berichten');
+  if (!list.length) return;
+  g('msg-empty')?.remove();
+  list.sort((a, b) => a.ts - b.ts);
+  for (const msg of list) {
+    if (gezienIds.has(msg.id)) continue;
+    gezienIds.add(msg.id);
+    const [naam, tekst] = await Promise.all([decr(msg.n), decr(msg.t)]);
+    if (naam && tekst) voegBerichtToe({ naam, tekst, tijd: msg.ts }, false);
+  }
+}
+
+function voegBerichtToe(data, scroll = true) {
+  const container = g('messages');
+  if (!container) return;
+  g('msg-empty')?.remove();
+  const isIk = data.naam === mijnNaam;
+  const tijd = new Date(data.tijd).toLocaleTimeString('nl-NL', { hour: '2-digit', minute: '2-digit' });
+  const wrap = document.createElement('div');
+  wrap.className = 'msg-wrap ' + (isIk ? 'me' : 'them');
+  wrap.innerHTML =
+    (!isIk ? `<div class="msg-sender">${esc(data.naam)}</div>` : '') +
+    `<div class="msg-bubble">${esc(data.tekst)}</div>` +
+    `<div class="msg-time">${tijd}${isIk ? ' · ✓' : ''}</div>`;
+  container.appendChild(wrap);
+  if (scroll) requestAnimationFrame(() => { container.scrollTop = container.scrollHeight; });
+}
+
+// ============ ACTIVITEIT ============
+
+function voegActiviteit(ico, cls, titel, sub, tijd) {
+  const list = g('act-list');
+  if (!list) return;
+  const item = document.createElement('div');
+  item.className = 'act-item';
+  item.innerHTML = `
+    <div class="act-ico ${cls}">${ico}</div>
+    <div class="act-text">
+      <div class="act-title">${esc(titel)}</div>
+      <div class="act-sub">${esc(sub)}</div>
+    </div>
+    <div class="act-time">${esc(tijd)}</div>`;
+  list.prepend(item);
+  while (list.children.length > 8) list.removeChild(list.lastChild);
+}
+
+// ============ GLOBALE EXPORTS ============
+
+window.go = go;
+window.doLogin = doLogin;
+window.doLogout = doLogout;
+window.loginChk = loginChk;
+window.openMenu = openMenu;
+window.closeMenu = closeMenu;
+window.switchTab = switchTab;
+window.verstuurBericht = verstuurBericht;
+window.doHandtekening = doHandtekening;
+window.doTijdcode = doTijdcode;
+window.doVersleutel = doVersleutel;
+window.doOntsleutel = doOntsleutel;
+window.kluisOpslaan = kluisOpslaan;
+window.kluisWissen = kluisWissen;
+window.genereerWachtwoord = genereerWachtwoord;
+window.stelNin = stelNin;
+window.cp = cp;
+window.renderKluis = renderKluis;
+window.mrsClockKDF = mrsClockKDF;
 </script>
 </body>
 </html>
