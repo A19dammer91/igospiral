@@ -218,6 +218,16 @@ html[lang=nl] .en,html[lang=en] .nl{display:none}
 .dg-leg li{margin:.15em 0}
 .dg-leg .dg-formula{text-align:center;color:var(--pearl);font-family:var(--mono);background:rgba(0,0,0,.3);padding:8px;border-radius:8px;margin:.5em 0 .8em}
 
+.dg-speeds{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:8px 0 12px}
+.dg-speeds button{background:linear-gradient(180deg,#1f3a78,#122250);color:var(--pearl);border:1px solid rgba(214,224,248,.5);border-radius:999px;padding:7px 16px;font:600 .9rem var(--sans);cursor:pointer;min-height:36px}
+.dg-speeds button.on{background:linear-gradient(135deg,#ffffff,#e9e1f3 40%,#d5e6f0 70%,#f6e9ec);color:#0a1736;border-color:#fff}
+.dg-speeds button.rs{background:rgba(255,59,78,.1);color:#ff3b4e;border-color:#ff3b4e;font-weight:800;letter-spacing:1.5px}
+.dg-speeds button.rs.on{background:#ff3b4e;color:#fff;box-shadow:0 0 16px rgba(255,59,78,.6)}
+.dg-g.off{display:none}
+.dg-tg{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:4px 10px}
+.dg-tg label{display:flex;align-items:center;gap:8px;font:.85rem var(--sans);color:var(--tx);min-height:38px;cursor:pointer}
+.dg-tg input{width:20px;height:20px;min-height:auto;padding:0;flex:none;accent-color:#c2334d}
+.dg-tg i{width:10px;height:10px;border-radius:50%;display:inline-block;flex:none}
 @media(prefers-reduced-motion:reduce){section.on{animation:none}}
 </style>
 </head>
@@ -249,6 +259,7 @@ html[lang=nl] .en,html[lang=en] .nl{display:none}
 <canvas id="cv" role="img"></canvas>
 <div class="info" id="bot"></div>
 <div class="track"><div id="pg"></div></div>
+<details id="sp-info" style="margin-top:14px"><summary id="sp-info-sum"></summary><div class="ex" id="sp-info-body"></div></details>
 </div></section>
 
 <section id="kl"><div class="panel">
@@ -297,9 +308,23 @@ html[lang=nl] .en,html[lang=en] .nl{display:none}
     <svg id="dg-ring" viewBox="-130 -130 260 260" role="img" aria-label="Digitale wortels van 1 tot 9"></svg>
     <div id="dg-banner"></div>
     <div class="dg-ctl"><button id="dg-play" type="button">Start</button><button id="dg-rst" type="button">🔄 Reset</button></div>
+    <div class="dg-speeds" id="dg-speeds">
+      <button type="button" data-k="slow" data-e="2"></button>
+      <button type="button" data-k="normal" data-e="3"></button>
+      <button type="button" data-k="fast" data-e="6"></button>
+      <button type="button" class="rs" data-k="rs" data-e="13">RS</button>
+    </div>
     <label class="dg-leg" for="dg-sp"><span id="dg-splbl"></span> <span id="dg-spl"></span></label>
     <input type="range" id="dg-sp" min="0" max="16" step="0.25" value="3">
   </div>
+
+  <details class="dg-leg" id="dg-tg-wrap" style="background:rgba(13,29,69,.55);border:1px solid var(--bd);border-radius:14px;padding:0 16px;margin-bottom:14px">
+    <summary id="dg-tg-sum" style="color:var(--gold);font:600 1rem var(--serif);min-height:52px;display:flex;align-items:center"></summary>
+    <div style="padding-bottom:14px">
+      <div class="dg-ctl"><button id="dg-all" type="button"></button><button id="dg-none" type="button"></button></div>
+      <div class="dg-tg" id="dg-tg"></div>
+    </div>
+  </details>
 
   <div class="dg-box"><div id="dg-grid"></div></div>
 
@@ -559,7 +584,7 @@ html[lang=nl] .en,html[lang=en] .nl{display:none}
         <li><b>Klok:</b> kijk naar de wijzers en de tandwielen. Daaronder staan de ketting (p ≡ 1 mod q) en de dualistische dag (25 ≡ 1 mod 12).</li>
         <li><b>Tandwielen:</b> bekijk de DigitalGears: 18 eenheden op één hoofdklok, met de digitale wortel als stip op de ring.</li>
         <li><b>Tools:</b> bekijk de 3D-tandwieltrein. Klik op 'Align at 7,000 years' voor de volledige synchronisatie.</li>
-        <li><b>Bijectie:</b> typ N, kies een datum, of tik op Nu. De kaarten tonen de tuple (0-based). Open "Rekenstappen" voor de berekening.</li>
+        <li><b>Bijectie:</b> typ N, kies een datum, of tik op Nu. De kaarten tonen de tuple (dag 1-based, rest 0-based). Open "Rekenstappen" voor de berekening.</li>
         <li><b>Patronen:</b> kies een modulus q of klik op een blokje in het universum. De drie klassen (A/B/C) worden getoond.</li>
         <li><b>Agenda:</b> tik op een dag, typ een afspraak en tik op +.</li>
         <li><b>Notities:</b> kies datum en tijd, schrijf een tekst en voeg foto's toe.</li>
@@ -584,7 +609,7 @@ html[lang=nl] .en,html[lang=en] .nl{display:none}
         <li><b>Clock:</b> watch the hands and the gears. Below are the chain (p ≡ 1 mod q) and the dualistic day (25 ≡ 1 mod 12).</li>
         <li><b>Gears:</b> view the DigitalGears: 18 units on one master clock, with the digital root as a dot on the ring.</li>
         <li><b>Tools:</b> view the 3D gear train. Click 'Align at 7,000 years' for full synchronization.</li>
-        <li><b>Bijection:</b> type N, pick a date, or tap Now. The cards show the tuple (0-based). Open "Steps" for the calculation.</li>
+        <li><b>Bijection:</b> type N, pick a date, or tap Now. The cards show the tuple (day 1-based, rest 0-based). Open "Steps" for the calculation.</li>
         <li><b>Patterns:</b> choose a modulus q or click a block in the universe. The three classes (A/B/C) are shown.</li>
         <li><b>Calendar:</b> tap a day, type an appointment and tap +.</li>
         <li><b>Notes:</b> pick a date and time, write text and add photos.</li>
@@ -753,7 +778,7 @@ const W={};
 function toTuple(N){
   if(N<8000000000000000n){
     const d=fromZ(N),g=f=>UTC?d["getUTC"+f]():d["get"+f](),Y=g("FullYear");
-    return [Math.floor(Y/1000),Math.floor(Y/100)%10,Math.floor(Y/10)%10,Y%10,g("Month"),g("Date")-1,g("Hours"),g("Minutes"),g("Seconds"),g("Milliseconds")];
+    return [Math.floor(Y/1000),Math.floor(Y/100)%10,Math.floor(Y/10)%10,Y%10,g("Month"),g("Date"),g("Hours"),g("Minutes"),g("Seconds"),g("Milliseconds")];
   }
   let r=BigInt(N);const o=[];
   for(const u of SL){
@@ -765,12 +790,12 @@ function toTuple(N){
 }
 function toN(a){
   const Y=Number(BigInt(a[0])*1000n+BigInt(a[1])*100n+BigInt(a[2])*10n+BigInt(a[3]));
-  const M=Number(a[4]),D=Number(a[5])+1,H=Number(a[6]),Mi=Number(a[7]),S=Number(a[8]),Ms=Number(a[9]);
+  const M=Number(a[4]),D=Number(a[5]),H=Number(a[6]),Mi=Number(a[7]),S=Number(a[8]),Ms=Number(a[9]);
   const d=UTC?new Date(Date.UTC(Y,M,D,H,Mi,S,Ms)):new Date(Y,M,D,H,Mi,S,Ms);
   return nZ(d.getTime());
 }
 $("ti").innerHTML=UNITS.map(u=>{
-  const b=BASE[u],mx=b?Number(b)-1:"";
+  const b=BASE[u],mx=b?Number(b):"";
   return `<div><label>${u}</label><input type="number" id="t-${u}" value="0" min="0"${mx!==""?` max="${mx}"`:""} inputmode="numeric"></div>`;
 }).join("");
 
@@ -778,7 +803,7 @@ function realBlock(N){
   let h=`<h2>${T("Echte kalender (0-based)","Real calendar (0-based)")}</h2>`;
   if(N<8000000000000000n){
     const d=fromZ(N),g=f=>UTC?d["getUTC"+f]():d["get"+f](),Y=g("FullYear");
-    const v=[Math.floor(Y/1000),Math.floor(Y/100)%10,Math.floor(Y/10)%10,Y%10,g("Month"),g("Date")-1,g("Hours"),g("Minutes"),g("Seconds"),g("Milliseconds")];
+    const v=[Math.floor(Y/1000),Math.floor(Y/100)%10,Math.floor(Y/10)%10,Y%10,g("Month"),g("Date"),g("Hours"),g("Minutes"),g("Seconds"),g("Milliseconds")];
     h+=`<div class="cards">${UNITS.map((u,i)=>`<div class="card-t ${i<4?"":i<6?"cc":"ct"}"><b>${v[i]}</b><small>${ul(u)}</small></div>`).join("")}</div><div class="eq">${T("Echt jaar","Real year")} ${Y} · ${T("millennium","millennium")} ${v[0]}</div>`;
   }else h+=`<div class="eq">—</div>`;
   return h;
@@ -787,15 +812,15 @@ function realBlock(N){
 function ijpunten(N){
   const d=fromZ(N),Y=d.getFullYear();
   const isLeap=(y=>((y%4===0&&y%100!==0)||y%400===0))(Y);
-  const dom=Math.floor((d-new Date(Y,0,1))/864e5);
+  const dom=Math.floor((d-new Date(Y,0,1))/864e5)+1;
   const last400=Math.floor(Y/400)*400,last700=Math.floor(Y/700)*700;
   const next400=last400+400,next700=last700+700;
   const R=(a,b,c)=>`<div class="sum"><span>${a}</span><b>${b}</b>${c?`<i style="display:block;font-size:11px;color:var(--mu);margin-top:2px">${c}</i>`:""}</div>`;
   return `<h2>${T("IJkpunten","Anchor points")}</h2>`+
     R(T("365 dagen (primair)","365 days (primary)"),
       isLeap?T("Ja — schrikkeljaar","Yes — leap year"):T("Nee","No"),
-      T(`Dag ${dom} (0-based) van 365${isLeap?" of 366":""}`,
-        `Day ${dom} (0-based) of 365${isLeap?" or 366":""}`))+
+      T(`Dag ${dom} (1-based) van 365${isLeap?" of 366":""}`,
+        `Day ${dom} (1-based) of 365${isLeap?" or 366":""}`))+
     R(T("400 jaar (kalender)","400 years (calendar)"),
       `${Y-last400} ${T("jaar sinds","years since")} ${last400}`,
       `${T("volgende","next")}: ${next400}`)+
@@ -816,13 +841,13 @@ function renderBij(fromDt){
   let when="—";
   if(N<8000000000000000n){const d=fromZ(N);when=d.toLocaleString(LOC());if(!fromDt)$("dt").value=lv(d)}
   const d=fromZ(N),Y=d.getFullYear();
-  const tuple=[Math.floor(Y/1000),Math.floor(Y%1000/100),Math.floor(Y%100/10),Y%10,d.getMonth(),d.getDate()-1,d.getHours(),d.getMinutes(),d.getSeconds(),d.getMilliseconds()];
+  const tuple=[Math.floor(Y/1000),Math.floor(Y%1000/100),Math.floor(Y%100/10),Y%10,d.getMonth(),d.getDate(),d.getHours(),d.getMinutes(),d.getSeconds(),d.getMilliseconds()];
   o.innerHTML=realBlock(N)+
-    `<h2>${T("Tuple (0-based)","Tuple (0-based)")}</h2>
+    `<h2>${T("Tuple (dag 1-based, rest 0-based)","Tuple (day 1-based, rest 0-based)")}</h2>
     <div class="cards">${UNITS.map((u,i)=>`<div class="card-t ${i<4?"":i<6?"cc":"ct"}"><b>${tuple[i]}</b><small>${ul(u)}</small></div>`).join("")}</div>
     <div class="info" style="text-align:left;margin:8px 0">${T(
-      "Nulpunt: 1 januari jaar 0, 00:00:00.000 (N = 0). De tuple toont de werkelijke aantallen (0-based), gelijk aan de kalender. De wiskundige positie <b>p</b> in de formules is 1-based; beide beschrijven hetzelfde moment.",
-      "Epoch: 1 January year 0, 00:00:00.000 (N = 0). The tuple shows the actual counts (0-based), equal to the calendar. The mathematical position <b>p</b> in the formulas is 1-based; both describe the same moment."
+      "Nulpunt: 1 januari jaar 0, 00:00:00.000 (N = 0). De tuple toont de werkelijke aantallen: de dag is 1-based (zoals de kalender), de rest is 0-based. De wiskundige positie <b>p</b> in de formules is 1-based; beide beschrijven hetzelfde moment.",
+      "Epoch: 1 January year 0, 00:00:00.000 (N = 0). The tuple shows the actual counts: the day is 1-based (like the calendar), the rest is 0-based. The mathematical position <b>p</b> in the formulas is 1-based; both describe the same moment."
     )}</div>`+
     ijpunten(N)+
     S(T("Datum","Date"),when)+
@@ -1085,7 +1110,7 @@ el("ellipse",{cx:100,cy:58,rx:66,ry:40,fill:"url(#gl)"});
 
 function liveTuple(d){
   const g=f=>UTC?d["getUTC"+f]():d["get"+f](),Y=g("FullYear");
-  return [Math.floor(Y/1000),Math.floor(Y/100)%10,Math.floor(Y/10)%10,Y%10,g("Month"),g("Date")-1,g("Hours"),g("Minutes"),g("Seconds"),g("Milliseconds")];
+  return [Math.floor(Y/1000),Math.floor(Y/100)%10,Math.floor(Y/10)%10,Y%10,g("Month"),g("Date"),g("Hours"),g("Minutes"),g("Seconds"),g("Milliseconds")];
 }
 let cacc=1e9;
 function clock(dt){
@@ -1114,7 +1139,7 @@ function clock(dt){
     row("m = (25−1)/12",`2 ${T("rondes van B per dag","B laps per day")}`);
   const N=nZ(d.getTime()),days=N/86400000n;
   $("cx").innerHTML=`${T("weekdag","weekday")} <b style="color:#f4c542">${wd()[Number((days+5n)%7n)]}</b> · ${T("dag","day")} <b style="color:#f4c542">${Number(days%2520n)}</b>/2520 · ${T("cyclus","cycle")} <b style="color:#f4c542">${days/2520n}</b><br>N <b style="color:#4dd0e1">${N}</b>`;
-  $("l-ktp").textContent=T("Klok-tuple (live, 0-based)","Clock tuple (live, 0-based)");
+  $("l-ktp").textContent=T("Klok-tuple (live, dag 1-based)","Clock tuple (live, day 1-based)");
   $("ktp").innerHTML=liveTuple(d).map((v,i)=>`<div class="card-t ${i<4?"":i<6?"cc":"ct"}"><b>${v}</b><small>${ul(UNITS[i])}</small></div>`).join("");
 }
 
@@ -1134,7 +1159,7 @@ async function renderDgCal(){
   for(let i=0;i<o;i++)h+=`<div class="cd e"></div>`;
   for(let d=1;d<=dim;d++){
     const dt=new Date(y,m,d,12),k=dk(dt),tuple=toTuple(nZ(dt.getTime()));
-    const dom=tuple[5]+1;
+    const dom=tuple[5];
     h+=`<div class="cd${k===td?" td":""}${k===dk(sel)?" sl":""}${evs[k]||mom[k]?" ev":""}" data-k="${k}" role="button">${d}<small>${EMO[Math.round(dom/30*8)%8]}${dom}</small></div>`;
   }
   $("agg").innerHTML=h;
@@ -1143,7 +1168,7 @@ async function renderDgCal(){
     const n=new Date();$("nd").value=lv(new Date(a,b-1,c,n.getHours(),n.getMinutes(),n.getSeconds()));
     renderDgCal();
   });
-  const k=dk(sel),dom=toTuple(nZ(new Date(sel.getFullYear(),sel.getMonth(),sel.getDate(),12).getTime()))[5]+1;
+  const k=dk(sel),dom=toTuple(nZ(new Date(sel.getFullYear(),sel.getMonth(),sel.getDate(),12).getTime()))[5];
   $("ags").textContent=`${sel.toLocaleDateString(lc,{weekday:"long",day:"numeric",month:"long"})} · ${T("modeldag","model day")} ${dom}`;
   if(!$("lbw").classList.contains("on"))urls.splice(0).forEach(u=>URL.revokeObjectURL(u));
   let out="";
@@ -1166,7 +1191,7 @@ async function renderAllNt(){
     const tp=toTuple(BigInt(r.n)+EP);
     let im="";
     for(const ph of r.photos||[]){const u=await photoURL(ph);if(u){urls.push(u);im+=`<img src="${u}" alt="">`}}
-    h+=`<div class="li"><div class="h"><span>${fromN(BigInt(r.n)).toLocaleString(lc)}</span><b class="x" data-ax="${r.id}" role="button" aria-label="✕">✕</b></div><div class="mu">${tp[3]} · ${tp[4]+1}/${tp[5]+1} · ${tp[6]}h · N ${BigInt(r.n)+EP}</div>${r.text?`<div class="tx">${esc(r.text)}</div>`:""}${im?`<div class="ph">${im}</div>`:""}</div>`;
+    h+=`<div class="li"><div class="h"><span>${fromN(BigInt(r.n)).toLocaleString(lc)}</span><b class="x" data-ax="${r.id}" role="button" aria-label="✕">✕</b></div><div class="mu">${tp[3]} · ${tp[4]+1}/${tp[5]} · ${tp[6]}h · N ${BigInt(r.n)+EP}</div>${r.text?`<div class="tx">${esc(r.text)}</div>`:""}${im?`<div class="ph">${im}</div>`:""}</div>`;
   }
   const c=$("nl");c.innerHTML=h||`<div class="info">—</div>`;
   c.querySelectorAll("img").forEach(im=>im.onclick=()=>{$("lbi").src=im.src;$("lbw").classList.add("on")});
@@ -1903,6 +1928,7 @@ const DG_RAW = [
 ];
 const DG = DG_RAW.map(([nN,nE,u,N],i)=>({nN,nE,u,N,c:`hsl(${(i*20)%360} 65% 62%)`}));
 const DG_SPAN = 2520000*86400000;
+let dgOn=(()=>{try{const a=JSON.parse(ls.get("igo_dgon")||"null");if(Array.isArray(a)&&a.length===DG.length)return a.map(Boolean)}catch{}return DG.map(()=>true)})();
 const DG_D = 86400000, DG_YR = 365*DG_D;
 let dgT = 0, dgPlaying = false, dgLast = 0;
 const dgDr = v => 1 + ((v - 1) % 9);
@@ -1916,6 +1942,8 @@ const DG_L = {
     speed:'Tijdsnelheid:', ms:'ms per seconde', s:'s per seconde', days:'dagen per seconde', years:'jaar per seconde',
     pos:'positie', from:'1 tot', of:'van', gears1:'gears staan op 1', beginCycle:'begin van de cyclus',
     clockT:'T =', year:'jaar',
+    slow:'Langzaam', normal:'Normaal', fast:'Snel',
+    tgSum:'Tandwielen aan/uit', all:'Alles aan', none:'Alles uit',
     whySum:'Hoe het werkt',
     why:`
       <p>Stel je een klok voor die continu doortikt in milliseconden. Die tijd noemen we <b>T</b>.</p>
@@ -1942,6 +1970,8 @@ const DG_L = {
     speed:'Time speed:', ms:'ms per second', s:'s per second', days:'days per second', years:'years per second',
     pos:'position', from:'1 to', of:'of', gears1:'gears are at 1', beginCycle:'beginning of the cycle',
     clockT:'T =', year:'years',
+    slow:'Slow', normal:'Normal', fast:'Fast',
+    tgSum:'Gears on/off', all:'All on', none:'All off',
     whySum:'How it works',
     why:`
       <p>Imagine a clock that ticks continuously in milliseconds. We call that time <b>T</b>.</p>
@@ -1976,7 +2006,7 @@ function dgBuildGrid(){
   const L2=DG_L[L];
   $('dg-grid').innerHTML=DG.map((g,i)=>{
     const name=L==='nl'?g.nN:g.nE;
-    return `<div class="dg-g" id="dg-g${i}"><svg viewBox="0 0 110 110" role="img" aria-label="${name}"><g class="dg-rot" style="transform-origin:55px 55px"><circle cx="55" cy="55" r="44" fill="none" stroke="${g.c}" stroke-width="8" stroke-dasharray="6.9 6.9"/><circle cx="55" cy="55" r="39.5" fill="${g.c}" fill-opacity=".8" stroke="#050b1a"/><circle cx="55" cy="55" r="16" fill="#0a1530" stroke="#fff" stroke-opacity=".5"/><circle cx="55" cy="22" r="4" fill="#fff"/></g><path d="M55 3 L50 12 H60Z" fill="#fff"/></svg><b>${i+1} · ${name}</b>${L2.from} ${dgFm(g.N)}<div class="dg-v" id="dg-v${i}"></div></div>`;
+    return `<div class="dg-g${dgOn[i]?"":" off"}" id="dg-g${i}"><svg viewBox="0 0 110 110" role="img" aria-label="${name}"><g class="dg-rot" style="transform-origin:55px 55px"><circle cx="55" cy="55" r="44" fill="none" stroke="${g.c}" stroke-width="8" stroke-dasharray="6.9 6.9"/><circle cx="55" cy="55" r="39.5" fill="${g.c}" fill-opacity=".8" stroke="#050b1a"/><circle cx="55" cy="55" r="16" fill="#0a1530" stroke="#fff" stroke-opacity=".5"/><circle cx="55" cy="22" r="4" fill="#fff"/></g><path d="M55 3 L50 12 H60Z" fill="#fff"/></svg><b>${i+1} · ${name}</b>${L2.from} ${dgFm(g.N)}<div class="dg-v" id="dg-v${i}"></div></div>`;
   }).join('');
 }
 function dgSpeed(){ return Math.pow(10, +$('dg-sp').value); }
@@ -1988,11 +2018,36 @@ function dgLabel(){
   else if(s<DG_YR) txt=`${dgFm(+(s/DG_D).toFixed(1))} ${L2.days}`;
   else txt=`${dgFm(+y.toFixed(1))} ${L2.years}`;
   $('dg-spl').textContent=txt;
+  dgSyncBtns();
+}
+function dgSyncBtns(){
+  const v=+$('dg-sp').value;
+  document.querySelectorAll('#dg-speeds button').forEach(b=>b.classList.toggle('on',Math.abs(+b.dataset.e-v)<1e-9));
+}
+function dgSave(){ls.set("igo_dgon",JSON.stringify(dgOn))}
+function dgSetOn(i,v){
+  dgOn[i]=v;dgSave();
+  const g=$('dg-g'+i);if(g)g.classList.toggle('off',!v);
+  dgDraw();
+}
+function dgSetAll(v){
+  dgOn=DG.map(()=>v);dgSave();
+  dgBuildToggles();dgBuildGrid();dgDraw();
+}
+function dgBuildToggles(){
+  const L2=DG_L[L];
+  $('dg-tg-sum').textContent=L2.tgSum;
+  $('dg-all').textContent=L2.all;
+  $('dg-none').textContent=L2.none;
+  $('dg-tg').innerHTML=DG.map((g,i)=>`<label><input type="checkbox" data-i="${i}"${dgOn[i]?" checked":""}><i style="background:${g.c}"></i>${i+1} · ${L==='nl'?g.nN:g.nE}</label>`).join('');
+  $('dg-tg').querySelectorAll('input').forEach(c=>c.onchange=()=>dgSetOn(+c.dataset.i,c.checked));
 }
 function dgDraw(){
   const L2=DG_L[L], tn=Math.floor(dgT);
   let dots='', ones=0;
+  const en=dgOn.filter(Boolean).length;
   DG.forEach((g,i)=>{
+    if(!dgOn[i]) return;
     const k=Math.floor(tn/g.u), v=(k%g.N)+1, d=dgDr(v);
     const el=document.querySelector(`#dg-g${i} .dg-rot`);
     if(el) el.style.transform=`rotate(${(((tn/g.u)%g.N)/g.N*360).toFixed(2)}deg)`;
@@ -2007,7 +2062,7 @@ function dgDraw(){
   $('dg-dots').innerHTML=dots;
   const y=tn/DG_YR;
   $('dg-clock').textContent=`${L2.clockT} ${dgFm(+y.toFixed(y<10?3:1))} ${L2.year} (${dgFm(tn)} ms)`;
-  $('dg-banner').textContent=`${ones} ${L2.of} ${DG.length} ${L2.gears1}`+(ones===DG.length?' · '+L2.beginCycle:'');
+  $('dg-banner').textContent=`${ones} ${L2.of} ${en} ${L2.gears1}`+(en>0&&ones===en?' · '+L2.beginCycle:'');
 }
 function dgFrame(ts){
   if(!dgPlaying) return;
@@ -2026,6 +2081,8 @@ function dgApplyLang(){
   $('dg-why-sum').textContent=L2.whySum;
   $('dg-why').innerHTML=L2.why;
   $('dg-ring').setAttribute('aria-label', L==='nl'?'Digitale wortels van 1 tot 9':'Digital roots from 1 to 9');
+  document.querySelectorAll('#dg-speeds button').forEach(b=>{if(b.dataset.k!=='rs')b.textContent=L2[b.dataset.k]});
+  dgBuildToggles();
   dgBuildGrid();
   dgLabel();
   dgDraw();
@@ -2033,6 +2090,9 @@ function dgApplyLang(){
 $('dg-play').onclick=()=>{ dgPlaying=!dgPlaying; $('dg-play').textContent=dgPlaying?DG_L[L].pause:DG_L[L].start; dgLast=performance.now(); if(dgPlaying) requestAnimationFrame(dgFrame); };
 $('dg-rst').onclick=()=>{ dgPlaying=false; dgT=0; $('dg-play').textContent=DG_L[L].start; dgDraw(); };
 $('dg-sp').oninput=dgLabel;
+document.querySelectorAll('#dg-speeds button').forEach(b=>b.onclick=()=>{$('dg-sp').value=b.dataset.e;dgLabel()});
+$('dg-all').onclick=()=>dgSetAll(true);
+$('dg-none').onclick=()=>dgSetAll(false);
 
 /* ========== TAAL & INIT ========== */
 const I=[
@@ -2047,8 +2107,8 @@ const I=[
   ["#mode option:nth-child(2)","Mijn leven (100 jaar)","My life (100 years)"],
   ["#bc","Bereken","Calculate"],
   ["#br","↺ Wis","↺ Clear"],
-  ["#l-b1","Milliseconden (N) ↔ datum ↔ tuple (0-based)","Milliseconds (N) ↔ date ↔ tuple (0-based)"],
-  ["#l-b2","Tuple (0-based) → N","Tuple (0-based) → N"],
+  ["#l-b1","Milliseconden (N) ↔ datum ↔ tuple (dag 1-based)","Milliseconds (N) ↔ date ↔ tuple (day 1-based)"],
+  ["#l-b2","Tuple (dag 1-based) → N","Tuple (day 1-based) → N"],
   ["#go2","Bereken N","Calculate N"],
   ["#nw","Nu","Now"],
   ["#l-new","Nieuwe notitie","New note"],
@@ -2076,8 +2136,33 @@ const PH=[
   ["vn","Naam (bijv. E-mail)","Name (e.g. Email)"],
   ["vw","Wachtwoord of sleutel","Password or key"]
 ];
+function spInfo(){
+  $("sp-info-sum").textContent=T("Uitleg bij de spiraal","About the spiral");
+  $("sp-info-body").innerHTML=T(
+`<ul>
+<li><b>De spiraal:</b> één doorlopende lijn. Elke volledige ronde is één jaar, en na elke ronde zit je één niveau hoger (p ≡ 1 mod q).</li>
+<li><b>De parel</b> is nu. De <b>gouden lijn</b> is het verstreken deel van het huidige jaar.</li>
+<li><b>Cyaan</b> is het verleden, <b>grijs</b> is de toekomst.</li>
+<li><b>Jaartallen links:</b> elk jaartal is één niveau. Als er weinig ruimte is, worden sommige jaartallen weggelaten.</li>
+<li><b>Niveau 27 / 100:</b> het jaar binnen de eeuw (2026 → 26, plus 1 omdat we vanaf 1 tellen). <b>Doel</b> is de volgende volle eeuw (2100).</li>
+<li><b>Gele stippen</b> op de huidige ring zijn de 12 maanden.</li>
+<li><b>Tuple:</b> millennium · eeuw · decennium · jaar · maand · dag · uur · minuut · seconde · ms (dag 1-based, rest 0-based).</li>
+<li><b>Mijn leven:</b> het niveau is je leeftijd. Elk 4e niveau krijgt een gouden stip.</li>
+</ul>`,
+`<ul>
+<li><b>The spiral:</b> one continuous line. Each full turn is one year, and after every turn you are one level higher (p ≡ 1 mod q).</li>
+<li><b>The pearl</b> is now. The <b>gold line</b> is the elapsed part of the current year.</li>
+<li><b>Cyan</b> is the past, <b>grey</b> is the future.</li>
+<li><b>Years on the left:</b> each year is one level. When space is tight, some years are left out.</li>
+<li><b>Level 27 / 100:</b> the year within the century (2026 → 26, plus 1 because counting starts at 1). <b>Target</b> is the next full century (2100).</li>
+<li><b>Yellow dots</b> on the current ring are the 12 months.</li>
+<li><b>Tuple:</b> millennium · century · decade · year · month · day · hour · minute · second · ms (day 1-based, rest 0-based).</li>
+<li><b>My life:</b> the level is your age. Every 4th level gets a gold dot.</li>
+</ul>`);
+}
 function applyLang(){
   document.documentElement.lang=L;
+  spInfo();
   $("lg").textContent=T("EN","NL");
   $("lg2").textContent=T("English","Nederlands");
   I.forEach(([q,n,e])=>{const x=document.querySelector(q);if(x)x.textContent=T(n,e)});
