@@ -51,13 +51,21 @@ input:focus,textarea:focus,select:focus{outline:2px solid var(--gold);outline-of
 .btn{background:var(--p2);border:1px solid var(--bd);color:var(--tx);padding:10px 14px;border-radius:10px;font-size:14px;font-family:inherit;cursor:pointer;min-height:44px}
 .btn.pr{background:var(--gold);color:var(--bg);border-color:var(--gold);font-weight:600}
 .btn.dg{border-color:var(--pk);color:var(--pk)}
-#cv{width:100%;height:min(60vh,540px);display:block;border-radius:14px;pointer-events:none}
+
+/* CANVAS FIX VOOR SPIRAAL */
+#cv{width:100%;height:min(60vh,540px);min-height:320px;display:block;border-radius:14px;pointer-events:none;background:#050b1a;}
+
 .info{font-size:12px;color:var(--mu);text-align:center;line-height:1.7;margin:10px 0}
 .info b{color:var(--gold)}
 .info i{color:var(--cy);font-style:normal}
 .track{height:5px;background:var(--p2);border-radius:3px;overflow:hidden}
 #pg{height:100%;width:0;background:linear-gradient(90deg,var(--cy),var(--gold))}
-svg.clock{width:100%;max-width:360px;height:auto;display:block;margin:0 auto 12px}
+
+/* KLOK & SVG FIX */
+svg.clock{width:100%;max-width:360px;height:auto;aspect-ratio:1/1;display:block;margin:0 auto 12px}
+.stage3{position:relative;width:100%;max-width:420px;aspect-ratio:1/1;margin:6px auto 0}
+.stage3 svg{width:100%;height:100%;display:block;overflow:visible;position:absolute;inset:0}
+
 .sum{display:flex;justify-content:space-between;gap:10px;padding:6px 0;border-bottom:1px solid var(--bd);font-size:13px}
 .sum span{color:var(--mu)}
 .sum b{text-align:right;color:var(--gold);font-weight:500}
@@ -65,6 +73,8 @@ svg.clock{width:100%;max-width:360px;height:auto;display:block;margin:0 auto 12p
 .badge{display:inline-block;padding:2px 10px;border-radius:20px;border:1px solid currentColor;font-size:11px;margin-left:6px}
 .big{font-size:30px;font-weight:200;color:var(--gold);font-variant-numeric:tabular-nums}
 h2{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--mu);margin:12px 0 8px;font-weight:500}
+
+/* 3D gears (in Tools) */
 .gear-panel{position:relative;width:100%;max-width:900px;aspect-ratio:840/980;max-height:92vh;margin:0 auto 16px;overflow:hidden;border:1px solid var(--bd);border-radius:22px;touch-action:pan-y;user-select:none;background:radial-gradient(circle at 50% 42%,rgba(110,140,225,.14),transparent 60%),radial-gradient(circle at center,#0d1d45 0%,#050b1a 100%);box-shadow:0 0 0 4px rgba(0,0,0,.35),0 18px 50px rgba(0,0,0,.6),inset 0 0 60px rgba(0,0,0,.55);transition:box-shadow .5s ease,border-color .5s ease}
 .gear-panel::before{content:"";position:absolute;inset:8px;border:1px solid var(--bd-soft);border-radius:16px;pointer-events:none;z-index:2}
 .gear-panel.synced{box-shadow:0 0 90px rgba(214,224,248,.6),0 0 40px rgba(194,51,77,.5),inset 0 0 50px rgba(214,224,248,.25);border-color:var(--pearl)}
@@ -73,7 +83,6 @@ h2{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--mu);ma
 .rimwrap{position:absolute;inset:0;transform-style:preserve-3d}
 .ly{position:absolute;inset:0;width:100%;height:100%;display:block;overflow:visible;transform:translateZ(var(--z,0px))}
 .ly text{paint-order:stroke;stroke:#050b1a;stroke-width:2.2px;stroke-linejoin:round}
-.stage3{position:relative;width:100%;max-width:420px;aspect-ratio:1;margin:6px auto 0}
 #clockTop{filter:drop-shadow(0 10px 8px rgba(0,0,0,.55))}
 #cs{filter:drop-shadow(0 12px 14px rgba(0,0,0,.6))}
 .sync-banner{width:100%;max-width:900px;height:0;opacity:0;overflow:hidden;margin:0 auto;background:linear-gradient(180deg,rgba(214,224,248,.2),rgba(143,26,46,.15));border:1px solid rgba(214,224,248,.6);border-radius:14px;text-align:center;font-family:var(--sans);font-weight:700;color:var(--pearl);transition:all .5s ease;display:flex;align-items:center;justify-content:center;flex-direction:column}
@@ -110,7 +119,7 @@ h2{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--mu);ma
 .control-group{flex:1;min-width:150px;display:flex;flex-direction:column;gap:0.5rem}
 .control-group label{font-size:0.85rem;color:var(--pearl-mut);text-transform:uppercase}
 .class-badge{display:inline-block;padding:0.25rem 0.75rem;border-radius:999px;font-size:0.85rem;font-weight:bold;margin-bottom:1rem;box-shadow:0 0 10px rgba(0,0,0,0.3)}
-.svg-container{position:relative;width:100%;aspect-ratio:1;max-width:350px;margin:0 auto}
+.svg-container{position:relative;width:100%;aspect-ratio:1/1;max-width:350px;margin:0 auto}
 .svg-container svg{width:100%;height:100%;display:block}
 .node-bg{fill:var(--p);stroke:var(--bd);stroke-width:2;transition:all 0.3s}
 .node-text{fill:var(--pearl-mut);font-size:14px;font-weight:bold;text-anchor:middle;alignment-baseline:middle;font-family:monospace}
@@ -182,6 +191,33 @@ html[lang=nl] .en,html[lang=en] .nl{display:none}
 .row2 input[type=checkbox]{width:auto;min-height:auto;height:22px;width:22px}
 .ex h3{color:var(--gold);font-size:14px;margin:18px 0 6px;padding-bottom:4px;border-bottom:1px solid var(--bd)}
 .ex h3:first-of-type{margin-top:4px}
+
+/* DigitalGears */
+.dg-wrap{width:100%;max-width:900px;margin:0 auto}
+.dg-header{text-align:center;margin-bottom:14px}
+.dg-header .dg-title{font:700 clamp(1.4rem,5vw,1.9rem)/1.15 var(--serif);color:var(--pearl);letter-spacing:.3px}
+.dg-header .dg-title b{color:var(--gold)}
+.dg-header .dg-tag{font:italic 500 1.05rem var(--serif);color:var(--mu);margin-top:2px}
+.dg-sub{color:var(--mu);font-style:italic;text-align:center;margin:0 auto 14px;max-width:760px;font-size:.95rem}
+.dg-box{width:100%;border:1px solid var(--bd);border-radius:18px;padding:14px;margin-bottom:14px;background:rgba(13,29,69,.55)}
+.dg-ctl{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:center;font:.9rem var(--sans);margin-bottom:10px}
+.dg-ctl button{background:linear-gradient(180deg,#1f3a78,#122250);color:var(--pearl);border:1px solid rgba(214,224,248,.5);border-radius:999px;padding:7px 14px;font:600 .9rem var(--sans);cursor:pointer;min-height:36px}
+.dg-ctl input[type=range]{width:100%;accent-color:#c2334d}
+#dg-ring{display:block;width:100%;max-width:300px;margin:0 auto}
+#dg-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(122px,1fr));gap:8px}
+.dg-g{text-align:center;font:.72rem/1.4 var(--sans);color:var(--mu);padding:5px 3px;border-radius:12px;border:1px solid transparent}
+.dg-g.one{background:rgba(255,255,255,.1);border-color:#fff}
+.dg-g svg{width:100%;max-width:70px;display:block;margin:0 auto}
+.dg-g b{display:block;color:var(--pearl);font:700 .88rem var(--serif)}
+.dg-g .dg-v{font:700 .82rem var(--sans);color:var(--tx)}
+#dg-clock,#dg-banner{text-align:center;font:700 1rem var(--sans);color:#fff;margin:6px 0}
+.dg-leg{font:.88rem/1.65 var(--sans);color:var(--mu)}
+.dg-leg p{margin:0 0 .7em}
+.dg-leg b{color:var(--pearl)}
+.dg-leg ul{margin:.2em 0 .7em;padding-left:1.2em}
+.dg-leg li{margin:.15em 0}
+.dg-leg .dg-formula{text-align:center;color:var(--pearl);font-family:var(--mono);background:rgba(0,0,0,.3);padding:8px;border-radius:8px;margin:.5em 0 .8em}
+
 @media(prefers-reduced-motion:reduce){section.on{animation:none}}
 </style>
 </head>
@@ -226,29 +262,9 @@ html[lang=nl] .en,html[lang=en] .nl{display:none}
 <h2 id="l-ktp"></h2>
 <div class="cards" id="ktp"></div>
 <div id="cx" style="margin-top:10px;font-size:13px;color:var(--mu)"></div>
-</div></section>
 
-<section id="tw"><div class="panel" style="padding:0;background:none;border:none">
-<div class="ctl">
-  <button id="pp">Pause</button>
-  <button id="rv">Reverse</button>
-  <button id="toggleClasses" title="Toggle Class Colors (A/B/C)">🎨 Klasse Kleuren</button>
-  <button id="align7000" class="align-btn">⚡ Align at 7,000 years</button>
-  <button id="reset" class="reset-btn">🔄 Reset</button>
-  <label><span id="spl">Speed</span> <input id="spd" type="range" min="0.25" max="3" step="0.25" value="1"></label>
-</div>
-<div class="panel gear-panel" id="main-panel"><div class="tilt"><svg id="s" class="ly" role="img"></svg><svg id="s1" class="ly" style="--z:70px" aria-hidden="true"></svg><svg id="s2" class="ly" style="--z:36px" aria-hidden="true"></svg><svg id="s3" class="ly" style="--z:36px" aria-hidden="true"></svg></div></div>
-<div class="sync-banner" id="sync-banner">
-  <div class="big-text" id="sync-big"></div>
-  <div class="small-text" id="sync-small"></div>
-</div>
-<div class="info-g">
-  <h2 id="clt">The Dualistic Day (2 × 12 + 1)</h2>
-  <div class="csub" id="clsub">The inner core is 1-12. The outer ring shows the +1 jump to 25 (on 1).</div>
-  <div class="stage3"><div class="tilt soft"><div id="rim" class="rimwrap"></div><svg id="clock" class="ly" viewBox="0 0 400 400" role="img"></svg><svg id="clockTop" class="ly" style="--z:26px" viewBox="0 0 400 400" aria-hidden="true"></svg></div></div>
-  <div class="formula-g" style="text-align:center">p = 2·12 + 1 = 25 · 25 ≡ 1 (mod 12)</div>
-</div>
-<div class="info-g">
+<!-- Ketting (uit Tandwielen) -->
+<div class="info-g" style="margin-top:22px">
   <h2 id="ct"></h2>
   <div class="csub" id="csub"></div>
   <div class="ctl2" style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;font:.88rem var(--sans);margin-bottom:12px">
@@ -258,12 +274,39 @@ html[lang=nl] .en,html[lang=en] .nl{display:none}
   <div class="stage3"><div class="tilt soft"><svg id="cs" class="ly" viewBox="-200 -200 400 400" role="img"></svg></div></div>
   <div class="formula-g" id="rd"></div>
 </div>
+
+<!-- Dualistische dag (uit Tandwielen) -->
 <div class="info-g">
-  <h2 id="p3t"></h2>
-  <div class="formula-g" id="formula"></div>
-  <div class="legend" id="legend"></div>
-  <div class="note-g" id="note"></div>
-  <div class="anchor-box" id="anchor-box"></div>
+  <h2 id="clt">The Dualistic Day (2 × 12 + 1)</h2>
+  <div class="csub" id="clsub">The inner core is 1-12. The outer ring shows the +1 jump to 25 (on 1).</div>
+  <div class="stage3"><div class="tilt soft"><div id="rim" class="rimwrap"></div><svg id="clock" class="ly" viewBox="0 0 400 400" role="img"></svg><svg id="clockTop" class="ly" style="--z:26px" viewBox="0 0 400 400" aria-hidden="true"></svg></div></div>
+  <div class="formula-g" style="text-align:center">p = 2·12 + 1 = 25 · 25 ≡ 1 (mod 12)</div>
+</div>
+</div></section>
+
+<section id="tw"><div class="panel" style="padding:0;background:none;border:none">
+<div class="dg-wrap">
+  <div class="dg-header">
+    <div class="dg-title">iGo<b>Spiral</b> · DigitalGears</div>
+    <div class="dg-tag" id="dg-tag">Gears of Time</div>
+  </div>
+  <div class="dg-sub" id="dg-sub"></div>
+
+  <div class="dg-box">
+    <div id="dg-clock"></div>
+    <svg id="dg-ring" viewBox="-130 -130 260 260" role="img" aria-label="Digitale wortels van 1 tot 9"></svg>
+    <div id="dg-banner"></div>
+    <div class="dg-ctl"><button id="dg-play" type="button">Start</button><button id="dg-rst" type="button">🔄 Reset</button></div>
+    <label class="dg-leg" for="dg-sp"><span id="dg-splbl"></span> <span id="dg-spl"></span></label>
+    <input type="range" id="dg-sp" min="0" max="16" step="0.25" value="3">
+  </div>
+
+  <div class="dg-box"><div id="dg-grid"></div></div>
+
+  <details class="dg-leg" id="dg-why-wrap" style="background:rgba(13,29,69,.55);border:1px solid var(--bd);border-radius:14px;padding:0 16px;margin-bottom:14px">
+    <summary id="dg-why-sum" style="color:var(--gold);font:600 1rem var(--serif);min-height:52px;display:flex;align-items:center"></summary>
+    <div class="dg-leg" id="dg-why" style="padding-bottom:16px"></div>
+  </details>
 </div>
 </div></section>
 
@@ -285,7 +328,33 @@ html[lang=nl] .en,html[lang=en] .nl{display:none}
 </div></section>
 
 <section id="in"><div class="panel ex">
-<div class="layout" style="padding:0;margin-bottom:12px">
+
+<!-- 3D Gears (uit Tandwielen, met eigen uitleg eronder) -->
+<div class="ctl">
+  <button id="pp" type="button">Pause</button>
+  <button id="rv" type="button">Reverse</button>
+  <button id="toggleClasses" type="button" title="Toggle Class Colors (A/B/C)">🎨 Klasse Kleuren</button>
+  <button id="align7000" class="align-btn" type="button">⚡ Align at 7,000 years</button>
+  <button id="reset" class="reset-btn" type="button">🔄 Reset</button>
+  <label><span id="spl">Speed</span> <input id="spd" type="range" min="0.25" max="3" step="0.25" value="1"></label>
+</div>
+<div class="panel gear-panel" id="main-panel"><div class="tilt"><svg id="s" class="ly" role="img" viewBox="-420 -445 840 980"></svg><svg id="s1" class="ly" style="--z:70px" aria-hidden="true" viewBox="-420 -445 840 980"></svg><svg id="s2" class="ly" style="--z:36px" aria-hidden="true" viewBox="-420 -445 840 980"></svg><svg id="s3" class="ly" style="--z:36px" aria-hidden="true" viewBox="-420 -445 840 980"></svg></div></div>
+<div class="sync-banner" id="sync-banner">
+  <div class="big-text" id="sync-big"></div>
+  <div class="small-text" id="sync-small"></div>
+</div>
+
+<!-- Uitleg van de 3D gears (jouw keuze A) -->
+<div class="info-g">
+  <h2 id="p3t"></h2>
+  <div class="formula-g" id="formula"></div>
+  <div class="legend" id="legend"></div>
+  <div class="note-g" id="note"></div>
+  <div class="anchor-box" id="anchor-box"></div>
+</div>
+
+<!-- Live patroon -->
+<div class="layout" style="padding:0;margin-bottom:12px;margin-top:22px">
   <div class="card">
     <h2 id="visTitle">Live Patroon</h2>
     <div class="controls">
@@ -444,10 +513,10 @@ html[lang=nl] .en,html[lang=en] .nl{display:none}
       <h3>De onderdelen</h3>
       <ul>
         <li><b>Spiraal:</b> kies je eigen leven (100 jaar) of de wereldtijd. De wereldkalender blijft.</li>
-        <li><b>Klok:</b> analoge klok met drie ingrijpende tandwielen (24, 12 en 6 tanden).</li>
-        <li><b>Tandwielen:</b> de sacrale geometrie van de tijd met de 7.000-jaar uitlijning.</li>
+        <li><b>Klok:</b> analoge klok met drie ingrijpende tandwielen (24, 12 en 6 tanden), plus de ketting en de dualistische dag.</li>
+        <li><b>Tandwielen:</b> de DigitalGears: 18 eenheden op één hoofdklok, met de digitale wortel als stip op de ring.</li>
+        <li><b>Tools:</b> de 3D-tandwieltrein met de 7.000-jaar uitlijning, plus patronen, agenda, notities, kluis en instellingen.</li>
         <li><b>Bijectie:</b> de tuple ↔ N omzetting, met rekenstappen.</li>
-        <li><b>Tools:</b> patronen, agenda, notities, kluis en instellingen.</li>
       </ul>
       <h3>Waarom 2520?</h3>
       <p>2520 is het kleinste getal dat deelbaar is door 1 tot en met 10. Het is ook het kleinste gemene veelvoud van 7 (week) en 360 (modeljaar). De app toont daarom steeds de dag in de 2520-cyclus.</p>
@@ -468,10 +537,10 @@ html[lang=nl] .en,html[lang=en] .nl{display:none}
       <h3>The parts</h3>
       <ul>
         <li><b>Spiral:</b> choose your own life (100 years) or world time. The world calendar remains.</li>
-        <li><b>Clock:</b> analog clock with three meshing gears (24, 12 and 6 teeth).</li>
-        <li><b>Gears:</b> the sacred geometry of time with the 7,000-year alignment.</li>
+        <li><b>Clock:</b> analog clock with three meshing gears (24, 12 and 6 teeth), plus the chain and the dualistic day.</li>
+        <li><b>Gears:</b> the DigitalGears: 18 units on one master clock, with the digital root as a dot on the ring.</li>
+        <li><b>Tools:</b> the 3D gear train with the 7,000-year alignment, plus patterns, calendar, notes, vault and settings.</li>
         <li><b>Bijection:</b> the tuple ↔ N conversion, with steps.</li>
-        <li><b>Tools:</b> patterns, calendar, notes, vault and settings.</li>
       </ul>
       <h3>Why 2520?</h3>
       <p>2520 is the smallest number divisible by every number from 1 to 10. It is also the least common multiple of 7 (week) and 360 (model year). The app therefore always shows the day within the 2520 cycle.</p>
@@ -487,8 +556,9 @@ html[lang=nl] .en,html[lang=en] .nl{display:none}
       <h3>Gebruiksaanwijzing</h3>
       <ul>
         <li><b>Spiraal:</b> kies je eigen leven (100 jaar) of de wereldtijd. De wereldkalender blijft altijd beschikbaar. De parel is nu, de gouden lijn is het verstreken deel van dit jaar.</li>
-        <li><b>Klok:</b> kijk naar de wijzers en de tandwielen. Eronder staan de live N (milliseconden) en de datum.</li>
-        <li><b>Tandwielen:</b> bekijk de concentrische tandwieltrein. Klik op 'Align at 7,000 years' voor de volledige synchronisatie.</li>
+        <li><b>Klok:</b> kijk naar de wijzers en de tandwielen. Daaronder staan de ketting (p ≡ 1 mod q) en de dualistische dag (25 ≡ 1 mod 12).</li>
+        <li><b>Tandwielen:</b> bekijk de DigitalGears: 18 eenheden op één hoofdklok, met de digitale wortel als stip op de ring.</li>
+        <li><b>Tools:</b> bekijk de 3D-tandwieltrein. Klik op 'Align at 7,000 years' voor de volledige synchronisatie.</li>
         <li><b>Bijectie:</b> typ N, kies een datum, of tik op Nu. De kaarten tonen de tuple (0-based). Open "Rekenstappen" voor de berekening.</li>
         <li><b>Patronen:</b> kies een modulus q of klik op een blokje in het universum. De drie klassen (A/B/C) worden getoond.</li>
         <li><b>Agenda:</b> tik op een dag, typ een afspraak en tik op +.</li>
@@ -511,8 +581,9 @@ html[lang=nl] .en,html[lang=en] .nl{display:none}
       <h3>User manual</h3>
       <ul>
         <li><b>Spiral:</b> choose your own life (100 years) or world time. The world calendar always remains available. The pearl is now, the gold line is the elapsed part of this year.</li>
-        <li><b>Clock:</b> watch the hands and the gears. Below are the live N (milliseconds) and the date.</li>
-        <li><b>Gears:</b> view the concentric gear train. Click 'Align at 7,000 years' for full synchronization.</li>
+        <li><b>Clock:</b> watch the hands and the gears. Below are the chain (p ≡ 1 mod q) and the dualistic day (25 ≡ 1 mod 12).</li>
+        <li><b>Gears:</b> view the DigitalGears: 18 units on one master clock, with the digital root as a dot on the ring.</li>
+        <li><b>Tools:</b> view the 3D gear train. Click 'Align at 7,000 years' for full synchronization.</li>
         <li><b>Bijection:</b> type N, pick a date, or tap Now. The cards show the tuple (0-based). Open "Steps" for the calculation.</li>
         <li><b>Patterns:</b> choose a modulus q or click a block in the universe. The three classes (A/B/C) are shown.</li>
         <li><b>Calendar:</b> tap a day, type an appointment and tap +.</li>
@@ -639,7 +710,7 @@ $("gb").onclick=()=>show(tab==="in"?"sp":"in");
 
 let db;
 const dbp=new Promise(r=>{try{const q=indexedDB.open("igo2",1);q.onupgradeneeded=e=>["moments","events","vault","meta"].forEach(x=>e.target.result.createObjectStore(x,{keyPath:"id"}));q.onsuccess=e=>{db=e.target.result;r()};q.onerror=q.onblocked=()=>r()}catch{r()}});
-const tx=(s,m,f)=>new Promise(r=>{if(!db)return r();try{const t=db.transaction(s,m),o=f(t.objectStore(s));t.oncomplete=()=>r(o&&o.result);t.onerror=t.onabort=()=>r()}catch{r}});
+const tx=(s,m,f)=>new Promise(r=>{if(!db)return r();try{const t=db.transaction(s,m),o=f(t.objectStore(s));t.oncomplete=()=>r(o&&o.result);t.onerror=t.onabort=()=>r()}catch{r()}});
 const dbAll=s=>tx(s,"readonly",o=>o.getAll()).then(v=>v||[]);
 const dbPut=(s,v)=>tx(s,"readwrite",o=>o.put(v));
 const dbDel=(s,k)=>tx(s,"readwrite",o=>o.delete(k));
@@ -805,7 +876,7 @@ class Spiral{
     this.x.setTransform(d,0,0,d,0,0);
   }
   pt(a,l){
-    const u=Math.min(this.w,this.h),R=u*.34,g=u*.085,
+    const u=Math.min(this.w,this.h),R=u*.34,g=u*.1,
       X=Math.cos(a)*R,Z=Math.sin(a)*R,Y=(l-this.shown)*g,
       ca=Math.cos(this.rot),sa=Math.sin(this.rot),
       x1=X*ca+Z*sa,z1=-X*sa+Z*ca,
@@ -861,16 +932,19 @@ class Spiral{
     seg(hx,Math.max(0,startDays-4),startDays,300,lineRGB,.5,1.6);
     if(startDays >= 0) seg(hx,startDays,Math.min(st.len,startDays+4),300,lineRGB,.1,5);
     seg(hx,startDays,Math.min(st.len,startDays+4),300,lineRGB,.5,1.6);
-    for(let l=from;l<=to;l++){
-      if(l===st.level)continue;
-      const fd=Math.max(.12,1-Math.abs(l-this.shown)/6),pa=l<this.shown;
-      const isLeapYear = st.isLife && (l % 4 === 0);
-      const ringRGB = isLeapYear ? "255,235,150" : (pa?"77,208,225":"154,163,199");
-      const ringAlpha = isLeapYear ? 0.9 : 0.6*fd;
-      const ringWidth = isLeapYear ? 2.5 : (pa?1.7:1);
-      seg(a=>this.pt(a,l),A0,A0+TP,56,ringRGB,ringAlpha,ringWidth);
+    /* Doorlopende spiraal (helix) i.p.v. gestapelde cirkels */
+    {
+      const hT0=from,hT1=Math.min(st.len,to+1),hN=Math.max(8,Math.round((hT1-hT0)*48));
+      let hp=hx(hT0);
+      for(let i=1;i<=hN;i++){
+        const t=hT0+(hT1-hT0)*i/hN,q=hx(t),past=t<cont,
+          fd=Math.max(.12,1-Math.abs(t-this.shown)/6),
+          depth=Math.max(.2,Math.min(1,.6-q.z/(q.R*2.2)));
+        it.push({k:0,z:(hp.z+q.z)/2,a:hp,b:q,rgb:past?"77,208,225":"154,163,199",al:(past?.75:.6)*fd*depth,w:past?2:1.4});
+        hp=q;
+      }
+      if(st.isLife)for(let l=from;l<=to;l++)if(l%4===0&&l!==st.level){const p=hx(l);it.push({k:2,z:p.z,p})}
     }
-    seg(a=>this.pt(a,st.level),A0,A0+TP,56,"154,163,199",.4,1.8);
     if(st.f>.002){
       seg(hx,st.level,st.level+st.f,Math.max(4,Math.ceil(st.f*120)),"244,197,66",.95,3.2);
       seg(hx,Math.max(st.level,cont-.12),cont,16,"255,244,200",.9,5);
@@ -903,8 +977,14 @@ class Spiral{
     x.globalCompositeOperation="source-over";
     x.textAlign="left";x.textBaseline="middle";
     const labelX=this.w/2-(Math.min(this.w,this.h)*0.34)-20;
-    for(let l=from;l<=to;l++){
-      const q=this.pt(0,l),isT=yr(l)===st.target,cur=l===st.level;
+    /* Jaartallen: alleen tonen als er genoeg ruimte is (minimaal 20px tussen labels) */
+    const cand=[];
+    for(let l=from;l<=to;l++){const q=this.pt(0,l);cand.push({l,y:q.y,isT:yr(l)===st.target,cur:l===st.level})}
+    cand.sort((a,b)=>(b.cur-a.cur)||(b.isT-a.isT)||(Math.abs(a.l-this.shown)-Math.abs(b.l-this.shown)));
+    const taken=[];
+    for(const c of cand){if(c.cur||c.isT||taken.every(o=>Math.abs(o.y-c.y)>=20))taken.push(c)}
+    for(const c of taken){
+      const q={y:c.y},isT=c.isT,cur=c.cur,l=c.l;
       const t=yr(l)+(isT?" ◎ "+T("doel","target"):"");
       x.font=(cur||isT?"600 11px":"10px")+" -apple-system,sans-serif";
       const wd=x.measureText(t).width;
@@ -982,6 +1062,8 @@ KG.push({n:12,c:[100+Math.cos(TH1)*18*KMOD,100+Math.sin(TH1)*18*KMOD]});
 KG.push({n:6,c:[KG[1].c[0]+Math.cos(TH2)*9*KMOD,KG[1].c[1]+Math.sin(TH2)*9*KMOD]});
 KG.forEach((g,i)=>{
   const e=el("g",{},gearsG),rp=g.n*KMOD/2,sp=g.n>12?6:g.n>6?4:3;
+  /* Beginpositie direct instellen: de tandwielen staan zo altijd in de klok, ook vóór de eerste animatie */
+  e.setAttribute("transform",`translate(${g.c[0]} ${g.c[1]})`);
   el("path",{d:gearD(g.n,rp,KMOD),fill:`url(#g${i})`,stroke:COL[i],"stroke-opacity":.7,"stroke-width":.8},e);
   el("circle",{r:rp*.72,fill:"none",stroke:COL[i],"stroke-opacity":.3,"stroke-width":.6},e);
   for(let k=0;k<sp;k++){const a=k/sp*Math.PI*2;el("line",{x1:Math.cos(a)*rp*.22,y1:Math.sin(a)*rp*.22,x2:Math.cos(a)*rp*.72,y2:Math.sin(a)*rp*.72,stroke:COL[i],"stroke-opacity":.45,"stroke-width":1.2},e)}
@@ -1044,7 +1126,7 @@ async function loadDg(){
   (await dbAll("events")).forEach(e=>(evs[e.date]=evs[e.date]||[]).push(e));
   (await dbAll("moments")).forEach(m=>{const k=dk(fromN(BigInt(m.n)));(mom[k]=mom[k]||[]).push(m)});
 }
-async function renderDg(){
+async function renderDgCal(){
   const y=ag.getFullYear(),m=ag.getMonth(),lc=LOC();
   $("agm").textContent=new Date(y,m,1).toLocaleDateString(lc,{month:"long",year:"numeric"});
   let h=wd().map(n=>`<div class="dn">${n}</div>`).join("");
@@ -1059,7 +1141,7 @@ async function renderDg(){
   $("agg").querySelectorAll("[data-k]").forEach(e=>e.onclick=()=>{
     const[a,b,c]=e.dataset.k.split("-").map(Number);sel=new Date(a,b-1,c);
     const n=new Date();$("nd").value=lv(new Date(a,b-1,c,n.getHours(),n.getMinutes(),n.getSeconds()));
-    renderDg();
+    renderDgCal();
   });
   const k=dk(sel),dom=toTuple(nZ(new Date(sel.getFullYear(),sel.getMonth(),sel.getDate(),12).getTime()))[5]+1;
   $("ags").textContent=`${sel.toLocaleDateString(lc,{weekday:"long",day:"numeric",month:"long"})} · ${T("modeldag","model day")} ${dom}`;
@@ -1073,8 +1155,8 @@ async function renderDg(){
   }
   $("dl").innerHTML=out||`<div class="info">—</div>`;
   $("dl").querySelectorAll("img").forEach(im=>im.onclick=()=>{$("lbi").src=im.src;$("lbw").classList.add("on")});
-  $("dl").querySelectorAll("[data-e]").forEach(x=>x.onclick=async()=>{if(!confirm(T("Verwijderen?","Delete?")))return;await dbDel("events",x.dataset.e);await loadDg();renderDg()});
-  $("dl").querySelectorAll("[data-m]").forEach(x=>x.onclick=async()=>{if(!confirm(T("Verwijderen?","Delete?")))return;const r=await dbGet("moments",x.dataset.m);if(r)await dropPhotos(r);await dbDel("moments",x.dataset.m);await loadDg();renderDg()});
+  $("dl").querySelectorAll("[data-e]").forEach(x=>x.onclick=async()=>{if(!confirm(T("Verwijderen?","Delete?")))return;await dbDel("events",x.dataset.e);await loadDg();renderDgCal()});
+  $("dl").querySelectorAll("[data-m]").forEach(x=>x.onclick=async()=>{if(!confirm(T("Verwijderen?","Delete?")))return;const r=await dbGet("moments",x.dataset.m);if(r)await dropPhotos(r);await dbDel("moments",x.dataset.m);await loadDg();renderDgCal()});
 }
 async function renderAllNt(){
   const lc=LOC();
@@ -1088,11 +1170,11 @@ async function renderAllNt(){
   }
   const c=$("nl");c.innerHTML=h||`<div class="info">—</div>`;
   c.querySelectorAll("img").forEach(im=>im.onclick=()=>{$("lbi").src=im.src;$("lbw").classList.add("on")});
-  c.querySelectorAll("[data-ax]").forEach(x=>x.onclick=async()=>{if(!confirm(T("Verwijderen?","Delete?")))return;const r=await dbGet("moments",x.dataset.ax);if(r)await dropPhotos(r);await dbDel("moments",x.dataset.ax);await loadDg();renderDg();stInfo()});
+  c.querySelectorAll("[data-ax]").forEach(x=>x.onclick=async()=>{if(!confirm(T("Verwijderen?","Delete?")))return;const r=await dbGet("moments",x.dataset.ax);if(r)await dropPhotos(r);await dbDel("moments",x.dataset.ax);await loadDg();renderDgCal();stInfo()});
 }
-{const _rd=renderDg;renderDg=async function(){await _rd();await renderAllNt()}}
-$("ap").onclick=()=>{ag=new Date(ag.getFullYear(),ag.getMonth()-1,1);renderDg()};
-$("an").onclick=()=>{ag=new Date(ag.getFullYear(),ag.getMonth()+1,1);renderDg()};
+{const _rd=renderDgCal;renderDgCal=async function(){await _rd();await renderAllNt()}}
+$("ap").onclick=()=>{ag=new Date(ag.getFullYear(),ag.getMonth()-1,1);renderDgCal()};
+$("an").onclick=()=>{ag=new Date(ag.getFullYear(),ag.getMonth()+1,1);renderDgCal()};
 $("lbw").onclick=()=>$("lbw").classList.remove("on");
 document.addEventListener("keydown",e=>{if(e.key==="Escape")$("lbw").classList.remove("on")});
 $("nf").onchange=()=>{const c=$("nf").files.length;$("l-nf").textContent=c?`📷 ${c} ${T("foto's gekozen","photos selected")}`:T("📷 Foto's toevoegen (originele kwaliteit)","📷 Add photos (original quality)")};
@@ -1104,7 +1186,7 @@ $("ae").onclick=async()=>{
   await dbPut("events",{id:String(Date.now()),date:dk(dd),time:pad(dd.getHours())+":"+pad(dd.getMinutes()),text:t});
   sel=dd;ag=new Date(dd.getFullYear(),dd.getMonth(),1);$("nx").value="";
   nst(T("✓ Afspraak opgeslagen","✓ Appointment saved"));
-  await loadDg();renderDg();
+  await loadDg();renderDgCal();
 };
 $("ns").onclick=async()=>{
   const text=$("nx").value.trim(),files=[...$("nf").files];
@@ -1119,7 +1201,7 @@ $("ns").onclick=async()=>{
     $("nx").value="";$("nf").value="";$("nf").onchange();
     nst(T("✓ Opgeslagen","✓ Saved"));
   }else nst(T("Opslaan mislukt (opslag vol?)","Saving failed (storage full?)"),1);
-  await loadDg();renderDg();
+  await loadDg();renderDgCal();
 };
 $("nd").value=lv(new Date());
 
@@ -1212,7 +1294,7 @@ $("bif").onchange=async e=>{
     const d=JSON.parse(await f.text());
     for(const s of["events","vault","meta","moments"])for(const x of d[s]||[])await dbPut(s,x);
     if(d.birth)ls.set("iGoSpiral_birth",d.birth);
-    await loadDg();renderDg();renderKv();bst(T("✓ Hersteld","✓ Restored"));
+    await loadDg();renderDgCal();renderKv();bst(T("✓ Hersteld","✓ Restored"));
   }catch(x){bst("✗ "+x.message,1)}
   e.target.value="";
 };
@@ -1220,7 +1302,7 @@ $("bw").onclick=async()=>{
   if(!confirm(T("ALLES wissen? Dit kan niet ongedaan worden gemaakt.","Erase EVERYTHING? This cannot be undone.")))return;
   for(const s of["events","vault","meta","moments"])await dbClr(s);
   try{await(await navigator.storage.getDirectory()).removeEntry(OP,{recursive:true})}catch{}
-  ls.del("iGoSpiral_birth");birth=null;vlock();await loadDg();renderDg();stInfo();bst(T("✓ Alles gewist","✓ Everything erased"));
+  ls.del("iGoSpiral_birth");birth=null;vlock();await loadDg();renderDgCal();stInfo();bst(T("✓ Alles gewist","✓ Everything erased"));
 };
 $("utc").checked=UTC;
 $("utc").onchange=()=>{UTC=$("utc").checked;ls.set("igo_utc",UTC?"1":"0");$("n").value=nZ(Date.now()).toString();applyLang()};
@@ -1243,20 +1325,17 @@ function mrsDemo(){
 }
 $("md-n").oninput=mrsDemo;
 
+/* ========== 3D GEARS (Tools) ========== */
 const TX = {
   en: {
-    lang:'en',loc:'en-US',btn:'NL',
+    loc:'en-US',
     align7000:'⚡ Align at 7,000 years', reset:'🔄 Reset', toggle:'🎨 Class Colors',
-    title:'iGoSpiral · The Architecture of the Clock',
-    sub:'All orbits converge to 1. The digital root is the level.',
     pause:'Pause',resume:'Resume',reverse:'Reverse',speed:'Speed',
     note:'The week is the quarter of the month. The quarter-hour is the quarter of the hour.',
     legend:'<span style="color:#c2334d">■</span> Time Orbit · <span style="color:#efe9dc">■</span> Calendar Orbit · <span style="color:#7fa6e8">■</span> Week (Quarter)',
     legend2:'The golden cross marks the 4 quarters. At 7,000 years, all tracks align on the vertical axis.',
-    aria:'Concentric clock tracks',aria2:'Round chain',
     start:'▼ START at 1',jump:'+1 jump!',syncText:'SYNCHRONIZED',
     round:(c,m)=>`round ${c} of ${m}`,
-    lcm:'lcm = 2,520,000 days',
     ct:'The chain: p ≡ 1 (mod q)',
     csub:'The inner core is 1-9. The outer rings show the +1 jump to 19 (on 1).',
     clt:'The Dualistic Day (2 × 12 + 1)',
@@ -1273,18 +1352,14 @@ const TX = {
     anchorText:'A year counts 365 days in the real calendar, not 360. 360 is the flat, closed circle (60 × 6), without beginning or end. Time is a spiral: after a full cycle you arrive one level higher. That is why the basis of the calendar is 365, and the +1 (leap day) is the jump to the next level: 4 × 365 + 1 = 1461 ≡ 1 (mod 365). For the full 8-year cycle: 2 × (4 × 365 + 1) = 2922 elapsed days, and the new cycle begins at 2923 (2923 ≡ 1 (mod 1461)). If a century year without a leap day (such as 2100) falls inside the cycle, the number of elapsed days is 2921.'
   },
   nl: {
-    lang:'nl',loc:'nl-NL',btn:'EN',
+    loc:'nl-NL',
     align7000:'⚡ Lijn uit op 7.000 jaar',reset:'🔄 Reset',toggle:'🎨 Klasse Kleuren',
-    title:'iGoSpiral · De Architectuur van de Klok',
-    sub:'Alle banen komen samen bij 1. De digitale wortel is het niveau.',
     pause:'Pauze',resume:'Verder',reverse:'Keer om',speed:'Snelheid',
     note:'De week is de kwart van de maand. Het kwartier is de kwart van het uur.',
     legend:'<span style="color:#c2334d">■</span> Tijd Baan · <span style="color:#efe9dc">■</span> Kalender Baan · <span style="color:#7fa6e8">■</span> Week (Kwart)',
     legend2:'Het gouden kruis markeert de 4 kwartieren. Bij 7.000 jaar lijnen alle banen uit op de verticale as.',
-    aria:'Concentrische klokbanen',aria2:'Ronde ketting',
     start:'▼ START bij 1',jump:'+1 sprong!',syncText:'GESYNCHRONISEERD',
     round:(c,m)=>`ronde ${c} van ${m}`,
-    lcm:'kgv = 2.520.000 dagen',
     ct:'De ketting: p ≡ 1 (mod q)',
     csub:'De binnenste kern is 1-9. De buitenste ringen tonen de +1 sprong naar 19 (op de 1).',
     clt:'De Dualistische Dag (2 × 12 + 1)',
@@ -1324,7 +1399,6 @@ timeGears.forEach((g,i)=>{const angle=(i/timeGears.length)*2*PI-PI/2;g.x=cx0+rTi
 calGears.forEach((g,i)=>{const angle=(i/calGears.length)*2*PI-PI/2;g.x=cx0+rCal*Math.cos(angle);g.y=cy0+rCal*Math.sin(angle)});
 weekGear.x=cx0;weekGear.y=cy0+rWeek;
 const LY=['s','s1','s2','s3'].map(id=>document.getElementById(id));
-LY.forEach(e=>e.setAttribute('viewBox',"-420 -445 840 980"));
 
 function drawConcentricBelt(radius,color){
   return `<circle cx="0" cy="0" r="${radius}" fill="none" stroke="${color}" stroke-width="22" opacity="0.06"/>`+
@@ -1644,6 +1718,7 @@ function frame(now){
   requestAnimationFrame(frame);
 }
 
+/* ========== PATRONEN (Tools) ========== */
 const qInput=document.getElementById('qInput');
 const presetSelect=document.getElementById('presetSelect');
 const nodesGroup=document.getElementById('nodes');
@@ -1805,6 +1880,161 @@ function applyPtLang(){
 buildGrid();
 updateVisualization(7);
 
+/* ========== DIGITAL GEARS (Tandwielen) ========== */
+const DG_RAW = [
+  ['milliseconde','millisecond', 1, 1000],
+  ['seconde','second', 1000, 60],
+  ['minuut','minute', 60000, 60],
+  ['kwartier','quarter hour', 900000, 4],
+  ['halfuur','half hour', 1800000, 2],
+  ['uur','hour', 3600000, 24],
+  ['dag','day', 86400000, 7],
+  ['week','week', 7*86400000, 4],
+  ['twee weken','fortnight', 14*86400000, 2],
+  ['maand · 30 dagen','month · 30 days', 30*86400000, 12],
+  ['seizoen · 90 dagen','season · 90 days', 90*86400000, 4],
+  ['jaar · 365 dagen','year · 365 days', 365*86400000, 4],
+  ['schrikkelcyclus · 4 jaar','leap cycle · 4 years', 1461*86400000, 25],
+  ['100 jaar','100 years', 36500*86400000, 10],
+  ['1000 jaar','1000 years', 365000*86400000, 7],
+  ['basiscirkel · 360 dagen','base circle · 360 days', 360*86400000, 7],
+  ['2.520 dagen','2,520 days', 2520*86400000, 1000],
+  ['7000-jaarcyclus','7000-year cycle', 2520000*86400000, 1]
+];
+const DG = DG_RAW.map(([nN,nE,u,N],i)=>({nN,nE,u,N,c:`hsl(${(i*20)%360} 65% 62%)`}));
+const DG_SPAN = 2520000*86400000;
+const DG_D = 86400000, DG_YR = 365*DG_D;
+let dgT = 0, dgPlaying = false, dgLast = 0;
+const dgDr = v => 1 + ((v - 1) % 9);
+const dgFm = n => n.toLocaleString(L==='nl'?'nl-NL':'en-US');
+
+const DG_L = {
+  nl:{
+    tag:'Gears of Time',
+    sub:'De hoofdklok telt milliseconden. Elk gear schuift één positie door zodra zijn eenheid voorbij is. Posities tellen van 1 tot N, er is geen 0.',
+    start:'Start', pause:'Pauze', reset:'🔄 Reset',
+    speed:'Tijdsnelheid:', ms:'ms per seconde', s:'s per seconde', days:'dagen per seconde', years:'jaar per seconde',
+    pos:'positie', from:'1 tot', of:'van', gears1:'gears staan op 1', beginCycle:'begin van de cyclus',
+    clockT:'T =', year:'jaar',
+    whySum:'Hoe het werkt',
+    why:`
+      <p>Stel je een klok voor die continu doortikt in milliseconden. Die tijd noemen we <b>T</b>.</p>
+      <p>Elk tandwiel in het systeem heeft een eigen <b>eenheid</b>, een wijzer die per keer een vaste sprong maakt (bijvoorbeeld elke 4 uur, elke 4 weken, enzovoort). De positie van een tandwiel bereken je zo:</p>
+      <p class="dg-formula">positie = (T gedeeld door de eenheid, naar beneden afgerond) mod N + 1</p>
+      <p>Simpel gezegd: we kijken hoe vaak de eenheid al in T past, tellen door tot N en beginnen dan weer bij 1. Zo krijgt elk tandwiel een positie tussen 1 en N.</p>
+      <p><b>Belangrijk:</b> op T = 0 staan alle tandwielen netjes samen op positie 1. Daarna loopt elk tandwiel in zijn eigen tempo verder.</p>
+      <p>De tandwielen zijn gekozen rond het getal 4:</p>
+      <ul>
+        <li>4 kwartieren in een uur</li>
+        <li>4 weken in een maand</li>
+        <li>4 seizoenen in een jaar</li>
+        <li>4 jaar in een schrikkelcyclus</li>
+      </ul>
+      <p>Van elke positie nemen we de <b>digitale wortel</b> (dat is de som van de cijfers, herhaald tot je één cijfer overhoudt, bijvoorbeeld 47 → 4+7 = 11 → 1+1 = 2). Dat cijfer, van 1 tot 9, zetten we als <b>stip</b> op een gedeelde ring.</p>
+      <p><b>De schaal:</b> 360 dagen × 7 = 2.520 dagen. Vermenigvuldigd met 1000 geeft dat 2.520.000 dagen, precies 7000 volledige rondjes van de basiscirkel. Zo past alles netjes in elkaar.</p>
+      <p>De instellingen (naam, eenheid en N van elk tandwiel) staan bovenaan in de code, zodat je ze makkelijk kunt aanpassen.</p>
+    `
+  },
+  en:{
+    tag:'Gears of Time',
+    sub:'The master clock counts milliseconds. Each gear advances one position as soon as its unit has passed. Positions run from 1 to N, there is no 0.',
+    start:'Start', pause:'Pause', reset:'🔄 Reset',
+    speed:'Time speed:', ms:'ms per second', s:'s per second', days:'days per second', years:'years per second',
+    pos:'position', from:'1 to', of:'of', gears1:'gears are at 1', beginCycle:'beginning of the cycle',
+    clockT:'T =', year:'years',
+    whySum:'How it works',
+    why:`
+      <p>Imagine a clock that ticks continuously in milliseconds. We call that time <b>T</b>.</p>
+      <p>Every gear in the system has its own <b>unit</b> — a hand that takes a fixed step each time (for example every 4 hours, every 4 weeks, and so on). You calculate a gear's position like this:</p>
+      <p class="dg-formula">position = (T divided by the unit, rounded down) mod N + 1</p>
+      <p>In plain words: we count how many times the unit fits into T, keep counting up to N, then start again at 1. That gives each gear a position between 1 and N.</p>
+      <p><b>Important:</b> at T = 0 all gears sit together at position 1. From then on each gear runs on its own rhythm.</p>
+      <p>The gears are built around the number 4:</p>
+      <ul>
+        <li>4 quarters in an hour</li>
+        <li>4 weeks in a month</li>
+        <li>4 seasons in a year</li>
+        <li>4 years in a leap cycle</li>
+      </ul>
+      <p>For each position we take the <b>digital root</b> (the sum of the digits, repeated until one digit remains — for example 47 → 4+7 = 11 → 1+1 = 2). That digit, from 1 to 9, is placed as a <b>dot</b> on a shared ring.</p>
+      <p><b>The scale:</b> 360 days × 7 = 2,520 days. Multiplied by 1000 that gives 2,520,000 days — exactly 7000 full turns of the base circle. Everything fits neatly together.</p>
+      <p>The settings (name, unit and N of each gear) live at the top of the code, so you can adjust them easily.</p>
+    `
+  }
+};
+
+function dgBuildRing(){
+  const ring=$('dg-ring');
+  let r='<circle r="100" fill="none" stroke="#2b4478"/>';
+  for(let d=1; d<=9; d++){
+    const a=(d-1)/9*2*Math.PI - Math.PI/2;
+    r+=`<circle cx="${(100*Math.cos(a)).toFixed(1)}" cy="${(100*Math.sin(a)).toFixed(1)}" r="3" fill="#2b4478"/><text x="${(113*Math.cos(a)).toFixed(1)}" y="${(113*Math.sin(a)+5).toFixed(1)}" text-anchor="middle" font-size="15" font-weight="700" fill="${d===1?'#fff':'#9aa7c7'}" font-family="system-ui,sans-serif">${d}</text>`;
+  }
+  ring.innerHTML=r+'<g id="dg-dots"></g>';
+}
+function dgBuildGrid(){
+  const L2=DG_L[L];
+  $('dg-grid').innerHTML=DG.map((g,i)=>{
+    const name=L==='nl'?g.nN:g.nE;
+    return `<div class="dg-g" id="dg-g${i}"><svg viewBox="0 0 110 110" role="img" aria-label="${name}"><g class="dg-rot" style="transform-origin:55px 55px"><circle cx="55" cy="55" r="44" fill="none" stroke="${g.c}" stroke-width="8" stroke-dasharray="6.9 6.9"/><circle cx="55" cy="55" r="39.5" fill="${g.c}" fill-opacity=".8" stroke="#050b1a"/><circle cx="55" cy="55" r="16" fill="#0a1530" stroke="#fff" stroke-opacity=".5"/><circle cx="55" cy="22" r="4" fill="#fff"/></g><path d="M55 3 L50 12 H60Z" fill="#fff"/></svg><b>${i+1} · ${name}</b>${L2.from} ${dgFm(g.N)}<div class="dg-v" id="dg-v${i}"></div></div>`;
+  }).join('');
+}
+function dgSpeed(){ return Math.pow(10, +$('dg-sp').value); }
+function dgLabel(){
+  const L2=DG_L[L], s=dgSpeed(), y=s/DG_YR;
+  let txt;
+  if(s<1e3) txt=`${dgFm(Math.round(s))} ${L2.ms}`;
+  else if(s<=3.6e6) txt=`${dgFm(+(s/1e3).toFixed(1))} ${L2.s}`;
+  else if(s<DG_YR) txt=`${dgFm(+(s/DG_D).toFixed(1))} ${L2.days}`;
+  else txt=`${dgFm(+y.toFixed(1))} ${L2.years}`;
+  $('dg-spl').textContent=txt;
+}
+function dgDraw(){
+  const L2=DG_L[L], tn=Math.floor(dgT);
+  let dots='', ones=0;
+  DG.forEach((g,i)=>{
+    const k=Math.floor(tn/g.u), v=(k%g.N)+1, d=dgDr(v);
+    const el=document.querySelector(`#dg-g${i} .dg-rot`);
+    if(el) el.style.transform=`rotate(${(((tn/g.u)%g.N)/g.N*360).toFixed(2)}deg)`;
+    const vEl=$('dg-v'+i); if(vEl) vEl.textContent=`${L2.pos} ${dgFm(v)} · dr ${d}`;
+    const gEl=$('dg-g'+i); if(gEl) gEl.classList.toggle('one', v===1);
+    if(v===1) ones++;
+    const a=(d-1)/9*2*Math.PI - Math.PI/2, rr=98-(i%6)*7;
+    dots+=`<circle cx="${(rr*Math.cos(a)).toFixed(1)}" cy="${(rr*Math.sin(a)).toFixed(1)}" r="4.2" fill="${g.c}" stroke="#050b1a"/>`;
+  });
+  /* Veiligheid: als de ring nog niet bestaat, eerst bouwen */
+  if(!$('dg-dots')) dgBuildRing();
+  $('dg-dots').innerHTML=dots;
+  const y=tn/DG_YR;
+  $('dg-clock').textContent=`${L2.clockT} ${dgFm(+y.toFixed(y<10?3:1))} ${L2.year} (${dgFm(tn)} ms)`;
+  $('dg-banner').textContent=`${ones} ${L2.of} ${DG.length} ${L2.gears1}`+(ones===DG.length?' · '+L2.beginCycle:'');
+}
+function dgFrame(ts){
+  if(!dgPlaying) return;
+  const dt=Math.min((ts-dgLast)/1000,.1); dgLast=ts;
+  dgT+=dgSpeed()*dt;
+  if(dgT>=DG_SPAN){ dgT=0; }
+  dgDraw(); requestAnimationFrame(dgFrame);
+}
+function dgApplyLang(){
+  const L2=DG_L[L];
+  $('dg-tag').textContent=L2.tag;
+  $('dg-sub').textContent=L2.sub;
+  $('dg-splbl').textContent=L2.speed;
+  $('dg-rst').textContent=L2.reset;
+  $('dg-play').textContent=dgPlaying?L2.pause:L2.start;
+  $('dg-why-sum').textContent=L2.whySum;
+  $('dg-why').innerHTML=L2.why;
+  $('dg-ring').setAttribute('aria-label', L==='nl'?'Digitale wortels van 1 tot 9':'Digital roots from 1 to 9');
+  dgBuildGrid();
+  dgLabel();
+  dgDraw();
+}
+$('dg-play').onclick=()=>{ dgPlaying=!dgPlaying; $('dg-play').textContent=dgPlaying?DG_L[L].pause:DG_L[L].start; dgLast=performance.now(); if(dgPlaying) requestAnimationFrame(dgFrame); };
+$('dg-rst').onclick=()=>{ dgPlaying=false; dgT=0; $('dg-play').textContent=DG_L[L].start; dgDraw(); };
+$('dg-sp').oninput=dgLabel;
+
+/* ========== TAAL & INIT ========== */
 const I=[
   ["#sub","De Architectuur van de Klok","The Architecture of the Clock"],
   ["#nv [data-t=sp] span","Spiraal","Spiral"],
@@ -1861,9 +2091,10 @@ function applyLang(){
   $("gb").setAttribute("aria-label",T("Info en instellingen","Info and settings"));
   applyGearsLang();
   applyPtLang();
+  dgApplyLang();
   spText(state(new Date()),new Date());
   renderBij();
-  renderDg();
+  renderDgCal();
   renderKv();
   mrsDemo();
   stInfo();
@@ -1888,11 +2119,14 @@ function mainFrame(ts){
   requestAnimationFrame(mainFrame);
 }
 
+/* Opstart: eerst de ring bouwen, dan pas de taal toepassen (die tekent de ring-stippen) */
 show("sp");
+dgBuildRing();
 applyLang();
+clock(0);
 requestAnimationFrame(mainFrame);
 requestAnimationFrame(frame);
-dbp.then(async()=>{await loadDg();renderDg();renderKv()});
+dbp.then(async()=>{await loadDg();renderDgCal();renderKv()});
 if("serviceWorker" in navigator)addEventListener("load",()=>{navigator.serviceWorker.register("sw.js").catch(()=>{})});
 </script>
 </body>
