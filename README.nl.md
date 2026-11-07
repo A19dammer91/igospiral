@@ -13,23 +13,22 @@ iGoSpiral DigitalGears is een local-first Progressive Web App (PWA) die de klok,
 
 ---
 
-## De Zeven Modules (Eén Applicatie)
+## De Zes Modules (Eén Applicatie)
 
-De applicatie is gebundeld in één enkel bestand (`index.html`). De zeven modules zijn toegankelijk via de navigatiebalk onderaan.
+De applicatie is gebundeld in één enkel bestand (`index.html`). De zes modules zijn toegankelijk via de navigatiebalk onderaan.
 
 ### 1. 🌀 Spiraal
 De visuele kern van de applicatie. Een 3D-levensspiraal die de voortgang van de tijd toont. Kies je eigen leven (70 jaar) of de wereldtijd. De parel is het huidige moment; de gouden lijn is het verstreken deel van dit jaar. De spiraal stijgt bij elke cyclus, wat de formule `p ≡ 1 (mod q)` visueel bewijst.
 
 ### 2. 🕰️ Klok
-Een analoge klok met drie ingrijpende tandwielen (24, 12 en 6 tanden). De klok toont de live N (milliseconden) en de datum. De tandwielen demonstreren hoe de 24-uurs cyclus de 12-uurs cyclus aandrijft, die op zijn beurt de 6-uurs cyclus aandrijft. De wiskundige relatie is `25 ≡ 1 (mod 12)`.
+Een analoge klok met drie ingrijpende tandwielen (24, 12 en 6 tanden). De klok toont de live N (milliseconden) en de datum. De tandwielen demonstreren hoe de 24-uurs cyclus de 12-uurs cyclus aandrijft, die op zijn beurt de 6-uurs cyclus aandrijft. De wiskundige relatie is `25 ≡ 1 (mod 12)`. 
+Daarnaast bevat deze module de **Minuten Spiraal** (1441 en 1141), die bewijst dat de minuut een spiraaleenheid is binnen de dag (`1441 ≡ 1 (mod 24)`).
 
 ### 3. ⚙️ Tandwielen
-De sacrale geometrie van de tijd. Een concentrische tandwieltrein die alle tijdseenheden (van milliseconde tot de 7.000-jaarcyclus) met elkaar verbindt. Klik op **"⚡ Lijn uit op 7.000 jaar"** om de volledige synchronisatie te zien: de tandwielen lijnen uit, het scherm flitst, en het systeem bevriest om te bewijzen dat tijd een gesloten, perfecte lus is. Bevat ook de interactieve `p ≡ 1 (mod q)` ketting met de +1 sprong.
+De sacrale geometrie van de tijd. Een concentrische tandwieltrein die alle tijdseenheden (van milliseconde tot millennium) met elkaar verbindt. De moduli zijn de zuivere positionele waarden (Jaar = 365, Dag = 24, Uur = 60). 
+In de "Tools"-sectie vind je de 3D-tandwieltrein met de knop **"⚡ Lijn uit: The Great Reset"**. Dit visualiseert de Diophantische sluiting op 2.520.000 dagen (7000 modeljaren).
 
-### 4. 🔢 Patronen
-De pure wiskundige kern. Visualiseert de drie fundamentele cycli van de digitale wortel (Klasse A, B en C), onafhankelijk van enige klok- of kalendercontext. Een live tabel toont de formule `p = 1 + q·m` over 10 niveaus. Een interactief raster brengt alle 899 geldige moduli van 2 tot 900 in kaart, gekleurd per klasse.
-
-### 5. 🔄 Bijectie
+### 4. 🔄 Bijectie
 De exacte conversie tussen een geheel getal `N` (milliseconden) en de 10-delige klok-tuple (millennium tot milliseconden). De module rekent met de **werkelijke kalender**, niet met een kunstmatige +1.
 
 De module toont twee weergaven naast elkaar:
@@ -38,13 +37,15 @@ De module toont twee weergaven naast elkaar:
 
 Beide weergaven zijn altijd synchroon. De UTC-schakelaar zorgt voor een sluitende bijectie, zonder gaten of overlappingen door zomertijd.
 
-### 6. 📔 Tools
-De persoonlijke laag van de applicatie:
+### 5. 📔 Tools (inclusief Patronen & Agenda)
+De persoonlijke en wiskundige laag van de applicatie:
+- **Patronen:** Visualiseert de drie fundamentele cycli van de digitale wortel (Klasse A, B en C), onafhankelijk van enige klok- of kalendercontext. Een live tabel toont de formule `p = 1 + q·m`.
+- **3D Tandwieltrein:** De visuele weergave van de Diophantische cyclus, met de "The Great Reset" knop.
 - **Agenda:** afspraken per dag, gekoppeld aan de modeldag.
 - **Notities:** tekst en foto's, gekoppeld aan een exact moment (N).
 - **Instellingen:** back-up, herstel, UTC-schakelaar, en opslagbeheer.
 
-### 7. 🔐 MRS — Offline Kluis & Chat
+### 6. 🔐 MRS — Offline Kluis & Chat
 Een standalone, local-first kluis- en chat-applicatie, ingebed als aparte module. Het is de **praktische toepassing** van het MRS-AUTH-PQC-framework: de sleutel wordt afgeleid uit de (19, 9) Diophantische structuur, niet uit een generieke KDF.
 
 **Wat het doet:**
@@ -61,13 +62,11 @@ De complete theoretische onderbouwing — de dubbele cyclus, de Positive Anchor 
 
 👉 **[MRS-AUTH-PQC op GitHub](https://github.com/A19dammer91/MRS-AUTH-PQC)**
 
-Die repository bevat de Rust-implementatie, de 14 EasyCrypt-bewijsbestanden (231 lemma's, 0 admits), de 108 tests, en de volledige README die de wiskunde uitlegt. De iGoSpiral-README dupliceert dat materiaal niet; hij verwijst er alleen naar.
-
 ---
 
 ## De Kern Theorie
 
-De foundation van alle zeven modules is de algemene vorm:
+De foundation van alle modules is de algemene vorm:
 
 **p ≡ 1 (mod q)**
 
@@ -90,8 +89,10 @@ Men zou kunnen tegenwerpen dat een jaar geen 360 dagen duurt, maar 365 (of 366 i
 Wat dit systeem uniek maakt, is dat het niet leunt op de ruwe omlooptijd, maar op de **schrikkelcyclus als benchmark**. Dit is de enige variabele die door de geschiedenis heen constant is gecorrigeerd. De mensheid heeft altijd geweten: het jaar loopt uit de pas, en het schrikkeljaar is de oplossing. Onze 7.000-jaarcyclus synchroniseert daarom met die universele, historische correctie. Het schrikkeljaar is niet zomaar een toevoeging; het is het anker waarop de hele spiraal rust.
 
 - Een normaal jaar heeft **365 dagen**.
-- Het eerste schrikkeljaar wordt berekend met de dubbele cyclus (m=2): `2 × 365 + 1 = 731`. Dit betekent `731 ≡ 1 (mod 365)`.
-- Voor de volledige 4-jaarlijkse schrikkelcyclus (4 niveaus) is de formule: `4 × (2 × 365) + 1 = 2921`. Dit betekent `2921 ≡ 1 (mod 365)` met m=8.
+- De theoretische dualistische vorm (m=2): `2 × 365 + 1 = 731`. Dit betekent `731 ≡ 1 (mod 365)`.
+- Voor de volledige 4-jaarlijkse schrikkelcyclus: `4 × 365 + 1 = 1461` (m=4).
+- Voor de volledige 8-jaarlijkse cyclus (de eenheid): `2 × 1461 = 2922` (m=8).
+- **Uitzondering:** Valt een eeuwjaar zonder schrikkeldag (zoals 2100) in de cyclus, dan is het aantal verstreken dagen 2921.
 
 De applicatie berekent dit automatisch. Het gebruikt de echte schrikkeljaren om perfect gesynchroniseerd te blijven met de werkelijke tijd.
 
@@ -107,7 +108,7 @@ In de context van de kalender is een standaardjaar deelbaar door 1, 2, 3, 4, 5, 
 
 Wanneer je de 7-daagse week aan de kalender toevoegt, krijg je: `360 dagen × 7 dagen = 2.520 dagen`.
 
-Omdat 7 een priemgetal is dat niet gelijkmatig in 360 past, is de 7-daagse week de _enige_ cycluslengte tussen 1 en 10 die de kalender dwingt zijn cyclus te verlengen om synchronisatie te vinden. 2.520 is het exacte punt waar het 360-daagse model en de 7-daagse week elkaar weer perfect ontmoeten. (In de echte Gregoriaanse kalender is de synchronisatie van de week en het zonnejaar nog complexer, maar het wiskundige model blijft hetzelfde.)
+Omdat 7 een priemgetal is dat niet gelijkmatig in 360 past, is de 7-daagse week de _enige_ cycluslengte tussen 1 en 10 die de kalender dwingt zijn cyclus te verlengen om synchronisatie te vinden. 2.520 is het exacte punt waar het 360-daagse model en de 7-daagse week elkaar weer perfect ontmoeten.
 
 ---
 
@@ -122,7 +123,7 @@ Om erachter te komen wanneer de kalender en de week weer perfect op één lijn l
 
 Terug naar jaren: `2.520.000 ÷ 360 = 7.000 jaar`.
 
-Dit is waarom de volledige klokcyclus na precies **7.000 jaar** sluit. Andere millenniummarkers zoals 1.000, 3.000, 6.000 of 9.000 jaar sluiten niet, omdat die getallen (3, 6, 9) priemfactoren delen met 360.000, waardoor de cyclus voortijdig reset.
+Dit is waarom de volledige klokcyclus na precies **7.000 jaar** sluit. In de app wordt dit gevisualiseerd met de knop **"⚡ Lijn uit: The Great Reset"**. Dit is de ultieme Diophantische sluiting.
 
 ---
 
@@ -209,7 +210,6 @@ AI is door de auteur uitsluitend gebruikt als (i) linguïstische compiler voor d
 Het wiskundige raamwerk — inclusief maar niet beperkt tot de algemene vorm **p ≡ 1 (mod q)**, de structurele classificatie van moduli (Klassen A, B en C), het 2.520-dagen LCM-synchronisatiemodel, de 7.000-jaar cyclusafsluiting en het (19, 9) Diophantische representatiesysteem — vormt het oorspronkelijke, fundamentele intellectuele eigendom van **Bilal el Issaoui**.
 
 Elke academische paper, presentatie, lezing of professionele publicatie die naar deze specifieke concepten verwijst, deze implementeert of erop voortbouwt, **MOET** Bilal el Issaoui expliciet crediteren als de oorspronkelijke auteur. Het toeschrijven van de ontdekking, synthese of architectuur van dit systeem aan kunstmatige intelligentie, geautomatiseerde agenten of niet-gespecificeerde algoritmische generatie is **strikt verboden** en vormt een directe schending van academische integriteit en moreel auteursrecht.
-
 
 ---
 
