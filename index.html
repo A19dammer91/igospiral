@@ -298,18 +298,21 @@ html[lang=nl] .en,html[lang=en] .nl{display:none}
 <div class="info-g">
   <h2 id="min-t">De Minuten Spiraal (1441 & 1141)</h2>
   <div class="csub" id="min-sub">Bewijst de minuut als spiraaleenheid binnen de dag.</div>
-  <div class="formula-g" style="text-align:center">
+  <div class="formula-g" id="min-f1" style="text-align:center">
     <b>1441 ≡ 1 (mod 24)</b> [m = 60]<br>
     <b>1441 ≡ 1 (mod 360)</b> [m = 4]<br>
     <b>1441 ≡ 1 (mod 60)</b> [m = 24]<br><br>
     Omdat 60×24 = 1440. Dus op 1441 sta je exact op dezelfde minuut positie maar op de volgende dag.
   </div>
-  <div class="formula-g" style="text-align:center;margin-top:12px">
+  <div class="formula-g" id="min-f2" style="text-align:center;margin-top:12px">
     <b>1141 ≡ 1 (mod 19)</b> [m = 60]<br>
     <b>1141 ≡ 1 (mod 60)</b> [m = 19]<br><br>
     De 19-uurcyclus (19 × 60 = 1140) verbindt de minuut met de getalcyclus (19 ≡ 1 mod 9).
   </div>
 </div>
+
+<!-- Nieuwe inzichten uit het manuscript (Structurele Herordening) -->
+<div id="ms-insights"></div>
 </div></section>
 
 <section id="tw"><div class="panel" style="padding:0;background:none;border:none">
@@ -722,7 +725,7 @@ let birth=null;
 const esc=x=>String(x).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const pad=n=>String(n).padStart(2,"0");
 const off=ms=>UTC?0:-new Date(ms).getTimezoneOffset()*6e4;
-const nOf=ms=>{const o=off(ms);return BigInt(Math.round(ms+off(ms+o)))};
+const nOf=ms=>BigInt(Math.round(ms+off(ms)));
 const fromN=N=>{const ms=Number(N);return new Date(ms-off(ms))};
 const EP=62167219200000n;
 const nZ=ms=>nOf(ms)+EP;
@@ -854,8 +857,7 @@ function renderBij(fromDt){
   const S=(a,b)=>`<div class="sum"><span>${a}</span><b>${b}</b></div>`;
   let when="—";
   if(N<8000000000000000n){const d=fromZ(N);when=d.toLocaleString(LOC());if(!fromDt)$("dt").value=lv(d)}
-  const d=fromZ(N),Y=d.getFullYear();
-  const tuple=[Math.floor(Y/1000),Math.floor(Y%1000/100),Math.floor(Y%100/10),Y%10,d.getMonth(),d.getDate(),d.getHours(),d.getMinutes(),d.getSeconds(),d.getMilliseconds()];
+  const tuple=toTuple(N);
   o.innerHTML=realBlock(N)+
     `<h2>${T("Tuple (dag 1-based, rest 0-based)","Tuple (day 1-based, rest 0-based)")}</h2>
     <div class="cards">${UNITS.map((u,i)=>`<div class="card-t ${i<4?"":i<6?"cc":"ct"}"><b>${tuple[i]}</b><small>${ul(u)}</small></div>`).join("")}</div>
@@ -940,7 +942,7 @@ class Spiral{
       x.beginPath();x.arc(t.x*w,t.y*h,t.r,0,7);x.fillStyle=t.c;x.fill();
     }
     x.globalAlpha=1;
-    let lineRGB = "244,197,66";
+    const GOLD="244,197,66";
     const seg=(f,t0,t1,n,rgb,al,wd)=>{
       let p=f(t0);
       for(let i=1;i<=n;i++){
@@ -951,27 +953,7 @@ class Spiral{
     };
     const from=Math.max(0,Math.floor(this.shown)-4), to=Math.min(st.len-1,Math.ceil(this.shown)+5);
     const yr=l=>st.Y-st.level+l, hx=t=>this.pt(A0+TP*t,t);
-    const startDays = Math.max(0, this.shown - 4);
-    if(this.shown >= startDays && startDays < 100) {
-      let p = hx(startDays);
-      const steps = 80;
-      for(let i=1; i<=steps; i++) {
-        const t = startDays + (i/steps)*(this.shown - startDays);
-        const q = hx(t);
-        const fract = (t - startDays) / 4;
-        const mix = fract < 0.5 ? fract * 2 : (1 - fract) * 2;
-        const r = Math.round(77 + (142 - 77) * (1 - mix));
-        const g = Math.round(208 + (155 - 208) * (1 - mix));
-        const b = Math.round(225 + (255 - 225) * (1 - mix));
-        it.push({k:0,z:(p.z+q.z)/2, a:p,b:q, rgb:`${r},${g},${b}`, al: 0.8*Math.max(.2,Math.min(1,.6-q.z/(q.R*2.2))), w: 4});
-        p=q;
-      }
-    }
-    seg(hx,Math.max(0,startDays-4),startDays,300,lineRGB,.1,5);
-    seg(hx,Math.max(0,startDays-4),startDays,300,lineRGB,.5,1.6);
-    if(startDays >= 0) seg(hx,startDays,Math.min(st.len,startDays+4),300,lineRGB,.1,5);
-    seg(hx,startDays,Math.min(st.len,startDays+4),300,lineRGB,.5,1.6);
-    /* Doorlopende spiraal (helix) i.p.v. gestapelde cirkels */
+    /* Doorlopende spiraal (helix): verleden cyaan, toekomst grijs */
     {
       const hT0=from,hT1=Math.min(st.len,to+1),hN=Math.max(8,Math.round((hT1-hT0)*48));
       let hp=hx(hT0);
@@ -984,8 +966,21 @@ class Spiral{
       }
       if(st.isLife)for(let l=from;l<=to;l++)if(l%4===0&&l!==st.level){const p=hx(l);it.push({k:2,z:p.z,p})}
     }
+    /* Recent spoor: laatste ~4 niveaus, cyaan → parelwit, eindigend bij de parel */
+    if(cont>.02){
+      const t0=Math.max(0,cont-4),n=Math.max(8,Math.round((cont-t0)*40));
+      let p=hx(t0);
+      for(let i=1;i<=n;i++){
+        const t=t0+(cont-t0)*i/n,q=hx(t),k=(t-t0)/4,
+          r=Math.round(77+(255-77)*k),g2=Math.round(208+(244-208)*k),b2=Math.round(225+(200-225)*k),
+          depth=Math.max(.2,Math.min(1,.6-q.z/(q.R*2.2)));
+        it.push({k:0,z:(p.z+q.z)/2,a:p,b:q,rgb:`${r},${g2},${b2}`,al:.85*depth,w:2.6});
+        p=q;
+      }
+    }
+    /* Verstreken deel van dit jaar: goud, met witte gloedpunt */
     if(st.f>.002){
-      seg(hx,st.level,st.level+st.f,Math.max(4,Math.ceil(st.f*120)),"244,197,66",.95,3.2);
+      seg(hx,st.level,st.level+st.f,Math.max(4,Math.ceil(st.f*120)),GOLD,.95,3.2);
       seg(hx,Math.max(st.level,cont-.12),cont,16,"255,244,200",.9,5);
     }
     for(let i=0;i<12;i++){const p=this.pt(A0+TP*i/12,st.level);it.push({k:2,z:p.z,p})}
@@ -1925,6 +1920,69 @@ function applyPtLang(){
 buildGrid();
 updateVisualization(7);
 
+/* ========== NIEUWE INZICHTEN (manuscript: Structurele Herordening) ========== */
+const MS_WHEELS=[
+  ["milliseconde","millisecond",500,2,1001,"A",""],
+  ["seconde","second",30,2,61,"B",""],
+  ["minuut","minute",30,2,61,"B",""],
+  ["uur","hour",30,2,61,"B","q=15·m=4"],
+  ["kwartier","quarter hour",15,4,61,"B",""],
+  ["dag","day",24,1,25,"B","q=12·m=2 · q=8·m=3 (A) · q=6·m=4"],
+  ["week","week",7,2,15,"A",""],
+  ["maand","month",30,2,61,"B",""],
+  ["jaar","year",365,2,731,"A",""],
+  ["schrikkelcyclus","leap cycle",365,8,2921,"A",""]
+];
+const MS_2520=[1,2,3,4,5,6,7,8,9,10].map(q=>[q,2520/q]);
+const MS_CLS={A:"#c2334d",B:"#ece7f3",C:"#4a6fa5"};
+const MS_CLS_TX={A:["A · Negensprong","A · Nine-jump"],B:["B · Driesprong","B · Three-jump"],C:["C · Stationair","C · Stationary"]};
+function buildMsInsights(){
+  const isNl=L==="nl";
+  const chip=c=>`<span class="badge" style="color:${MS_CLS[c]};border-color:${MS_CLS[c]}">${MS_CLS_TX[c][isNl?0:1]}</span>`;
+  const rows=MS_WHEELS.map(([nN,nE,q,m,p,c,note])=>{
+    const name=isNl?nN:nE;
+    return `<div class="sum"><span>${name}${note?` <i style="font-size:10px;color:var(--mu)">${note}</i>`:""}</span><b>q=${q} · m=${m} · p=${p} ${chip(c)}</b></div>`;
+  }).join("");
+  const t2520=MS_2520.map(([q,m])=>{
+    const c=q%9===0?"C":q%3===0?"B":"A";
+    return `<tr><td>${q}</td><td>2520 = ${m} × ${q}</td><td>2521 = ${m} × ${q} + 1</td><td>${chip(c)}</td></tr>`;
+  }).join("");
+  const h=`
+  <div class="info-g">
+    <h2>${isNl?"De Negen Tijdswielen":"The Nine Time Wheels"}</h2>
+    <div class="csub">${isNl?"Elke eenheid als p = m·q + 1 — met zijn modulus, zijn rondes en zijn klasse.":"Every unit as p = m·q + 1 — with its modulus, its rounds and its class."}</div>
+    <div class="legend">${rows}</div>
+    <div class="legend" style="margin-top:8px">${isNl?
+      "Zes moduli: 500, 30, 15, 12, 7, 365. Vier wielen in de Negensprong (milliseconde, week, jaar, schrikkelcyclus), zes in de Driesprong. Geen enkel wiel is Stationair — dat zijn de cirkel (360) en de dag in seconden (86 400).":
+      "Six moduli: 500, 30, 15, 12, 7, 365. Four wheels in the Nine-jump (millisecond, week, year, leap cycle), six in the Three-jump. None of the wheels is Stationary — those are the circle (360) and the day in seconds (86,400)."}</div>
+  </div>
+  <div class="info-g">
+    <h2>${isNl?"De Cirkel & het Getal 2520":"The Circle & the Number 2520"}</h2>
+    <div class="csub">${isNl?"Waar de 6 en de 7 elkaar ontmoeten.":"Where the 6 and the 7 meet."}</div>
+    <div class="formula-g"><b>360 = 19² − 1</b> · 361 = 1×360 + 1 ≡ 1 (mod 360), dr(361) = 1<br>
+    ${isNl?"dag":"day"} = 4×360 = 1440 min · ${isNl?"kwartierweek":"quarter week"} = 7×360 = 2520 min = 42 ${isNl?"uur":"h"} = lcm(6,7) ${isNl?"uur":"h"} · ${isNl?"week":"week"} = 28×360 = 10 080 min = (19+9)×360<br>
+    ${isNl?"dag + kwartierweek":"day + quarter week"} = 11×360 = 3960 min · 19 ${isNl?"uur + kwartierweek = 61 uur = 3660 min":"h + quarter week = 61 h = 3660 min"}</div>
+    <div class="formula-g" style="text-align:left">${isNl?
+      "<b>2520</b> = het kleinste getal dat deelbaar is door 1 t/m 10 = 7×360 = 2³·3²·5·7. De 7 is de enige van 1 t/m 10 die 360 niet deelt; hij verschuift de reset van 360 naar 2520 — op jaarschaal van 360 dagen van 1000 naar 7000 jaar. 2520 is Stationair: dr(2520) = 9 en dr(2521) = 1.":
+      "<b>2520</b> = the smallest number divisible by 1 through 10 = 7×360 = 2³·3²·5·7. The 7 is the only one of 1 to 10 that does not divide 360; it postpones the reset from 360 to 2520 — on a year scale of 360 days from 1000 to 7000 years. 2520 is Stationary: dr(2520) = 9 and dr(2521) = 1."}</div>
+    <table class="data-table"><tr><th>q</th><th>${isNl?"gesloten":"closed"}</th><th>${isNl?"open":"open"}</th><th>${isNl?"klasse":"class"}</th></tr>${t2520}</table>
+    <div class="formula-g" style="text-align:center"><b>The Great Reset: 2.520.000 = 2520 × 1000 = 7000 × 360</b> — 2 520 001 ≡ 1 (mod q) ${isNl?"voor elke q van 1 t/m 10":"for every q from 1 to 10"}</div>
+  </div>
+  <div class="info-g">
+    <h2>${isNl?"9ⁿ + 1 en de Jaarvolgorde":"9ⁿ + 1 and the Year Sequence"}</h2>
+    <div class="csub">${isNl?"Waar de digitale wortel 1 verschijnt.":"Where the digital root 1 appears."}</div>
+    <table class="data-table"><tr><th>n</th><th>9ⁿ + 1</th><th>dr</th><th>mod 4</th><th>${isNl?"klasse":"class"}</th></tr>
+      <tr><td>1</td><td>10</td><td>1</td><td>2</td><td>${chip("C")}</td></tr>
+      <tr><td>2</td><td>82</td><td>1</td><td>2</td><td>${chip("C")}</td></tr>
+      <tr><td>3</td><td>730</td><td>1</td><td>2</td><td>${chip("C")}</td></tr>
+      <tr><td>4</td><td>6562</td><td>1</td><td>2</td><td>${chip("C")}</td></tr></table>
+    <div class="formula-g" style="text-align:left">${isNl?
+      "Elke term is ≡ 2 (mod 4): een dubbele positie. De jaartallen: 365, 730, 731, 1460, 1461, 2921, 5842 → mod 9: 5, 1, 2, 2, 3, 5, 1. De 1 bij 730 = 9³ + 1, bij 5842 via de tussenstap 19 (5+8+4+2). De hele jaarvolgorde is Negensprong. 5842 = 16×365 + 2: de +2 is de dubbele schrikkeldag; open vorm 5843 ≡ 1 (mod 2921). In mod 6 en mod 3 (Driesprong, dr ∈ {1,4,7}): 61 = 10×6+1 = 20×3+1 · 25 = 4×6+1 = 8×3+1 · 1441 = 240×6+1 · 2923 = 487×6+1.":
+      "Every term is ≡ 2 (mod 4): a double position. The years: 365, 730, 731, 1460, 1461, 2921, 5842 → mod 9: 5, 1, 2, 2, 3, 5, 1. The 1 at 730 = 9³ + 1, at 5842 via the intermediate step 19 (5+8+4+2). The whole year sequence is Nine-jump. 5842 = 16×365 + 2: the +2 is the double leap day; open form 5843 ≡ 1 (mod 2921). In mod 6 and mod 3 (Three-jump, dr ∈ {1,4,7}): 61 = 10×6+1 = 20×3+1 · 25 = 4×6+1 = 8×3+1 · 1441 = 240×6+1 · 2923 = 487×6+1."}</div>
+  </div>`;
+  $("ms-insights").innerHTML=h;
+}
+
 /* ========== DIGITAL GEARS (Tandwielen) ========== */
 /* De zuivere positionele trap */
 const DG_RAW = [
@@ -2191,10 +2249,19 @@ function applyLang(){
     "24-hour (yellow) drives the 12-hour (blue), which in turn drives the 6-hour (pink)."
   );
   $("cv").setAttribute("aria-label",T("3D-spiraal","3D spiral"));
+  $("min-t").textContent=T("De Minuten Spiraal (1441 & 1141)","The Minutes Spiral (1441 & 1141)");
+  $("min-sub").textContent=T("Bewijst de minuut als spiraaleenheid binnen de dag.","Proves the minute as a spiral unit within the day.");
+  $("min-f1").innerHTML=T(
+    `<b>1441 ≡ 1 (mod 24)</b> [m = 60]<br><b>1441 ≡ 1 (mod 360)</b> [m = 4]<br><b>1441 ≡ 1 (mod 60)</b> [m = 24]<br><br>Omdat 60×24 = 1440. Dus op 1441 sta je exact op dezelfde minuutpositie, maar op de volgende dag.`,
+    `<b>1441 ≡ 1 (mod 24)</b> [m = 60]<br><b>1441 ≡ 1 (mod 360)</b> [m = 4]<br><b>1441 ≡ 1 (mod 60)</b> [m = 24]<br><br>Because 60×24 = 1440. So at 1441 you are at exactly the same minute position, but on the next day.`);
+  $("min-f2").innerHTML=T(
+    `<b>1141 ≡ 1 (mod 19)</b> [m = 60]<br><b>1141 ≡ 1 (mod 60)</b> [m = 19]<br><br>De 19-uurcyclus (19 × 60 = 1140) verbindt de minuut met de getalcyclus (19 ≡ 1 mod 9).`,
+    `<b>1141 ≡ 1 (mod 19)</b> [m = 60]<br><b>1141 ≡ 1 (mod 60)</b> [m = 19]<br><br>The 19-hour cycle (19 × 60 = 1140) connects the minute to the number cycle (19 ≡ 1 mod 9).`);
   $("svg").setAttribute("aria-label",T("Analoge klok met tandwielen","Analog clock with gears"));
   $("gb").setAttribute("aria-label",T("Info en instellingen","Info and settings"));
   applyGearsLang();
   applyPtLang();
+  buildMsInsights();
   dgApplyLang();
   spText(state(new Date()),new Date());
   renderBij();
